@@ -69,7 +69,7 @@ The latest output, generated from ucn_out_20190123.root, is found in the folder 
 
 ## storagelifetime_with_monitor.py
 
-This scripts takes storage-lifetime experiments with three periods per cycle (irradiation, storage, counting) with the He3 detector used as a monitor detector during irradiation.
+This script takes storage-lifetime experiments with three periods per cycle (irradiation, storage, counting) with the He3 detector used as a monitor detector during irradiation.
 The He3 detector is assumed to be background-free.
 
 The storage lifetime is determined in three ways:
@@ -84,6 +84,16 @@ Run with
 `python storagelifetime_with_monitor.py ucn_output_20190123.root`
 
 The latest output, generated from ucn_output_20190123.root, is found in the folder storagelifetime_with_monitor.
+
+## time_of_flight.py
+
+This script takes the same transmission experiments as transmission.py and plots the rate in the Li6 detector normalized to the counts in the He3 detector during irradiation, averaged over all cycles of each experiment.
+The result is basically a time-of-flight spectrum. All spectra are printed to pdfs. It also can divide time-of-flight spectra, e.g. to normalize a transmission spectrum to a reference experiment.
+
+Run with
+`python time_of_flight.py ucn_output_20190123.root`
+
+The latest output, generated from ucn_output_20190123.root, is found in the folder time_of_flight.
 
 ## pyROOT crash course
 
