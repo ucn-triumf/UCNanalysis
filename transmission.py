@@ -19,6 +19,10 @@ def ReadCycles(infile, experiments):
     ex['monitorcounts'] = []
     ex['monitorduration'] = []
     ex['li6background'] = []
+    ex['he3background'] = []
+    ex['li6irradiation'] = []
+    ex['he3irradiation'] = []
+    ex['irradiationduration'] = []
     ex['backgroundduration'] = []
     ex['beamcurrent'] = []
     ex['mintemperature'] = []
@@ -79,13 +83,16 @@ def ReadCycles(infile, experiments):
       ex['monitorduration'].append(d[monitorperiod])
       ex['li6background'].append(Li6[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
+      ex['li6irradiation'].append(Li6[0])
+      ex['irradiationduration'].append(d[0])
 
 	  
 def Transmission(ex):
   print('\nAnalyzing TCN{0}'.format(ex['TCN']))
 
-  ex['li6backgroundrate'] = sum(ex['li6background'])/sum(ex['backgroundduration'])
-  ex['li6backgroundrateerr'] = math.sqrt(sum(ex['li6background']))/sum(ex['backgroundduration'])
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.BackgroundRate(ex['li6background'], ex['backgroundduration'])
+  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', \
+                                                                                                 [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']])
   print 'Li6 background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr'])
 
   # report average monitor counts
@@ -98,7 +105,7 @@ def Transmission(ex):
   # report He-II temperature range
   print 'Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature']))
 
-  y, yerr = UCN.SubtractBackgroundAndNormalizeToMonitor(ex['li6counts'], ex['countduration'], 2.16, 0.01, ex['monitorcounts'])
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(m) for m in ex['monitorcounts']])
 
   # plot ratio of background-corrected counts to monitor counts
   canvas = ROOT.TCanvas('c', 'c')
@@ -130,7 +137,7 @@ experiments = [{'TCN': '18-029', 'runs': [ 934]},
                {'TCN': '18-035', 'runs': [ 944]},
                {'TCN': '18-043', 'runs': [ 954]},
                {'TCN': '18-045', 'runs': [ 964]},
-               {'TCN': '18-080 (production up to IV1)', 'runs': [ 973]},
+               {'TCN': '18-080 (production up to IV2)', 'runs': [ 973]},
                {'TCN': '18-053', 'runs': [ 985]},
                {'TCN': '18-085 (MV open)', 'runs': [ 990]},
                {'TCN': '18-085', 'runs': [ 993]},
@@ -159,7 +166,7 @@ experiments = [{'TCN': '18-029', 'runs': [ 934]},
                {'TCN': '18-115', 'runs': [1125]},
                {'TCN': '18-245', 'runs': [1129]},
                {'TCN': '18-480', 'runs': [1131]},
-               {'TCN': '18-480 (production up to IV1)', 'runs': [1132, 1133]},
+               {'TCN': '18-480 (production up to IV2)', 'runs': [1132, 1133]},
                {'TCN': '18-057', 'runs': [1141]},
                {'TCN': '18-302', 'runs': [1165]},
                {'TCN': '18-240', 'runs': [1176]},
@@ -173,7 +180,7 @@ ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 for ex in experiments:
   Transmission(ex)
 
-UCN.PrintBackground(experiments)
+UCN.PrintBackground(experiments, 'li6')
 
 canvas = ROOT.TCanvas('c','c')
 for tcn in ['18-065', '18-265']:

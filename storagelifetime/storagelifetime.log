@@ -60,16 +60,16 @@ SKIPPING cycle 16 in run 1161 because it contains no detector counts
 SKIPPING cycle 1 in run 1167 because beam current dropped to 0.0uA!
 SKIPPING cycle 8 in run 1179 because not all periods contain Li6detector counts
 SKIPPING cycle 8 in run 1193 because not all periods contain Li6detector counts
-SKIPPING cycle 11 in run 1194 because it contains no detector counts
 SKIPPING cycle 1 in run 1196 because beam current dropped to 0.0uA!
 SKIPPING cycle 3 in run 1196 because not all periods contain Li6detector counts
 SKIPPING cycle 1 in run 1197 because it contains no detector counts
+SKIPPING cycle 11 in run 1194 because it contains no detector counts
 SKIPPING cycle 5 in run 1195 because beam current dropped to 0.0uA!
 SKIPPING cycle 9 in run 1195 because it contains no detector counts
 SKIPPING cycle 8 in run 1198 because not all periods contain Li6detector counts
-SKIPPING cycle 9 in run 1199 because it contains no detector counts
 SKIPPING cycle 8 in run 1200 because it contains no detector counts
 SKIPPING cycle 8 in run 1201 because it contains no detector counts
+SKIPPING cycle 9 in run 1199 because it contains no detector counts
 SKIPPING cycle 8 in run 1202 because not all periods contain Li6detector counts
 SKIPPING cycle 8 in run 1203 because it contains no detector counts
 SKIPPING cycle 8 in run 1204 because not all periods contain Li6detector counts
@@ -79,467 +79,514 @@ Analyzing TCN18-015 in runs [869]
 Beam current from 0.973748028278 to 0.992077469826 uA
 Temperatures from 0.913999974728 to 0.95300000906 K
 Vapor pressure from 0.142062500119 to 0.175312504172 torr
-Li6 detector background rate: 0.0 +/- 0.0 1/s
-6.94002440697 +/- 0.111400906507 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 0.0 +/- 0.0 1/s
+he3 detector background rate: 0.0262295081967 +/- 0.00927353155654 1/s
+66.6993189403 +/- 614.250471136 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 966.883558323 +/- 0.0434032608756 (single exponential fit with 1.49870116317e-05 +/- 0.00393852198779 background, unnormalized)
-36.2847126283 +/- 0.183575749119 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+36.2788114579 +/- 0.183531475964 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [870]
 2018-11-04 08:00:43
 Beam current from 0.978330373764 to 0.992077469826 uA
 Temperatures from 0.907999992371 to 0.949000000954 K
 Vapor pressure from 0.123250000179 to 0.166875004768 torr
-Li6 detector background rate: 0.0 +/- 0.0 1/s
-6.5118778984 +/- 0.112558864131 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 0.0 +/- 0.0 1/s
+he3 detector background rate: 0.0295081967213 +/- 0.00695514866741 1/s
+984.424597958 +/- 7.06720993191 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 967.714549869 +/- 0.177191544567 (single exponential fit with 4.33864055793e-06 +/- 0.00150493262252 background, unnormalized)
-37.1056633666 +/- 0.132922829089 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+37.1012075591 +/- 0.132902560852 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [872]
 2018-11-04 10:21:18
 Beam current from 0.978330373764 to 0.992077469826 uA
 Temperatures from 0.907000005245 to 0.954999983311 K
 Vapor pressure from 0.144875004888 to 0.189687505364 torr
-Li6 detector background rate: 0.0 +/- 0.0 1/s
-218.579667506 +/- 0.000460166198954 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 0.0 +/- 0.0 1/s
+he3 detector background rate: 0.0328571428571 +/- 0.00685118789045 1/s
+63.6106466977 +/- 543.841140482 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 3.61757046779 +/- 0.124968569015 (single exponential fit with 1.00497388189e-06 +/- 0.0562312453738 background, unnormalized)
-36.2180312236 +/- 0.114884775811 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+36.214914747 +/- 0.114870569727 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [895]
 2018-11-07 11:08:21
 Beam current from 0.962292134762 to 0.994368612766 uA
 Temperatures from 0.910000026226 to 0.954999983311 K
 Vapor pressure from 0.148062497377 to 0.176812499762 torr
-Li6 detector background rate: 3.7737704918 +/- 0.111234068549 1/s
-999.99999961 +/- 71.4913564716 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 3.7737704918 +/- 0.111234068549 1/s
+he3 detector background rate: 0.0426229508197 +/- 0.0118214795917 1/s
+999.999999997 +/- 43.2913947277 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 221.504515682 +/- 587.555829967 (single exponential fit with 1113.96553156 +/- 11.1266892242 background, unnormalized)
-35.5077794117 +/- 0.186799049858 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+35.509857188 +/- 0.186762995914 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [900]
 2018-11-07 14:00:58
 Beam current from 0.962292134762 to 1.00353336334 uA
 Temperatures from 0.902000010014 to 0.943000018597 K
 Vapor pressure from 0.0998750030994 to 0.144437506795 torr
-Li6 detector background rate: 1.83529411765 +/- 0.0657140707942 1/s
-35.6073838865 +/- 0.140436053068 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.83529411765 +/- 0.0657140707942 1/s
+he3 detector background rate: 0.0470588235294 +/- 0.0105226728353 1/s
+35.4914018504 +/- 0.139453050201 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 34.2304518499 +/- 0.191895832823 (single exponential fit with 665.257707712 +/- 58.5672512679 background, unnormalized)
-19.3769890935 +/- 15.0791616697 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+24.0072263609 +/- 14.724723902 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [907]
 2018-11-08 09:58:58
 Beam current from 0.94625389576 to 0.98291271925 uA
 Temperatures from 0.90499997139 to 0.949999988079 K
 Vapor pressure from 0.105999998748 to 0.159062504768 torr
-Li6 detector background rate: 1.71147540984 +/- 0.0749092436642 1/s
-35.3218299539 +/- 0.168822009674 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.71147540984 +/- 0.0749092436642 1/s
+he3 detector background rate: 0.0196721311475 +/- 0.00803111391076 1/s
+35.1798707446 +/- 0.167330774588 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 34.0563059759 +/- 0.205903435538 (single exponential fit with 665.29503767 +/- 72.506087792 background, unnormalized)
-45.075018177 +/- 23.0449597361 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+21.0589663481 +/- 8.76968766298 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [911]
 2018-11-08 12:16:30
 Beam current from 0.95083630085 to 0.978330373764 uA
 Temperatures from 0.903999984264 to 0.950999975204 K
 Vapor pressure from 0.142375007272 to 0.167562499642 torr
-Li6 detector background rate: 1.83058823529 +/- 0.0656297679105 1/s
-2.56201726501e-08 +/- 18.180760419 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.83058823529 +/- 0.0656297679105 1/s
+he3 detector background rate: 0.0329411764706 +/- 0.00880389973359 1/s
+145.048007991 +/- 126.071718738 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 40.4097210073 +/- 47.3443557003 (single exponential fit with 193.708469472 +/- 13.5514381313 background, unnormalized)
-36.0528421227 +/- 0.167664796833 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+36.0490634988 +/- 0.167627539527 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [923]
 2018-11-09 08:47:04
 Beam current from 0.966874480247 to 0.998950958252 uA
 Temperatures from 0.907000005245 to 0.955999970436 K
 Vapor pressure from 0.135000005364 to 0.175937503576 torr
-Li6 detector background rate: 0.0 +/- 0.0 1/s
-185.513651743 +/- 0.139620976469 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 0.0 +/- 0.0 1/s
+he3 detector background rate: 0.0426229508197 +/- 0.0118214795917 1/s
+532.440174841 +/- 243.153324015 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 762.095927299 +/- 0.0483722324631 (single exponential fit with 1.80270243177e-05 +/- 0.183103718135 background, unnormalized)
-35.0201910157 +/- 0.187425801243 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+35.0222820097 +/- 0.18739003544 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [931]
 2018-11-10 00:50:10
 Beam current from 0.969165682793 to 0.98749512434 uA
 Temperatures from 0.901000022888 to 0.952000021935 K
 Vapor pressure from 0.0906874984503 to 0.160500004888 torr
-Li6 detector background rate: 2.19180327869 +/- 0.0599426403239 1/s
-32.5100634036 +/- 0.122752825813 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.19180327869 +/- 0.0599426403239 1/s
+he3 detector background rate: 0.0409836065574 +/- 0.00819672131148 1/s
+32.5336645749 +/- 0.122189352988 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 31.6118152934 +/- 0.175496564942 (single exponential fit with 478.710268086 +/- 35.2108801552 background, unnormalized)
-34.8845261647 +/- 0.678922661747 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+34.9115217147 +/- 0.677336388058 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [941]
 2018-11-10 15:46:41
 Beam current from 0.976039230824 to 0.985203921795 uA
 Temperatures from 0.896000027657 to 0.958999991417 K
 Vapor pressure from 0.102250002325 to 0.179312497377 torr
-Li6 detector background rate: 2.17704918033 +/- 0.08448589329 1/s
-34.6075328206 +/- 0.153967281807 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.17704918033 +/- 0.08448589329 1/s
+he3 detector background rate: 0.0360655737705 +/- 0.0108741796405 1/s
+34.6224551222 +/- 0.152714634342 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 34.0066090695 +/- 0.238106494685 (single exponential fit with 458.743520669 +/- 61.4358030513 background, unnormalized)
-36.3548474506 +/- 1.0034015197 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+36.3041144364 +/- 0.996212382378 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [953]
 2018-11-11 04:34:23
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.896000027657 to 0.955999970436 K
 Vapor pressure from 0.112750001252 to 0.200437501073 torr
-Li6 detector background rate: 2.18032786885 +/- 0.0845494882507 1/s
-33.9588498636 +/- 0.168349580912 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.18032786885 +/- 0.0845494882507 1/s
+he3 detector background rate: 0.0524590163934 +/- 0.0131147540984 1/s
+33.9778385374 +/- 0.16678444531 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 33.4027996996 +/- 0.24428666448 (single exponential fit with 420.49162747 +/- 55.7620931902 background, unnormalized)
-35.002510758 +/- 0.984566868649 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+35.2134064858 +/- 0.979063121678 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [968]
 2018-11-12 06:26:06
 Beam current from 0.971456885338 to 0.989786267281 uA
 Temperatures from 0.894999980927 to 0.947000026703 K
 Vapor pressure from 0.141812503338 to 0.211125001311 torr
-Li6 detector background rate: 2.29836065574 +/- 0.0501185551379 1/s
-32.9427122583 +/- 0.102916953527 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.29836065574 +/- 0.0501185551379 1/s
+he3 detector background rate: 0.0382513661202 +/- 0.00646566096514 1/s
+33.0157028143 +/- 0.102746850513 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.1025786803 +/- 0.149070565334 (single exponential fit with 487.523979897 +/- 30.6201704954 background, unnormalized)
-33.6814200915 +/- 0.605368902247 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+33.6590289105 +/- 0.603407017386 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [975]
 2018-11-13 01:31:38
 Beam current from 0.969165682793 to 0.989786267281 uA
 Temperatures from 0.893999993801 to 0.938000023365 K
 Vapor pressure from 0.180625006557 to 0.255625009537 torr
-Li6 detector background rate: 2.39545454545 +/- 0.0521738194693 1/s
-31.6353317001 +/- 0.0997484895861 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.39545454545 +/- 0.0521738194693 1/s
+he3 detector background rate: 0.05 +/- 0.00753778361444 1/s
+31.7601940854 +/- 0.099621345921 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 31.1245605919 +/- 0.144706855819 (single exponential fit with 408.419377087 +/- 27.2620974977 background, unnormalized)
-30.1738736059 +/- 0.534630718878 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.3635424338 +/- 0.534607399157 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [984]
 2018-11-16 10:48:09
 Beam current from 0.95312744379 to 0.998950958252 uA
 Temperatures from 0.893999993801 to 0.952000021935 K
 Vapor pressure from 0.200874999166 to 0.385749995708 torr
-Li6 detector background rate: 2.24590163934 +/- 0.0858114906774 1/s
-32.0327950619 +/- 0.176938033487 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.24590163934 +/- 0.0858114906774 1/s
+he3 detector background rate: 0.0491803278689 +/- 0.0126983060531 1/s
+32.0549506896 +/- 0.174325377901 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.8450037191 +/- 0.261534116202 (single exponential fit with 63.767184913 +/- 45.1726878424 background, unnormalized)
-31.417081364 +/- 0.96132598853 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+31.5740319766 +/- 0.950839117433 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [988]
 2018-11-16 23:41:49
 Beam current from 0.973748028278 to 0.98749512434 uA
 Temperatures from 0.894999980927 to 0.944000005722 K
 Vapor pressure from 0.215000003576 to 0.311374992132 torr
-Li6 detector background rate: 2.31475409836 +/- 0.0871169197088 1/s
-30.6594650876 +/- 0.161579908307 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.31475409836 +/- 0.0871169197088 1/s
+he3 detector background rate: 0.0426229508197 +/- 0.0118214795917 1/s
+30.7415494327 +/- 0.159714646712 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.5711998517 +/- 0.22602968586 (single exponential fit with 297.660817131 +/- 40.7907969807 background, unnormalized)
-29.0409572639 +/- 0.891900166871 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+29.1081526785 +/- 0.883870779284 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [998]
 2018-11-17 23:51:21
 Beam current from 0.971399009228 to 0.985016644001 uA
 Temperatures from 0.893999993801 to 0.943000018597 K
 Vapor pressure from 0.234750002623 to 0.358624994755 torr
-Li6 detector background rate: 2.25901639344 +/- 0.0860616704814 1/s
-30.6615737369 +/- 0.16494768731 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.25901639344 +/- 0.0860616704814 1/s
+he3 detector background rate: 0.0360655737705 +/- 0.0108741796405 1/s
+30.7264757336 +/- 0.163134588921 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.192965961 +/- 0.227060243232 (single exponential fit with 385.088219371 +/- 40.8116130316 background, unnormalized)
-29.8399376334 +/- 0.880448587954 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+29.7311347136 +/- 0.865783503064 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1011]
 2018-11-19 21:02:22
 Beam current from 0.964277148247 to 1.00971412659 uA
 Temperatures from 0.893999993801 to 0.949999988079 K
 Vapor pressure from 0.251312494278 to 0.415687501431 torr
-Li6 detector background rate: 1.97619047619 +/- 0.0970073751784 1/s
-32.5692049106 +/- 0.310140576008 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.97619047619 +/- 0.0970073751784 1/s
+he3 detector background rate: 0.0285714285714 +/- 0.0116642368704 1/s
+32.4522488947 +/- 0.301632415656 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.4409238079 +/- 0.319988159142 (single exponential fit with 297.82140705 +/- 47.8340198912 background, unnormalized)
-32.6443607816 +/- 1.25337008549 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+32.3410193759 +/- 1.22328086549 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1019]
 2018-11-20 08:52:39
 Beam current from 0.741024971008 to 0.973503768444 uA
 Temperatures from 0.894999980927 to 0.958999991417 K
 Vapor pressure from 0.289937496185 to 0.585187494755 torr
-Li6 detector background rate: 2.0262295082 +/- 0.0815069042273 1/s
-29.2659778953 +/- 0.1730323921 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.0262295082 +/- 0.0815069042273 1/s
+he3 detector background rate: 0.0524590163934 +/- 0.0131147540984 1/s
+29.0867296793 +/- 0.168445056326 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.4318755319 +/- 0.161428293342 (single exponential fit with 5.22915044598e-08 +/- 1.38475703285 background, unnormalized)
-28.5373621331 +/- 0.912214247617 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+28.7310066772 +/- 0.897332285511 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1030]
 2018-11-22 08:50:08
 Beam current from 0.910245656967 to 1.0351805687 uA
 Temperatures from 0.898999989033 to 0.948000013828 K
 Vapor pressure from 0.163499996066 to 0.217124998569 torr
-Li6 detector background rate: 1.98653846154 +/- 0.0437050699129 1/s
-27.9104770213 +/- 0.278418294421 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.98653846154 +/- 0.0437050699129 1/s
+he3 detector background rate: 0.0336538461538 +/- 0.00568853825298 1/s
+27.3723570334 +/- 0.271040588353 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 27.1757394134 +/- 0.359916931391 (single exponential fit with 260.145394336 +/- 10.1716652862 background, unnormalized)
-32.2299912755 +/- 0.415150364999 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+32.1607919733 +/- 0.41397541357 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1049]
 2018-11-23 18:44:53
 Beam current from 0.953478991985 to 1.02771604061 uA
 Temperatures from 0.893000006676 to 0.943000018597 K
 Vapor pressure from 0.276562511921 to 0.321125000715 torr
-Li6 detector background rate: 1.98461538462 +/- 0.0873678207046 1/s
-27.1244407376 +/- 0.454719415947 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.98461538462 +/- 0.0873678207046 1/s
+he3 detector background rate: 0.05 +/- 0.0138675049056 1/s
+26.6395507751 +/- 0.431360395175 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 26.9827162106 +/- 0.682182755242 (single exponential fit with 240.136135857 +/- 25.4301541716 background, unnormalized)
-30.1749119233 +/- 0.937260968366 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.3491835227 +/- 0.917575868218 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1053]
 2018-11-24 18:54:47
 Beam current from 1.00219702721 to 1.02075695992 uA
 Temperatures from 0.902999997139 to 0.93599998951 K
 Vapor pressure from 0.0814374983311 to 0.136749997735 torr
-Li6 detector background rate: 2.04262295082 +/- 0.0818359604875 1/s
-33.8270907288 +/- 0.172174331861 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.04262295082 +/- 0.0818359604875 1/s
+he3 detector background rate: 0.0327868852459 +/- 0.010368123476 1/s
+33.7865261665 +/- 0.170411123552 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.9312696444 +/- 0.249931404441 (single exponential fit with 486.099704483 +/- 53.5177614566 background, unnormalized)
-33.8445143443 +/- 1.00365796306 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+33.7645007689 +/- 0.997547227426 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1088]
 2018-11-26 02:13:53
 Beam current from 0.94580578804 to 1.00826442242 uA
 Temperatures from 0.910000026226 to 0.958999991417 K
 Vapor pressure from 0.149437502027 to 0.177937492728 torr
-Li6 detector background rate: 2.16393442623 +/- 0.0842310333027 1/s
-30.9892520549 +/- 0.227394421938 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.16393442623 +/- 0.0842310333027 1/s
+he3 detector background rate: 0.0491803278689 +/- 0.0126983060531 1/s
+31.025432573 +/- 0.224071908301 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.2614711453 +/- 0.302472903863 (single exponential fit with 392.337130545 +/- 35.2704108381 background, unnormalized)
-31.2328856303 +/- 0.860616508415 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+31.3936182927 +/- 0.856249321111 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1123]
 2018-11-27 22:01:16
 Beam current from 0.909585118294 to 0.923366308212 uA
 Temperatures from 0.903999984264 to 0.95300000906 K
 Vapor pressure from 0.119000002742 to 0.160437494516 torr
-Li6 detector background rate: 2.04918032787 +/- 0.0819672131148 1/s
-32.908376841 +/- 0.208584500368 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.04918032787 +/- 0.0819672131148 1/s
+he3 detector background rate: 0.0393442622951 +/- 0.0113577102136 1/s
+32.8683974474 +/- 0.207459037221 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.6022549073 +/- 0.320263973992 (single exponential fit with 171.836200671 +/- 39.8912506366 background, unnormalized)
-30.6380810111 +/- 0.833934155668 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.6422436098 +/- 0.832637166568 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1137]
 2018-11-30 05:18:47
 Beam current from 0.955253899097 to 0.977998018265 uA
 Temperatures from 0.898999989033 to 0.962000012398 K
 Vapor pressure from 0.112062498927 to 0.175874993205 torr
-Li6 detector background rate: 2.12459016393 +/- 0.0834617840089 1/s
-32.379959991 +/- 0.186884895999 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.12459016393 +/- 0.0834617840089 1/s
+he3 detector background rate: 0.0459016393443 +/- 0.012267729137 1/s
+32.3740097254 +/- 0.185295043613 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 31.7165906383 +/- 0.251048622291 (single exponential fit with 361.425061864 +/- 47.6552601265 background, unnormalized)
-31.4318580662 +/- 0.960768949025 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+31.5246331831 +/- 0.953663921736 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1151]
 2018-12-01 05:47:45
 Beam current from 0.952979385853 to 0.989369630814 uA
 Temperatures from 0.898000001907 to 0.953999996185 K
 Vapor pressure from 0.132312506437 to 0.172124996781 torr
-Li6 detector background rate: 2.12786885246 +/- 0.0590619132284 1/s
-28.003229857 +/- 0.389734076557 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.12786885246 +/- 0.0590619132284 1/s
+he3 detector background rate: 0.0540983606557 +/- 0.009417315814 1/s
+27.9073118439 +/- 0.380285673183 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 27.1408820465 +/- 0.510532379624 (single exponential fit with 286.106600865 +/- 14.3015921374 background, unnormalized)
-32.2768079696 +/- 0.578559622818 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+32.4567937739 +/- 0.578656127158 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1167]
 2018-12-02 07:47:13
 Beam current from 0.966625511646 to 0.987095117569 uA
 Temperatures from 0.898999989033 to 0.949999988079 K
 Vapor pressure from 0.144875004888 to 0.187374994159 torr
-Li6 detector background rate: 1.7606557377 +/- 0.075977903123 1/s
-29.9204725 +/- 0.123404218154 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.7606557377 +/- 0.075977903123 1/s
+he3 detector background rate: 0.0491803278689 +/- 0.0126983060531 1/s
+29.8057817371 +/- 0.122190537268 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.3069131939 +/- 0.153896382306 (single exponential fit with 449.138972357 +/- 48.7312339629 background, unnormalized)
-28.8992325491 +/- 0.80350585613 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+29.0455836599 +/- 0.795947332878 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1179]
 2018-12-02 15:06:45
 Beam current from 0.959801971912 to 0.987095117569 uA
 Temperatures from 0.907999992371 to 0.959999978542 K
 Vapor pressure from 0.228624999523 to 0.27331250906 torr
-Li6 detector background rate: 2.0131147541 +/- 0.0812426996286 1/s
-26.7460003495 +/- 0.151633818676 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.0131147541 +/- 0.0812426996286 1/s
+he3 detector background rate: 0.0524590163934 +/- 0.0131147540984 1/s
+26.6954584522 +/- 0.14969247026 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 25.9555525706 +/- 0.183080282249 (single exponential fit with 433.585046134 +/- 32.2252315446 background, unnormalized)
-27.4043676137 +/- 0.844399355686 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+27.646180594 +/- 0.844311063239 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-015 in runs [1193]
 2018-12-03 18:29:49
 Beam current from 0.971174538136 to 0.989369630814 uA
 Temperatures from 0.899999976158 to 0.955999970436 K
 Vapor pressure from 0.176125004888 to 0.269687503576 torr
-Li6 detector background rate: 2.40327868852 +/- 0.0887671237422 1/s
-29.4053547799 +/- 0.127332353215 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.40327868852 +/- 0.0887671237422 1/s
+he3 detector background rate: 0.072131147541 +/- 0.0153784123273 1/s
+29.4850710852 +/- 0.12635280883 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.4451902379 +/- 0.162471982148 (single exponential fit with 273.45640532 +/- 47.5459804127 background, unnormalized)
-28.945736554 +/- 0.897916899199 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+29.5168032547 +/- 0.894087545617 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1153]
 2018-12-01 12:43:38
 Beam current from 0.968900024891 to 0.987095117569 uA
 Temperatures from 1.77300000191 to 1.81799995899 K
 Vapor pressure from 11.2744197845 to 12.3957548141 torr
-Li6 detector background rate: 2.0 +/- 0.11396057646 1/s
-3.77384390248 +/- 0.138526908183 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
-3.71450421285 +/- 0.137743292073 (single exponential fit with 269.65257833 +/- 8.71378032161 background, unnormalized)
-3.80477794656 +/- 1.22208518033 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.0 +/- 0.11396057646 1/s
+he3 detector background rate: 0.0324675324675 +/- 0.0145199219318 1/s
+5.39821047059 +/- 0.196933430365 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+5.5149391 +/- 0.228471700934 (single exponential fit with 249.602659246 +/- 9.34607817693 background, unnormalized)
+3.40260312389 +/- 0.973200592923 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1154]
 2018-12-01 13:24:04
 Beam current from 0.973448991776 to 0.987095117569 uA
 Temperatures from 1.8029999733 to 1.83099997044 K
 Vapor pressure from 12.4563684464 to 13.0321884155 torr
-Li6 detector background rate: 2.05319148936 +/- 0.147791957335 1/s
-5.04363159591 +/- 0.266904220161 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
-4.79872080038 +/- 0.257717413592 (single exponential fit with 227.682997122 +/- 10.4121249063 background, unnormalized)
-6.47302374079 +/- 2.96602378418 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.05319148936 +/- 0.147791957335 1/s
+he3 detector background rate: 0.0425531914894 +/- 0.0212765957447 1/s
+4.88020654463 +/- 0.222584863159 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+4.72278604801 +/- 0.253559412456 (single exponential fit with 228.370509445 +/- 10.3504253902 background, unnormalized)
+6.54715987033 +/- 2.3638951774 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1155]
 2018-12-01 14:29:23
 Beam current from 0.971174538136 to 0.984820604324 uA
 Temperatures from 1.64100003242 to 1.69099998474 K
 Vapor pressure from 6.54662799835 to 7.36489963531 torr
-Li6 detector background rate: 1.93617021277 +/- 0.143518484715 1/s
-8.06034280269 +/- 0.173121236659 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
-7.24115551837 +/- 0.171916598697 (single exponential fit with 303.78238815 +/- 15.0620366741 background, unnormalized)
-5.38690147288 +/- 1.07337178831 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.93617021277 +/- 0.143518484715 1/s
+he3 detector background rate: 0.0744680851064 +/- 0.0281462905432 1/s
+7.33912894367 +/- 0.1513108712 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+7.37420044715 +/- 0.192605031344 (single exponential fit with 212.531556293 +/- 13.8554538129 background, unnormalized)
+6.40212212533 +/- 0.990244079363 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1156]
 2018-12-01 14:56:23
 Beam current from 0.971174538136 to 0.987095117569 uA
 Temperatures from 1.65699994564 to 1.68799996376 K
 Vapor pressure from 7.06183576584 to 7.30428695679 torr
-Li6 detector background rate: 2.10569105691 +/- 0.13084127593 1/s
-8.76573278639 +/- 0.197354140486 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
-6.58176235768 +/- 0.175585385863 (single exponential fit with 445.895148658 +/- 15.1439287874 background, unnormalized)
-8.00780668639 +/- 1.27779663369 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.10569105691 +/- 0.13084127593 1/s
+he3 detector background rate: 0.0325203252033 +/- 0.0162601626016 1/s
+7.42664292804 +/- 0.143125328802 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+7.53366392903 +/- 0.198553086736 (single exponential fit with 204.950103229 +/- 12.9415107651 background, unnormalized)
+7.33950321155 +/- 1.05108331148 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1158]
 2018-12-01 16:46:12
 Beam current from 0.966625511646 to 0.984820604324 uA
 Temperatures from 1.3710000515 to 1.41499996185 K
 Vapor pressure from 1.89125001431 to 1.94400000572 torr
-Li6 detector background rate: 2.29787234043 +/- 0.156350409114 1/s
-17.905309431 +/- 0.173659135533 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
-12.0818020552 +/- 0.23127687709 (single exponential fit with 2199.74008826 +/- 77.7037103058 background, unnormalized)
-13.7960307627 +/- 0.895834752178 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.29787234043 +/- 0.156350409114 1/s
+he3 detector background rate: 0.0531914893617 +/- 0.0237879572074 1/s
+14.397357254 +/- 0.118610855326 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+14.457668001 +/- 0.251611516135 (single exponential fit with 195.57877497 +/- 73.4828489754 background, unnormalized)
+13.9250880586 +/- 0.833327054971 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1159]
 2018-12-01 18:06:02
 Beam current from 0.964350998402 to 0.987095117569 uA
 Temperatures from 1.2009999752 to 1.27199995518 K
 Vapor pressure from 0.754312515259 to 0.802437484264 torr
-Li6 detector background rate: 2.13178294574 +/- 0.128551348463 1/s
-25.1905534384 +/- 0.177815822405 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
-20.905509402 +/- 0.334577227403 (single exponential fit with 1715.43800564 +/- 115.255235296 background, unnormalized)
-19.628588254 +/- 1.02139989223 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.13178294574 +/- 0.128551348463 1/s
+he3 detector background rate: 0.093023255814 +/- 0.0268535008925 1/s
+21.5915460994 +/- 0.143768110084 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+20.8334688234 +/- 0.30442099406 (single exponential fit with 463.01190899 +/- 98.4623127741 background, unnormalized)
+20.4618409445 +/- 0.967072368707 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1160]
 2018-12-01 18:36:02
 Beam current from 0.959801971912 to 0.991644144058 uA
 Temperatures from 1.17999994755 to 1.25699996948 K
 Vapor pressure from 0.687437474728 to 0.749687492847 torr
-Li6 detector background rate: 2.1007751938 +/- 0.127613004908 1/s
-21.8390351883 +/- 0.144543222302 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.1007751938 +/- 0.127613004908 1/s
+he3 detector background rate: 0.0387596899225 +/- 0.0173338602907 1/s
+21.8266311766 +/- 0.141761457824 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 21.2353633186 +/- 0.290492029681 (single exponential fit with 405.738331348 +/- 100.3923939 background, unnormalized)
-21.2388779069 +/- 1.00473170354 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+21.2359645881 +/- 0.981983810004 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1161]
 2018-12-01 19:39:21
 Beam current from 0.952979385853 to 0.989369630814 uA
 Temperatures from 0.990999996662 to 1.07099997997 K
 Vapor pressure from 0.162375003099 to 0.200937494636 torr
-Li6 detector background rate: 2.21501706485 +/- 0.0869470252755 1/s
-29.9719954042 +/- 0.127592183154 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.21501706485 +/- 0.0869470252755 1/s
+he3 detector background rate: 0.037542662116 +/- 0.0113195385336 1/s
+29.982694814 +/- 0.127240122559 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.600688373 +/- 0.347402284665 (single exponential fit with 447.064006511 +/- 188.98716015 background, unnormalized)
-30.0860184931 +/- 0.850187146222 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.0634022636 +/- 0.846652700669 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-300 in runs [1167]
 2018-12-02 07:47:13
 Beam current from 0.966625511646 to 0.987095117569 uA
 Temperatures from 0.898999989033 to 0.949999988079 K
 Vapor pressure from 0.144875004888 to 0.187374994159 torr
-Li6 detector background rate: 1.7606557377 +/- 0.075977903123 1/s
-29.9204725 +/- 0.123404218154 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.7606557377 +/- 0.075977903123 1/s
+he3 detector background rate: 0.0491803278689 +/- 0.0126983060531 1/s
+29.8057817371 +/- 0.122190537268 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.3069131939 +/- 0.153896382306 (single exponential fit with 449.138972357 +/- 48.7312339629 background, unnormalized)
-28.8992325491 +/- 0.80350585613 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+29.0455836599 +/- 0.795947332878 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1194]
 2018-12-03 19:26:38
 Beam current from 0.9347833395 to 0.989369630814 uA
 Temperatures from 0.897000014782 to 0.95300000906 K
 Vapor pressure from 0.176812499762 to 0.284437507391 torr
-Li6 detector background rate: 2.30114942529 +/- 0.0727323771014 1/s
-29.8120071047 +/- 0.11485019822 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.30114942529 +/- 0.0727323771014 1/s
+he3 detector background rate: 0.0505747126437 +/- 0.0107825649651 1/s
+29.8698712415 +/- 0.113887239969 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.6572199824 +/- 0.148045272414 (single exponential fit with 290.909223931 +/- 36.4678531276 background, unnormalized)
-30.3472786084 +/- 0.817808218975 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.5824776715 +/- 0.811450606912 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1195, 1196, 1197]
 2018-12-03 20:44:08
 Beam current from 0.468528419733 to 0.987095117569 uA
 Temperatures from 0.898000001907 to 0.95300000906 K
 Vapor pressure from 0.169937506318 to 0.293187499046 torr
-Li6 detector background rate: 2.28307692308 +/- 0.0838143905962 1/s
-30.7581780264 +/- 0.131378014027 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.28307692308 +/- 0.0838143905962 1/s
+he3 detector background rate: 0.0461538461538 +/- 0.0119168718345 1/s
+30.7989603749 +/- 0.130429235604 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 35.2360578348 +/- 0.333776158806 (single exponential fit with 449.036020739 +/- 63.3980379756 background, unnormalized)
-31.6712962769 +/- 0.952879855434 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+31.8086716101 +/- 0.94565342763 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1198]
 2018-12-03 22:44:30
 Beam current from 0.973448991776 to 0.991644144058 uA
 Temperatures from 0.901000022888 to 0.954999983311 K
 Vapor pressure from 0.189500004053 to 0.308562487364 torr
-Li6 detector background rate: 2.35081967213 +/- 0.087792969436 1/s
-29.7441303065 +/- 0.131286557675 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.35081967213 +/- 0.087792969436 1/s
+he3 detector background rate: 0.0327868852459 +/- 0.010368123476 1/s
+29.8049349185 +/- 0.130102416794 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.1009419722 +/- 0.169608254149 (single exponential fit with 174.660845612 +/- 48.0921650048 background, unnormalized)
-32.220555029 +/- 1.0421491621 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+32.0944134715 +/- 1.03082571546 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1199]
 2018-12-03 23:46:29
 Beam current from 0.968900024891 to 0.991644144058 uA
 Temperatures from 0.901000022888 to 0.954999983311 K
 Vapor pressure from 0.189562499523 to 0.290874987841 torr
-Li6 detector background rate: 2.3606557377 +/- 0.0879764450164 1/s
-29.3290854432 +/- 0.124585684621 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.3606557377 +/- 0.0879764450164 1/s
+he3 detector background rate: 0.0459016393443 +/- 0.012267729137 1/s
+29.3950611079 +/- 0.12355478814 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.3608278283 +/- 0.153451489329 (single exponential fit with 271.317018775 +/- 45.8445169411 background, unnormalized)
-28.7389956741 +/- 0.826369465035 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+28.8403744773 +/- 0.817734528156 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1200]
 2018-12-04 02:21:29
 Beam current from 0.968900024891 to 0.987095117569 uA
 Temperatures from 0.898999989033 to 0.954999983311 K
 Vapor pressure from 0.206499993801 to 0.345499992371 torr
-Li6 detector background rate: 2.41639344262 +/- 0.0890089964623 1/s
-28.7715888242 +/- 0.130890989756 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.41639344262 +/- 0.0890089964623 1/s
+he3 detector background rate: 0.0262295081967 +/- 0.00927353155654 1/s
+28.8409242968 +/- 0.129392739398 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.8599330616 +/- 0.113587337492 (single exponential fit with 1.0863532296e-07 +/- 46.8131808388 background, unnormalized)
-30.2889694867 +/- 0.903075274233 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.0028343238 +/- 0.889275410485 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1201]
 2018-12-04 03:18:19
 Beam current from 0.964350998402 to 0.991644144058 uA
 Temperatures from 0.898999989033 to 0.95300000906 K
 Vapor pressure from 0.218875005841 to 0.328875005245 torr
-Li6 detector background rate: 2.29508196721 +/- 0.0867459446251 1/s
-28.8986371362 +/- 0.130609431989 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.29508196721 +/- 0.0867459446251 1/s
+he3 detector background rate: 0.0393442622951 +/- 0.0113577102136 1/s
+28.9426777544 +/- 0.129322661065 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.0782136043 +/- 0.164747787763 (single exponential fit with 209.082956272 +/- 43.4453389636 background, unnormalized)
-29.5852107215 +/- 0.98037714604 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+29.5872885703 +/- 0.969555579762 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1202]
 2018-12-04 04:25:28
 Beam current from 0.968900024891 to 0.991644144058 uA
 Temperatures from 0.899999976158 to 0.953999996185 K
 Vapor pressure from 0.219874992967 to 0.352937489748 torr
-Li6 detector background rate: 2.21967213115 +/- 0.085308930041 1/s
-28.8741894195 +/- 0.134220837634 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.21967213115 +/- 0.085308930041 1/s
+he3 detector background rate: 0.0393442622951 +/- 0.0113577102136 1/s
+28.8836269886 +/- 0.13266549512 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.3803952147 +/- 0.16827891044 (single exponential fit with 104.589376691 +/- 42.3555325472 background, unnormalized)
-30.1962299228 +/- 1.01304822359 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+30.1981614566 +/- 1.00230485466 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1203]
 2018-12-04 05:27:28
 Beam current from 0.968900024891 to 0.987095117569 uA
 Temperatures from 0.898999989033 to 0.953999996185 K
 Vapor pressure from 0.279624998569 to 0.372249990702 torr
-Li6 detector background rate: 2.28524590164 +/- 0.0865598608685 1/s
-26.4963091669 +/- 0.128969336862 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.28524590164 +/- 0.0865598608685 1/s
+he3 detector background rate: 0.0360655737705 +/- 0.0108741796405 1/s
+26.5526854214 +/- 0.12775474078 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 26.3579884034 +/- 0.154237187076 (single exponential fit with 327.974335484 +/- 34.3929535898 background, unnormalized)
-26.1667664927 +/- 0.908789604162 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+26.0936127772 +/- 0.896260184291 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1204]
 2018-12-04 06:19:08
 Beam current from 0.973448991776 to 0.991644144058 uA
 Temperatures from 0.899999976158 to 0.950999975204 K
 Vapor pressure from 0.352437496185 to 0.499624997377 torr
-Li6 detector background rate: 2.35737704918 +/- 0.0879153290347 1/s
-25.3637436633 +/- 0.135866040934 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.35737704918 +/- 0.0879153290347 1/s
+he3 detector background rate: 0.0622950819672 +/- 0.014291471946 1/s
+25.4294391669 +/- 0.133851590779 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 25.9762288012 +/- 0.162227451434 (single exponential fit with 134.9354041 +/- 27.1685633573 background, unnormalized)
-26.7877994312 +/- 1.10918997109 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+27.4085508016 +/- 1.10666323818 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
 
 Analyzing TCN18-170 in runs [1205]
 2018-12-04 07:15:58
 Beam current from 0.959801971912 to 0.996193110943 uA
 Temperatures from 0.90499997139 to 0.959999978542 K
 Vapor pressure from 0.52468752861 to 0.648874998093 torr
-Li6 detector background rate: 2.42803738318 +/- 0.0673675562278 1/s
-20.2285455137 +/- 0.107648079646 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 2.42803738318 +/- 0.0673675562278 1/s
+he3 detector background rate: 0.0392523364486 +/- 0.00856556204665 1/s
+20.3943039838 +/- 0.107428557572 (Li6 detector, single exponential fit, background subtracted, normalized to beam current)
 19.936391356 +/- 0.113349866815 (single exponential fit with 347.91549021 +/- 14.1658636613 background, unnormalized)
-20.323991386 +/- 0.767635896251 (He3 detector, single exponential fit, background subtracted, normalized to beam current)
+20.2858628817 +/- 0.754587033546 (He3 detector, single exponential fit, background subtracted, normalized to beam current)

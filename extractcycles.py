@@ -51,6 +51,8 @@ def MatchTransitions(runnumber, he3cyclestart, li6cyclestart):
 
 # filter spikes in UCN rate within one second after period transitions
 def FilterPileup(hits, runnumber, transition):
+  if runnumber not in [1153, 1154, 1155, 1156, 1157, 1158, 1159, 1160, 1203, 1204, 1205]: # filter only runs known to be affected
+    return hits
   pileupbins = []
   for periodstart in transition: # go through period transitions
     start = periodstart
@@ -159,6 +161,7 @@ def ReadUCNTree(fn):
     data = {}
     data['runnumber'] = array('i', [runnumber])
     data['cyclenumber'] = array('i', [cyclenumber])
+    data['supercyclenumber'] = array('i', [0])
     data['start'] = array('d', [startHe3])
     data['timingoffset'] = array('d', [startHe3 - startLi6])
     data['beamonduration'] = array('d', [0.])
@@ -208,11 +211,14 @@ data['beamoffduration'][0]))
       print(' Skipping cycle {0} in run {1} because there is a mismatch between period durations in He3 {2} and Li6 {3} detectors'.format(cyclenumber, runnumber, data['periods']['durations'], numpy.diff(periods['Li6'])))
       continue
     if transition['He3']:
+      data['supercyclenumber'][0] = transition['He3'].superCycleIndex
       for valve in range(8):
         data['periods']['valve{0}state'.format(valve)] = array('i', [getattr(transition['He3'], 'valveStatePeriod{0}'.format(period))[valve] for period in range(10)] + [0])
     
+    UCNhits['Li6'] = FilterPileup(UCNhits['Li6'], runnumber, periods['Li6'])
+
     # collect hits during cycle and plot rates for both detectors
-    for det, resolution in zip(['He3', 'Li6'], [1., 0.001]):
+    for det, resolution in zip(['He3', 'Li6'], [1., 1.]):
       data['periods']['counts' + det] = array('i', numpy.histogram(UCNhits[det], periods[det])[0])
       data[det] = {'hits': array('d', [h - periods[det][0] for h in UCNhits[det] if periods[det][0] <= h < periods[det][-1]])}
       rateplots[det].append(RatePlot(periods[det], UCNhits[det], resolution))
@@ -291,8 +297,6 @@ def WriteCycleData(otree, cycledata):
 ofile = ROOT.TFile('ucn_output.root', 'RECREATE')
 # create output tree
 otree = ROOT.TTree('cycledata', 'cycledata')
-
-first = True
 
 # set up pool of threads to handle several files in parallel
 pool = multiprocessing.Pool()

@@ -76,10 +76,10 @@ SKIPPING cycle 44 in run 1018 because beam fluctuated by 0.053023512556uA
 SKIPPING cycle 45 in run 1018 because beam fluctuated by 0.0851864401531uA
 SKIPPING cycle 48 in run 1018 because beam dropped below 0.1uA (0.0uA)
 SKIPPING cycle 49 in run 1018 because Li6 does not contain data in all periods
+SKIPPING cycle 16 in run 1067 because Li6 does not contain data in all periods
 SKIPPING cycle 0 in run 1068 because beam fluctuated by 0.0692473229629uA
 SKIPPING cycle 2 in run 1068 because beam fluctuated by 0.0564938718828uA
 SKIPPING cycle 16 in run 1068 because Li6 does not contain data in all periods
-SKIPPING cycle 16 in run 1067 because Li6 does not contain data in all periods
 SKIPPING cycle 5 in run 1072 because beam dropped below 0.1uA (0.0uA)
 SKIPPING cycle 6 in run 1072 because beam dropped below 0.1uA (0.018195098266uA)
 SKIPPING cycle 16 in run 1069 because Li6 does not contain data in all periods
@@ -160,8 +160,8 @@ Li6 detector background rate: 2.39672131148 +/- 0.088645939899 1/s
 Monitor counts: 4037.78147222 +/- 22.4660340075
 Beam current from 0.969165682793 to 0.98749512434 uA
 Temperatures from 0.902000010014 to 0.950999975204 K
-36.8268612014 +/- 0.317548427782 (single exponential fit, with background subtracted, normalized to monitor detector)
-58.0014332024 +/- 5.47290008532, 30.2368023988 +/- 1.18257495246 (double exponential fit, with background subtracted, normalized to monitor detector)
+36.9864720773 +/- 0.316700330591 (single exponential fit, with background subtracted, normalized to monitor detector)
+59.5135892444 +/- 5.87843792682, 30.2970219895 +/- 1.17380369605 (double exponential fit, with background subtracted, normalized to monitor detector)
 34.3897821256 +/- 0.267541643666 (single exponential fit with 794.307521584 +/- 68.955251937 background, unnormalized)
 38.1319579997 +/- 0.152757649764 (single exponential fit to rate in monitor detector during storage period)
 
@@ -170,8 +170,8 @@ Li6 detector background rate: 2.10236220472 +/- 0.0575396091542 1/s
 Monitor counts: 4066.93148773 +/- 20.1666345426
 Beam current from 0.969165682793 to 0.98749512434 uA
 Temperatures from 0.902000010014 to 0.95300000906 K
-36.6153816865 +/- 0.355841679215 (single exponential fit, with background subtracted, normalized to monitor detector)
-19.9762040684 +/- 4.03410692695, 45.8334401545 +/- 3.62834187206 (double exponential fit, with background subtracted, normalized to monitor detector)
+36.5764883879 +/- 0.351516067303 (single exponential fit, with background subtracted, normalized to monitor detector)
+19.6445277419 +/- 3.95496082348, 45.256065514 +/- 3.30511165966 (double exponential fit, with background subtracted, normalized to monitor detector)
 32.6337914751 +/- 0.271726689572 (single exponential fit with 483.971732866 +/- 18.7622995968 background, unnormalized)
 33.7882846075 +/- 0.0220685205172 (single exponential fit to rate in monitor detector during storage period)
 
@@ -180,8 +180,8 @@ Li6 detector background rate: 2.27540983607 +/- 0.0863733762119 1/s
 Monitor counts: 3964.55116956 +/- 22.2613767812
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.899999976158 to 0.957000017166 K
-40.3786580344 +/- 0.334652166778 (single exponential fit, with background subtracted, normalized to monitor detector)
-13258.4709839 +/- 749764.493904, 39.124808407 +/- 0.705544984714 (double exponential fit, with background subtracted, normalized to monitor detector)
+40.4400432279 +/- 0.333566088352 (single exponential fit, with background subtracted, normalized to monitor detector)
+23893.1129693 +/- 986121.125639, 39.116637422 +/- 0.68470002193 (double exponential fit, with background subtracted, normalized to monitor detector)
 38.2568518423 +/- 0.297785939219 (single exponential fit with 679.028077863 +/- 92.3390198096 background, unnormalized)
 36.8249837976 +/- 0.10418422577 (single exponential fit to rate in monitor detector during storage period)
 
@@ -190,8 +190,8 @@ Li6 detector background rate: 2.06597938144 +/- 0.0652667702736 1/s
 Monitor counts: 4037.1935646 +/- 20.0927687604
 Beam current from 0.971456885338 to 0.989786267281 uA
 Temperatures from 0.901000022888 to 0.959999978542 K
-38.7846192646 +/- 0.363991038293 (single exponential fit, with background subtracted, normalized to monitor detector)
-31.7494043101 +/- 3.18400871321, 92.6207116996 +/- 48.2723045539 (double exponential fit, with background subtracted, normalized to monitor detector)
+38.7402876953 +/- 0.360458028774 (single exponential fit, with background subtracted, normalized to monitor detector)
+31.6800031015 +/- 3.33563490562, 89.973610705 +/- 47.1041301638 (double exponential fit, with background subtracted, normalized to monitor detector)
 33.9349197995 +/- 0.2581039151 (single exponential fit with 657.757553386 +/- 26.4058648313 background, unnormalized)
 32.8271772719 +/- 0.0421716373395 (single exponential fit to rate in monitor detector during storage period)
 
@@ -200,8 +200,8 @@ Li6 detector background rate: 2.15270018622 +/- 0.0447702617511 1/s
 Monitor counts: 2779.9218486 +/- 4.87442466349
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.898999989033 to 0.962000012398 K
-3.91872696067 +/- 0.110542254435 (single exponential fit, with background subtracted, normalized to monitor detector)
-49626.7035804 +/- 48984.4772143, 3.91873059113 +/- 0.0629236147631 (double exponential fit, with background subtracted, normalized to monitor detector)
+3.93154435095 +/- 0.110715605023 (single exponential fit, with background subtracted, normalized to monitor detector)
+3.93159276041 +/- 0.140397032056, 0.00105026926045 +/- 0.000285081680484 (double exponential fit, with background subtracted, normalized to monitor detector)
 4.42329420382 +/- 0.18458649134 (single exponential fit with 59.599482633 +/- 2.01214941456 background, unnormalized)
 25.7821023841 +/- 12.1403731246 (single exponential fit to rate in monitor detector during storage period)
 
@@ -210,8 +210,8 @@ Li6 detector background rate: 2.18360655738 +/- 0.0846130354135 1/s
 Monitor counts: 2706.08118124 +/- 18.3918500335
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.896000027657 to 0.962000012398 K
-26.1384643401 +/- 0.24796266885 (single exponential fit, with background subtracted, normalized to monitor detector)
-175.064414916 +/- 635.350322184, 24.5250408559 +/- 1.37626877142 (double exponential fit, with background subtracted, normalized to monitor detector)
+26.2059261619 +/- 0.24590464441 (single exponential fit, with background subtracted, normalized to monitor detector)
+177.951440833 +/- 647.370838247, 24.5268011741 +/- 1.36999737332 (double exponential fit, with background subtracted, normalized to monitor detector)
 25.1949305468 +/- 0.161759751038 (single exponential fit with 469.003584953 +/- 32.4220314792 background, unnormalized)
 24.1751993194 +/- 0.0467528389837 (single exponential fit to rate in monitor detector during storage period)
 
@@ -220,8 +220,8 @@ Li6 detector background rate: 2.18032786885 +/- 0.0845494882507 1/s
 Monitor counts: 2664.25808087 +/- 18.249171491
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.899999976158 to 0.955999970436 K
-16.4235134254 +/- 0.218523538393 (single exponential fit, with background subtracted, normalized to monitor detector)
-1.27388912058 +/- 6.55511594927, 17.1429207196 +/- 0.588047138234 (double exponential fit, with background subtracted, normalized to monitor detector)
+16.4963541128 +/- 0.214300271892 (single exponential fit, with background subtracted, normalized to monitor detector)
+5.10127503461 +/- 3.61444662486, 18.1167627484 +/- 1.21784314025 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.5832412079 +/- 0.155959619611 (single exponential fit with 332.897085319 +/- 14.7280073182 background, unnormalized)
 14.2504928811 +/- 0.0155848850279 (single exponential fit to rate in monitor detector during storage period)
 
@@ -230,8 +230,8 @@ Li6 detector background rate: 2.28524590164 +/- 0.0865598608685 1/s
 Monitor counts: 3957.13226639 +/- 22.2405380623
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.894999980927 to 0.954999983311 K
-38.7299781683 +/- 0.332803438015 (single exponential fit, with background subtracted, normalized to monitor detector)
-36.083027545 +/- 0.610871864259, 628245.942675 +/- 553245.141144 (double exponential fit, with background subtracted, normalized to monitor detector)
+38.8126082824 +/- 0.331699011433 (single exponential fit, with background subtracted, normalized to monitor detector)
+36.0799952511 +/- 0.609562297277, 640765.867929 +/- 677258.639747 (double exponential fit, with background subtracted, normalized to monitor detector)
 37.3646360153 +/- 0.301050368474 (single exponential fit with 648.554715681 +/- 83.4407929776 background, unnormalized)
 36.6455786802 +/- 0.125395152081 (single exponential fit to rate in monitor detector during storage period)
 
@@ -240,8 +240,8 @@ Li6 detector background rate: 2.14252336449 +/- 0.0408488910964 1/s
 Monitor counts: 2821.47116767 +/- 5.90194691425
 Beam current from 0.971456885338 to 0.998950958252 uA
 Temperatures from 0.898999989033 to 0.959999978542 K
-8.34047996674 +/- 0.157530849466 (single exponential fit, with background subtracted, normalized to monitor detector)
-12.2254937798 +/- 1.89730691563, 4.45628471374 +/- 0.962997819542 (double exponential fit, with background subtracted, normalized to monitor detector)
+8.28667556018 +/- 0.155225750212 (single exponential fit, with background subtracted, normalized to monitor detector)
+11.8622189048 +/- 1.57722146038, 4.37201644904 +/- 0.886452830889 (double exponential fit, with background subtracted, normalized to monitor detector)
 8.068249439 +/- 0.211902785661 (single exponential fit with 145.253006544 +/- 3.85108531709 background, unnormalized)
 20.1183362033 +/- 0.0150720482394 (single exponential fit to rate in monitor detector during storage period)
 
@@ -250,8 +250,8 @@ Li6 detector background rate: 2.10491803279 +/- 0.0830744882578 1/s
 Monitor counts: 2867.37949013 +/- 17.8493059004
 Beam current from 0.976039230824 to 0.985203921795 uA
 Temperatures from 0.893000006676 to 0.948000013828 K
-27.9303710757 +/- 0.237632387976 (single exponential fit, with background subtracted, normalized to monitor detector)
-999909.01887 +/- 999932.530848, 26.8012883259 +/- 0.325960984787 (double exponential fit, with background subtracted, normalized to monitor detector)
+27.9302960774 +/- 0.234913817545 (single exponential fit, with background subtracted, normalized to monitor detector)
+998950.714613 +/- 693656.498748, 26.7974444462 +/- 0.323380270756 (double exponential fit, with background subtracted, normalized to monitor detector)
 27.4283693674 +/- 0.169722040427 (single exponential fit with 417.950504822 +/- 36.6861930083 background, unnormalized)
 26.3263801392 +/- 0.050256266 (single exponential fit to rate in monitor detector during storage period)
 
@@ -260,8 +260,8 @@ Li6 detector background rate: 2.06393442623 +/- 0.0581678524564 1/s
 Monitor counts: 2825.14721039 +/- 12.891281163
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.899999976158 to 0.95300000906 K
-19.896094557 +/- 0.164396095489 (single exponential fit, with background subtracted, normalized to monitor detector)
-14.3215645067 +/- 9.44600147731, 28.0552422405 +/- 21.0786322037 (double exponential fit, with background subtracted, normalized to monitor detector)
+19.8216576255 +/- 0.162105620036 (single exponential fit, with background subtracted, normalized to monitor detector)
+13.251936922 +/- 9.70222457952, 25.6268059745 +/- 13.1633718876 (double exponential fit, with background subtracted, normalized to monitor detector)
 18.4054801313 +/- 0.121532470534 (single exponential fit with 363.207915914 +/- 12.176830813 background, unnormalized)
 15.9783884507 +/- 0.00474492448239 (single exponential fit to rate in monitor detector during storage period)
 
@@ -270,8 +270,8 @@ Li6 detector background rate: 2.15081967213 +/- 0.0839753998352 1/s
 Monitor counts: 3364.33842022 +/- 19.3343057808
 Beam current from 0.976039230824 to 0.985203921795 uA
 Temperatures from 0.899999976158 to 0.95300000906 K
-24.8129958419 +/- 0.261253802087 (single exponential fit, with background subtracted, normalized to monitor detector)
-17.8117506659 +/- 21.4567523058, 31.8244270471 +/- 29.794808462 (double exponential fit, with background subtracted, normalized to monitor detector)
+24.8490322548 +/- 0.257145686906 (single exponential fit, with background subtracted, normalized to monitor detector)
+17.9179734511 +/- 17.0895126245, 31.9354937377 +/- 23.9353237309 (double exponential fit, with background subtracted, normalized to monitor detector)
 23.2107436373 +/- 0.207316180492 (single exponential fit with 396.406638708 +/- 23.0287749519 background, unnormalized)
 22.0256158602 +/- 0.0339213873705 (single exponential fit to rate in monitor detector during storage period)
 
@@ -280,8 +280,8 @@ Li6 detector background rate: 2.228 +/- 0.0385400224875 1/s
 Monitor counts: 2478.33728774 +/- 6.77459481875
 Beam current from 0.973748028278 to 0.98749512434 uA
 Temperatures from 0.897000014782 to 0.95300000906 K
-18.020607764 +/- 0.180577320341 (single exponential fit, with background subtracted, normalized to monitor detector)
-7.66167127569 +/- 2.08064718313, 21.3485787816 +/- 1.18119412867 (double exponential fit, with background subtracted, normalized to monitor detector)
+18.196473824 +/- 0.181720003099 (single exponential fit, with background subtracted, normalized to monitor detector)
+9.05042656857 +/- 4.25688576741, 22.7616375725 +/- 3.64749647699 (double exponential fit, with background subtracted, normalized to monitor detector)
 16.7366441633 +/- 0.170605610662 (single exponential fit with 264.570524932 +/- 5.81933514596 background, unnormalized)
 21.5827153384 +/- 0.00257363423376 (single exponential fit to rate in monitor detector during storage period)
 
@@ -290,8 +290,8 @@ Li6 detector background rate: 2.27868852459 +/- 0.0864355824686 1/s
 Monitor counts: 2483.84474715 +/- 16.6127285442
 Beam current from 0.976039230824 to 0.985203921795 uA
 Temperatures from 0.898999989033 to 0.953999996185 K
-19.5729000299 +/- 0.258052308325 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.62007606336 +/- 0.443198925754, 24.3817948491 +/- 0.571429009111 (double exponential fit, with background subtracted, normalized to monitor detector)
+19.8111663521 +/- 0.257105565498 (single exponential fit, with background subtracted, normalized to monitor detector)
+3.75648019263 +/- 0.442873781176, 24.7611056369 +/- 0.57623040256 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.4941276154 +/- 0.14135994614 (single exponential fit with 592.412109595 +/- 18.1564052865 background, unnormalized)
 18.3874120863 +/- 0.0474042471691 (single exponential fit to rate in monitor detector during storage period)
 
@@ -300,8 +300,8 @@ Li6 detector background rate: 2.87107438017 +/- 0.0688881520138 1/s
 Monitor counts: 2444.36781514 +/- 13.2135423366
 Beam current from 0.971456885338 to 0.985203921795 uA
 Temperatures from 0.897000014782 to 0.950999975204 K
-21.4496000101 +/- 0.210664173075 (single exponential fit, with background subtracted, normalized to monitor detector)
-7.69825235786 +/- 2.51370604504, 22.7690326031 +/- 0.633746548018 (double exponential fit, with background subtracted, normalized to monitor detector)
+22.3717128786 +/- 0.219925372395 (single exponential fit, with background subtracted, normalized to monitor detector)
+15.8286675457 +/- 3.48083100862, 31.9547415339 +/- 7.83136728263 (double exponential fit, with background subtracted, normalized to monitor detector)
 20.5588786705 +/- 0.159446591098 (single exponential fit with 392.196059172 +/- 14.3087928623 background, unnormalized)
 17.0088459377 +/- 0.00767846178561 (single exponential fit to rate in monitor detector during storage period)
 
@@ -310,8 +310,8 @@ Li6 detector background rate: 2.91025641026 +/- 0.0443140583721 1/s
 Monitor counts: 2407.03885297 +/- 7.15636727791
 Beam current from 0.966874480247 to 0.985203921795 uA
 Temperatures from 0.897000014782 to 0.950999975204 K
-17.3277330589 +/- 0.187798354591 (single exponential fit, with background subtracted, normalized to monitor detector)
-6.77139211358 +/- 1.55697916601, 20.4698249464 +/- 0.957510544519 (double exponential fit, with background subtracted, normalized to monitor detector)
+19.2773109691 +/- 0.208827784414 (single exponential fit, with background subtracted, normalized to monitor detector)
+13.463062637 +/- 0.80512361289, 50.3352699678 +/- 9.44241158254 (double exponential fit, with background subtracted, normalized to monitor detector)
 16.2845712051 +/- 0.182203449523 (single exponential fit with 330.633503228 +/- 6.35195302265 background, unnormalized)
 21.9771763751 +/- 0.0029712175946 (single exponential fit to rate in monitor detector during storage period)
 
@@ -320,8 +320,8 @@ Li6 detector background rate: 2.12786885246 +/- 0.0835261587073 1/s
 Monitor counts: 2234.91754796 +/- 15.7583048579
 Beam current from 0.973748028278 to 0.98291271925 uA
 Temperatures from 0.898000001907 to 0.950999975204 K
-20.355894185 +/- 0.255548234032 (single exponential fit, with background subtracted, normalized to monitor detector)
-8.65872018846 +/- 2.61633381179, 23.6525092726 +/- 1.44590394638 (double exponential fit, with background subtracted, normalized to monitor detector)
+20.3734989778 +/- 0.250435436108 (single exponential fit, with background subtracted, normalized to monitor detector)
+8.50406662356 +/- 2.41888603067, 23.4962871338 +/- 1.25291033545 (double exponential fit, with background subtracted, normalized to monitor detector)
 18.539731433 +/- 0.173531173034 (single exponential fit with 366.942122488 +/- 17.137627702 background, unnormalized)
 15.1905176277 +/- 0.0309959074007 (single exponential fit to rate in monitor detector during storage period)
 
@@ -330,8 +330,8 @@ Li6 detector background rate: 2.24033505155 +/- 0.0268655434786 1/s
 Monitor counts: 2243.56775782 +/- 4.76049373322
 Beam current from 0.930215656757 to 0.998950958252 uA
 Temperatures from 0.896000027657 to 0.953999996185 K
-14.5383979518 +/- 0.109337389982 (single exponential fit, with background subtracted, normalized to monitor detector)
-7.91376636861 +/- 2.50518414482, 17.5797264367 +/- 1.82201242543 (double exponential fit, with background subtracted, normalized to monitor detector)
+14.7175269146 +/- 0.110753092213 (single exponential fit, with background subtracted, normalized to monitor detector)
+9.56692856169 +/- 1.83504359505, 20.0253384443 +/- 2.81239810818 (double exponential fit, with background subtracted, normalized to monitor detector)
 13.9203072064 +/- 0.103404258444 (single exponential fit with 247.907251352 +/- 3.41368812926 background, unnormalized)
 20.1848514837 +/- 0.000581079528106 (single exponential fit to rate in monitor detector during storage period)
 
@@ -340,8 +340,8 @@ Li6 detector background rate: 2.19016393443 +/- 0.0847399867759 1/s
 Monitor counts: 2414.47267771 +/- 16.3790946627
 Beam current from 0.973587274551 to 0.987047076225 uA
 Temperatures from 0.902000010014 to 0.954999983311 K
-20.4497364757 +/- 0.24588389836 (single exponential fit, with background subtracted, normalized to monitor detector)
-7.62892117201 +/- 2.54695481453, 22.6526047805 +/- 0.944354594024 (double exponential fit, with background subtracted, normalized to monitor detector)
+20.5243161384 +/- 0.241465228783 (single exponential fit, with background subtracted, normalized to monitor detector)
+7.88575795524 +/- 2.64443700787, 22.8126543961 +/- 0.995632524259 (double exponential fit, with background subtracted, normalized to monitor detector)
 19.0140207477 +/- 0.17300872453 (single exponential fit with 359.966532389 +/- 17.6398509383 background, unnormalized)
 17.4790186958 +/- 0.0455381248836 (single exponential fit to rate in monitor detector during storage period)
 
@@ -350,8 +350,8 @@ Li6 detector background rate: 2.2 +/- 0.084930058013 1/s
 Monitor counts: 2284.56847842 +/- 15.9323865772
 Beam current from 0.971399009228 to 0.989556849003 uA
 Temperatures from 0.898000001907 to 0.949999988079 K
-20.2772498659 +/- 0.25465669512 (single exponential fit, with background subtracted, normalized to monitor detector)
-15.7065042928 +/- 1.69335106312, 37.166134699 +/- 9.68380098346 (double exponential fit, with background subtracted, normalized to monitor detector)
+20.3916738741 +/- 0.251478044317 (single exponential fit, with background subtracted, normalized to monitor detector)
+38.1802806402 +/- 9.02588757451, 15.7957184887 +/- 1.52298907988 (double exponential fit, with background subtracted, normalized to monitor detector)
 18.3981031194 +/- 0.17443640801 (single exponential fit with 420.947920046 +/- 18.1857000086 background, unnormalized)
 16.6751491377 +/- 0.0447155346776 (single exponential fit to rate in monitor detector during storage period)
 
@@ -360,8 +360,8 @@ Li6 detector background rate: 2.05179615706 +/- 0.0414018770037 1/s
 Monitor counts: 2144.77970169 +/- 6.18867009383
 Beam current from 0.64003431797 to 0.985016644001 uA
 Temperatures from 0.896000027657 to 0.953999996185 K
-13.7466896295 +/- 0.138186696795 (single exponential fit, with background subtracted, normalized to monitor detector)
-7.84188473951 +/- 0.90942825795, 20.318122164 +/- 1.7540021629 (double exponential fit, with background subtracted, normalized to monitor detector)
+13.5205558855 +/- 0.134972136817 (single exponential fit, with background subtracted, normalized to monitor detector)
+7.44711278172 +/- 0.906559371239, 18.7842708412 +/- 1.35800466222 (double exponential fit, with background subtracted, normalized to monitor detector)
 10.4237655311 +/- 0.103690454027 (single exponential fit with 303.384140767 +/- 5.19293633988 background, unnormalized)
 20.9775324063 +/- 0.0065793786581 (single exponential fit to rate in monitor detector during storage period)
 
@@ -370,8 +370,8 @@ Li6 detector background rate: 2.09057971014 +/- 0.0502479325186 1/s
 Monitor counts: 2339.08644906 +/- 7.46274309497
 Beam current from 0.921325027943 to 1.12577605247 uA
 Temperatures from 0.898999989033 to 0.955999970436 K
-20.5560859582 +/- 0.21777288687 (single exponential fit, with background subtracted, normalized to monitor detector)
-12.9042482466 +/- 3.33704306477, 75.1367696342 +/- 97.7362237664 (double exponential fit, with background subtracted, normalized to monitor detector)
+20.4545553668 +/- 0.207208799596 (single exponential fit, with background subtracted, normalized to monitor detector)
+12.9050740775 +/- 3.79771382922, 73.7789858749 +/- 108.394187703 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.3523174812 +/- 0.211949320777 (single exponential fit with 508.480472527 +/- 11.7951453253 background, unnormalized)
 20.8520847531 +/- 0.014156180316 (single exponential fit to rate in monitor detector during storage period)
 
@@ -380,8 +380,8 @@ Li6 detector background rate: 2.13744075829 +/- 0.100648154415 1/s
 Monitor counts: 2408.16830517 +/- 16.3576971524
 Beam current from 0.959228277206 to 1.00466632843 uA
 Temperatures from 0.899999976158 to 0.948000013828 K
-22.8492835309 +/- 0.284189249681 (single exponential fit, with background subtracted, normalized to monitor detector)
-13.9471850733 +/- 1.90083717208, 39.9266780102 +/- 7.99082973987 (double exponential fit, with background subtracted, normalized to monitor detector)
+22.9353664899 +/- 0.279145219103 (single exponential fit, with background subtracted, normalized to monitor detector)
+13.9880379619 +/- 1.88084429892, 40.0342325431 +/- 7.87398314639 (double exponential fit, with background subtracted, normalized to monitor detector)
 18.4916388291 +/- 0.218287374535 (single exponential fit with 872.950565687 +/- 36.0570968763 background, unnormalized)
 17.8684454965 +/- 0.0898816879165 (single exponential fit to rate in monitor detector during storage period)
 
@@ -390,8 +390,8 @@ Li6 detector background rate: 2.055613851 +/- 0.0464434333186 1/s
 Monitor counts: 2098.85155616 +/- 6.3531511808
 Beam current from 0.697435438633 to 0.972481250763 uA
 Temperatures from 0.898999989033 to 0.949000000954 K
-17.2555461796 +/- 0.175417278888 (single exponential fit, with background subtracted, normalized to monitor detector)
-5.93341856908 +/- 1.60175797231, 19.7843804323 +/- 0.825865210885 (double exponential fit, with background subtracted, normalized to monitor detector)
+17.0147083278 +/- 0.171895150451 (single exponential fit, with background subtracted, normalized to monitor detector)
+5.3003003902 +/- 1.40677271496, 19.0547962276 +/- 0.61176152269 (double exponential fit, with background subtracted, normalized to monitor detector)
 14.8369912659 +/- 0.209569017738 (single exponential fit with 296.450241901 +/- 8.20030284462 background, unnormalized)
 20.550629607 +/- 0.0105313124156 (single exponential fit to rate in monitor detector during storage period)
 
@@ -400,8 +400,8 @@ Li6 detector background rate: 2.03619909502 +/- 0.0959873458624 1/s
 Monitor counts: 2296.60797442 +/- 15.9743126245
 Beam current from 0.933775007725 to 0.967642724514 uA
 Temperatures from 0.898000001907 to 0.955999970436 K
-21.3531878612 +/- 0.244111954005 (single exponential fit, with background subtracted, normalized to monitor detector)
-18.3001350324 +/- 6.79710301629, 55.8892025726 +/- 178.417584888 (double exponential fit, with background subtracted, normalized to monitor detector)
+21.3059823195 +/- 0.238148576998 (single exponential fit, with background subtracted, normalized to monitor detector)
+52.3875559617 +/- 18.4829890887, 18.2415918683 +/- 0.897000223987 (double exponential fit, with background subtracted, normalized to monitor detector)
 19.491642369 +/- 0.225199819309 (single exponential fit with 505.877780178 +/- 33.3980048663 background, unnormalized)
 17.2578059405 +/- 0.0775626748902 (single exponential fit to rate in monitor detector during storage period)
 
@@ -410,8 +410,8 @@ Li6 detector background rate: 2.1038961039 +/- 0.0826488445543 1/s
 Monitor counts: 2380.31625823 +/- 12.1971212234
 Beam current from 0.968900024891 to 1.00983917713 uA
 Temperatures from 0.90600001812 to 0.958000004292 K
-11.6193657274 +/- 0.21049088583 (single exponential fit, with background subtracted, normalized to monitor detector)
-4.79035219686 +/- 2.91602327251, 12.8037532617 +/- 1.07069429137 (double exponential fit, with background subtracted, normalized to monitor detector)
+11.5451055329 +/- 0.201500697763 (single exponential fit, with background subtracted, normalized to monitor detector)
+4.12526400845 +/- 2.65243792075, 12.3932374587 +/- 0.737181175159 (double exponential fit, with background subtracted, normalized to monitor detector)
 11.061089763 +/- 0.217384447249 (single exponential fit with 229.672065464 +/- 9.94685534075 background, unnormalized)
 20.4314258688 +/- 0.083973514734 (single exponential fit to rate in monitor detector during storage period)
 
@@ -420,8 +420,8 @@ Li6 detector background rate: 2.02614379085 +/- 0.0813718927973 1/s
 Monitor counts: 2315.64750073 +/- 12.860925041
 Beam current from 0.946155905724 to 0.991644144058 uA
 Temperatures from 0.907999992371 to 0.958999991417 K
-8.0437741491 +/- 0.21514748786 (single exponential fit, with background subtracted, normalized to monitor detector)
-36.7471897068 +/- 272.666035341, 7.51873499555 +/- 1.75510219633 (double exponential fit, with background subtracted, normalized to monitor detector)
+7.82337038846 +/- 0.199641219042 (single exponential fit, with background subtracted, normalized to monitor detector)
+8.13454226867 +/- 0.626737726162, 2.82684701214 +/- 3.76005102359 (double exponential fit, with background subtracted, normalized to monitor detector)
 7.7826535447 +/- 0.214868249347 (single exponential fit with 218.721023506 +/- 7.43757313831 background, unnormalized)
 20.2508521886 +/- 0.0701017619857 (single exponential fit to rate in monitor detector during storage period)
 
@@ -430,8 +430,8 @@ Li6 detector background rate: 1.88636363636 +/- 0.0782595506052 1/s
 Monitor counts: 2341.42432579 +/- 12.0970666015
 Beam current from 0.973448991776 to 1.00529015064 uA
 Temperatures from 0.910000026226 to 0.962000012398 K
-8.46408177358 +/- 0.203178017114 (single exponential fit, with background subtracted, normalized to monitor detector)
-11.7104813838 +/- 9.94659560366, 4.89055664743 +/- 6.34192686269 (double exponential fit, with background subtracted, normalized to monitor detector)
+8.0315358584 +/- 0.185155069532 (single exponential fit, with background subtracted, normalized to monitor detector)
+8.43942528034 +/- 0.492251296724, 1.14413854568 +/- 2.30840175242 (double exponential fit, with background subtracted, normalized to monitor detector)
 8.00039768602 +/- 0.194703962856 (single exponential fit with 210.038668811 +/- 7.38366669767 background, unnormalized)
 21.2521707198 +/- 0.100586991435 (single exponential fit to rate in monitor detector during storage period)
 
@@ -440,8 +440,8 @@ Li6 detector background rate: 2.03246753247 +/- 0.0812337402805 1/s
 Monitor counts: 2300.2796357 +/- 11.9903076371
 Beam current from 0.968900024891 to 0.996193110943 uA
 Temperatures from 0.911000013351 to 0.962999999523 K
-9.10230169399 +/- 0.197744521841 (single exponential fit, with background subtracted, normalized to monitor detector)
-9.73069044929 +/- 0.568498558617, 2.5601782887 +/- 1.96200801636 (double exponential fit, with background subtracted, normalized to monitor detector)
+8.90367125759 +/- 0.18547986949 (single exponential fit, with background subtracted, normalized to monitor detector)
+9.24442651773 +/- 0.350008262456, 1.81090939921 +/- 1.61818228461 (double exponential fit, with background subtracted, normalized to monitor detector)
 8.71244280427 +/- 0.195984328933 (single exponential fit with 210.582052067 +/- 7.80567999836 background, unnormalized)
 21.2925599339 +/- 0.119561858673 (single exponential fit to rate in monitor detector during storage period)
 
@@ -450,8 +450,8 @@ Li6 detector background rate: 2.13725490196 +/- 0.083573280082 1/s
 Monitor counts: 2296.70215091 +/- 12.3739030515
 Beam current from 0.964350998402 to 1.00074219704 uA
 Temperatures from 0.913999974728 to 0.980000019073 K
-10.6596281207 +/- 0.207741527555 (single exponential fit, with background subtracted, normalized to monitor detector)
-4.97330538357 +/- 4.27836020683, 11.5665434546 +/- 1.32750686263 (double exponential fit, with background subtracted, normalized to monitor detector)
+10.6382041054 +/- 0.199267394798 (single exponential fit, with background subtracted, normalized to monitor detector)
+4.53465546729 +/- 3.68861657415, 11.3562615938 +/- 0.918953674933 (double exponential fit, with background subtracted, normalized to monitor detector)
 10.3628237065 +/- 0.213023966672 (single exponential fit with 219.568445381 +/- 9.10634686885 background, unnormalized)
 20.980074792 +/- 0.120524836625 (single exponential fit to rate in monitor detector during storage period)
 
@@ -460,8 +460,8 @@ Li6 detector background rate: 2.0293040293 +/- 0.0609645310516 1/s
 Monitor counts: 2332.23280981 +/- 10.7986869799
 Beam current from 0.786947071552 to 0.991644144058 uA
 Temperatures from 0.908999979496 to 0.958000004292 K
-18.9624667739 +/- 0.142479979922 (single exponential fit, with background subtracted, normalized to monitor detector)
-12.2077451757 +/- 18.3958931602, 23.9675655379 +/- 22.0298821216 (double exponential fit, with background subtracted, normalized to monitor detector)
+18.8410128538 +/- 0.139897542069 (single exponential fit, with background subtracted, normalized to monitor detector)
+11.2949109318 +/- 5.05836703593, 22.5732068488 +/- 4.08367703281 (double exponential fit, with background subtracted, normalized to monitor detector)
 16.588897978 +/- 0.137216309198 (single exponential fit with 468.140499435 +/- 15.2023667689 background, unnormalized)
 16.4022452639 +/- 0.0104744082982 (single exponential fit to rate in monitor detector during storage period)
 
@@ -470,8 +470,8 @@ Li6 detector background rate: 1.90047393365 +/- 0.0949051393104 1/s
 Monitor counts: 2374.38004558 +/- 17.2278119823
 Beam current from 0.968900024891 to 0.991644144058 uA
 Temperatures from 0.911000013351 to 0.959999978542 K
-17.3815997208 +/- 0.269640064924 (single exponential fit, with background subtracted, normalized to monitor detector)
-12.4846553196 +/- 4.15002463464, 28.9594447027 +/- 16.7525570537 (double exponential fit, with background subtracted, normalized to monitor detector)
+17.1442067355 +/- 0.256627241742 (single exponential fit, with background subtracted, normalized to monitor detector)
+11.6915122502 +/- 5.99396960199, 24.6239274246 +/- 13.174178952 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.4479977221 +/- 0.213331820746 (single exponential fit with 394.195349414 +/- 20.4117259933 background, unnormalized)
 14.3297828115 +/- 0.0510157214124 (single exponential fit to rate in monitor detector during storage period)
 
@@ -480,8 +480,8 @@ Li6 detector background rate: 1.97156398104 +/- 0.0966638770349 1/s
 Monitor counts: 2338.66425168 +/- 17.0977493098
 Beam current from 0.968900024891 to 0.987095117569 uA
 Temperatures from 0.912000000477 to 0.961000025272 K
-17.458100923 +/- 0.262016219874 (single exponential fit, with background subtracted, normalized to monitor detector)
-12.8111516643 +/- 4.62505413346, 26.0870177044 +/- 13.3083265051 (double exponential fit, with background subtracted, normalized to monitor detector)
+17.301623734 +/- 0.25019216023 (single exponential fit, with background subtracted, normalized to monitor detector)
+11.8319343365 +/- 6.41237638685, 22.7271082644 +/- 9.52002863167 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.8943251303 +/- 0.218719652384 (single exponential fit with 373.778788108 +/- 20.8386483108 background, unnormalized)
 14.0414531505 +/- 0.0358711067151 (single exponential fit to rate in monitor detector during storage period)
 
@@ -490,8 +490,8 @@ Li6 detector background rate: 2.16113744076 +/- 0.101204533195 1/s
 Monitor counts: 2307.25298949 +/- 16.0112911184
 Beam current from 0.959801971912 to 1.01272594929 uA
 Temperatures from 0.912999987602 to 0.962000012398 K
-18.2655460221 +/- 0.230111343669 (single exponential fit, with background subtracted, normalized to monitor detector)
-10.1339468682 +/- 2.31569899659, 21.8906490766 +/- 1.73187027155 (double exponential fit, with background subtracted, normalized to monitor detector)
+18.3327568522 +/- 0.222912673341 (single exponential fit, with background subtracted, normalized to monitor detector)
+9.85025995781 +/- 2.19687648192, 21.6217435014 +/- 1.45584371267 (double exponential fit, with background subtracted, normalized to monitor detector)
 17.0607786408 +/- 0.188736274526 (single exponential fit with 401.575297943 +/- 24.1677734143 background, unnormalized)
 15.416809016 +/- 0.0560350420721 (single exponential fit to rate in monitor detector during storage period)
 
@@ -500,8 +500,8 @@ Li6 detector background rate: 2.32227488152 +/- 0.104909685408 1/s
 Monitor counts: 2320.87517133 +/- 17.0325980525
 Beam current from 0.972574055195 to 1.02164900303 uA
 Temperatures from 0.907999992371 to 0.959999978542 K
-17.4056604123 +/- 0.250648898975 (single exponential fit, with background subtracted, normalized to monitor detector)
-5.03532572038 +/- 1.83304400758, 18.9537374092 +/- 0.663897847447 (double exponential fit, with background subtracted, normalized to monitor detector)
+17.6686949987 +/- 0.243547822981 (single exponential fit, with background subtracted, normalized to monitor detector)
+5.86412521558 +/- 2.22993406021, 19.5641367225 +/- 0.869307510559 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.7595725574 +/- 0.201371609371 (single exponential fit with 422.519841617 +/- 22.0324234336 background, unnormalized)
 13.85943843 +/- 0.0343487952312 (single exponential fit to rate in monitor detector during storage period)
 
@@ -510,8 +510,8 @@ Li6 detector background rate: 2.13636363636 +/- 0.117781539917 1/s
 Monitor counts: 1736.00381315 +/- 14.730936041
 Beam current from 0.941344201565 to 0.972574055195 uA
 Temperatures from 0.912000000477 to 0.962999999523 K
-10.115063857 +/- 0.196632516379 (single exponential fit, with background subtracted, normalized to monitor detector)
-9.90670131668 +/- 1.36855580185, 53.7907400938 +/- 2721.87613449 (double exponential fit, with background subtracted, normalized to monitor detector)
+10.1099969069 +/- 0.185931688272 (single exponential fit, with background subtracted, normalized to monitor detector)
+9.88931447632 +/- 0.633464035921, 40.8308986257 +/- 200.459281534 (double exponential fit, with background subtracted, normalized to monitor detector)
 9.59854448049 +/- 0.163466482618 (single exponential fit with 243.780729087 +/- 13.4806249605 background, unnormalized)
 9.76419325512 +/- 0.0894331115355 (single exponential fit to rate in monitor detector during storage period)
 
@@ -520,8 +520,8 @@ Li6 detector background rate: 2.06382978723 +/- 0.148174343374 1/s
 Monitor counts: 1888.54172277 +/- 16.4253363643
 Beam current from 0.932422101498 to 0.968112528324 uA
 Temperatures from 0.912999987602 to 0.967000007629 K
-10.596644313 +/- 0.214912381892 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.59815763379 +/- 2.76404712934, 11.031448685 +/- 0.533147436532 (double exponential fit, with background subtracted, normalized to monitor detector)
+10.5359028808 +/- 0.203585829342 (single exponential fit, with background subtracted, normalized to monitor detector)
+3.27900043889 +/- 2.70537945157, 10.8496269461 +/- 0.429924134376 (double exponential fit, with background subtracted, normalized to monitor detector)
 10.2071586183 +/- 0.239285433258 (single exponential fit with 143.584262195 +/- 20.9282685733 background, unnormalized)
 8.38710829118 +/- 0.104416096416 (single exponential fit to rate in monitor detector during storage period)
 
@@ -530,8 +530,8 @@ Li6 detector background rate: 2.15957446809 +/- 0.151572413285 1/s
 Monitor counts: 1877.76150268 +/- 16.3783895191
 Beam current from 0.936883628368 to 0.963650941849 uA
 Temperatures from 0.913999974728 to 0.967000007629 K
-10.3768008749 +/- 0.206839536568 (single exponential fit, with background subtracted, normalized to monitor detector)
-10.0413660663 +/- 0.322801041591, 976678.524179 +/- 903494.727456 (double exponential fit, with background subtracted, normalized to monitor detector)
+10.3955915638 +/- 0.198081103854 (single exponential fit, with background subtracted, normalized to monitor detector)
+10.0281342313 +/- 0.309101350404, 808114.953495 +/- 559578.47609 (double exponential fit, with background subtracted, normalized to monitor detector)
 10.0764673355 +/- 0.229417022944 (single exponential fit with 162.578814136 +/- 21.315651942 background, unnormalized)
 7.84538560218 +/- 0.0470244128988 (single exponential fit to rate in monitor detector during storage period)
 
@@ -540,8 +540,8 @@ Li6 detector background rate: 2.1170212766 +/- 0.150071659358 1/s
 Monitor counts: 1884.72867767 +/- 16.4087462639
 Beam current from 0.936883628368 to 0.963650941849 uA
 Temperatures from 0.916000008583 to 0.976999998093 K
-10.6048570636 +/- 0.2138466736 (single exponential fit, with background subtracted, normalized to monitor detector)
-10.1978832062 +/- 0.335615755492, 880777.065583 +/- 548415.515599 (double exponential fit, with background subtracted, normalized to monitor detector)
+10.6003035884 +/- 0.204457679676 (single exponential fit, with background subtracted, normalized to monitor detector)
+10.1876460349 +/- 0.321894969457, 997723.016436 +/- 992276.951559 (double exponential fit, with background subtracted, normalized to monitor detector)
 9.91596407213 +/- 0.231220829837 (single exponential fit with 183.633749538 +/- 21.2022265858 background, unnormalized)
 10.8928861403 +/- 0.269697411599 (single exponential fit to rate in monitor detector during storage period)
 
@@ -550,8 +550,8 @@ Li6 detector background rate: 2.03191489362 +/- 0.147024201714 1/s
 Monitor counts: 1766.29308938 +/- 15.8848224478
 Beam current from 0.927960574627 to 0.959190368652 uA
 Temperatures from 0.922999978065 to 1.0 K
-10.9500395733 +/- 0.216485047365 (single exponential fit, with background subtracted, normalized to monitor detector)
-10.1782294002 +/- 0.333251982787, 982736.344343 +/- 506768.724239 (double exponential fit, with background subtracted, normalized to monitor detector)
+10.9091281379 +/- 0.20775869463 (single exponential fit, with background subtracted, normalized to monitor detector)
+10.1714978237 +/- 0.321666242198, 889092.590487 +/- 510447.878893 (double exponential fit, with background subtracted, normalized to monitor detector)
 10.0384491693 +/- 0.224358023137 (single exponential fit with 211.041337012 +/- 23.0111199764 background, unnormalized)
 9.43301368488 +/- 0.225178778631 (single exponential fit to rate in monitor detector during storage period)
 
@@ -560,8 +560,8 @@ Li6 detector background rate: 1.97872340426 +/- 0.102592029372 1/s
 Monitor counts: 1771.59388668 +/- 11.2491075413
 Beam current from 0.923499047756 to 0.959190368652 uA
 Temperatures from 0.908999979496 to 1.0 K
-3.13185188371 +/- 0.125923180218 (single exponential fit, with background subtracted, normalized to monitor detector)
-2.94813403612 +/- 0.331311866469, 10.611330986 +/- 15.9516746174 (double exponential fit, with background subtracted, normalized to monitor detector)
+2.9990549155 +/- 0.114607392806 (single exponential fit, with background subtracted, normalized to monitor detector)
+3.02756957254 +/- 0.19818101607, 0.174693783439 +/- 146.687007569 (double exponential fit, with background subtracted, normalized to monitor detector)
 3.04784416459 +/- 0.120841688466 (single exponential fit with 120.465009753 +/- 4.58260392888 background, unnormalized)
 19.710224404 +/- 1.10842802191 (single exponential fit to rate in monitor detector during storage period)
 
@@ -570,8 +570,8 @@ Li6 detector background rate: 2.20689655172 +/- 0.195063939638 1/s
 Monitor counts: 2011.57659535 +/- 14.1830060119
 Beam current from 0.919037520885 to 0.950267314911 uA
 Temperatures from 0.912000000477 to 0.967000007629 K
-3.01941364911 +/- 0.142099622378 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.42468791864 +/- 0.276962946022, 0.138976230357 +/- 170.06342009 (double exponential fit, with background subtracted, normalized to monitor detector)
+3.05741437535 +/- 0.134266736864 (single exponential fit, with background subtracted, normalized to monitor detector)
+2.99817960897 +/- 0.172942631493, 431265.913978 +/- 715589.346959 (double exponential fit, with background subtracted, normalized to monitor detector)
 2.91111293875 +/- 0.156768438287 (single exponential fit with 69.4618721199 +/- 6.10032702519 background, unnormalized)
 
 Analyzing TCN18-266_100A
@@ -579,8 +579,8 @@ Li6 detector background rate: 1.79310344828 +/- 0.175828259089 1/s
 Monitor counts: 1987.15989915 +/- 14.0966659149
 Beam current from 0.914576947689 to 0.950267314911 uA
 Temperatures from 0.911000013351 to 0.967999994755 K
-3.43669776404 +/- 0.137540228713 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.43669520458 +/- 0.137334438599, 0.039278502395 +/- 987712.700984 (double exponential fit, with background subtracted, normalized to monitor detector)
+0.0028552757857 +/- 544.85007855 (single exponential fit, with background subtracted, normalized to monitor detector)
+2.62573130172 +/- 523311.783449, 3.2502133086 +/- 0.0178187012922 (double exponential fit, with background subtracted, normalized to monitor detector)
 3.19934316609 +/- 0.150826736126 (single exponential fit with 64.6799440797 +/- 6.54243916651 background, unnormalized)
 
 Analyzing TCN18-266_50A
@@ -588,8 +588,8 @@ Li6 detector background rate: 2.15517241379 +/- 0.192764480819 1/s
 Monitor counts: 1943.99552291 +/- 13.9427239911
 Beam current from 0.927960574627 to 0.977035582066 uA
 Temperatures from 0.912000000477 to 0.96899998188 K
-3.46503902774 +/- 0.12997490527 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.46513816118 +/- 0.420190593931, 3.46127573492 +/- 10.0148151966 (double exponential fit, with background subtracted, normalized to monitor detector)
+3.46116504595 +/- 0.121993560066 (single exponential fit, with background subtracted, normalized to monitor detector)
+3.46116054384 +/- 0.0959991508509, 687854.577598 +/- 199154.164626 (double exponential fit, with background subtracted, normalized to monitor detector)
 3.43424597436 +/- 0.156056790487 (single exponential fit with 64.8059786044 +/- 7.14861758069 background, unnormalized)
 
 Analyzing TCN18-266_150A
@@ -597,8 +597,8 @@ Li6 detector background rate: 2.51724137931 +/- 0.208328378855 1/s
 Monitor counts: 2033.2803983 +/- 14.259314143
 Beam current from 0.950267314911 to 0.981497108936 uA
 Temperatures from 0.912999987602 to 0.96899998188 K
-3.18647409642 +/- 0.145916580677 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.30671932031 +/- 0.256594003378, 0.171688679551 +/- 229.741425479 (double exponential fit, with background subtracted, normalized to monitor detector)
+3.38415858298 +/- 0.143862913413 (single exponential fit, with background subtracted, normalized to monitor detector)
+0.925282176878 +/- 1.40982095695, 3.70060047089 +/- 0.386826779969 (double exponential fit, with background subtracted, normalized to monitor detector)
 3.335237075 +/- 0.181554290317 (single exponential fit with 65.4131656655 +/- 6.7416982035 background, unnormalized)
 
 Analyzing TCN18-125
@@ -606,8 +606,8 @@ Li6 detector background rate: 3.63502824859 +/- 0.0453176375823 1/s
 Monitor counts: 2317.37656796 +/- 9.44086161314
 Beam current from 0.946335613728 to 0.987681210041 uA
 Temperatures from 0.907999992371 to 0.959999978542 K
-63.2758599966 +/- 0.605537845857 (single exponential fit, with background subtracted, normalized to monitor detector)
-64.2791206891 +/- 0.751463739679, 0.627512428131 +/- 1990.87404914 (double exponential fit, with background subtracted, normalized to monitor detector)
+67.1321515714 +/- 0.631691028525 (single exponential fit, with background subtracted, normalized to monitor detector)
+72.7077709426 +/- 4.92188509543, 23.1512997412 +/- 15.9169425372 (double exponential fit, with background subtracted, normalized to monitor detector)
 60.7186097755 +/- 1.34043165704 (single exponential fit with 235.487904094 +/- 26.7211439269 background, unnormalized)
 21.5184656823 +/- 0.0017478592481 (single exponential fit to rate in monitor detector during storage period)
 
@@ -616,8 +616,8 @@ Li6 detector background rate: 3.515 +/- 0.0468708331481 1/s
 Monitor counts: 2251.11120575 +/- 10.6092205316
 Beam current from 0.909585118294 to 0.93714851141 uA
 Temperatures from 0.90499997139 to 0.972000002861 K
-69.6136055129 +/- 0.804273653498 (single exponential fit, with background subtracted, normalized to monitor detector)
-72.4682217303 +/- 1.54837961261, 7.98813867764 +/- 4.32774505885 (double exponential fit, with background subtracted, normalized to monitor detector)
+73.5038328179 +/- 0.847591241651 (single exponential fit, with background subtracted, normalized to monitor detector)
+78.3497061502 +/- 2.35534452067, 11.6252742735 +/- 5.29018550635 (double exponential fit, with background subtracted, normalized to monitor detector)
 62.6216424194 +/- 1.80788366719 (single exponential fit with 292.579551798 +/- 32.1633280362 background, unnormalized)
 21.5865999279 +/- 0.00253692867183 (single exponential fit to rate in monitor detector during storage period)
 
@@ -626,8 +626,8 @@ Li6 detector background rate: 3.78333333333 +/- 0.0458459578573 1/s
 Monitor counts: 2391.68588595 +/- 9.78097313349
 Beam current from 0.944038629532 to 0.985384166241 uA
 Temperatures from 0.90499997139 to 0.958000004292 K
-71.0661401619 +/- 0.710905255445 (single exponential fit, with background subtracted, normalized to monitor detector)
-72.1408287828 +/- 1.063916891, 3.17029578489 +/- 9.62912573924 (double exponential fit, with background subtracted, normalized to monitor detector)
+75.3807904322 +/- 0.748049308973 (single exponential fit, with background subtracted, normalized to monitor detector)
+79.1804780192 +/- 2.97237017258, 14.4675692326 +/- 10.1427736264 (double exponential fit, with background subtracted, normalized to monitor detector)
 65.649581276 +/- 1.80082165521 (single exponential fit with 287.427655085 +/- 33.9745777383 background, unnormalized)
 21.9263827363 +/- 0.00206521009649 (single exponential fit to rate in monitor detector during storage period)
 
@@ -636,8 +636,8 @@ Li6 detector background rate: 2.07608695652 +/- 0.106221849379 1/s
 Monitor counts: 1533.13939334 +/- 9.78883098657
 Beam current from 0.948632657528 to 0.989977240562 uA
 Temperatures from 0.910000026226 to 0.961000025272 K
-1.98160898214 +/- 0.102989429398 (single exponential fit, with background subtracted, normalized to monitor detector)
-1.9815238998 +/- 0.146718546146, 1.9899125509 +/- 22.1508718397 (double exponential fit, with background subtracted, normalized to monitor detector)
+1.91951514696 +/- 0.0939685326372 (single exponential fit, with background subtracted, normalized to monitor detector)
+1.9195409145 +/- 0.131106096035, 1.92033296592 +/- 3.60715352229 (double exponential fit, with background subtracted, normalized to monitor detector)
 1.95971008566 +/- 0.103300100383 (single exponential fit with 124.756915154 +/- 4.14234824267 background, unnormalized)
 21.3245853164 +/- 4.26552741388 (single exponential fit to rate in monitor detector during storage period)
 
@@ -646,8 +646,8 @@ Li6 detector background rate: 2.41436464088 +/- 0.115494723538 1/s
 Monitor counts: 1539.43407503 +/- 10.1305941748
 Beam current from 0.949000000954 to 0.989866316319 uA
 Temperatures from 0.911000013351 to 0.961000025272 K
-7.37553955076 +/- 0.106035224458 (single exponential fit, with background subtracted, normalized to monitor detector)
-7.91730286254 +/- 0.744605789499, 3.61623817763 +/- 2.45482168323 (double exponential fit, with background subtracted, normalized to monitor detector)
+7.4960385278 +/- 0.105624983968 (single exponential fit, with background subtracted, normalized to monitor detector)
+9.02006869752 +/- 1.41970974363, 4.93525482714 +/- 1.6511358881 (double exponential fit, with background subtracted, normalized to monitor detector)
 7.28342776565 +/- 0.0942650861998 (single exponential fit with 150.613648277 +/- 9.66019534929 background, unnormalized)
 6.16230875859 +/- 9.88486731292e-07 (single exponential fit to rate in monitor detector during storage period)
 
@@ -656,8 +656,8 @@ Li6 detector background rate: 2.12290769967 +/- 0.0318631376473 1/s
 Monitor counts: 2431.97242218 +/- 5.89427376137
 Beam current from 0.93933236599 to 0.993918597698 uA
 Temperatures from 0.90499997139 to 0.962000012398 K
-18.9252962893 +/- 0.160211291807 (single exponential fit, with background subtracted, normalized to monitor detector)
-13.0658044066 +/- 1.00581446516, 35.5442040261 +/- 5.15779239776 (double exponential fit, with background subtracted, normalized to monitor detector)
+18.8430963278 +/- 0.158994071376 (single exponential fit, with background subtracted, normalized to monitor detector)
+12.9086965682 +/- 1.10066658968, 34.1035708002 +/- 5.05891767363 (double exponential fit, with background subtracted, normalized to monitor detector)
 17.0530088849 +/- 0.147998762503 (single exponential fit with 290.036312219 +/- 5.14521745329 background, unnormalized)
 21.6559925421 +/- 0.00138907737708 (single exponential fit to rate in monitor detector during storage period)
 
@@ -666,8 +666,8 @@ Li6 detector background rate: 2.2131147541 +/- 0.0851828266017 1/s
 Monitor counts: 2426.47694543 +/- 17.4157864646
 Beam current from 0.943881392479 to 0.989369630814 uA
 Temperatures from 0.910000026226 to 0.957000017166 K
-22.4671150494 +/- 0.289920293594 (single exponential fit, with background subtracted, normalized to monitor detector)
-29.4693742543 +/- 3.52263107978, 12.9616739103 +/- 2.7603833242 (double exponential fit, with background subtracted, normalized to monitor detector)
+22.6025309278 +/- 0.286965972995 (single exponential fit, with background subtracted, normalized to monitor detector)
+30.3047177906 +/- 3.52046844643, 13.390851027 +/- 2.49777395267 (double exponential fit, with background subtracted, normalized to monitor detector)
 20.4562630815 +/- 0.197920140311 (single exponential fit with 427.437460225 +/- 20.5663431872 background, unnormalized)
 18.4283022765 +/- 0.0528471850056 (single exponential fit to rate in monitor detector during storage period)
 
@@ -676,8 +676,8 @@ Li6 detector background rate: 2.06890611542 +/- 0.0422137838237 1/s
 Monitor counts: 2369.68923309 +/- 8.11324231854
 Beam current from 0.93933236599 to 0.989369630814 uA
 Temperatures from 0.90499997139 to 0.96899998188 K
-17.3483549663 +/- 0.199391926055 (single exponential fit, with background subtracted, normalized to monitor detector)
-12.2772017228 +/- 1.67060763881, 31.8221443026 +/- 7.8479178553 (double exponential fit, with background subtracted, normalized to monitor detector)
+17.1555386239 +/- 0.19552854554 (single exponential fit, with background subtracted, normalized to monitor detector)
+11.682723036 +/- 2.36806982198, 27.9082524353 +/- 7.47063605333 (double exponential fit, with background subtracted, normalized to monitor detector)
 15.8324077211 +/- 0.181877323466 (single exponential fit with 268.358034404 +/- 6.27857994598 background, unnormalized)
 21.4301938871 +/- 0.0040940877331 (single exponential fit to rate in monitor detector during storage period)
 
@@ -686,8 +686,8 @@ Li6 detector background rate: 2.12698412698 +/- 0.0918717214507 1/s
 Monitor counts: 2416.1155971 +/- 16.3846662635
 Beam current from 0.957527458668 to 0.989369630814 uA
 Temperatures from 0.912999987602 to 0.967999994755 K
-21.5676300046 +/- 0.258155754131 (single exponential fit, with background subtracted, normalized to monitor detector)
-16.3141020537 +/- 2.75891901005, 37.2007183091 +/- 12.6111716029 (double exponential fit, with background subtracted, normalized to monitor detector)
+21.6090976958 +/- 0.255054428259 (single exponential fit, with background subtracted, normalized to monitor detector)
+16.2419959429 +/- 2.76057284032, 36.6315251692 +/- 11.7966028318 (double exponential fit, with background subtracted, normalized to monitor detector)
 19.5318352454 +/- 0.186917376411 (single exponential fit with 437.758154004 +/- 23.7109216386 background, unnormalized)
 17.2557434092 +/- 0.0510356818655 (single exponential fit to rate in monitor detector during storage period)
 
@@ -696,8 +696,8 @@ Li6 detector background rate: 2.06845238095 +/- 0.0784608709909 1/s
 Monitor counts: 1979.08777779 +/- 7.62944716559
 Beam current from 0.962076485157 to 0.989369630814 uA
 Temperatures from 0.90499997139 to 0.959999978542 K
-3.01817053754 +/- 0.0656639306764 (single exponential fit, with background subtracted, normalized to monitor detector)
-3.22371331435 +/- 0.1467260278, 0.00735753380443 +/- 0.0149569663876 (double exponential fit, with background subtracted, normalized to monitor detector)
+0.0394486667047 +/- 707.895326042 (single exponential fit, with background subtracted, normalized to monitor detector)
+3.10802301884 +/- 0.0847154880967, 0.0011630627017 +/- 994746.218946 (double exponential fit, with background subtracted, normalized to monitor detector)
 2.91561379747 +/- 0.0604704457534 (single exponential fit with 128.575103901 +/- 3.35249368666 background, unnormalized)
 24.7844578092 +/- 2.57580426932 (single exponential fit to rate in monitor detector during storage period)
 
@@ -706,9 +706,9 @@ Li6 detector background rate: 2.05732484076 +/- 0.0809443632302 1/s
 Monitor counts: 1970.99873966 +/- 8.24411752593
 Beam current from 0.952979385853 to 0.989369630814 uA
 Temperatures from 0.903999984264 to 0.958000004292 K
-10.2463169587 +/- 0.0882906150161 (single exponential fit, with background subtracted, normalized to monitor detector)
-6.73721490713 +/- 2.90981204354, 12.9454188594 +/- 3.09878058891 (double exponential fit, with background subtracted, normalized to monitor detector)
-9.58494635721 +/- 0.0836286644055 (single exponential fit with 222.343742663 +/- 13.2155642364 background, unnormalized)
+10.2164238108 +/- 0.08732519931 (single exponential fit, with background subtracted, normalized to monitor detector)
+6.5368925809 +/- 2.57950331339, 12.5594418168 +/- 2.28519074555 (double exponential fit, with background subtracted, normalized to monitor detector)
+9.58494635769 +/- 0.0836286624788 (single exponential fit with 222.343742583 +/- 13.2155639144 background, unnormalized)
 10.4031567139 +/- 0.0541129297783 (single exponential fit to rate in monitor detector during storage period)
 
 Analyzing TCN18-381
@@ -716,8 +716,8 @@ Li6 detector background rate: 2.27549668874 +/- 0.0548990245724 1/s
 Monitor counts: 3729.99315649 +/- 15.2684174779
 Beam current from 0.968900024891 to 0.987095117569 uA
 Temperatures from 0.903999984264 to 0.958000004292 K
-80.2891594056 +/- 1.0026196163 (single exponential fit, with background subtracted, normalized to monitor detector)
-25.5695116067 +/- 6.08427333865, 97.8408983876 +/- 5.43546914417 (double exponential fit, with background subtracted, normalized to monitor detector)
+80.6334007462 +/- 1.00358319567 (single exponential fit, with background subtracted, normalized to monitor detector)
+25.8309910292 +/- 6.07205247086, 98.6396755012 +/- 5.53875158404 (double exponential fit, with background subtracted, normalized to monitor detector)
 68.1696849818 +/- 1.28221873223 (single exponential fit with 734.245517269 +/- 54.0583337737 background, unnormalized)
 33.6555498894 +/- 0.0268858270059 (single exponential fit to rate in monitor detector during storage period)
 
@@ -726,7 +726,7 @@ Li6 detector background rate: 2.34592445328 +/- 0.0682925011424 1/s
 Monitor counts: 3753.56801781 +/- 20.4221231288
 Beam current from 0.968900024891 to 0.987095117569 uA
 Temperatures from 0.902999997139 to 0.954999983311 K
-51.8987326151 +/- 0.477231884998 (single exponential fit, with background subtracted, normalized to monitor detector)
-69.8775714203 +/- 3.91802969824, 25.4534030741 +/- 3.14505511551 (double exponential fit, with background subtracted, normalized to monitor detector)
+52.1374666984 +/- 0.477723087519 (single exponential fit, with background subtracted, normalized to monitor detector)
+70.8287992231 +/- 4.16954563917, 25.7858389652 +/- 3.17636171088 (double exponential fit, with background subtracted, normalized to monitor detector)
 42.9331803575 +/- 0.30575678535 (single exponential fit with 1084.58760542 +/- 40.8404115731 background, unnormalized)
 41.0475977261 +/- 0.0995853431809 (single exponential fit to rate in monitor detector during storage period)

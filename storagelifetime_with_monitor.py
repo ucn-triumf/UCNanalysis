@@ -20,6 +20,8 @@ def ReadCycles(infile, experiments):
     ex['monitorduration'] = []
     ex['li6background'] = []
     ex['backgroundduration'] = []
+    ex['li6irradiation'] = []
+    ex['irradiationduration'] = []
     ex['storageduration'] = []
     ex['beamcurrent'] = []
     ex['mintemperature'] = []
@@ -78,6 +80,8 @@ def ReadCycles(infile, experiments):
       ex['li6background'].append(Li6[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
       ex['storageduration'].append(d[storageperiod])
+      ex['irradiationduration'].append(d[0])
+      ex['li6irradiation'].append(Li6[0])
 
       he3rate = ROOT.TH1I('He3_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'He3 detector rate', int(math.floor(sum(d))), 0., math.floor(sum(d)))
       for h in getattr(cycle, 'He3/hits'):
@@ -92,9 +96,10 @@ def ReadCycles(infile, experiments):
 def StorageLifetime(ex):
   print('\nAnalyzing TCN' + ex['TCN'])
   
-  ex['li6backgroundrate'] = sum(ex['li6background'])/sum(ex['backgroundduration'])
-  ex['li6backgroundrateerr'] = math.sqrt(sum(ex['li6background']))/sum(ex['backgroundduration'])
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.BackgroundRate(ex['li6background'], ex['backgroundduration'])
   print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+  beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
+  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', beam[0], beam[1])
 
   # report average monitor counts, range of beam current, range of He-II temperature
   monitoravg = numpy.average(ex['monitorcounts'], None, [1./m for m in ex['monitorcounts']], True)
@@ -105,7 +110,7 @@ def StorageLifetime(ex):
   x = ex['storageduration']
   xerr = [0. for _ in ex['storageduration']]  
 
-  y, yerr = UCN.SubtractBackgroundAndNormalizeToMonitor(ex['li6counts'], ex['countduration'], ex['li6backgroundrate'], ex['li6backgroundrateerr'], ex['monitorcounts'])
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(m) for m in ex['monitorcounts']])
   
   # plot normalized, background corrected counts vs storage time
   graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))

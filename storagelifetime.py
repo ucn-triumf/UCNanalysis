@@ -42,6 +42,9 @@ def ReadCycles(infile, experiments, excluded_cycles):
     ex['li6background'] = []
     ex['he3background'] = []
     ex['backgroundduration'] = []
+    ex['li6irradiation'] = []
+    ex['he3irradiation'] = []
+    ex['irradiationduration'] = []
     ex['storageduration'] = []
     ex['beamcurrent'] = []
     ex['mintemperature'] = []
@@ -101,6 +104,9 @@ def ReadCycles(infile, experiments, excluded_cycles):
       ex['he3background'].append(He3[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
       ex['storageduration'].append(d[storageperiod])
+      ex['li6irradiation'].append(Li6[0])
+      ex['he3irradiation'].append(He3[0])
+      ex['irradiationduration'].append(d[0])
 
 
 # analyze storage time from experiment
@@ -121,11 +127,16 @@ def StorageLifetime(ex):
   print('Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature'])))
   print('Vapor pressure from {0} to {1} torr'.format(min(ex['minvaporpressure']), max(ex['maxvaporpressure'])))
 
+  beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
+  for det in ['li6', 'he3']:
+    ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr'] = UCN.BackgroundRate(ex[det + 'background'], ex['backgroundduration'])
+    ex[det + 'irradiationrate'], ex[det + 'irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex[det + 'irradiation'], ex['irradiationduration'], det, beam[0], beam[1])
+    print(det + ' detector background rate: {0} +/- {1} 1/s'.format(ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr']))
+
   x = ex['storageduration']
   xerr = [0. for _ in x]
   # subtract background from UCN counts
-  ex['li6backgroundrate'], ex['li6backgroundrateerr'], y, yerr = UCN.SubtractBackgroundAndNormalizeToBeam(ex['li6counts'], ex['countduration'], ex['li6background'], ex['backgroundduration'], ex['beamcurrent'])
-  print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', beam[0], beam[1])
  
   # plot normalized Li6 counts vs storage time
   graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
@@ -159,7 +170,7 @@ def StorageLifetime(ex):
         )
 
   # plot beam-normalized He3 counts vs storage time
-  ex['he3backgroundrate'], ex['he3backgroundrateerr'], y, yerr = UCN.SubtractBackgroundAndNormalizeToBeam(ex['he3counts'], ex['countduration'], ex['he3background'], ex['backgroundduration'], ex['beamcurrent'])
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['he3counts'], ex['countduration'], 'he3', beam[0], beam[1])
   graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
   graph.SetTitle('TCN{0} (He3 detector, single exponential fit, background subtracted, normalized to beam current)'.format(ex['TCN']))
   graph.GetXaxis().SetTitle('Storage time (s)')

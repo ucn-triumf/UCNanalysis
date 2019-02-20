@@ -8,13 +8,15 @@ import UCN
 def ReadCycles(infile, experiments):
   countperiod = 1
   monitorperiod = 0
-  tofrange = (62, 150)
+  tofrange = (60, 120)
+  binspersec = 10
 
   for ex in experiments:
     ex['start'] = []
     ex['cyclenumber'] = []
-    ex['tofspectrum'] = ROOT.TH1D('TCN{0}'.format(ex['TCN']), 'TCN{0}'.format(ex['TCN']), tofrange[1] - tofrange[0], tofrange[0], tofrange[1])
+    ex['tofspectrum'] = ROOT.TH1D('TCN{0}'.format(ex['TCN']), 'TCN{0}'.format(ex['TCN']), (tofrange[1] - tofrange[0])*binspersec, tofrange[0], tofrange[1])
     ex['tofspectrum'].GetXaxis().SetTitle('Time in cycle (s)')
+    ex['tofspectrum'].GetYaxis().SetTitle('UCN-rate-to-monitor ratio (per {0} s)'.format(1./binspersec))
     ex['tofspectrum'].SetBit(ROOT.TH1.kIsAverage)
     ex['tofspectrum'].SetDirectory(0)
     ex['SCMcurrent'] = []
@@ -55,9 +57,9 @@ def ReadCycles(infile, experiments):
       ex['SCMcurrent'].append([v/250e-6 for v in cycle.SCMVoltages3])
   
       duration = cycle.beamonduration + cycle.beamoffduration
-      li6hits, bins = numpy.histogram([hit for hit in getattr(cycle, 'Li6/hits')], int(math.floor(duration)), (0., math.floor(duration)))
-      norm, normerr = UCN.SubtractBackgroundAndNormalizeToMonitor(li6hits, [1.0 for _ in li6hits], 2.16, 0.01, [He3[monitorperiod] for _ in li6hits])
-      tof = ROOT.TH1D('tofspectrum', 'tofspectrum', tofrange[1] - tofrange[0], tofrange[0], tofrange[1])
+      li6hits, bins = numpy.histogram([hit for hit in getattr(cycle, 'Li6/hits')], (tofrange[1] - tofrange[0])*binspersec, (tofrange[0], tofrange[1]))
+      norm, normerr = UCN.SubtractBackgroundAndNormalize(li6hits, [1./binspersec for _ in li6hits], 'li6', [He3[monitorperiod] for _ in li6hits], [math.sqrt(He3[monitorperiod]) for _ in li6hits])
+      tof = ROOT.TH1D('tofspectrum', 'tofspectrum', (tofrange[1] - tofrange[0])*binspersec, tofrange[0], tofrange[1])
       for n, ne, binlo, binhi in zip(norm, normerr, bins[:-1], bins[1:]):
         b = tof.FindBin((binlo + binhi)/2.)
         tof.SetBinContent(b, n)
@@ -75,7 +77,10 @@ def NormalizeTOF(experiments, toftcn, reftcn):
   tofspec = tof['tofspectrum'].Clone() # make copy of tof spectrum
   tofspec.Divide(ref['tofspectrum']) # normalize to reference spectrum
   c = ROOT.TCanvas('c', 'c')
-  tofspec.Draw()
+  tofspec.GetYaxis().SetRangeUser(0, 1.5)
+  tofspec.SetTitle('TCN{0} normalized to TCN{1}'.format(toftcn, reftcn))
+  tofspec.GetYaxis().SetTitle('Transmission')
+  tofspec.Draw('')
   c.Print('TCN{0}_TCN{1}.pdf'.format(toftcn, reftcn)) # print to pdf
 	  
 
@@ -92,7 +97,7 @@ experiments = [{'TCN': '18-029', 'runs': [ 934]},
                {'TCN': '18-035', 'runs': [ 944]},
                {'TCN': '18-043', 'runs': [ 954]},
                {'TCN': '18-045', 'runs': [ 964]},
-               {'TCN': '18-080 (production up to IV1)', 'runs': [ 973]},
+               {'TCN': '18-080 (production up to IV2)', 'runs': [ 973]},
                {'TCN': '18-053', 'runs': [ 985]},
                {'TCN': '18-085 (MV open)', 'runs': [ 990]},
                {'TCN': '18-085', 'runs': [ 993]},
@@ -121,7 +126,7 @@ experiments = [{'TCN': '18-029', 'runs': [ 934]},
                {'TCN': '18-115', 'runs': [1125]},
                {'TCN': '18-245', 'runs': [1129]},
                {'TCN': '18-480', 'runs': [1131]},
-               {'TCN': '18-480 (production up to IV1)', 'runs': [1132, 1133]},
+               {'TCN': '18-480 (production up to IV2)', 'runs': [1132, 1133]},
                {'TCN': '18-057', 'runs': [1141]},
                {'TCN': '18-302', 'runs': [1165]},
                {'TCN': '18-240', 'runs': [1176]},
@@ -133,7 +138,8 @@ ReadCycles(ROOT.TFile(sys.argv[1]), experiments) # read data from cycles
 
 c = ROOT.TCanvas('c', 'c')
 for ex in experiments: # draw all tof spectra
-  ex['tofspectrum'].Draw()
+  ex['tofspectrum'].SetMinimum(0.)
+  ex['tofspectrum'].Draw('')
   c.Print('TCN{0}.pdf'.format(ex['TCN']))
 
 for cur in ['25A', '50A', '75A', '100A', '125A', '150A', '175A', '200A']: # normalize tof spectra of SCM to tof with 0 current in SCM

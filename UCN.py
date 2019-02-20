@@ -2,6 +2,8 @@ import ROOT
 import math
 import numpy
 
+DetectorBackground = {'li6': (2.16, 0.02), 'he3': (0.0395, 0.0015)}
+
 def SingleExpo():
   SingleExpo = ROOT.TF1('SingleExpo', '[0]*exp(-x/[1])')
   SingleExpo.SetParameters(10, 10)
@@ -29,33 +31,28 @@ def DoubleExpo():
   return DoubleExpo
 
 
-def SubtractBackgroundAndNormalizeToBeam(counts, countdurations, backgroundcounts, backgrounddurations, beamcurrent):
-  brate = sum(backgroundcounts)/sum(backgrounddurations)
-  brateerr = math.sqrt(sum(backgroundcounts))/sum(backgrounddurations)
-
-  bgsub = [c - brate*cd for c, cd in zip(counts, countdurations)]
-  bgsuberr = [math.sqrt(c + brateerr**2*cd**2) for c,cd in zip(counts, countdurations)]
+def SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr):
+  bgsub = [c - DetectorBackground[detector][0]*cd for c, cd in zip(counts, countdurations)]
+  bgsuberr = [math.sqrt(c + DetectorBackground[detector][1]**2*cd**2) for c,cd in zip(counts, countdurations)]
  
-  meanbeam = [numpy.mean(beam) for beam in beamcurrent]
-  beamerr = [numpy.std(beam) for beam in beamcurrent]
-  norm = [bgs/cur for bgs, cur in zip(bgsub, meanbeam)]
-  normerr = [math.sqrt((bgserr/cur)**2 + (curerr*bgs/cur**2)**2) for bgserr, bgs, cur, curerr in zip(bgsuberr, bgsub, meanbeam, beamerr)]
-
-  return brate, brateerr, norm, normerr
-
-  
-def SubtractBackgroundAndNormalizeToMonitor(counts, countdurations, backgroundrate, backgroundrateerr, monitorcounts):
-  bgsub = [c - backgroundrate*cd for c, cd in zip(counts, countdurations)]
-  bgsuberr = [math.sqrt(c + backgroundrateerr**2*cd**2) for c,cd in zip(counts, countdurations)]
- 
-  norm = [bgs/m for bgs, m in zip(bgsub, monitorcounts)]
-  normerr = [math.sqrt((bgserr/m)**2 + (math.sqrt(m)*bgs/m**2)**2) for bgserr, bgs, m in zip(bgsuberr, bgsub, monitorcounts)]
+  norm = [bgs/m for bgs, m in zip(bgsub, normalization)]
+  normerr = [math.sqrt((bgserr/m)**2 + (dm*bgs/m**2)**2) for bgserr, bgs, m, dm in zip(bgsuberr, bgsub, normalization, normalizationerr)]
 
   return norm, normerr
 
 
+def SubtractBackgroundAndNormalizeRate(counts, countdurations, detector, normalization, normalizationerr):
+  norm, normerr = SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr)
+  return [n/d for n, d in zip(norm, countdurations)], [ne/d for ne, d in zip(normerr, countdurations)]
+
+
+def BackgroundRate(counts, durations):
+  return float(sum(counts))/sum(durations), math.sqrt(sum(counts))/sum(durations)
+
+
 def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
   canvas = ROOT.TCanvas('c', 'c')
+  background = [ex for ex in experiments if detector + 'backgroundrate' in ex]
   bg = ROOT.TGraphErrors(len(experiments), numpy.array([float(min(ex['runs'])) for ex in experiments]), 
                                            numpy.array([ex[detector + 'backgroundrate'] for ex in experiments]),
                                            numpy.array([0. for _ in experiments]),
@@ -67,7 +64,7 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
   bg.SetMarkerStyle(20)
   bg.Draw('AP')
 
-  lowbackground = [ex for ex in experiments if ex[detector + 'backgroundrate'] < 2.7]
+  lowbackground = [ex for ex in experiments if detector + 'backgroundrate' in ex and ex[detector + 'backgroundrate'] < 2.7]
   lowbg = ROOT.TGraphErrors(len(lowbackground), numpy.array([float(min(ex['runs'])) for ex in lowbackground]), 
                                                 numpy.array([ex[detector + 'backgroundrate'] for ex in lowbackground]),
                                                 numpy.array([0. for _ in lowbackground]),
@@ -77,3 +74,15 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
   lowbg.Draw('PSAME')
 
   canvas.Print(detector + '_background.pdf')
+
+  irrbg = ROOT.TGraphErrors(len(numpy.concatenate([ex['start'] for ex in experiments])),
+                            numpy.concatenate([[float(min(ex['runs'])) for _ in ex['start']] for ex in experiments]),
+                            numpy.concatenate([ex[detector + 'irradiationrate'] for ex in experiments]),
+                            numpy.concatenate([[0. for _ in ex['start']] for ex in experiments]),
+                            numpy.concatenate([ex[detector + 'irradiationrateerr'] for ex in experiments]))
+  irrbg.SetMarkerStyle(20)
+  irrbg.GetXaxis().SetTitle('Run')
+  irrbg.GetYaxis().SetTitle('Added background rate during irradiation (s^{-1} #muA^{-1})')
+  irrbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
+  irrbg.Draw('AP')
+  canvas.Print(detector + '_irradiationbackground.pdf')
