@@ -20,6 +20,8 @@ beamOnThreshold = 0.9		# Once this is reached during a beam-off period, after $b
 
 Li6Background = 4.84		# The background rate calculated by Wolfgang in the Li6 detector ( s^-1 uA^-1 )
 
+totalBackground = 2.16		# The constant overall background rate
+
 ## Also create an overall plot, to which all of the different count vs temperature plots will be added
 
 canvas = ROOT.TCanvas('name1', 'name2')
@@ -63,7 +65,7 @@ def makePlots( detector, combined ):
 			## set hits to refer to either Li6 or He3 hits
 
 			if detector == 'Li6' or detector == 'li6':
-				hits = li6hits - Li6Background
+				hits = li6hits
 			elif detector == 'He3' or detector == 'he3':
 				hits = he3hits
 			else:
@@ -75,7 +77,7 @@ def makePlots( detector, combined ):
 			## Bin counts to determine count rates
 	
 			hist = numpy.histogram(hits, Ttime)
-			rate = hist[0]/numpy.diff(Ttime)
+			rate = hist[0]/numpy.diff(Ttime) - totalBackground
 			Ttimestamps = ((Ttime[:-1] + Ttime[1:]) / 2)
 	
 			## Make nice plots of count rates vs time and save
@@ -260,6 +262,11 @@ def makePlots( detector, combined ):
 			beamCur = numpy.interp(Ttimestamps, Btime, beam)
 	
 			rate = rate/beamCur
+
+			## Now that beam current is normalized, can subtract Li6 background
+
+			if detector == 'li6' or detector == 'Li6':
+				rate = rate - Li6Background
 	
 			## Now, make plots of the UCN count rate vs temperature using TS11, 
 			## TS12, TS14, TS16, and the temperature calculated from PG9L & PG9H
