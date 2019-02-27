@@ -57,6 +57,14 @@ def ReadCycles(infile, experiments):
     if d[backgroundperiod] > 0 and Li6[backgroundperiod]/d[backgroundperiod] > 10:
       print('SKIPPING cycle {0} in run {1} because of high Li6 background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[backgroundperiod]/d[backgroundperiod]))
       continue
+    if any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC]):
+      print ('SKIPPING cycle {0} in run {1} because IG5 or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
+
+    if (cycle.valve0state[0] != 1 or cycle.valve0state[1] != 0 or cycle.valve0state[2] != 0 or # IV1 should be open during irradiation, closed after
+       cycle.valve1state[0] != 1 or # IV2 should be open during irradiation, state after depends on storage mode (between IV1+IV3 or between IV2+IV3)
+       cycle.valve2state[0] != 0 or cycle.valve2state[1] != 0 or cycle.valve2state[2] != 1): # IV3 should be closed during irradiation and storage, open during counting
+      print('Abnormal valve configuration in cycle {0} of run {1}'.format(cycle.cyclenumber, cycle.runnumber))
     
     for ex in experiments:
       if run not in ex['runs']:
@@ -96,6 +104,10 @@ def ReadCycles(infile, experiments):
 def StorageLifetime(ex):
   print('\nAnalyzing TCN' + ex['TCN'])
   
+  if len(ex['start']) == 0:
+    print('Found no cycles with run numbers {0}!'.format(ex['runs']))
+    return
+
   ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.BackgroundRate(ex['li6background'], ex['backgroundduration'])
   print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
   beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
@@ -187,31 +199,31 @@ ROOT.gROOT.SetBatch(1)
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
-experiments = [{'TCN': '18-025', 'runs': [ 932]},
-               {'TCN': '18-026', 'runs': [ 933]},
-               {'TCN': '18-032', 'runs': [ 939]},
-               {'TCN': '18-033', 'runs': [ 940]},
-               {'TCN': '18-036', 'runs': [ 949, 955, 956, 957, 958]}, #[947, 948, 949, 955, 956, 957, 958] # TCN18-036
-               {'TCN': '18-040', 'runs': [ 950]},
-               {'TCN': '18-041', 'runs': [ 951]},
-               {'TCN': '18-042', 'runs': [ 952]},
-               {'TCN': '18-046', 'runs': [ 961, 962, 967, 969]},
-               {'TCN': '18-050', 'runs': [ 966]},
-               {'TCN': '18-051', 'runs': [ 965]},
-               {'TCN': '18-052', 'runs': [ 970]},
-               {'TCN': '18-081', 'runs': [ 976, 977]},
-               {'TCN': '18-082', 'runs': [ 974]},
-               {'TCN': '18-055', 'runs': [ 983]},
-               {'TCN': '18-054', 'runs': [ 986]},
-               {'TCN': '18-087 (MV open)', 'runs': [ 989]},
-               {'TCN': '18-086 (MV open)', 'runs': [ 991]},
-               {'TCN': '18-087', 'runs': [ 992]},
-               {'TCN': '18-092', 'runs': [ 999]},
-               {'TCN': '18-091', 'runs': [1001, 1002, 1003, 1004]},
-               {'TCN': '18-291', 'runs': [1008]},
-               {'TCN': '18-292', 'runs': [1010]},
-               {'TCN': '18-061', 'runs': [1014, 1015, 1016, 1018]},
-               {'TCN': '18-062', 'runs': [1017]},
+experiments = [{'TCN': '18-025 (source-IV2, no elbow)', 'runs': [ 932]},
+               {'TCN': '18-026 (IV1-IV2, no elbow)', 'runs': [ 933]},
+               {'TCN': '18-032 (source-IV2, with elbow)', 'runs': [ 939]},
+               {'TCN': '18-033 (IV1-IV2, with elbow)', 'runs': [ 940]},
+               {'TCN': '18-036 (IV2-IV3, non-O-ring side)', 'runs': [ 949, 955, 956, 957, 958]}, #[947, 948, 949, 955, 956, 957, 958] # TCN18-036
+               {'TCN': '18-040 (source-IV3, O-ring downstream)', 'runs': [ 950]},
+               {'TCN': '18-041 (IV1-IV3, O-ring downstream)', 'runs': [ 951]},
+               {'TCN': '18-042 (source-IV2, O-ring upstream)', 'runs': [ 952]},
+               {'TCN': '18-046 (IV2-IV3, O-ring side)', 'runs': [ 961, 962, 967, 969]},
+               {'TCN': '18-050 (source-IV3, O-ring upstream)', 'runs': [ 966]},
+               {'TCN': '18-051 (IV1-IV3, O-ring upstream)', 'runs': [ 965]},
+               {'TCN': '18-052 (IV1-IV2, O-ring downstream)', 'runs': [ 970]},
+               {'TCN': '18-081 (UGD22+2, IV2-IV3)', 'runs': [ 976, 977]},
+               {'TCN': '18-082 (UGD22+2, IV1-IV3)', 'runs': [ 974]},
+               {'TCN': '18-055 (burst disk+UGD2, IV1-IV3)', 'runs': [ 983]},
+               {'TCN': '18-054 (burst disk+UGD2, IV2-IV3)', 'runs': [ 986]},
+               {'TCN': '18-087 (UGD22+19, IV1-IV3, MV open)', 'runs': [ 989]},
+               {'TCN': '18-086 (UGD22+19, IV2-IV3, MV open)', 'runs': [ 991]},
+               {'TCN': '18-087 (UGD22+19, IV1-IV3)', 'runs': [ 992]},
+               {'TCN': '18-092 (UGD22+UGA11+UGG3+UGA5, IV1-IV3)', 'runs': [ 999]},
+               {'TCN': '18-091 (UGD22+UGA11+UGG3+UGA5, IV2-IV3)', 'runs': [1001, 1002, 1003, 1004]},
+               {'TCN': '18-291 (UGD22+UGA5+UGG3+UGA6, IV2-IV3)', 'runs': [1008]},
+               {'TCN': '18-292 (UGD22+UGA5+UGG3+UGA6, IV1-IV3)', 'runs': [1010]},
+               {'TCN': '18-061 (UGD10+17+11, IV2-IV3)', 'runs': [1014, 1015, 1016, 1018]},
+               {'TCN': '18-062 (UGD10+17+11, IV1-IV3)', 'runs': [1017]},
 			   
                {'TCN': '18-066_0A', 'runs': [1067]},
                {'TCN': '18-066_200A', 'runs': [1068]},
@@ -237,19 +249,19 @@ experiments = [{'TCN': '18-025', 'runs': [ 932]},
                {'TCN': '18-266_50A', 'runs': [1097]},
                {'TCN': '18-266_150A', 'runs': [1098]},
 			   
-               {'TCN': '18-125', 'runs': [1118, 1119]},
-               {'TCN': '18-126', 'runs': [1122]},
-               {'TCN': '18-127', 'runs': [1124]},
-               {'TCN': '18-116', 'runs': [1126]},
-               {'TCN': '18-117', 'runs': [1127]},
-               {'TCN': '18-481', 'runs': [1136]},
-               {'TCN': '18-482', 'runs': [1134, 1135]},
-               {'TCN': '18-058', 'runs': [1142]},
-               {'TCN': '18-059', 'runs': [1143]},
-               {'TCN': '18-216', 'runs': [1182, 1183, 1184]},
-               {'TCN': '18-217', 'runs': [1185, 1186, 1187]},
-               {'TCN': '18-381', 'runs': [1189, 1190]},
-               {'TCN': '18-382', 'runs': [1191]}
+               {'TCN': '18-125 (NiP bottle, unbaked)', 'runs': [1118, 1119]},
+               {'TCN': '18-126 (NiP bottle, baked 100C)', 'runs': [1122]},
+               {'TCN': '18-127 (NiP bottle, baked 150C)', 'runs': [1124]},
+               {'TCN': '18-116 (UGD22+2+Ti, IV2-IV3)', 'runs': [1126]},
+               {'TCN': '18-117 (UGD22+2+Ti, IV1-IV3)', 'runs': [1127]},
+               {'TCN': '18-481 (UGD22+2, IV2-IV3)', 'runs': [1136]},
+               {'TCN': '18-482 (UGD22+2, IV1-IV3)', 'runs': [1134, 1135]},
+               {'TCN': '18-058 (spider+UGD2, IV2-IV3)', 'runs': [1142]},
+               {'TCN': '18-059 (spider+UGD2, IV1-IV3)', 'runs': [1143]},
+               {'TCN': '18-216 (UGD22+20+Ti, high pos, IV2-IV3)', 'runs': [1182, 1183, 1184]},
+               {'TCN': '18-217 (UGD22+20+Ti, high pos, IV1-IV3)', 'runs': [1185, 1186, 1187]},
+               {'TCN': '18-381 (UGD22+20, high pos, IV2-IV3)', 'runs': [1189, 1190]},
+               {'TCN': '18-382 (UGD22+20, high pos, IV1-IV3)', 'runs': [1191]}
 			  ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)

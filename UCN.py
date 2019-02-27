@@ -2,7 +2,7 @@ import ROOT
 import math
 import numpy
 
-DetectorBackground = {'li6': (2.16, 0.02), 'he3': (0.0395, 0.0015)}
+DetectorBackground = {'li6': (2.16, 0.02), 'he3': (0.0405, 0.0017)}
 
 def SingleExpo():
   SingleExpo = ROOT.TF1('SingleExpo', '[0]*exp(-x/[1])')
@@ -32,8 +32,8 @@ def DoubleExpo():
 
 
 def SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr):
-  bgsub = [c - DetectorBackground[detector][0]*cd for c, cd in zip(counts, countdurations)]
-  bgsuberr = [math.sqrt(c + DetectorBackground[detector][1]**2*cd**2) for c,cd in zip(counts, countdurations)]
+  bgsub = [c - DetectorBackground[detector][0]*cd if c > 0 else 0. for c, cd in zip(counts, countdurations)]
+  bgsuberr = [math.sqrt(c + DetectorBackground[detector][1]**2*cd**2) if c > 0 else 0. for c,cd in zip(counts, countdurations)]
  
   norm = [bgs/m for bgs, m in zip(bgsub, normalization)]
   normerr = [math.sqrt((bgserr/m)**2 + (dm*bgs/m**2)**2) for bgserr, bgs, m, dm in zip(bgsuberr, bgsub, normalization, normalizationerr)]
@@ -47,42 +47,48 @@ def SubtractBackgroundAndNormalizeRate(counts, countdurations, detector, normali
 
 
 def BackgroundRate(counts, durations):
+#  if len(counts) == 0 or len(durations) == 0:
+#    return 0., 0.
   return float(sum(counts))/sum(durations), math.sqrt(sum(counts))/sum(durations)
 
 
 def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
   canvas = ROOT.TCanvas('c', 'c')
-  background = [ex for ex in experiments if detector + 'backgroundrate' in ex]
-  bg = ROOT.TGraphErrors(len(experiments), numpy.array([float(min(ex['runs'])) for ex in experiments]), 
-                                           numpy.array([ex[detector + 'backgroundrate'] for ex in experiments]),
-                                           numpy.array([0. for _ in experiments]),
-                                           numpy.array([ex[detector + 'backgroundrateerr'] for ex in experiments]))
-  bg.SetTitle(detector + ' background')
-  bg.GetXaxis().SetTitle('Run')
-  bg.GetYaxis().SetTitle('Background rate (s^{-1})')
-  bg.SetMarkerColor(ROOT.kRed)
-  bg.SetMarkerStyle(20)
-  bg.Draw('AP')
+  bgexps = [ex for ex in experiments if detector + 'backgroundrate' in ex and ex[detector + 'backgroundrateerr'] > 0]
+  if len(bgexps) > 0:
+    bg = ROOT.TGraphErrors(len(bgexps), numpy.array([float(min(ex['runs'])) for ex in bgexps]), 
+                                             numpy.array([ex[detector + 'backgroundrate'] for ex in bgexps]),
+                                             numpy.array([0. for _ in bgexps]),
+                                             numpy.array([ex[detector + 'backgroundrateerr'] for ex in bgexps]))
+    bg.SetTitle(detector + ' background')
+    bg.GetXaxis().SetTitle('Run')
+    bg.GetYaxis().SetTitle('Background rate (s^{-1})')
+    bg.SetMarkerColor(ROOT.kRed)
+    bg.SetMarkerStyle(20)
+    bg.Draw('AP')
 
-  lowbackground = [ex for ex in experiments if detector + 'backgroundrate' in ex and ex[detector + 'backgroundrate'] < 2.7]
-  lowbg = ROOT.TGraphErrors(len(lowbackground), numpy.array([float(min(ex['runs'])) for ex in lowbackground]), 
-                                                numpy.array([ex[detector + 'backgroundrate'] for ex in lowbackground]),
-                                                numpy.array([0. for _ in lowbackground]),
-                                                numpy.array([ex[detector + 'backgroundrateerr'] for ex in lowbackground]))
-  lowbg.SetMarkerStyle(20)
-  lowbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
-  lowbg.Draw('PSAME')
+  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.7]
+  if len(lowbackground) > 0:
+    lowbg = ROOT.TGraphErrors(len(lowbackground), numpy.array([float(min(ex['runs'])) for ex in lowbackground]), 
+                                                  numpy.array([ex[detector + 'backgroundrate'] for ex in lowbackground]),
+                                                  numpy.array([0. for _ in lowbackground]),
+                                                  numpy.array([ex[detector + 'backgroundrateerr'] for ex in lowbackground]))
+    lowbg.SetMarkerStyle(20)
+    lowbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
+    lowbg.Draw('PSAME')
 
-  canvas.Print(detector + '_background.pdf')
+    canvas.Print(detector + '_background.pdf')
 
-  irrbg = ROOT.TGraphErrors(len(numpy.concatenate([ex['start'] for ex in experiments])),
-                            numpy.concatenate([[float(min(ex['runs'])) for _ in ex['start']] for ex in experiments]),
-                            numpy.concatenate([ex[detector + 'irradiationrate'] for ex in experiments]),
-                            numpy.concatenate([[0. for _ in ex['start']] for ex in experiments]),
-                            numpy.concatenate([ex[detector + 'irradiationrateerr'] for ex in experiments]))
-  irrbg.SetMarkerStyle(20)
-  irrbg.GetXaxis().SetTitle('Run')
-  irrbg.GetYaxis().SetTitle('Added background rate during irradiation (s^{-1} #muA^{-1})')
-  irrbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
-  irrbg.Draw('AP')
-  canvas.Print(detector + '_irradiationbackground.pdf')
+  bgexps = [ex for ex in experiments if detector + 'irradiationrate' in ex and ex[detector + 'irradiationrateerr'] > 0]
+  if len(bgexps) > 0:
+    irrbg = ROOT.TGraphErrors(len(numpy.concatenate([ex['start'] for ex in bgexps])),
+                              numpy.concatenate([[float(min(ex['runs'])) for _ in ex['start']] for ex in bgexps]),
+                              numpy.concatenate([ex[detector + 'irradiationrate'] for ex in bgexps]),
+                              numpy.concatenate([[0. for _ in ex['start']] for ex in bgexps]),
+                              numpy.concatenate([ex[detector + 'irradiationrateerr'] for ex in bgexps]))
+    irrbg.SetMarkerStyle(20)
+    irrbg.GetXaxis().SetTitle('Run')
+    irrbg.GetYaxis().SetTitle('Added background rate during irradiation (s^{-1} #muA^{-1})')
+    irrbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
+    irrbg.Draw('AP')
+    canvas.Print(detector + '_irradiationbackground.pdf')

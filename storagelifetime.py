@@ -27,7 +27,7 @@ def HeTemperature(P):
 
 
 
-def ReadCycles(infile, experiments, excluded_cycles):
+def ReadCycles(infile, experiments):
   countperiod = 2
   monitorperiod = 0
   backgroundperiod = 1
@@ -57,10 +57,6 @@ def ReadCycles(infile, experiments, excluded_cycles):
   
     if not any(run in ex['runs'] for ex in experiments): # if there is no experiment using this cycle
       continue
-    if run in excluded_cycles and cycle.cyclenumber in excluded_cycles[run]:
-      print('SKIPPING cycle {0} in run {1} because it is in the list of excluded runs'.format(cycle.cyclenumber, run))
-      continue
-    
     Li6 = cycle.countsLi6
     He3 = cycle.countsHe3
     d = cycle.durations
@@ -72,7 +68,7 @@ def ReadCycles(infile, experiments, excluded_cycles):
     if Li6[countperiod] > 0 and Li6[10] == 0: # indicates that run was stopped during counting
       print('SKIPPING cycle {0} in run {1} because not all periods contain Li6detector counts'.format(cycle.cyclenumber, cycle.runnumber))
       continue
-    beam = [cur for cur in cycle.B1V_KSM_PREDCUR]
+    beam = [cur for cur, bon in zip(cycle.B1V_KSM_PREDCUR, cycle.B1V_KSM_BONPRD)]
     if min(beam) < 0.1:
       print('SKIPPING cycle {0} in run {1} because beam current dropped to {2}uA!'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
@@ -82,6 +78,14 @@ def ReadCycles(infile, experiments, excluded_cycles):
     if max(cycle.UCN_UGD_IV1_STATON) < 1:
       print('SKIPPING cycle {0} in run {1} because IV1 never opened!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
+    if any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC]):
+      print ('SKIPPING cycle {0} in run {1} because IG5 or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
+
+    # IV1 should be closed during irradiation and storage, all valves should be open during counting
+    if (cycle.valve0state[0] != 0 or cycle.valve0state[1] != 0 or cycle.valve0state[2] != 1 or cycle.valve1state[2] != 1 or cycle.valve2state[2] != 1):
+      print('Abnormal valve configuration in cycle {0} of run {1}'.format(cycle.cyclenumber, cycle.runnumber))
+    
     
     for ex in experiments:
       if run not in ex['runs']:
@@ -253,14 +257,9 @@ experiments = [{'TCN': '18-015', 'runs': [ 869]},
                {'TCN': '18-170', 'runs': [1205]}
               ]
 
-excluded_cycles = {968: [0], # not sure what happened here, only background in Li6. IV2/3 did not open?
-                   975: [0,1,2,3,4], #IG5/6 were turned on
-                   1161: [0] # huge background. IG5 turned on?
-                  }
-
 injectedpress = [1.04, 1.995, 4.236, 7.953, 16.284, 32.425, 62.84, 315, 628, 1365]
 
-ReadCycles(ROOT.TFile(sys.argv[1]), experiments, excluded_cycles)
+ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 for ex in experiments:
   StorageLifetime(ex)
 
@@ -269,7 +268,7 @@ UCN.PrintBackground(experiments, 'he3')
 canvas = ROOT.TCanvas('c','c')
 
 # plot storage lifetime vs time
-dailytaus = [ex for ex in experiments if ex['TCN'] == '18-015']
+dailytaus = [ex for ex in experiments if ex['TCN'] == '18-015' and len(ex['start']) > 0]
 grtaus = ROOT.TGraphErrors(len(dailytaus),
                            numpy.array([min(ex['start']) for ex in dailytaus]),
                            numpy.array([ex['tau']        for ex in dailytaus]),

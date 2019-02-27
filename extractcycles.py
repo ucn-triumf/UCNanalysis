@@ -57,9 +57,9 @@ def FilterPileup(hits, runnumber, transition):
   for periodstart in transition: # go through period transitions
     start = periodstart
     end = periodstart + 1.
-    rate, edges = numpy.histogram(hits, (end - start)/0.001, (start, end)) # histogram detector hits within one second of period transition with 1ms resolution
+    rate, edges = numpy.histogram([h[0] for h in hits], (end - start)/0.001, (start, end)) # histogram detector hits within one second of period transition with 1ms resolution
     pileupbins = pileupbins + [(edges[i], edges[i + 1]) for i, r in enumerate(rate) if r > 3] # find bins where rate is above threshold
-  filtered = [h for h in hits if not any([b[0] <= h < b[1] for b in pileupbins])] # keep only detector hits in bins where rate is smaller than threshold
+  filtered = [h for h in hits if not any([b[0] <= h[0] < b[1] for b in pileupbins])] # keep only detector hits in bins where rate is smaller than threshold
   if len(filtered) != len(hits):
     print(' Removed {0} suspected pileup events ({1}%) from run {2}'.format(len(hits) - len(filtered), (len(hits) - len(filtered))*100./len(hits), runnumber))
   return filtered
@@ -70,8 +70,8 @@ def RatePlot(trans, hits, resolution):
   bins = math.ceil(trans[-1] - trans[0])
   rateplot = ROOT.TH1I('rate', 'rate', int(bins/resolution), 0., float(bins))
   for hit in hits:
-    if hit >= trans[0] and hit < trans[-1]:
-      rateplot.Fill(hit - trans[0])
+    if hit[0] >= trans[0] and hit[0] < trans[-1]:
+      rateplot.Fill(hit[0] - trans[0])
   rateplot.SetDirectory(0)
 
   return rateplot
@@ -129,8 +129,8 @@ def ReadUCNTree(fn):
     print(' Skipping run {0} because it contains no beam data to estimate beam current!'.format(runnumber))
     return 0, {}, [], []
 
-  UCNhits = {'He3': [hit.tUnixTime for hit in the3 if hit.tIsUCN == 1],
-             'Li6': [hit.tUnixTime for hit in tli6 if hit.tIsUCN == 1]}
+  UCNhits = {'He3': [(hit.tUnixTime, hit.tChannel) for hit in the3 if hit.tIsUCN == 1],
+             'Li6': [(hit.tUnixTime, hit.tChannel) for hit in tli6 if hit.tIsUCN == 1]}
   if len(UCNhits['He3']) == 0 and len(UCNhits['Li6']) == 0:
     print(' Skipping run {0} because no UCN were detected'.format(runnumber))
     return 0, {}, [], []
@@ -219,20 +219,21 @@ data['beamoffduration'][0]))
 
     # collect hits during cycle and plot rates for both detectors
     for det, resolution in zip(['He3', 'Li6'], [1., 1.]):
-      data['periods']['counts' + det] = array('i', numpy.histogram(UCNhits[det], periods[det])[0])
-      data[det] = {'hits': array('d', [h - periods[det][0] for h in UCNhits[det] if periods[det][0] <= h < periods[det][-1]])}
+      data['periods']['counts' + det] = array('i', numpy.histogram([h[0] for h in UCNhits[det]], periods[det])[0])
+      data[det] = {'hits': array('d', [h[0] - periods[det][0] for h in UCNhits[det] if periods[det][0] <= h[0] < periods[det][-1]]), 
+                   'channel': array('i', [h[1] for h in UCNhits[det] if periods[det][0] <= h[0] < periods[det][-1]])}
       rateplots[det].append(RatePlot(periods[det], UCNhits[det], resolution))
 
     ### add entries to data dictionary here if you want it to be written to the output file ###
 
     # get relevant SourceEpics data during cycle and store it as sub-dictionary (add more channels if needed)
     data['Source'] = ReadEpicsData(tsource, ['timestamp', 'UCN_ISO_TS11_RDTEMP', 'UCN_ISO_TS12_RDTEMP', 'UCN_ISO_TS14_RDTEMP', 'UCN_ISO_TS16_RDTEMP',\
-                                             'UCN_ISO_PG9L_RDPRESS', 'UCN_ISO_PG9H_RDPRESS', 'UCN_UGD_IV1_STATON'], \
+                                             'UCN_ISO_PG9L_RDPRESS', 'UCN_ISO_PG9H_RDPRESS', 'UCN_UGD_IV1_STATON', 'UCN_EXP_IG5_RDVAC', 'UCN_EXP_IG6_RDVAC'], \
                                    periods['He3'][0], periods['He3'][-1])
 
     # get relevant BeamlineEpics data during beam-on time and store it as sub-dictionary (add more channels if needed)
-    data['Beamline'] = ReadEpicsData(tbeam, ['timestamp', 'B1V_KSM_PREDCUR'], \
-                                     data['start'][0], data['start'][0] + data['beamonduration'][0])
+    beamstop = periods['He3'][-1] if not transition['He3'] and not transition['Li6'] else data['start'][0] + data['beamonduration'][0]
+    data['Beamline'] = ReadEpicsData(tbeam, ['timestamp', 'B1V_KSM_PREDCUR', 'B1V_KSM_BONPRD'], data['start'][0], beamstop)
 
     # get relevant SCM data during cycle and store it as sub-dictionary
     data['SCM'] = ReadEpicsData(tscm, ['timestamp', 'SCMVoltages[3]'], periods['He3'][0], periods['He3'][-1])
