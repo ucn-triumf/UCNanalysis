@@ -22,12 +22,16 @@ The output file contains a folder "DetectorRates" containing histograms of detec
 * Li6 (branch containing Li6 hits)
   * Li6Len (integer, length of arrays in this branch for this cycle)
   * hits (array of Li6Len floats, timestamps of Li6 hits during this cycle)
+  * channel (array of Li6Len integers, detector channel hit)
 * He3 (branch containing He3 hits, similar to Li6 branch)
 * Source (branch containing Epics data from source)
   * SourceLen (integer, length of arrays in this branch for this cycle)
   * timestamp (array of SourceLen integers, timestamps when the Epics variables were sampled)
   * UCN_EPICS_VARIABLE (array of SourceLen floats, contains data for Epics variables, e.g. IV1 state, temperatures, vapor pressures)
-* Beamline (branch containing Epics data from beamline, similar to Source branch)
+* Beamline (branch containing Epics data from beamline during irradiation, similar to Source branch)
+  * timestamp [s]
+  * B1V_KSM_PREDCUR (current in B1U calculated from B1V current and kick fraction [uA])
+  * B1V_KSM_BONPRD (kicker on/off [0,1])
 * SCM (branch containing data from SCM, similar to Source branch)
   * SCMVoltages3 (array of SCMLen floats, voltage drop of SCM current flowing through a 250uOhm shunt resistor [V])
 * LND (branch containing data from LND detector, similar to Source branch)
@@ -35,7 +39,7 @@ The output file contains a folder "DetectorRates" containing histograms of detec
 Run with
 `python extractcycles.py /data/ucn/root_files_20190214/ucn_tree_0000*.root`
 
-The latest output, generated from files in /data/ucn/root_files_20190214 on daq01, is found at https://ucn.triumf.ca/ucn-source/ucnanalysis2018/ucn_output_20190215.root
+The latest output, generated from files in /data/ucn/root_files_20190214 on daq01, is found at https://ucn.triumf.ca/ucn-source/ucnanalysis2018/ucn_output_20190226.root
 
 ## transmission.py
 
@@ -45,12 +49,16 @@ It subtracts a fixed background rate in the Li6 detector of 2.16 +/- 0.02 per se
 Then it determines the ratio of background-corrected Li6 counts to 3He counts and prints the weighted average over all cycles and saves a pdf file showing the ratio and average for all cycles.
 The He3 detector is assumed to be background-free.
 
+Additionally, it plots the rate in the Li6 detector after opening the valves, normalized to the He3 counts during irradiation, and averaged over all cycles.
+
+It can normalize a transmission measurement to a reference measurement, printing the ratio of detector rates and transmissions to a pdf.
+
 It also plots the background in the Li6 detector during the last ten seconds of all cycles in each run.
 
 Run with
-`python transmission.py ucn_output_20190215.root`
+`python transmission.py ucn_output_20190226.root`
 
-The latest output, generated from ucn_output_20190215.root, is found in the folder transmission.
+The latest output, generated from ucn_output_20190226.root, is found in the folder transmission.
 
 ## storagelifetime.py
 
@@ -63,9 +71,9 @@ Results are plotted into pdf files.
 It also plots the standard storagelifetimes over time (TCN18-015), storage lifetime vs temperature/pressure (TCN18-300), storage lifetime while spoiling the source (TCN18-170), and a histogram of backgrounds from all analyzed runs.
 
 Run with
-`python storagelifetime.py ucn_output_20190215.root`
+`python storagelifetime.py ucn_output_20190226.root`
 
-The latest output, generated from ucn_out_20190215.root, is found in the folder storagelifetime.
+The latest output, generated from ucn_out_20190226.root, is found in the folder storagelifetime.
 
 ## storagelifetime_with_monitor.py
 
@@ -81,19 +89,9 @@ The results are printed to pdf files.
 It also plots the background rate in the Li6 detector during the storage time from all analyzed runs.
 
 Run with
-`python storagelifetime_with_monitor.py ucn_output_20190215.root`
+`python storagelifetime_with_monitor.py ucn_output_20190226.root`
 
-The latest output, generated from ucn_output_20190215.root, is found in the folder storagelifetime_with_monitor.
-
-## time_of_flight.py
-
-This script takes the same transmission experiments as transmission.py and plots the rate in the Li6 detector normalized to the counts in the He3 detector during irradiation, averaged over all cycles of each experiment.
-The result is basically a time-of-flight spectrum. All spectra are printed to pdfs. It also can divide time-of-flight spectra, e.g. to normalize a transmission spectrum to a reference experiment.
-
-Run with
-`python time_of_flight.py ucn_output_20190215.root`
-
-The latest output, generated from ucn_output_20190215.root, is found in the folder time_of_flight.
+The latest output, generated from ucn_output_20190226.root, is found in the folder storagelifetime_with_monitor.
 
 ## pyROOT crash course
 
