@@ -75,9 +75,16 @@ def makePlots( detector, combined ):
 			## Firstly, let's plot the UCN count rate over time to determine where the beam current dies
 	
 			## Bin counts to determine count rates
-	
+
+			## Adding additional background if using the Li6 detector:
+
+			if detector == 'li6' or detector == 'Li6':
+				background = totalBackground
+			else:
+				background = 0
+
 			hist = numpy.histogram(hits, Ttime)
-			rate = hist[0]/numpy.diff(Ttime) - totalBackground
+			rate = hist[0]/numpy.diff(Ttime) - background
 			Ttimestamps = ((Ttime[:-1] + Ttime[1:]) / 2)
 	
 			## Make nice plots of count rates vs time and save
