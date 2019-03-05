@@ -4,6 +4,7 @@ import math
 import numpy
 import inspect
 import UCN
+import csv
 
 f = ROOT.TFile(sys.argv[1])
 
@@ -12,8 +13,6 @@ canvas = ROOT.TCanvas('name1', 'name2')
 firstRun = [cycle.runnumber for cycle in f.cycledata][0]
 
 startupTime = 30				# The time from the start of the cycle, after irradiation has begun, until the LND reading stabilizes (s)
-
-runsToPlot = [x*10 + 860 for x in range(25)]	# A list of all runs in which a plot of LND reading vs time will be created 
 
 beamDropThreshold = 0.1				# The threshold value which will make any cycle in which the beam drops to this value invalid (uA)
 
@@ -26,6 +25,19 @@ beamPlateaus = []				# This will be populated with the average beam current at a
 skippedCycles = []				# This will be populated with the run number of every skipped cycle
 
 lastRun = -999					# Placeholder value
+
+avgReading = {}					# Will be populated by the average LND readings for each run and then averaged for each TCN number
+
+lowReading = -0.3e-6				# The value for which, when the average LND reading of a TCN experiment is below this, is considered low
+
+## Taking the first to columns from spreadsheet which have a TCN number for each run and exporting as CSV - reading in
+
+with open('RunToTCN.csv', mode='r') as infile:
+	reader = csv.reader(infile)
+	runToTCN = {rows[0]:rows[1] for rows in reader}
+
+for TCN in runToTCN.values():
+	avgReading[TCN] = []
 
 for cycle in f.cycledata:
 
@@ -59,8 +71,15 @@ for cycle in f.cycledata:
 
 	## Make plots of LND reading vs time for all runs
 
-	if lastRun != cycle.runnumber and lastRun != -999:
-		canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf)'.format(lastRun))
+	runTCN = runToTCN[str(cycle.runnumber)]
+
+	if lastRun != -999:
+		lastRunTCN = runToTCN[str(lastRun)]
+	else:
+		lastRunTCN = -999
+
+	if lastRunTCN != runTCN and lastRunTCN != -999:
+		canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf)'.format(lastRunTCN))
 
 	lndVsTime = ROOT.TGraph(len(lndReading), Ttime, lndReading)
 	lndVsTime.GetXaxis().SetTitle('Time ( s )')
@@ -68,10 +87,10 @@ for cycle in f.cycledata:
 	lndVsTime.SetTitle('Normalized Thermal Neutron Detector Reading')
 	lndVsTime.Draw('AP')
 	
-	if lastRun != cycle.runnumber:
-		canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf('.format(cycle.runnumber))
+	if lastRunTCN != runTCN:
+		canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf('.format(runTCN))
 	else:
-		canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf'.format(cycle.runnumber))
+		canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf'.format(runTCN))
 
 	lastRun = cycle.runnumber
 
@@ -109,10 +128,42 @@ for cycle in f.cycledata:
 	lndPlateaus.append( sum(plateauVals)/len(plateauVals) )
 	beamPlateaus.append( sum(plateauBeam)/len(plateauBeam) )
 
+	normalizedReading = (sum(plateauVals)/len(plateauVals))/(sum(plateauBeam)/len(plateauBeam))
+
+	avgReading[runTCN].append(normalizedReading)
+	
+
 ## Finish .pdf of last run
 
-canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf)'.format(lastRun))
-	
+lastRunTCN = runToTCN[str(lastRun)]
+
+canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf)'.format(lastRun))
+
+lowReadings = open("thermal_neutron_detector/lowReadings.txt", "w+")
+
+## Write the TCN numbers of those which have an average LND reading lower than $lowReading to a text file
+
+for TCN in runToTCN.values():
+	if len(avgReading[TCN]) != 0:
+		averageVal = sum(avgReading[TCN])/len(avgReading[TCN])
+		if averageVal > lowReading:
+			lowReadings.write(TCN + "\n")
+
+lowReadings.close()
+
+## Create a new file that has no duplicate TCN numbers, and remove the old file
+
+linesSeen = set()
+
+badTCNs = open("thermal_neutron_detector/lowReadingTCNs.txt", "w+")
+
+for line in open("thermal_neutron_detector/lowReadings.txt", "r"):
+    if line not in linesSeen:
+        badTCNs.write(line)
+        linesSeen.add(line)
+
+badTCNs.close()
+
 ## Now make plots of the LND plateaus vs the beam current
 
 lndVsBeam = ROOT.TGraph(len(beamPlateaus), numpy.array(beamPlateaus), numpy.array(lndPlateaus))
