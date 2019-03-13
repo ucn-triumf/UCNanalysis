@@ -5,6 +5,7 @@ import numpy
 import inspect
 import UCN
 import csv
+import datetime
 
 f = ROOT.TFile(sys.argv[1])
 
@@ -30,6 +31,18 @@ avgReading = {}					# Will be populated by the average LND readings for each run
 
 lowReading = -0.3e-6				# The value for which, when the average LND reading of a TCN experiment is below this, is considered low
 
+firstTimes = []					# This will be filled with the first timestamp at which a LND reading is taken
+
+refTime = -999					# The absolute time stamp of start of the first valid cycle 
+
+lowReadingDatesTimes = []			# Will first be filled with the absolute times which will be converted to dates where reading is > -0.3 uA
+
+lowReadingTCNs = []				# TCN numbers associated with each low reading
+
+highReadingDatesTimes = []			# The same as before, but for higher readings
+
+highReadingTCNs = []				# TCN numbers associated with each high reading
+
 ## Taking the first to columns from spreadsheet which have a TCN number for each run and exporting as CSV - reading in
 
 with open('RunToTCN.csv', mode='r') as infile:
@@ -47,6 +60,8 @@ for cycle in f.cycledata:
 	Ttime = numpy.array([t for t in getattr(cycle, 'LND/timestamp')]) - cycle.start
 	beam = numpy.array([b for b in getattr(cycle, 'Beamline/B1V_KSM_PREDCUR')])
 	Btime = numpy.array([t for t in getattr(cycle, 'Beamline/timestamp')]) - cycle.start
+
+	absoluteTimes = numpy.array([t for t in getattr(cycle, 'LND/timestamp')])
 
 	irradiationTime = cycle.beamonduration 
 
@@ -73,24 +88,24 @@ for cycle in f.cycledata:
 
 	runTCN = runToTCN[str(cycle.runnumber)]
 
-	if lastRun != -999:
-		lastRunTCN = runToTCN[str(lastRun)]
-	else:
-		lastRunTCN = -999
+	# if lastRun != -999:
+	# 	lastRunTCN = runToTCN[str(lastRun)]
+	# else:
+	# 	lastRunTCN = -999
 
-	if lastRunTCN != runTCN and lastRunTCN != -999:
-		canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf)'.format(lastRunTCN))
+	# if lastRunTCN != runTCN and lastRunTCN != -999:
+	# 	canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf)'.format(lastRunTCN))
 
-	lndVsTime = ROOT.TGraph(len(lndReading), Ttime, lndReading)
-	lndVsTime.GetXaxis().SetTitle('Time ( s )')
-	lndVsTime.GetYaxis().SetTitle('LND Reading')
-	lndVsTime.SetTitle('Normalized Thermal Neutron Detector Reading')
-	lndVsTime.Draw('AP')
-	
-	if lastRunTCN != runTCN:
-		canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf('.format(runTCN))
-	else:
-		canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf'.format(runTCN))
+	# lndVsTime = ROOT.TGraph(len(lndReading), Ttime, lndReading)
+	# lndVsTime.GetXaxis().SetTitle('Time ( s )')
+	# lndVsTime.GetYaxis().SetTitle('LND Reading')
+	# lndVsTime.SetTitle('Normalized Thermal Neutron Detector Reading')
+	# lndVsTime.Draw('AP')
+	# 
+	# if lastRunTCN != runTCN:
+	# 	canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf('.format(runTCN))
+	# else:
+	# 	canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf'.format(runTCN))
 
 	lastRun = cycle.runnumber
 
@@ -128,16 +143,52 @@ for cycle in f.cycledata:
 	lndPlateaus.append( sum(plateauVals)/len(plateauVals) )
 	beamPlateaus.append( sum(plateauBeam)/len(plateauBeam) )
 
-	normalizedReading = (sum(plateauVals)/len(plateauVals))/(sum(plateauBeam)/len(plateauBeam))
+	firstTimes.append(float(absoluteTimes[0]))
+
+	if refTime == -999:
+		refTime = absoluteTimes[0]
+
+	normalizedReading = (sum(plateauVals)/len(plateauVals)) # /(sum(plateauBeam)/len(plateauBeam))
+
+	if sum(plateauVals)/len(plateauVals) > lowReading:
+		lowReadingDatesTimes.append(absoluteTimes[0])
+		lowReadingTCNs.append(runTCN)
+	else:
+		highReadingDatesTimes.append(absoluteTimes[0])
+		highReadingTCNs.append(runTCN)
 
 	avgReading[runTCN].append(normalizedReading)
-	
+
+## Get date and time of bad readings
+
+## First convert EPICS time readings to Epoch
+
+badTimes = open("thermal_neutron_detector/lowReadingTimes.txt", "w+")
+
+for i in range(len(lowReadingDatesTimes)):
+	localDate = datetime.datetime.fromtimestamp(lowReadingDatesTimes[i]).strftime('%b. %d, %H:%M:%S')
+	badTimes.write(localDate + ' : ' + lowReadingTCNs[i] + '\n')
+
+badTimes.close()
+
+goodTimes = open("thermal_neutron_detector/highReadingTimes.txt", "w+")
+
+for i in range(len(highReadingDatesTimes)):
+	localDate = datetime.datetime.fromtimestamp(highReadingDatesTimes[i]).strftime('%b. %d, %H:%M:%S')
+	goodTimes.write(localDate + ' : ' + highReadingTCNs[i] + '\n')
+
+goodTimes.close()
+
+# ## Subtract referene time to get meaningful time values
+# 
+# firstTimes = firstTimes - refTime
 
 ## Finish .pdf of last run
 
 lastRunTCN = runToTCN[str(lastRun)]
 
-canvas.Print('thermal_neutron_detector/lndReadingVsTime{0}.pdf)'.format(lastRun))
+if lastRun != -999:
+	canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf)'.format(lastRunTCN))
 
 lowReadings = open("thermal_neutron_detector/lowReadings.txt", "w+")
 
@@ -173,3 +224,12 @@ lndVsBeam.SetTitle('')
 lndVsBeam.Draw('AP')
 
 canvas.Print('thermal_neutron_detector/lndReadingVsBeam.pdf')
+
+lndOverTime = ROOT.TGraph(len(firstTimes), numpy.array(firstTimes), numpy.array(lndPlateaus))
+lndOverTime.GetXaxis().SetTimeDisplay(1)
+lndOverTime.GetXaxis().SetTitle('Date')
+lndOverTime.GetYaxis().SetTitle('LND plateau reading')
+lndOverTime.SetTitle('')
+lndOverTime.Draw('AP')
+
+canvas.Print('thermal_neutron_detector/lndReadingOverTime.pdf')
