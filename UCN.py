@@ -2,7 +2,7 @@ import ROOT
 import math
 import numpy
 
-DetectorBackground = {'li6': (2.16, 0.02), 'he3': (0.0405, 0.0017)}
+DetectorBackground = {'li6': (2.16, 0.03), 'he3': (0.0403, 0.0017)}
 
 def SingleExpo():
   SingleExpo = ROOT.TF1('SingleExpo', '[0]*exp(-x/[1])')
@@ -92,3 +92,18 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
     irrbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
     irrbg.Draw('AP')
     canvas.Print(detector + '_irradiationbackground.pdf')
+
+
+def PrintMonitorCounts(experiments):
+  canvas = ROOT.TCanvas('c', 'c')
+  mh = ROOT.TH2I('monitorcounts', 'monitorcounts', 270, 930., 1200., 200, 0., 5000.)
+  for ex in experiments:
+    for m in ex['monitorcounts']:
+      mh.Fill(float(min(ex['runs'])), m)
+  mh.Draw('COL')
+  canvas.Print('monitorcounts.pdf(')
+
+  mh.Draw('CANDLE')
+  canvas.Print('monitorcounts.pdf)')
+
+

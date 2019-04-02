@@ -1,2 +1,7 @@
 *.root
 *.pyc
+
+*.aux
+*.log
+*.synctex.gz
+*.toc
