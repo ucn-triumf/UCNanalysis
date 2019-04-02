@@ -14,34 +14,27 @@ canvas = ROOT.TCanvas('name1', 'name2')
 firstRun = [cycle.runnumber for cycle in f.cycledata][0]
 
 startupTime = 30				# The time from the start of the cycle, after irradiation has begun, until the LND reading stabilizes (s)
-
 beamDropThreshold = 0.1				# The threshold value which will make any cycle in which the beam drops to this value invalid (uA)
-
 beamDeviationThreshold = 0.02			# The threshold value of std. dev. of the beam which, if exceeded, will discard the cycle (uA)
-
 lndPlateaus = []				# This will be populated with the average LND reading at all plateaus
-
 beamPlateaus = []				# This will be populated with the average beam current at all plateaus
-
 skippedCycles = []				# This will be populated with the run number of every skipped cycle
-
 lastRun = -999					# Placeholder value
-
 avgReading = {}					# Will be populated by the average LND readings for each run and then averaged for each TCN number
-
 lowReading = -0.3e-6				# The value for which, when the average LND reading of a TCN experiment is below this, is considered low
-
 firstTimes = []					# This will be filled with the first timestamp at which a LND reading is taken
-
 refTime = -999					# The absolute time stamp of start of the first valid cycle 
-
 lowReadingDatesTimes = []			# Will first be filled with the absolute times which will be converted to dates where reading is > -0.3 uA
-
 lowReadingTCNs = []				# TCN numbers associated with each low reading
-
 highReadingDatesTimes = []			# The same as before, but for higher readings
-
 highReadingTCNs = []				# TCN numbers associated with each high reading
+normalizedReading = []				# Will be filled with the LND readings normalized to beam current
+numBins = 100					# The number of bins in the LND reading histograms
+
+## Define the times during which the LND reading is unreliable
+
+badPeriodStart = datetime.datetime(2018, 11, 16, 9, 25, 31)
+badPeriodEnd = datetime.datetime(2018, 11, 27, 0, 1, 16)
 
 ## Taking the first to columns from spreadsheet which have a TCN number for each run and exporting as CSV - reading in
 
@@ -140,15 +133,16 @@ for cycle in f.cycledata:
 		plateauVals.append(lndReading[i])
 		plateauBeam.append(beamReading[i])
 	
-	lndPlateaus.append( sum(plateauVals)/len(plateauVals) )
-	beamPlateaus.append( sum(plateauBeam)/len(plateauBeam) )
-
 	firstTimes.append(float(absoluteTimes[0]))
+
+	if datetime.datetime.timestamp(badPeriodStart) > firstTimes[-1] or datetime.datetime.timestamp(badPeriodEnd) < firstTimes[-1]:
+		lndPlateaus.append( sum(plateauVals)/len(plateauVals) )
+		beamPlateaus.append( sum(plateauBeam)/len(plateauBeam) )
 
 	if refTime == -999:
 		refTime = absoluteTimes[0]
 
-	normalizedReading = (sum(plateauVals)/len(plateauVals)) # /(sum(plateauBeam)/len(plateauBeam))
+	normalized = (sum(plateauVals)/len(plateauVals)) / (sum(plateauBeam)/len(plateauBeam))
 
 	if sum(plateauVals)/len(plateauVals) > lowReading:
 		lowReadingDatesTimes.append(absoluteTimes[0])
@@ -157,7 +151,9 @@ for cycle in f.cycledata:
 		highReadingDatesTimes.append(absoluteTimes[0])
 		highReadingTCNs.append(runTCN)
 
-	avgReading[runTCN].append(normalizedReading)
+	avgReading[runTCN].append(normalized)
+
+normalizedReading = numpy.array(lndPlateaus)/numpy.array(beamPlateaus)
 
 ## Get date and time of bad readings
 
@@ -233,3 +229,48 @@ lndOverTime.SetTitle('')
 lndOverTime.Draw('AP')
 
 canvas.Print('thermal_neutron_detector/lndReadingOverTime.pdf')
+
+## Make histograms of LND reading, one normalized and one not
+
+lndHist = ROOT.TH1F('lndHist', 'LND reading', numBins, min(normalizedReading)*1.1, max(normalizedReading)*1.1)
+lndHist.GetXaxis().SetTitle('LND reading')
+lndHist.GetYaxis().SetTitle('Number of readings')
+lndHist.SetTitle('')
+lndHist.SetLineColor(ROOT.kBlue)
+
+lndHistNorm = ROOT.TH1F('lndHistNorm', 'LND reading normalized', numBins, min(normalizedReading)*1.1, max(normalizedReading)*1.1)
+lndHistNorm.GetXaxis().SetTitle('Normalized LND reading')
+lndHistNorm.GetYaxis().SetTitle('Number of readings')
+lndHistNorm.SetTitle('')
+lndHistNorm.SetLineColor(ROOT.kRed)
+
+for i in range(len(lndPlateaus)):
+	lndHist.Fill(lndPlateaus[i])
+	lndHistNorm.Fill(normalizedReading[i])
+
+lndHistMean = lndHist.GetMean()
+lndHistMax = lndHist.GetMaximum()
+lndHistLine = ROOT.TLine(lndHistMean, 0, lndHistMean, lndHistMax*1.1)
+lndHistLine.SetLineColor(ROOT.kBlue)
+lndHistLine.SetLineStyle(2)
+
+lndHistNormMean = lndHistNorm.GetMean()
+lndHistNormMax = lndHistNorm.GetMaximum()
+lndHistNormLine = ROOT.TLine(lndHistNormMean, 0, lndHistNormMean, lndHistMax*1.1)
+lndHistNormLine.SetLineColor(ROOT.kRed)
+lndHistNormLine.SetLineStyle(2)
+
+lndHist.GetYaxis().SetRangeUser(0, lndHistMax*1.1)
+lndHistNorm.GetYaxis().SetRangeUser(0, lndHistNormMax*1.1)
+
+lndHist.Draw()
+lndHistLine.Draw()
+lndHistNorm.Draw('SAME')
+lndHistNormLine.Draw()
+
+legend = ROOT.TLegend(0.1, 0.8, 0.3, 0.9)
+legend.AddEntry(lndHist, 'LND reading', 'L')
+legend.AddEntry(lndHistNorm, 'LND reading (normalized)', 'L')
+legend.Draw()
+
+canvas.Print('thermal_neutron_detector/lndHist.pdf')
