@@ -232,45 +232,22 @@ canvas.Print('thermal_neutron_detector/lndReadingOverTime.pdf')
 
 ## Make histograms of LND reading, one normalized and one not
 
-lndHist = ROOT.TH1F('lndHist', 'LND reading', numBins, min(normalizedReading)*1.1, max(normalizedReading)*1.1)
-lndHist.GetXaxis().SetTitle('LND reading')
-lndHist.GetYaxis().SetTitle('Number of readings')
-lndHist.SetTitle('')
-lndHist.SetLineColor(ROOT.kBlue)
-
 lndHistNorm = ROOT.TH1F('lndHistNorm', 'LND reading normalized', numBins, min(normalizedReading)*1.1, max(normalizedReading)*1.1)
 lndHistNorm.GetXaxis().SetTitle('Normalized LND reading')
 lndHistNorm.GetYaxis().SetTitle('Number of readings')
 lndHistNorm.SetTitle('')
-lndHistNorm.SetLineColor(ROOT.kRed)
+lndHistNorm.SetLineColor(ROOT.kBlue)
 
 for i in range(len(lndPlateaus)):
-	lndHist.Fill(lndPlateaus[i])
-	lndHistNorm.Fill(normalizedReading[i])
+	if normalizedReading[i] < -0.05e-6:
+		lndHistNorm.Fill(normalizedReading[i])
 
-lndHistMean = lndHist.GetMean()
-lndHistMax = lndHist.GetMaximum()
-lndHistLine = ROOT.TLine(lndHistMean, 0, lndHistMean, lndHistMax*1.1)
-lndHistLine.SetLineColor(ROOT.kBlue)
-lndHistLine.SetLineStyle(2)
+lndHistNorm.Fit("gaus")
 
-lndHistNormMean = lndHistNorm.GetMean()
-lndHistNormMax = lndHistNorm.GetMaximum()
-lndHistNormLine = ROOT.TLine(lndHistNormMean, 0, lndHistNormMean, lndHistMax*1.1)
-lndHistNormLine.SetLineColor(ROOT.kRed)
-lndHistNormLine.SetLineStyle(2)
+ROOT.gStyle.SetOptFit(1)
 
-lndHist.GetYaxis().SetRangeUser(0, lndHistMax*1.1)
-lndHistNorm.GetYaxis().SetRangeUser(0, lndHistNormMax*1.1)
+# lndHistNorm.GetYaxis().SetRangeUser(0, lndHistNormMax*1.1)
 
-lndHist.Draw()
-lndHistLine.Draw()
-lndHistNorm.Draw('SAME')
-lndHistNormLine.Draw()
-
-legend = ROOT.TLegend(0.1, 0.8, 0.3, 0.9)
-legend.AddEntry(lndHist, 'LND reading', 'L')
-legend.AddEntry(lndHistNorm, 'LND reading (normalized)', 'L')
-legend.Draw()
+lndHistNorm.Draw()
 
 canvas.Print('thermal_neutron_detector/lndHist.pdf')
