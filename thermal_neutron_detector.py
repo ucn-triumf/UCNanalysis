@@ -21,7 +21,8 @@ beamPlateaus = []				# This will be populated with the average beam current at a
 skippedCycles = []				# This will be populated with the run number of every skipped cycle
 lastRun = -999					# Placeholder value
 avgReading = {}					# Will be populated by the average LND readings for each run and then averaged for each TCN number
-lowReading = -0.3e-6				# The value for which, when the average LND reading of a TCN experiment is below this, is considered low
+lowReading = -0.3e-6				# The value for which, when the magnitude of the average LND reading of a TCN experiment is below this, is considered low
+highReading = -0.6e-6				# The same as above, but for the upper limit
 firstTimes = []					# This will be filled with the first timestamp at which a LND reading is taken
 refTime = -999					# The absolute time stamp of start of the first valid cycle 
 lowReadingDatesTimes = []			# Will first be filled with the absolute times which will be converted to dates where reading is > -0.3 uA
@@ -132,19 +133,22 @@ for cycle in f.cycledata:
 
 		plateauVals.append(lndReading[i])
 		plateauBeam.append(beamReading[i])
-	
-	firstTimes.append(float(absoluteTimes[0]))
 
-	if datetime.datetime.timestamp(badPeriodStart) > firstTimes[-1] or datetime.datetime.timestamp(badPeriodEnd) < firstTimes[-1]:
+	firstTime = float(absoluteTimes[0])
+
+	plateau = sum(plateauVals)/len(plateauVals)
+
+	if (datetime.datetime.timestamp(badPeriodStart) > firstTime or datetime.datetime.timestamp(badPeriodEnd) < firstTime) and plateau < lowReading and plateau > highReading:
 		lndPlateaus.append( sum(plateauVals)/len(plateauVals) )
 		beamPlateaus.append( sum(plateauBeam)/len(plateauBeam) )
+		firstTimes.append(float(absoluteTimes[0]))
 
 	if refTime == -999:
 		refTime = absoluteTimes[0]
 
 	normalized = (sum(plateauVals)/len(plateauVals)) / (sum(plateauBeam)/len(plateauBeam))
 
-	if sum(plateauVals)/len(plateauVals) > lowReading:
+	if (sum(plateauVals)/len(plateauVals)) > lowReading:
 		lowReadingDatesTimes.append(absoluteTimes[0])
 		lowReadingTCNs.append(runTCN)
 	else:
@@ -183,8 +187,8 @@ goodTimes.close()
 
 lastRunTCN = runToTCN[str(lastRun)]
 
-if lastRun != -999:
-	canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf)'.format(lastRunTCN))
+# if lastRun != -999:
+# 	canvas.Print('thermal_neutron_detector/lndReadingVsTimeRun{0}.pdf)'.format(lastRunTCN))
 
 lowReadings = open("thermal_neutron_detector/lowReadings.txt", "w+")
 
@@ -219,9 +223,9 @@ lndVsBeam.GetYaxis().SetTitle('LND plateau reading')
 lndVsBeam.SetTitle('')
 lndVsBeam.Draw('AP')
 
-canvas.Print('thermal_neutron_detector/lndReadingVsBeam.pdf')
+# canvas.Print('thermal_neutron_detector/lndReadingVsBeam.pdf')
 
-lndOverTime = ROOT.TGraph(len(firstTimes), numpy.array(firstTimes), numpy.array(lndPlateaus))
+lndOverTime = ROOT.TGraph(len(lndPlateaus), numpy.array(firstTimes), numpy.array(lndPlateaus))
 lndOverTime.GetXaxis().SetTimeDisplay(1)
 lndOverTime.GetXaxis().SetTitle('Date')
 lndOverTime.GetYaxis().SetTitle('LND plateau reading')
@@ -232,7 +236,7 @@ canvas.Print('thermal_neutron_detector/lndReadingOverTime.pdf')
 
 ## Make histograms of LND reading, one normalized and one not
 
-lndHistNorm = ROOT.TH1F('lndHistNorm', 'LND reading normalized', numBins, min(normalizedReading)*1.1, max(normalizedReading)*1.1)
+lndHistNorm = ROOT.TH1F('lndHistNorm', 'LND reading normalized', numBins, min(normalizedReading), max(normalizedReading))
 lndHistNorm.GetXaxis().SetTitle('Normalized LND reading')
 lndHistNorm.GetYaxis().SetTitle('Number of readings')
 lndHistNorm.SetTitle('')
