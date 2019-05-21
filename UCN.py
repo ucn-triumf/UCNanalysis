@@ -1,8 +1,34 @@
 import ROOT
 import math
 import numpy
+import scipy.optimize
 
 DetectorBackground = {'li6': (2.16, 0.03), 'he3': (0.0403, 0.0017)}
+
+
+# calculate 4He vapor pressure from temperature
+def HeVaporPressure(T):
+  # from Clement, Logan, Gaffney, Phys. Rev. 100, 743
+  # https://doi.org/10.1103/PhysRev.100.743
+  if not 0.66 <= T <= 5.2:
+    raise Exception('Tried to evaluate vapor pressure at T = {0}. Formula only valid between 0.66 and 5.2K!'.format(T))
+  I = 4.6202
+  A = 6.399
+  B = 2.541
+  C = 0.00612
+  D = 0.5197
+  a = 7.
+  b = 14.14
+  lnP = I - A/T + B*math.log(T) + C/2*T**2 - D*(a*b/(b**2 + 1) - 1./T)*math.atan(a*T - b) - a*D/2/(b**2 + 1)*math.log(T**2/(1 + (a*T - b)**2))
+  return math.exp(lnP)
+
+
+# use scipy solver to invert vapor pressure formula to calculate temperature from vapor pressure
+def HeTemperature(P):
+  if P == 0.:
+    return 0.
+  return scipy.optimize.brentq(lambda T: HeVaporPressure(T) - P, 0.66, 5.2)
+
 
 def SingleExpo():
   SingleExpo = ROOT.TF1('SingleExpo', '[0]*exp(-x/[1])')
@@ -79,7 +105,7 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
 
     canvas.Print(detector + '_background.pdf')
 
-  bgexps = [ex for ex in experiments if detector + 'irradiationrate' in ex and ex[detector + 'irradiationrateerr'] > 0]
+  bgexps = [ex for ex in experiments if detector + 'irradiationrate' in ex]
   if len(bgexps) > 0:
     irrbg = ROOT.TGraphErrors(len(numpy.concatenate([ex['start'] for ex in bgexps])),
                               numpy.concatenate([[float(min(ex['runs'])) for _ in ex['start']] for ex in bgexps]),
@@ -96,7 +122,7 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
 
 def PrintMonitorCounts(experiments):
   canvas = ROOT.TCanvas('c', 'c')
-  mh = ROOT.TH2I('monitorcounts', 'monitorcounts', 270, 930., 1200., 200, 0., 5000.)
+  mh = ROOT.TH2I('monitorcounts', 'monitorcounts', 270, 930., 1200., 200, 0., 1500.)
   for ex in experiments:
     for m in ex['monitorcounts']:
       mh.Fill(float(min(ex['runs'])), m)

@@ -1,3 +1,41 @@
+SKIPPING cycle 0 in run 929 because IG6 was on!
+SKIPPING cycle 1 in run 929 because IG6 was on!
+SKIPPING cycle 2 in run 929 because IG6 was on!
+SKIPPING cycle 3 in run 929 because IG6 was on!
+SKIPPING cycle 4 in run 929 because IG6 was on!
+SKIPPING cycle 5 in run 929 because IG6 was on!
+SKIPPING cycle 6 in run 929 because IG6 was on!
+SKIPPING cycle 7 in run 929 because IG6 was on!
+SKIPPING cycle 8 in run 929 because IG6 was on!
+SKIPPING cycle 9 in run 929 because IG6 was on!
+SKIPPING cycle 10 in run 929 because IG6 was on!
+SKIPPING cycle 11 in run 929 because IG6 was on!
+SKIPPING cycle 0 in run 930 because IG6 was on!
+SKIPPING cycle 1 in run 930 because IG6 was on!
+SKIPPING cycle 2 in run 930 because IG6 was on!
+SKIPPING cycle 3 in run 930 because IG6 was on!
+SKIPPING cycle 4 in run 930 because IG6 was on!
+SKIPPING cycle 5 in run 930 because IG6 was on!
+SKIPPING cycle 6 in run 930 because IG6 was on!
+SKIPPING cycle 7 in run 930 because IG6 was on!
+SKIPPING cycle 8 in run 930 because IG6 was on!
+SKIPPING cycle 9 in run 930 because IG6 was on!
+SKIPPING cycle 10 in run 930 because IG6 was on!
+SKIPPING cycle 11 in run 930 because IG6 was on!
+SKIPPING cycle 12 in run 930 because IG6 was on!
+SKIPPING cycle 13 in run 930 because IG6 was on!
+Abnormal valve configuration in cycle 0 of run 937
+Abnormal valve configuration in cycle 1 of run 937
+Abnormal valve configuration in cycle 2 of run 937
+Abnormal valve configuration in cycle 3 of run 937
+Abnormal valve configuration in cycle 4 of run 937
+Abnormal valve configuration in cycle 5 of run 937
+Abnormal valve configuration in cycle 6 of run 937
+Abnormal valve configuration in cycle 7 of run 937
+Abnormal valve configuration in cycle 8 of run 937
+Abnormal valve configuration in cycle 9 of run 937
+Abnormal valve configuration in cycle 10 of run 937
+SKIPPING cycle 11 in run 937 because not all periods contain Li6 data
 SKIPPING cycle 11 in run 938 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 944 because not all periods contain Li6 data
 SKIPPING cycle 0 in run 934 because IG6 was on!
@@ -101,9 +139,9 @@ SKIPPING cycle 10 in run 973 because IG6 was on!
 SKIPPING cycle 11 in run 973 because not all periods contain Li6 data
 SKIPPING cycle 11 in run 990 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1000 because not all periods contain Li6 data
-SKIPPING cycle 1 in run 1009 because beam current fluctuated by 0.0750314083524
+SKIPPING cycle 1 in run 1009 because beam current fluctuated by 0.07503140835235517
 SKIPPING cycle 10 in run 1009 because not all periods contain Li6 data
-SKIPPING cycle 0 in run 1013 because beam current fluctuated by 0.0445677458146
+SKIPPING cycle 0 in run 1013 because beam current fluctuated by 0.04456774581455883
 SKIPPING cycle 12 in run 1013 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1054 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1055 because not all periods contain Li6 data
@@ -111,27 +149,27 @@ SKIPPING cycle 12 in run 1056 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1057 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1058 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1059 because not all periods contain Li6 data
-SKIPPING cycle 10 in run 1064 because beam current fluctuated by 0.0660842783543
+SKIPPING cycle 10 in run 1064 because beam current fluctuated by 0.06608427835430698
 SKIPPING cycle 12 in run 1064 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1065 because not all periods contain Li6 data
 SKIPPING cycle 12 in run 1066 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1081 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1082 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1083 because not all periods contain Li6 data
-SKIPPING cycle 3 in run 1084 because beam current fluctuated by 0.0734769590732
-SKIPPING cycle 7 in run 1084 because beam current fluctuated by 0.0686201385781
-SKIPPING cycle 9 in run 1084 because beam current fluctuated by 0.0663310951435
+SKIPPING cycle 3 in run 1084 because beam current fluctuated by 0.07347695907321836
+SKIPPING cycle 7 in run 1084 because beam current fluctuated by 0.06862013857809551
+SKIPPING cycle 9 in run 1084 because beam current fluctuated by 0.06633109514352958
 SKIPPING cycle 10 in run 1084 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1085 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1086 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1087 because not all periods contain Li6 data
 SKIPPING cycle 10 in run 1125 because not all periods contain Li6 data
-SKIPPING cycle 0 in run1129 because there are less than 1000 monitor counts (8)
-SKIPPING cycle 1 in run1129 because there are less than 1000 monitor counts (4)
-SKIPPING cycle 2 in run1129 because there are less than 1000 monitor counts (3)
+SKIPPING cycle 0 in run 1129 because IV1 never opened!
+SKIPPING cycle 1 in run 1129 because IV1 never opened!
+SKIPPING cycle 2 in run 1129 because IV1 never opened!
 SKIPPING cycle 14 in run 1129 because not all periods contain Li6 data
 Abnormal valve configuration in cycle 0 of run 1132
-SKIPPING cycle 1 in run 1132 because beam current fluctuated by 0.0351863712535
+SKIPPING cycle 1 in run 1132 because beam current fluctuated by 0.035186371253496974
 SKIPPING cycle 2 in run 1132 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 10 in run 1131 because not all periods contain Li6 data
 Abnormal valve configuration in cycle 0 of run 1133
@@ -146,399 +184,454 @@ Abnormal valve configuration in cycle 8 of run 1133
 Abnormal valve configuration in cycle 9 of run 1133
 SKIPPING cycle 10 in run 1133 because not all periods contain Li6 data
 SKIPPING cycle 8 in run 1141 because beam current dropped below 0.1uA (0.0uA)
-SKIPPING cycle 9 in run 1141 because beam current fluctuated by 0.169377367103
+SKIPPING cycle 9 in run 1141 because beam current fluctuated by 0.16937736710302448
 SKIPPING cycle 13 in run 1141 because not all periods contain Li6 data
 SKIPPING cycle 6 in run 1176 because beam current dropped below 0.1uA (0.0uA)
-SKIPPING cycle 7 in run 1176 because beam current fluctuated by 0.214595594907
-SKIPPING cycle 8 in run 1176 because beam current dropped below 0.1uA (0.00227352930233uA)
+SKIPPING cycle 7 in run 1176 because beam current fluctuated by 0.21459559490650612
+SKIPPING cycle 8 in run 1176 because beam current dropped below 0.1uA (0.002273529302328825uA)
 SKIPPING cycle 11 in run 1176 because beam current dropped below 0.1uA (0.0uA)
-SKIPPING cycle 12 in run 1176 because beam current fluctuated by 0.0747553382653
+SKIPPING cycle 12 in run 1176 because beam current fluctuated by 0.07475533826534586
 SKIPPING cycle 17 in run 1176 because not all periods contain Li6 data
 SKIPPING cycle 1 in run 1181 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 5 in run 1181 because beam current dropped below 0.1uA (0.0uA)
-SKIPPING cycle 10 in run 1181 because beam current dropped below 0.1uA (0.0250176470727uA)
+SKIPPING cycle 10 in run 1181 because beam current dropped below 0.1uA (0.025017647072672844uA)
 SKIPPING cycle 12 in run 1181 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 14 in run 1181 because not all periods contain Li6 data
-SKIPPING cycle 9 in run 1188 because Li6 sees high background (313.543282881/s)
-SKIPPING cycle 10 in run 1188 because Li6 sees high background (309.342703015/s)
-SKIPPING cycle 11 in run 1188 because Li6 sees high background (303.941957472/s)
-SKIPPING cycle 12 in run 1188 because Li6 sees high background (304.141985085/s)
-SKIPPING cycle 11 in run1192 because there are less than 1000 monitor counts (930)
-SKIPPING cycle 12 in run1192 because there are less than 1000 monitor counts (0)
-SKIPPING cycle 13 in run1192 because there are less than 1000 monitor counts (0)
+SKIPPING cycle 9 in run 1188 because Li6 sees high background (313.543282880971/s)
+SKIPPING cycle 10 in run 1188 because Li6 sees high background (309.34270301462305/s)
+SKIPPING cycle 11 in run 1188 because Li6 sees high background (303.9419574721757/s)
+SKIPPING cycle 12 in run 1188 because Li6 sees high background (304.1419850848589/s)
+SKIPPING cycle 11 in run1192 because there are not enough monitor counts (930 + 0)
+SKIPPING cycle 12 in run1192 because there are not enough monitor counts (0 + 0)
+SKIPPING cycle 13 in run1192 because there are not enough monitor counts (0 + 234)
 SKIPPING cycle 18 in run 1192 because not all periods contain Li6 data
-Read 415 cycles
+Read 426 cycles
 
+
+Analyzing TCN18-028 (IV2+UGD17, no elbow), production up to IV1
+Found no cycles with run numbers [929]!
 
 Analyzing TCN18-029 (IV2+UGD17, no elbow)
-Found no cycles with run numbers [934]!
+Found no cycles with run numbers [930, 934]!
+
+Analyzing TCN18-030 (IV2+UGD17+elbow), production up to IV1
+Li6 background rate: 3.6641421777883516 +/- 0.18252392276019774 1/s
+Monitor counts: 1072.2260209977287 +/- 9.872947524319946
+Beam current from 0.9714568853378296 to 0.9852039217948914 uA
+Temperatures from 0.8999999761581421 to 0.9580000042915344 K
+Li6-to-He3 ratio during counting: 41.0766058390115 +/- 0.4650609629245859
 
 Analyzing TCN18-031 (IV2+UGD17+elbow)
-Li6 background rate: 3.96418359681 +/- 0.189849962424 1/s
-Monitor counts: 4081.92931407 +/- 19.2635532314
-Beam current from 0.971456885338 to 0.989786267281 uA
-Temperatures from 0.899999976158 to 0.957000017166 K
-Li6-to-He3 ratio: 12.9528953441 +/- 0.120792503494
-Li6-to-He3 ratio: 12.9642629739 +/- 0.0635031892942
+Li6 background rate: 3.964183596813204 +/- 0.1898499624235107 1/s
+Monitor counts: 1512.920568757783 +/- 11.72766956916142
+Beam current from 0.9714568853378296 to 0.9897862672805786 uA
+Temperatures from 0.8999999761581421 to 0.9570000171661377 K
+Li6-to-He3 ratio during counting: 34.9246721378303 +/- 0.276835506527663
+Li6-to-He3 ratio during irradiation: 25.312999103649982 +/- 0.24182446239199515
 
 
 Analyzing TCN18-035 (IV2+UGD22+IV3, O-rings out)
-Li6 background rate: 3.55049012513 +/- 0.188440449955 1/s
-Monitor counts: 3975.20036186 +/- 19.9379045084
-Beam current from 0.971456885338 to 0.989786267281 uA
-Temperatures from 0.897000014782 to 0.959999978542 K
-Li6-to-He3 ratio: 11.813302145 +/- 0.0760706884865
-Li6-to-He3 ratio: 11.82016198 +/- 0.0617570145068
+Li6 background rate: 3.5504901251274226 +/- 0.18844044995497106 1/s
+Monitor counts: 1501.2074985827057 +/- 12.252377314556982
+Beam current from 0.9714568853378296 to 0.9897862672805786 uA
+Temperatures from 0.8970000147819519 to 0.9599999785423279 K
+Li6-to-He3 ratio during counting: 31.26000061592489 +/- 0.25918213818318847
+Li6-to-He3 ratio during irradiation: 22.92302279965635 +/- 0.3373126620001858
 
 
 Analyzing TCN18-043 (IV2+UGD22+IV3, O-rings out, IV2 open during production)
-Li6 background rate: 3.40359484706 +/- 0.10313923779 1/s
-Monitor counts: 2751.8821326 +/- 9.27341990011
-Beam current from 0.971456885338 to 0.985203921795 uA
-Temperatures from 0.896000027657 to 0.955999970436 K
-Li6-to-He3 ratio: 13.6953735554 +/- 0.0603713060279
-Li6-to-He3 ratio: 13.7079357512 +/- 0.0478684933337
+Li6 background rate: 3.4035948470631716 +/- 0.10313923778979309 1/s
+Monitor counts: 1122.0636626718485 +/- 5.921527628787631
+Beam current from 0.9714568853378296 to 0.9852039217948914 uA
+Temperatures from 0.8960000276565552 to 0.9559999704360962 K
+Li6-to-He3 ratio during counting: 33.45766560244446 +/- 0.35572182861711665
+Li6-to-He3 ratio during irradiation: 27.425620044352808 +/- 0.32412393842031023
 
 
 Analyzing TCN18-045 (IV2+UGD22+IV3, O-rings in)
-Li6 background rate: 3.26408695242 +/- 0.172271920453 1/s
-Monitor counts: 3507.26228073 +/- 17.8561481154
-Beam current from 0.971456885338 to 0.985203921795 uA
-Temperatures from 0.897000014782 to 0.952000021935 K
-Li6-to-He3 ratio: 11.7513450553 +/- 0.127027915301
-Li6-to-He3 ratio: 11.7643166213 +/- 0.0623996472672
+Li6 background rate: 3.264086952421881 +/- 0.17227192045287076 1/s
+Monitor counts: 1291.8901056426448 +/- 10.83718390812033
+Beam current from 0.9714568853378296 to 0.9852039217948914 uA
+Temperatures from 0.8970000147819519 to 0.9520000219345093 K
+Li6-to-He3 ratio during counting: 31.77856160754661 +/- 0.6626845360751483
+Li6-to-He3 ratio during irradiation: 23.87421846108856 +/- 0.24629236870025573
 
 
 Analyzing TCN18-080 (UGD22+2, IV1 closed after production)
 Found no cycles with run numbers [973]!
 
 Analyzing TCN18-053 (burst disk+UGD2)
-Li6 background rate: 3.38228508719 +/- 0.175363312661 1/s
-Monitor counts: 3406.32644666 +/- 17.5973304966
-Beam current from 0.971456885338 to 0.985203921795 uA
-Temperatures from 0.893999993801 to 0.948000013828 K
-Li6-to-He3 ratio: 11.2731199555 +/- 0.0995675937414
-Li6-to-He3 ratio: 11.2832884169 +/- 0.0608383514693
+Li6 background rate: 3.3822850871892474 +/- 0.1753633126611167 1/s
+Monitor counts: 1169.8094290449537 +/- 10.312434811011386
+Beam current from 0.9714568853378296 to 0.9852039217948914 uA
+Temperatures from 0.8939999938011169 to 0.9480000138282776 K
+Li6-to-He3 ratio during counting: 32.705762156441175 +/- 0.6412140266923513
+Li6-to-He3 ratio during irradiation: 22.810889245627386 +/- 0.24129348589157124
 
 
 Analyzing TCN18-285 (UGD22+19, MV open)
-Li6 background rate: 3.08224366816 +/- 0.167404496878 1/s
-Monitor counts: 3077.62289532 +/- 16.726742049
-Beam current from 0.973748028278 to 0.98749512434 uA
-Temperatures from 0.89099997282 to 0.952000021935 K
-Li6-to-He3 ratio: 11.6766127281 +/- 0.187394328874
-Li6-to-He3 ratio: 11.6966014114 +/- 0.0662484841597
+Li6 background rate: 3.082243668164395 +/- 0.16740449687819853 1/s
+Monitor counts: 1118.8798393488212 +/- 10.085452346410198
+Beam current from 0.9737480282783508 to 0.9874951243400574 uA
+Temperatures from 0.890999972820282 to 0.9520000219345093 K
+Li6-to-He3 ratio during counting: 32.06115427220565 +/- 0.29326047557481144
+Li6-to-He3 ratio during irradiation: 23.08939613036331 +/- 0.2534135279963018
 
 
 Analyzing TCN18-085 (UGD22+19)
-Li6 background rate: 3.20044180293 +/- 0.17058412126 1/s
-Monitor counts: 3349.24635986 +/- 17.4492676581
-Beam current from 0.973587274551 to 0.987047076225 uA
-Temperatures from 0.893999993801 to 0.955999970436 K
-Li6-to-He3 ratio: 11.2870966552 +/- 0.101664583426
-Li6-to-He3 ratio: 11.2977117449 +/- 0.0614010190292
+Li6 background rate: 3.200441802931761 +/- 0.1705841212598732 1/s
+Monitor counts: 1149.691097727981 +/- 10.223373832582157
+Beam current from 0.9735872745513916 to 0.9870470762252808 uA
+Temperatures from 0.8939999938011169 to 0.9559999704360962 K
+Li6-to-He3 ratio during counting: 32.777165046145676 +/- 0.408379486836042
+Li6-to-He3 ratio during irradiation: 23.22946354308687 +/- 0.24728939663787086
 
 
 Analyzing TCN18-090 (UGD22+UGA11+UGG3+UGA5)
-Li6 background rate: 3.13043213849 +/- 0.176942486041 1/s
-Monitor counts: 3268.32884149 +/- 18.0785199657
-Beam current from 0.971399009228 to 0.985016644001 uA
-Temperatures from 0.893000006676 to 0.95300000906 K
-Li6-to-He3 ratio: 10.9554297908 +/- 0.0934988153124
-Li6-to-He3 ratio: 10.9647288954 +/- 0.0633510200598
+Li6 background rate: 3.130432138492629 +/- 0.1769424860413059 1/s
+Monitor counts: 1221.8506886122152 +/- 11.053735516160206
+Beam current from 0.9713990092277527 to 0.9850166440010071 uA
+Temperatures from 0.8930000066757202 to 0.953000009059906 K
+Li6-to-He3 ratio during counting: 29.214014793832256 +/- 0.39534627572140824
+Li6-to-He3 ratio during irradiation: 21.60844879279273 +/- 0.3358542914894135
 
 
 Analyzing TCN18-290 (UGD22+UGA5+UGG3+UGA6)
-Li6 background rate: 2.65592219063 +/- 0.171797324915 1/s
-Monitor counts: 3405.61647629 +/- 19.4525533208
-Beam current from 0.969326078892 to 1.01476299763 uA
-Temperatures from 0.89200001955 to 0.949999988079 K
-Li6-to-He3 ratio: 11.0831087739 +/- 0.102975910871
-Li6-to-He3 ratio: 11.0924687011 +/- 0.0661574873197
+Li6 background rate: 2.655922190627399 +/- 0.17179732491508493 1/s
+Monitor counts: 1234.3139337294517 +/- 11.710934746492516
+Beam current from 0.9693260788917542 to 1.0147629976272583 uA
+Temperatures from 0.8920000195503235 to 0.949999988079071 K
+Li6-to-He3 ratio during counting: 30.35724686254076 +/- 0.7513733998397055
+Li6-to-He3 ratio during irradiation: 21.320326272171304 +/- 0.24456672277389108
 
 
 Analyzing TCN18-060 (UGD10+17+11)
-Li6 background rate: 3.00950635446 +/- 0.165417429476 1/s
-Monitor counts: 3021.81267217 +/- 16.5743851447
-Beam current from 0.788629174232 to 0.991834402084 uA
-Temperatures from 0.89099997282 to 0.93599998951 K
-Li6-to-He3 ratio: 11.3824332601 +/- 0.0774976784592
-Li6-to-He3 ratio: 11.3909759598 +/- 0.0649946064586
+Li6 background rate: 3.0095063544614002 +/- 0.16541742947601323 1/s
+Monitor counts: 1072.4112259255724 +/- 9.873800161518233
+Beam current from 0.7886291742324829 to 0.9918344020843506 uA
+Temperatures from 0.890999972820282 to 0.9359999895095825 K
+Li6-to-He3 ratio during counting: 32.087953486298765 +/- 0.2993136351212543
+Li6-to-He3 ratio during irradiation: 22.7972575122575 +/- 0.4762346829301946
 
 
 Analyzing TCN18-065_0A
-Li6 background rate: 3.4254728672 +/- 0.168966115925 1/s
-Monitor counts: 3440.72885118 +/- 16.933027026
-Beam current from 0.977998018265 to 0.996193110943 uA
-Temperatures from 0.903999984264 to 0.941999971867 K
-Li6-to-He3 ratio: 11.1977879274 +/- 0.0685493304731
-Li6-to-He3 ratio: 11.2052104014 +/- 0.0575689535175
+Li6 background rate: 3.4254728672004005 +/- 0.1689661159248224 1/s
+Monitor counts: 1237.1833865580204 +/- 10.153748842004203
+Beam current from 0.9779980182647705 to 0.9961931109428406 uA
+Temperatures from 0.9039999842643738 to 0.9419999718666077 K
+Li6-to-He3 ratio during counting: 31.059289869958363 +/- 0.42138784062492457
+Li6-to-He3 ratio during irradiation: 21.3317513031329 +/- 0.21314312310720643
 
 
 Analyzing TCN18-065_25A
-Li6 background rate: 3.54215564127 +/- 0.171819786486 1/s
-Monitor counts: 3385.39222979 +/- 16.7963096884
-Beam current from 0.977998018265 to 0.996193110943 uA
-Temperatures from 0.90499997139 to 0.944000005722 K
-Li6-to-He3 ratio: 11.2249542752 +/- 0.0452631683051
-Li6-to-He3 ratio: 11.2299264145 +/- 0.058164030554
+Li6 background rate: 3.542155641265621 +/- 0.17181978648606605 1/s
+Monitor counts: 1240.6585274240854 +/- 10.167999341988263
+Beam current from 0.9779980182647705 to 0.9961931109428406 uA
+Temperatures from 0.9049999713897705 to 0.9440000057220459 K
+Li6-to-He3 ratio during counting: 30.575372931213693 +/- 0.27305318123548855
+Li6-to-He3 ratio during irradiation: 21.489150848893324 +/- 0.33438280942396337
 
 
 Analyzing TCN18-065_200A
-Li6 background rate: 3.30879009314 +/- 0.166063414494 1/s
-Monitor counts: 3450.16717315 +/- 16.9562357584
-Beam current from 0.98254609108 to 1.00074219704 uA
-Temperatures from 0.907999992371 to 0.93900001049 K
-Li6-to-He3 ratio: 7.66867552103 +/- 0.0728011842777
-Li6-to-He3 ratio: 7.67657951281 +/- 0.0401364732913
+Li6 background rate: 3.30879009313518 +/- 0.1660634144937521 1/s
+Monitor counts: 1690.3642947614574 +/- 11.868601064578817
+Beam current from 0.9825460910797119 to 1.0007421970367432 uA
+Temperatures from 0.9079999923706055 to 0.9390000104904175 K
+Li6-to-He3 ratio during counting: 15.63681353719252 +/- 0.16683411938491569
+Li6-to-He3 ratio during irradiation: 12.568598574107993 +/- 0.1285076357254895
 
 
 Analyzing TCN18-065_100A
-Li6 background rate: 3.18377283521 +/- 0.162895989253 1/s
-Monitor counts: 3426.66618867 +/- 16.8983879622
-Beam current from 0.98254609108 to 0.996193110943 uA
-Temperatures from 0.908999979496 to 0.949999988079 K
-Li6-to-He3 ratio: 9.20163720715 +/- 0.0772269461334
-Li6-to-He3 ratio: 9.21002528199 +/- 0.0478422924413
+Li6 background rate: 3.183772835208158 +/- 0.16289598925291035 1/s
+Monitor counts: 1499.6442619416039 +/- 11.179014051417965
+Beam current from 0.9825460910797119 to 0.9961931109428406 uA
+Temperatures from 0.9089999794960022 to 0.949999988079071 K
+Li6-to-He3 ratio during counting: 20.974544093394847 +/- 0.30574337735415386
+Li6-to-He3 ratio during irradiation: 16.136442107209746 +/- 0.2586565914179898
 
 
 Analyzing TCN18-065_150A
-Li6 background rate: 3.30045560927 +/- 0.165854134745 1/s
-Monitor counts: 3394.70451015 +/- 16.8193948319
-Beam current from 0.977998018265 to 0.996193110943 uA
-Temperatures from 0.910000026226 to 0.952000021935 K
-Li6-to-He3 ratio: 7.94994140192 +/- 0.0373374258493
-Li6-to-He3 ratio: 7.95399793845 +/- 0.0418437710391
+Li6 background rate: 3.3004556092733788 +/- 0.1658541347452064 1/s
+Monitor counts: 1673.6561644077779 +/- 11.80979877195126
+Beam current from 0.9779980182647705 to 0.9961931109428406 uA
+Temperatures from 0.9100000262260437 to 0.9520000219345093 K
+Li6-to-He3 ratio during counting: 16.11135031080323 +/- 0.11719710029539078
+Li6-to-He3 ratio during irradiation: 13.039078324300844 +/- 0.133373979646093
 
 
 Analyzing TCN18-065_175A
-Li6 background rate: 3.46714528651 +/- 0.169990783388 1/s
-Monitor counts: 3383.61685601 +/- 16.7919049347
-Beam current from 0.977998018265 to 1.00074219704 uA
-Temperatures from 0.90499997139 to 0.953999996185 K
-Li6-to-He3 ratio: 7.82733853701 +/- 0.0557054323917
-Li6-to-He3 ratio: 7.83340554379 +/- 0.0413088265984
+Li6 background rate: 3.467145286509408 +/- 0.1699907833881992 1/s
+Monitor counts: 1650.383787527397 +/- 11.727403049863586
+Beam current from 0.9779980182647705 to 1.0007421970367432 uA
+Temperatures from 0.9049999713897705 to 0.9539999961853027 K
+Li6-to-He3 ratio during counting: 16.02654983589072 +/- 0.16026629145174395
+Li6-to-He3 ratio during irradiation: 12.381295513615168 +/- 0.1256560379510569
 
 
 Analyzing TCN18-065_125A
-Li6 background rate: 3.37319292298 +/- 0.175127450668 1/s
-Monitor counts: 3375.81533158 +/- 17.5183418985
-Beam current from 0.955253899097 to 1.02803432941 uA
-Temperatures from 0.908999979496 to 0.958000004292 K
-Li6-to-He3 ratio: 8.51528631887 +/- 0.0567645647824
-Li6-to-He3 ratio: 8.52122109457 +/- 0.0467685119761
+Li6 background rate: 3.373192922976373 +/- 0.17512745066781138 1/s
+Monitor counts: 1606.4605882266742 +/- 12.084778510877657
+Beam current from 0.9552538990974426 to 1.0280343294143677 uA
+Temperatures from 0.9089999794960022 to 0.9580000042915344 K
+Li6-to-He3 ratio during counting: 17.884742528179366 +/- 0.13827971494953142
+Li6-to-He3 ratio during irradiation: 14.57757403987596 +/- 0.16100325608885493
 
 
 Analyzing TCN18-065_75A
-Li6 background rate: 3.28378664155 +/- 0.165434781015 1/s
-Monitor counts: 3400.17582067 +/- 16.832943446
-Beam current from 0.973448991776 to 0.987095117569 uA
-Temperatures from 0.908999979496 to 0.955999970436 K
-Li6-to-He3 ratio: 10.2178543204 +/- 0.0351532181824
-Li6-to-He3 ratio: 10.2216487771 +/- 0.0530466007174
+Li6 background rate: 3.2837866415497756 +/- 0.16543478101534703 1/s
+Monitor counts: 1349.9311093082051 +/- 10.606331086149305
+Beam current from 0.9734489917755127 to 0.9870951175689697 uA
+Temperatures from 0.9089999794960022 to 0.9559999704360962 K
+Li6-to-He3 ratio during counting: 25.703828732177108 +/- 0.20587955288812396
+Li6-to-He3 ratio during irradiation: 18.569422508985113 +/- 0.18688222006874797
 
 
 Analyzing TCN18-065_50A
-Li6 background rate: 3.23377973838 +/- 0.164170292812 1/s
-Monitor counts: 3401.12163345 +/- 16.8352844582
-Beam current from 0.968900024891 to 0.991644144058 uA
-Temperatures from 0.90600001812 to 0.957000017166 K
-Li6-to-He3 ratio: 10.8236155822 +/- 0.133326550619
-Li6-to-He3 ratio: 10.8378498837 +/- 0.0560786919137
+Li6 background rate: 3.233779738378967 +/- 0.1641702928124941 1/s
+Monitor counts: 1271.1637264692438 +/- 10.292245165128143
+Beam current from 0.9689000248908997 to 0.9916441440582275 uA
+Temperatures from 0.906000018119812 to 0.9570000171661377 K
+Li6-to-He3 ratio during counting: 28.914497958663333 +/- 0.3772025850424885
+Li6-to-He3 ratio during irradiation: 20.11707571112553 +/- 0.20199183017933317
 
 
 Analyzing TCN18-265_0A
-Li6 background rate: 2.71037415186 +/- 0.164643504438 1/s
-Monitor counts: 3229.66482548 +/- 17.971268251
-Beam current from 0.941344201565 to 0.990419209003 uA
-Temperatures from 0.915000021458 to 0.964999973774 K
-Li6-to-He3 ratio: 6.50891480152 +/- 0.02424970553
-Li6-to-He3 ratio: 6.51134499304 +/- 0.0389576744987
+Li6 background rate: 2.710374151857835 +/- 0.16464350443829706 1/s
+Monitor counts: 1361.1978540034152 +/- 11.667038415996645
+Beam current from 0.9413442015647888 to 0.9904192090034485 uA
+Temperatures from 0.9150000214576721 to 0.9649999737739563 K
+Li6-to-He3 ratio during counting: 15.426651915727959 +/- 0.1364862558846489
+Li6-to-He3 ratio during irradiation: 12.089456300064349 +/- 0.15439556983615396
 
 
 Analyzing TCN18-265_200A
-Li6 background rate: 2.32032030713 +/- 0.15233649131 1/s
-Monitor counts: 3219.65693178 +/- 17.9434024972
-Beam current from 0.919037520885 to 0.994880795479 uA
-Temperatures from 0.915000021458 to 0.990999996662 K
-Li6-to-He3 ratio: 5.08761707554 +/- 0.0222459960676
-Li6-to-He3 ratio: 5.08986461309 +/- 0.0310846628474
+Li6 background rate: 2.320320307125527 +/- 0.1523364913103144 1/s
+Monitor counts: 1533.7575721232129 +/- 12.384496647515444
+Beam current from 0.9190375208854675 to 0.9948807954788208 uA
+Temperatures from 0.9150000214576721 to 0.9909999966621399 K
+Li6-to-He3 ratio during counting: 10.665260108043094 +/- 0.10001829479080991
+Li6-to-He3 ratio during irradiation: 8.889146722932189 +/- 0.10367416121792278
 
 
 Analyzing TCN18-265_100A
-Li6 background rate: 1.93026646239 +/- 0.138943620277 1/s
-Monitor counts: 3196.0028889 +/- 17.8773680638
-Beam current from 0.923499047756 to 0.985957682133 uA
-Temperatures from 0.925000011921 to 1.02199995518 K
-Li6-to-He3 ratio: 5.14930491771 +/- 0.0282255704495
-Li6-to-He3 ratio: 5.15217391304 +/- 0.0315478515337
+Li6 background rate: 1.9302664623932184 +/- 0.13894362027726012 1/s
+Monitor counts: 1509.8183579825375 +/- 12.28746661432916
+Beam current from 0.9234990477561951 to 0.985957682132721 uA
+Temperatures from 0.925000011920929 to 1.0219999551773071 K
+Li6-to-He3 ratio during counting: 10.892695355611675 +/- 0.09268722877764385
+Li6-to-He3 ratio during irradiation: 9.00703736622182 +/- 0.11960309048068042
 
 
 Analyzing TCN18-265_150A
-Li6 background rate: 2.50034515854 +/- 0.189008328038 1/s
-Monitor counts: 2978.66812306 +/- 20.628233506
-Beam current from 0.785197138786 to 0.994880795479 uA
-Temperatures from 0.910000026226 to 1.00600004196 K
-Li6-to-He3 ratio: 5.02157681904 +/- 0.0425099180531
-Li6-to-He3 ratio: 5.02511619084 +/- 0.0379655946836
+Li6 background rate: 2.5003451585404384 +/- 0.1890083280377819 1/s
+Monitor counts: 1394.0745172282975 +/- 14.112175681346423
+Beam current from 0.7851971387863159 to 0.9948807954788208 uA
+Temperatures from 0.9100000262260437 to 1.00600004196167 K
+Li6-to-He3 ratio during counting: 10.740864449865251 +/- 0.11321762940997514
+Li6-to-He3 ratio during irradiation: 8.814738295092033 +/- 0.12756978148777995
 
 
 Analyzing TCN18-265_50A
-Li6 background rate: 2.91040176454 +/- 0.170610772947 1/s
-Monitor counts: 3221.95317989 +/- 17.9497999429
-Beam current from 0.941344201565 to 0.985957682133 uA
-Temperatures from 0.908999979496 to 0.963999986649 K
-Li6-to-He3 ratio: 5.73155091413 +/- 0.0706314645645
-Li6-to-He3 ratio: 5.73861379995 +/- 0.0346913703504
+Li6 background rate: 2.9104017645410702 +/- 0.17061077294681967 1/s
+Monitor counts: 1414.6008413035834 +/- 11.893699345887232
+Beam current from 0.9413442015647888 to 0.985957682132721 uA
+Temperatures from 0.9089999794960022 to 0.9639999866485596 K
+Li6-to-He3 ratio during counting: 13.00357912325788 +/- 0.32629774139482687
+Li6-to-He3 ratio during irradiation: 10.485256924804656 +/- 0.15215447905116064
 
 
 Analyzing TCN18-265_75A
-Li6 background rate: 2.8103879582 +/- 0.167653689788 1/s
-Monitor counts: 3240.5744786 +/- 18.0015957032
-Beam current from 0.963650941849 to 0.994880795479 uA
-Temperatures from 0.908999979496 to 0.964999973774 K
-Li6-to-He3 ratio: 5.31912698438 +/- 0.0147286359471
-Li6-to-He3 ratio: 5.32059985189 +/- 0.032270568088
+Li6 background rate: 2.8103879581994526 +/- 0.16765368978825787 1/s
+Monitor counts: 1468.9285854651803 +/- 12.11993640851791
+Beam current from 0.9636509418487549 to 0.9948807954788208 uA
+Temperatures from 0.9089999794960022 to 0.9649999737739563 K
+Li6-to-He3 ratio during counting: 11.705776521085822 +/- 0.1359963214351621
+Li6-to-He3 ratio during irradiation: 9.467036054899694 +/- 0.11049797861973439
 
 
 Analyzing TCN18-265_25A
-Li6 background rate: 2.66036724869 +/- 0.163117581765 1/s
-Monitor counts: 3257.42120934 +/- 18.0483273722
-Beam current from 0.963650941849 to 1.00380384922 uA
-Temperatures from 0.911000013351 to 0.966000020504 K
-Li6-to-He3 ratio: 6.11113601861 +/- 0.0777051436047
-Li6-to-He3 ratio: 6.11884893852 +/- 0.0366059265063
+Li6 background rate: 2.6603672486870265 +/- 0.16311758176473992 1/s
+Monitor counts: 1370.0933660433232 +/- 11.705098743895
+Beam current from 0.9636509418487549 to 1.0038038492202759 uA
+Temperatures from 0.9110000133514404 to 0.9660000205039978 K
+Li6-to-He3 ratio during counting: 14.498693849782295 +/- 0.27058809313151844
+Li6-to-He3 ratio during irradiation: 11.370521247619882 +/- 0.20161334453956073
 
 
 Analyzing TCN18-115 (UGD22+2+Ti)
-Li6 background rate: 3.1604362804 +/- 0.177788431036 1/s
-Monitor counts: 3160.74998852 +/- 17.778498217
-Beam current from 0.962414860725 to 0.98079007864 uA
-Temperatures from 0.911000013351 to 0.953999996185 K
-Li6-to-He3 ratio: 6.94982090649 +/- 0.107668806311
-Li6-to-He3 ratio: 6.96077129761 +/- 0.0418989769275
+Li6 background rate: 3.160436280395114 +/- 0.17778843103600947 1/s
+Monitor counts: 1170.5742550660727 +/- 10.819307995736477
+Beam current from 0.9624148607254028 to 0.9807900786399841 uA
+Temperatures from 0.9110000133514404 to 0.9539999961853027 K
+Li6-to-He3 ratio during counting: 18.740902739300875 +/- 0.2688122020995561
+Li6-to-He3 ratio during irradiation: 14.004297323061781 +/- 0.16087949737506885
 
 
 Analyzing TCN18-245 (IV2+UGD22+IV3, O-rings in)
-Li6 background rate: 3.35500859455 +/- 0.174654771127 1/s
-Monitor counts: 3316.47835371 +/- 17.3636986888
-Beam current from 0.955523788929 to 1.00605642796 uA
-Temperatures from 0.899999976158 to 0.953999996185 K
-Li6-to-He3 ratio: 12.4515622822 +/- 0.0441151464762
-Li6-to-He3 ratio: 12.4561742943 +/- 0.06779896368
+Li6 background rate: 3.3550085945506245 +/- 0.1746547711265254 1/s
+Monitor counts: 1267.4323260810786 +/- 10.734110142570055
+Beam current from 0.9555237889289856 to 1.0060564279556274 uA
+Temperatures from 0.8999999761581421 to 0.9539999961853027 K
+Li6-to-He3 ratio during counting: 32.43243473058218 +/- 0.6750974377513049
+Li6-to-He3 ratio during irradiation: 24.33227417042878 +/- 0.5125160366264111
 
 
 Analyzing TCN18-480 (UGD22+2)
-Li6 background rate: 3.39046803498 +/- 0.184144946566 1/s
-Monitor counts: 3328.62493306 +/- 18.2445195416
-Beam current from 0.960117816925 to 1.00146234035 uA
-Temperatures from 0.902999997139 to 0.940999984741 K
-Li6-to-He3 ratio: 12.1219096118 +/- 0.0555994314027
-Li6-to-He3 ratio: 12.1273803088 +/- 0.0691749365057
+Li6 background rate: 3.3904680349808345 +/- 0.18414494656601837 1/s
+Monitor counts: 1227.2690411317167 +/- 11.078217551265713
+Beam current from 0.9601178169250488 to 1.0014623403549194 uA
+Temperatures from 0.902999997138977 to 0.9409999847412109 K
+Li6-to-He3 ratio during counting: 32.83688835304443 +/- 0.30090944826656485
+Li6-to-He3 ratio during irradiation: 22.95672039302246 +/- 0.254043196438061
 
 
 Analyzing TCN18-480 (UGD22+2, IV1 closed after production)
-Li6 background rate: 2.15484291845 +/- 0.139972088887 1/s
-Monitor counts: 3360.56950005 +/- 17.4787390331
-Beam current from 0.948632657528 to 0.996868312359 uA
-Temperatures from 0.907000005245 to 0.950999975204 K
-Li6-to-He3 ratio: 5.63753436304 +/- 0.0254792019102
-Li6-to-He3 ratio: 5.64019363912 +/- 0.0318764015627
+Li6 background rate: 2.154842918451214 +/- 0.13997208888741994 1/s
+Monitor counts: 618.4531231517308 +/- 7.498200530501427
+Beam current from 0.9486326575279236 to 0.9968683123588562 uA
+Temperatures from 0.9070000052452087 to 0.9509999752044678 K
+Li6-to-He3 ratio during counting: 30.578802322515042 +/- 0.3768656908093278
+Li6-to-He3 ratio during irradiation: 16.98870725143339 +/- 0.263670812625934
 
 
 Analyzing TCN18-057 (spider+UGD2)
-Li6 background rate: 3.50957538617 +/- 0.178632683819 1/s
-Monitor counts: 3277.06249056 +/- 17.2602077586
-Beam current from 0.957527458668 to 0.980271577835 uA
-Temperatures from 0.901000022888 to 0.958999991417 K
-Li6-to-He3 ratio: 11.7280515007 +/- 0.091241238605
-Li6-to-He3 ratio: 11.7376816417 +/- 0.0644171374817
+Li6 background rate: 3.5095753861694883 +/- 0.17863268381938058 1/s
+Monitor counts: 1248.1295241951686 +/- 10.652057096231648
+Beam current from 0.9575274586677551 to 0.980271577835083 uA
+Temperatures from 0.9010000228881836 to 0.9589999914169312 K
+Li6-to-He3 ratio during counting: 30.696103234263532 +/- 0.4499301199898134
+Li6-to-He3 ratio during irradiation: 22.112369508959905 +/- 0.23598391412367753
 
 
 Analyzing TCN18-302 (high position: IV2+elbow+UGD10+18)
-Li6 background rate: 3.12709834495 +/- 0.144395985236 1/s
-Monitor counts: 4220.05463256 +/- 16.7731027393
-Beam current from 0.959801971912 to 0.987095117569 uA
-Temperatures from 0.901000022888 to 0.963999986649 K
-Li6-to-He3 ratio: 16.0733613883 +/- 0.124491090097
-Li6-to-He3 ratio: 16.0871618314 +/- 0.065901079278
+Li6 background rate: 3.127098344947908 +/- 0.14439598523569663 1/s
+Monitor counts: 1377.3566514634726 +/- 9.582472372213317
+Beam current from 0.959801971912384 to 0.9870951175689697 uA
+Temperatures from 0.9010000228881836 to 0.9639999866485596 K
+Li6-to-He3 ratio during counting: 48.87892332857917 +/- 1.3250394278523348
+Li6-to-He3 ratio during irradiation: 31.81352691094797 +/- 0.2881415642599796
 
 
 Analyzing TCN18-240 (high position: IV2+elbow+UGD10+Al+UGD18)
-Li6 background rate: 3.01708315797 +/- 0.158574370217 1/s
-Monitor counts: 4053.28698048 +/- 18.378626582
-Beam current from 0.971174538136 to 0.989369630814 uA
-Temperatures from 0.902999997139 to 0.963999986649 K
-Li6-to-He3 ratio: 9.94587088001 +/- 0.0847590143703
-Li6-to-He3 ratio: 9.95433643592 +/- 0.0473561641395
+Li6 background rate: 3.017083157972129 +/- 0.15857437021735793 1/s
+Monitor counts: 1659.6692069352573 +/- 11.760347241667857
+Beam current from 0.9711745381355286 to 0.9893696308135986 uA
+Temperatures from 0.902999997138977 to 0.9639999866485596 K
+Li6-to-He3 ratio during counting: 24.179479489710936 +/- 0.6648663484794105
+Li6-to-He3 ratio during irradiation: 18.52530461969522 +/- 0.1766774068980426
 
 
 Analyzing TCN18-215 (high position: UGD22+20+Ti)
-Li6 background rate: 2.26031202332 +/- 0.150353719266 1/s
-Monitor counts: 4140.57299436 +/- 20.3483979575
-Beam current from 0.966625511646 to 0.98254609108 uA
-Temperatures from 0.90600001812 to 0.953999996185 K
-Li6-to-He3 ratio: 7.13947027832 +/- 0.0587490218173
-Li6-to-He3 ratio: 7.14469204954 +/- 0.0375127834977
+Li6 background rate: 2.2603120233205565 +/- 0.15035371926627283 1/s
+Monitor counts: 1591.4579642384429 +/- 12.615300092500545
+Beam current from 0.9666255116462708 to 0.9825460910797119 uA
+Temperatures from 0.906000018119812 to 0.9539999961853027 K
+Li6-to-He3 ratio during counting: 18.553756447650358 +/- 0.17454708441868644
+Li6-to-He3 ratio during irradiation: 13.419357992761649 +/- 0.16267951991557333
 
 
 Analyzing TCN18-380 (high position: UGD22+20)
-Li6 background rate: 3.65606025404 +/- 0.201565126564 1/s
-Monitor counts: 4149.37170691 +/- 21.4718723163
-Beam current from 0.968900024891 to 0.987095117569 uA
-Temperatures from 0.902999997139 to 0.95300000906 K
-Li6-to-He3 ratio: 15.8223811252 +/- 0.259223608442
-Li6-to-He3 ratio: 15.8438055466 +/- 0.0845363210547
+Li6 background rate: 3.6560602540435743 +/- 0.20156512656409564 1/s
+Monitor counts: 1577.329772626768 +/- 13.238537065144188
+Beam current from 0.9689000248908997 to 0.9870951175689697 uA
+Temperatures from 0.902999997138977 to 0.953000009059906 K
+Li6-to-He3 ratio during counting: 41.52467186766607 +/- 0.6792970728509549
+Li6-to-He3 ratio during irradiation: 28.94070532371785 +/- 0.3791611030716029
 
 
 Analyzing TCN18-310 (high position: UGD22+20, smooth elbow)
-Li6 background rate: 3.88720327314 +/- 0.160991510205 1/s
-Monitor counts: 4176.22901225 +/- 16.6857803978
-Beam current from 0.962076485157 to 0.989369630814 uA
-Temperatures from 0.903999984264 to 0.957000017166 K
-Li6-to-He3 ratio: 17.1228994412 +/- 0.109714113985
-Li6-to-He3 ratio: 17.1351739547 +/- 0.0704345576688
+Li6 background rate: 3.8872032731442014 +/- 0.16099151020488545 1/s
+Monitor counts: 1403.5691913575454 +/- 9.673224871977098
+Beam current from 0.9620764851570129 to 0.9893696308135986 uA
+Temperatures from 0.9039999842643738 to 0.9570000171661377 K
+Li6-to-He3 ratio during counting: 50.8357179667031 +/- 0.5301495448772758
+Li6-to-He3 ratio during irradiation: 32.141328063538914 +/- 0.2579079762217384
 
-Li6 count ratio 18-215 (high position: UGD22+20+Ti)/18-380 (high position: UGD22+20): 0.502391474838
-Li6 count ratio 18-115 (UGD22+2+Ti)/18-480 (UGD22+2): 0.548271118537
-Li6 count ratio 18-240 (high position: IV2+elbow+UGD10+Al+UGD18)/18-302 (high position: IV2+elbow+UGD10+18): 0.476843769896
-Li6 count ratio 18-310 (high position: UGD22+20, smooth elbow)/18-380 (high position: UGD22+20): 1.81351208528
-Li6 count ratio 18-035 (IV2+UGD22+IV3, O-rings out)/18-031 (IV2+UGD17+elbow): 0.80752674023
-Li6 count ratio 18-045 (IV2+UGD22+IV3, O-rings in)/18-035 (IV2+UGD22+IV3, O-rings out): 0.966895784043
-Li6 count ratio 18-057 (spider+UGD2)/18-245 (IV2+UGD22+IV3, O-rings in): 0.931642824191
-Li6 count ratio 18-053 (burst disk+UGD2)/18-045 (IV2+UGD22+IV3, O-rings in): 0.931756749363
-Li6 count ratio 18-057 (spider+UGD2)/18-053 (burst disk+UGD2): 1.00093254877
-Li6 count ratio 18-480 (UGD22+2)/18-045 (IV2+UGD22+IV3, O-rings in): 0.889396907386
-Li6 count ratio 18-480 (UGD22+2)/18-245 (IV2+UGD22+IV3, O-rings in): 0.888459629583
-Li6 count ratio 18-085 (UGD22+19)/18-045 (IV2+UGD22+IV3, O-rings in): 0.918276628109
-Li6 count ratio 18-085 (UGD22+19)/18-245 (IV2+UGD22+IV3, O-rings in): 0.91730891584
-Li6 count ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-045 (IV2+UGD22+IV3, O-rings in): 0.790851289684
-Li6 count ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-245 (IV2+UGD22+IV3, O-rings in): 0.790017862726
-Li6 count ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-045 (IV2+UGD22+IV3, O-rings in): 0.749758697294
-Li6 count ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-245 (IV2+UGD22+IV3, O-rings in): 0.748968575158
-Li6 count ratio 18-045 (IV2+UGD22+IV3, O-rings in)/18-245 (IV2+UGD22+IV3, O-rings in): 0.998946164761
-Li6 count ratio 18-085 (UGD22+19)/18-480 (UGD22+2): 1.03247112789
-Li6 count ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-480 (UGD22+2): 0.889199504874
-Li6 count ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-480 (UGD22+2): 0.842996744274
-Li6 count ratio 18-060 (UGD10+17+11)/18-045 (IV2+UGD22+IV3, O-rings in): 0.840042022784
-Li6 count ratio 18-065_0A/18-045 (IV2+UGD22+IV3, O-rings in): 1.01972663303
-Li6 count ratio 18-065_0A/18-060 (UGD10+17+11): 1.21389954952
-Li6 count ratio 18-265_0A/18-045 (IV2+UGD22+IV3, O-rings in): 0.466061130019
-Li6 count ratio 18-265_0A/18-060 (UGD10+17+11): 0.554806923199
-Li6 count ratio 18-265_0A/18-065_0A: 0.457045167716
-Li6 count ratio 18-065_0A/18-065_0A: 1.0
-Li6 count ratio 18-065_25A/18-065_0A: 0.986065918593
-Li6 count ratio 18-065_50A/18-065_0A: 0.956570825141
-Li6 count ratio 18-065_75A/18-065_0A: 0.901926989878
-Li6 count ratio 18-065_100A/18-065_0A: 0.819848553792
-Li6 count ratio 18-065_125A/18-065_0A: 0.685519458777
-Li6 count ratio 18-065_150A/18-065_0A: 0.702293156589
-Li6 count ratio 18-065_175A/18-065_0A: 0.689661907501
-Li6 count ratio 18-065_200A/18-065_0A: 0.689153223383
-Li6 count ratio 18-265_0A/18-265_0A: 1.0
-Li6 count ratio 18-265_25A/18-265_0A: 0.948816808412
-Li6 count ratio 18-265_50A/18-265_0A: 0.880802663649
-Li6 count ratio 18-265_75A/18-265_0A: 0.821927200492
-Li6 count ratio 18-265_100A/18-265_0A: 0.785696507483
-Li6 count ratio 18-265_150A/18-265_0A: 0.506121413913
-Li6 count ratio 18-265_200A/18-265_0A: 0.781934902156
+Transmission ratio 18-215 (high position: UGD22+20+Ti)/18-380 (high position: UGD22+20) (normalized during counting): 0.44681283711955283 +/- 0.0084318285756927
+Transmission ratio 18-215 (high position: UGD22+20+Ti)/18-380 (high position: UGD22+20) (normalized during irradiation): 0.46368455235139167 +/- 0.00797539440622283
+Transmission ratio 18-115 (UGD22+2+Ti)/18-480 (UGD22+2) (normalized during counting): 0.5707271206031718 +/- 0.00971433382117327
+Transmission ratio 18-115 (UGD22+2+Ti)/18-480 (UGD22+2) (normalized during irradiation): 0.6100303999572296 +/- 0.009103614824803138
+Transmission ratio 18-240 (high position: IV2+elbow+UGD10+Al+UGD18)/18-302 (high position: IV2+elbow+UGD10+18) (normalized during counting): 0.49468109858249193 +/- 0.01910115321157527
+Transmission ratio 18-240 (high position: IV2+elbow+UGD10+Al+UGD18)/18-302 (high position: IV2+elbow+UGD10+18) (normalized during irradiation): 0.5823090495923644 +/- 0.0065063055293470545
+Transmission ratio 18-310 (high position: UGD22+20, smooth elbow)/18-380 (high position: UGD22+20) (normalized during counting): 1.2242292516774165 +/- 0.023750373288739246
+Transmission ratio 18-310 (high position: UGD22+20, smooth elbow)/18-380 (high position: UGD22+20) (normalized during irradiation): 1.11059242350939 +/- 0.01880823489823393
+Transmission ratio 18-035 (IV2+UGD22+IV3, O-rings out)/18-031 (IV2+UGD17+elbow) (normalized during counting): 0.8950692648611626 +/- 0.010267006241354739
+Transmission ratio 18-035 (IV2+UGD22+IV3, O-rings out)/18-031 (IV2+UGD17+elbow) (normalized during irradiation): 0.9055830447349477 +/- 0.0157032653118331
+Transmission ratio 18-045 (IV2+UGD22+IV3, O-rings in)/18-035 (IV2+UGD22+IV3, O-rings out) (normalized during counting): 1.016588643039167 +/- 0.022813284700117963
+Transmission ratio 18-045 (IV2+UGD22+IV3, O-rings in)/18-035 (IV2+UGD22+IV3, O-rings out) (normalized during irradiation): 1.0414952107209206 +/- 0.018269110415671596
+Transmission ratio 18-057 (spider+UGD2)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.9659374648024969 +/- 0.024620984993744648
+Transmission ratio 18-057 (spider+UGD2)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.926202863771218 +/- 0.014337494351571644
+Transmission ratio 18-053 (burst disk+UGD2)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 1.0291769199734446 +/- 0.02945735219119799
+Transmission ratio 18-053 (burst disk+UGD2)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.955461192700643 +/- 0.015206727988383302
+Transmission ratio 18-053 (burst disk+UGD2)/18-480 (UGD22+2) (normalized during counting): 0.9960067411018529 +/- 0.02155501313384048
+Transmission ratio 18-053 (burst disk+UGD2)/18-480 (UGD22+2) (normalized during irradiation): 0.9936475618076788 +/- 0.015247504355345958
+Transmission ratio 18-057 (spider+UGD2)/18-053 (burst disk+UGD2) (normalized during counting): 0.9385533682852318 +/- 0.022974844829246624
+Transmission ratio 18-057 (spider+UGD2)/18-053 (burst disk+UGD2) (normalized during irradiation): 0.96937779456356 +/- 0.01410287720816736
+Transmission ratio 18-480 (UGD22+2)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 1.0333031670397093 +/- 0.02353642063392902
+Transmission ratio 18-480 (UGD22+2)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.9615695035394987 +/- 0.015632798431827716
+Transmission ratio 18-480 (UGD22+2)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 1.012470652475587 +/- 0.02302696849930497
+Transmission ratio 18-480 (UGD22+2)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.943467932024289 +/- 0.024089984688154507
+Transmission ratio 18-085 (UGD22+19)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 1.0314238086333625 +/- 0.02505508882367369
+Transmission ratio 18-085 (UGD22+19)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.9729936743666585 +/- 0.015289854596634254
+Transmission ratio 18-085 (UGD22+19)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 1.0106291839766945 +/- 0.024517258299365113
+Transmission ratio 18-085 (UGD22+19)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.9546770425313486 +/- 0.023851405971754724
+Transmission ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.919299468447139 +/- 0.02285326245355662
+Transmission ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.9050955459761457 +/- 0.017149344850120953
+Transmission ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.9007653923152703 +/- 0.022364043370897604
+Transmission ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.8880570982162309 +/- 0.023579341865697157
+Transmission ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.9552744154201012 +/- 0.03091710873716351
+Transmission ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.893027191944326 +/- 0.014737571040288616
+Transmission ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.9360150452693389 +/- 0.030271066479380142
+Transmission ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.8762159312704967 +/- 0.022449622224858884
+Transmission ratio 18-045 (IV2+UGD22+IV3, O-rings in)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.9798389134683435 +/- 0.02887019983344611
+Transmission ratio 18-045 (IV2+UGD22+IV3, O-rings in)/18-245 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.9811749733653381 +/- 0.022981018419559945
+Transmission ratio 18-085 (UGD22+19)/18-480 (UGD22+2) (normalized during counting): 0.9981812129621832 +/- 0.015438217537811496
+Transmission ratio 18-085 (UGD22+19)/18-480 (UGD22+2) (normalized during irradiation): 1.0118807541057697 +/- 0.015327433703492844
+Transmission ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-480 (UGD22+2) (normalized during counting): 0.8896706192054192 +/- 0.01454033634792833
+Transmission ratio 18-090 (UGD22+UGA11+UGG3+UGA5)/18-480 (UGD22+2) (normalized during irradiation): 0.941268980187626 +/- 0.016974691620509876
+Transmission ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-480 (UGD22+2) (normalized during counting): 0.9244861003928293 +/- 0.02439992705787623
+Transmission ratio 18-290 (UGD22+UGA5+UGG3+UGA6)/18-480 (UGD22+2) (normalized during irradiation): 0.928718297176781 +/- 0.01473520450329938
+Transmission ratio 18-060 (UGD10+17+11)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 1.009735867927977 +/- 0.023066789762903883
+Transmission ratio 18-060 (UGD10+17+11)/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.954890211355553 +/- 0.023525264611471648
+Transmission ratio 18-065_0A/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.9773661329776034 +/- 0.02431511065754428
+Transmission ratio 18-065_0A/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.8935057429377424 +/- 0.01403674531850594
+Transmission ratio 18-065_0A/18-060 (UGD10+17+11) (normalized during counting): 0.9679423738637731 +/- 0.01593666743059446
+Transmission ratio 18-065_0A/18-060 (UGD10+17+11) (normalized during irradiation): 0.9357156794699261 +/- 0.022414264657927264
+Transmission ratio 18-265_0A/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during counting): 0.48544210736286175 +/- 0.010996445545924905
+Transmission ratio 18-265_0A/18-045 (IV2+UGD22+IV3, O-rings in) (normalized during irradiation): 0.5063812379772085 +/- 0.007969619981405699
+Transmission ratio 18-265_0A/18-060 (UGD10+17+11) (normalized during counting): 0.4807614771167935 +/- 0.006180861731031257
+Transmission ratio 18-265_0A/18-060 (UGD10+17+11) (normalized during irradiation): 0.5303030986759771 +/- 0.011771225256004105
+Transmission ratio 18-265_0A/18-065_0A (normalized during counting): 0.49668398666928826 +/- 0.008044842273175208
+Transmission ratio 18-265_0A/18-065_0A (normalized during irradiation): 0.5667352918317974 +/- 0.00805390166709652
+Transmission ratio 18-065_0A/18-065_0A (normalized during counting): 1.0 +/- 0.01918692931248526
+Transmission ratio 18-065_0A/18-065_0A (normalized during irradiation): 1.0 +/- 0.014130574238435821
+Transmission ratio 18-065_25A/18-065_0A (normalized during counting): 0.9844195749236131 +/- 0.015989557467883515
+Transmission ratio 18-065_25A/18-065_0A (normalized during irradiation): 1.0073786508910456 +/- 0.01820423097759967
+Transmission ratio 18-065_50A/18-065_0A (normalized during counting): 0.930945236665905 +/- 0.017521884310257852
+Transmission ratio 18-065_50A/18-065_0A (normalized during irradiation): 0.9430578589283958 +/- 0.013187079147233133
+Transmission ratio 18-065_75A/18-065_0A (normalized during counting): 0.827572968982744 +/- 0.013038521001461073
+Transmission ratio 18-065_75A/18-065_0A (normalized during irradiation): 0.870506234818981 +/- 0.011736378724328578
+Transmission ratio 18-065_100A/18-065_0A (normalized during counting): 0.675306621021048 +/- 0.013447837562698359
+Transmission ratio 18-065_100A/18-065_0A (normalized during irradiation): 0.7564518204766365 +/- 0.012755547357903473
+Transmission ratio 18-065_125A/18-065_0A (normalized during counting): 0.5758258673350455 +/- 0.008991895303556052
+Transmission ratio 18-065_125A/18-065_0A (normalized during irradiation): 0.6833744605739435 +/- 0.008576122105504888
+Transmission ratio 18-065_150A/18-065_0A (normalized during counting): 0.5187288691486374 +/- 0.007985443659999631
+Transmission ratio 18-065_150A/18-065_0A (normalized during irradiation): 0.6112521254823485 +/- 0.007417363694953407
+Transmission ratio 18-065_175A/18-065_0A (normalized during counting): 0.5159985918220288 +/- 0.00869683623525162
+Transmission ratio 18-065_175A/18-065_0A (normalized during irradiation): 0.5804162695163608 +/- 0.007348876665697999
+Transmission ratio 18-065_200A/18-065_0A (normalized during counting): 0.5034504524302403 +/- 0.008689494312256534
+Transmission ratio 18-065_200A/18-065_0A (normalized during irradiation): 0.5891967516170179 +/- 0.0071973513993896995
+Transmission ratio 18-265_0A/18-265_0A (normalized during counting): 1.0 +/- 0.012512158516573802
+Transmission ratio 18-265_0A/18-265_0A (normalized during irradiation): 1.0 +/- 0.0180610528226525
+Transmission ratio 18-265_25A/18-265_0A (normalized during counting): 0.9398470860031799 +/- 0.019411471030432274
+Transmission ratio 18-265_25A/18-265_0A (normalized during irradiation): 0.9405320607808773 +/- 0.02053726930492534
+Transmission ratio 18-265_50A/18-265_0A (normalized during counting): 0.8429294440746615 +/- 0.022427809898995114
+Transmission ratio 18-265_50A/18-265_0A (normalized during irradiation): 0.867305912239316 +/- 0.01629446076443676
+Transmission ratio 18-265_75A/18-265_0A (normalized during counting): 0.7588021422296702 +/- 0.011080907477284551
+Transmission ratio 18-265_75A/18-265_0A (normalized during irradiation): 0.7830820361085472 +/- 0.013128226105649081
+Transmission ratio 18-265_100A/18-265_0A (normalized during counting): 0.7060958797226914 +/- 0.008667514372459374
+Transmission ratio 18-265_100A/18-265_0A (normalized during irradiation): 0.7450324599108628 +/- 0.013008820620965294
+Transmission ratio 18-265_150A/18-265_0A (normalized during counting): 0.6962537631976126 +/- 0.00958168023460497
+Transmission ratio 18-265_150A/18-265_0A (normalized during irradiation): 0.7291261142194719 +/- 0.01343876333451508
+Transmission ratio 18-265_200A/18-265_0A (normalized during counting): 0.6913528720492828 +/- 0.008913440599201706
+Transmission ratio 18-265_200A/18-265_0A (normalized during irradiation): 0.735280934253832 +/- 0.011957137224903797
