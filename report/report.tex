@@ -342,7 +342,7 @@ As seen in table~\ref{tab:transmission_comparison}, adding the warm bore without
 
 When the current in the SCM magnet is increased the magnetic field $B$ acts as a potential wall or trough with $V = \pm \SI{60.3}{\nano\electronvolt\per\tesla} \cdot B$, depending on the UCN's spin polarization. UCNs with the wrong polarization (low-field seekers) cannot penetrate the potential if their energy is too low, so at higher currents a larger part of their spectrum is not transmitted and the total transmission drops.
 
-At the maximum current of \SI{200}{\ampere} the central field was measured as \SI{3.79}{\tesla}, sufficient to polarize UCNs with energies up to \SI{229}{\nano\electronvolt}. Due to the geometry of the source and UCN guides, we expect an energy range for UCNs roughly between \SIlist{90;180}{\nano\electronvolt}. This is confirmed by the transmission curve (Fig.~\ref{fig:SCMtransmission_nofoil}) starting to drop at about \SI{50}{\ampere}, corresponding to $V = \SI{70}{\nano\electronvolt}$ and leveling out at \SI{150}{\ampere}, corresponding to $V = \SI{170}{\nano\electronvolt}$.
+At the maximum current of \SI{200}{\ampere} the central field was measured as \SI{3.79}{\tesla}, sufficient to polarize UCNs with energies up to \SI{229}{\nano\electronvolt}. Due to the geometry of the source and UCN guides, we expect an energy range for UCNs roughly between \SIlist{90;180}{\nano\electronvolt}. This is confirmed by the transmission curve (Fig.~\ref{fig:SCMtransmission}, top) starting to drop at about \SI{50}{\ampere}, corresponding to $V = \SI{70}{\nano\electronvolt}$ and leveling out at \SI{150}{\ampere}, corresponding to $V = \SI{170}{\nano\electronvolt}$.
 
 Since low-field seekers are reflected back towards the source and and He3 detector, the two normalization methods show a large discrepancy at higher currents. When using the normalization during irradiation the transmission does not drop to \SI{50}{\percent}, as we would expect if all low-field seekers are reflected by the magnetic field.
 
@@ -361,60 +361,6 @@ When we inserted the foil (TCN18-265), the transmission through the SCM with no 
 With the foil, the transmission curve starts to drop and level out at lower currents, since the aluminium foil adds its Fermi potential of \SI{54}{\nano\electronvolt} to the potential barrier. It also levels off at a higher relative transmission of around \SI{70}{\percent} and the initial time-resolved transmission at full current is much higher at \SI{70}{\percent} (Fig.~\ref{fig:SCMtof}), since the magnetic field accelerates the high-field seekers and reduces their absorption in the foil, counteracting the loss of low-field seekers.
 
 All these effects have to be confirmed in simulation.
-
-
-
-
-\section{Thermal neutron detector}
-
-The output on this device is a negative, time-averaged current reading, which will take some time before the reading is accurate. The reading is negative, so the convention adopted for the rest of this section is that when the magntiude of the reading increases (i.e. it becomes more negative), it will be said the the reading has increased. If it becomes more positive, it will be said that the reading has dropped, as it has decreased in magntiude. Some ``buffer'' time is requied until the reading stabilizes. Although it will sometimes stabilize more quickly, this buffer time is set at \SI{30}{\second}. If a cycle is completed before this time is reached (i.e. the beam on duration is less than \SI{30}{\second}), then that cycle is discarded. All of the LND readings between this buffer time and the moment the beam goes off are averaged, and that (negative) plateau is reported as the LND reading. If the cycle ends before the beam goes off, but after \SI{30}{\second}, then all times beyond \SI{30}{\second} are averaged to get the LND reading. An example of the LND reading over time is shown in Fig \ref{fig:LNDplateau}.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth,page=1]{../thermal_neutron_detector/lndReadingVsTimeTCN18-042.pdf}
-\caption{Thermal neutron detector device reading. Notice the current rising prior to reading a plateau, stabilizing, and then dropping off}
-\label{fig:LNDplateau}
-\end{figure}
-
-Not every cycle has reliable data, however. Cycles in which the beam current drops below \SI{0.1}{\micro\ampere}, or those where the beam fluctuates with a standard deviation of more than \SI{0.02}{\micro\ampere} are discarded. There is also a period from November 16 to November 26 during which the average LND reading drops by $\approx$\SI{0.3}{\micro\ampere}. The cause of this change is uncertain, but it is highly likely that this was due to an issue with the DAQ hardware, and therefore not due to some sudden physical change. Accordingly, all cycles in which the LND plateau is below \SI{0.3}{\micro\ampere} are discarded. Additionally, all those where the reading is above \SI{0.6}{\micro\ampere} are also discarded. There are some cycles in which the device was disabled, and the reading was near zero ($\approx$ \SI{1}{\nano\ampere}). These will be discarded along with those readings associated due to DAQ issues (as in both cases, readings drop below \SI{0.3}{\micro\ampere}). The LND plateau readings of the valid cycles are plotted as a function of time in Fig \ref{fig:LNDreadings}. The readings are then normalized by dividing by beam current, and then are binned in and plotted in Fig \ref{fig:LNDhist}, with a Gaussian fit.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth,page=1]{../thermal_neutron_detector/lndReadingOverTime.pdf}
-\caption{LND plateau reading from valid cycles plotted as function of time. Areas without data points indicate periods of data discarded.}
-\label{fig:LNDreadings}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth,page=1]{../thermal_neutron_detector/lndHist.pdf}
-\caption{LND reading normalized by dividing to beam current, with Gaussian fit}
-\label{fig:LNDhist}
-\end{figure}
-
-
-
-\section{Steady state count rate}
-
-In two different cycles, the VAT valve is opened and UCN are continually produced. In one cycle, the source is cooled down during this time, and in the other it is warmed up. The goal of this study is to analyze how the temperature affects the count rates of UCN in the Li-6 and He-3 detectors, and to determine which of the possible temperature measurement devices (TS11, TS12, TS14, TS16 or PG9) gives the most accurate temperature measurement. In the case of PG9, the pressure measurement is converted into a temperature with a temperature-vapour pressure correlation. The count rate is determined by binning the timestamps of Li6 or He3 hits into time bins, and then dividing by the difference between the bins.
-
-To ensure that the data is reliable, several cuts are made. Firstly, every during every period from when the beam current drops below \SI{0.9}{\micro\ampere}, until \SI{60}{\second} after it returns above \SI{0.9}{\micro\ampere}, the data is discarded. Additionally, at any instant in which the VAT valve IV1 is closed, the data is discarded. There are two devices, PG9L and PG9H, which read the vapour pressure. PG9L is a more accurate reading below \SI{2}{\torr}, whereas PG9H is more accurate above \SI{2}{\milli\torr}. Therefore, the reading from PG9L is used when it reads below that threshold, and PG9H is used otherwise. Finally, the experimentally determined background for the Li-6 detector is subtracted, and the count rates are normalized to beam current.
-
-Two separate plots of count rate vs temperature are made, for warming up, Fig \ref{fig:steadyWarm}, and cooling down, Fig \ref{fig:steadyCool}. The count rate is plotted as a function of temperature as measured by each of the different devices. It would appear as though PG9 produces the most accurate measurement.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth,page=1]{../steady_state/li6RateVsTempRun1162.pdf}
-\caption{UCN count rates in the Li-6 detector during steady state warm-up}
-\label{fig:steadyWarm}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth,page=1]{../steady_state/li6RateVsTempRun1163.pdf}
-\caption{UCN count rates in the Li-6 detector during steady state cool-down}
-\label{fig:steadyCool}
-\end{figure}
 
 
 
@@ -457,6 +403,26 @@ p_4 &= \tau_2' f_2 B
 
 
 
+\section{Steady state count rate}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../steady_state/li6RateVsTempRun1162.pdf}
+\includegraphics[width=\textwidth,page=1]{../steady_state/li6RateVsTempRun1163.pdf}
+\caption{Steady-state UCN count rates in the Li6 detector while warming up (top) and while cooling back down (bottom)}
+\label{fig:steadystate}
+\end{figure}
+
+In two different cycles, the VAT valve is opened and UCN are continually produced. In one cycle, the source is cooled down during this time, and in the other it is warmed up. The goal of this study is to analyze how the temperature affects the count rates of UCN in the Li-6 and He-3 detectors, and to determine which of the possible temperature measurement devices (TS11, TS12, TS14, TS16 or PG9) gives the most accurate temperature measurement. In the case of PG9, the pressure measurement is converted into a temperature with a temperature-vapour pressure correlation. The count rate is determined by binning the timestamps of Li6 or He3 hits into time bins, and then dividing by the difference between the bins.
+
+To ensure that the data is reliable, several cuts are made. Firstly, every during every period from when the beam current drops below \SI{0.9}{\micro\ampere}, until \SI{60}{\second} after it returns above \SI{0.9}{\micro\ampere}, the data is discarded. Additionally, at any instant in which the VAT valve IV1 is closed, the data is discarded. There are two devices, PG9L and PG9H, which read the vapour pressure. PG9L is a more accurate reading below \SI{2}{\torr}, whereas PG9H is more accurate above \SI{2}{\milli\torr}. Therefore, the reading from PG9L is used when it reads below that threshold, and PG9H is used otherwise. Finally, the experimentally determined background for the Li6 detector is subtracted, and the count rates are normalized to beam current.
+
+Two separate plots of count rate vs temperature are made, for warming up and cooling down, see Fig.~\ref{fig:steadystate}. The count rate is plotted as a function of temperature as measured by each of the different devices. It would appear as though PG9 produces the most accurate measurement.
+
+
+
+
+
 \section{Background rates}
 \label{sec:background}
 
@@ -464,5 +430,32 @@ p_4 &= \tau_2' f_2 B
 
 \section{Reproducibility}
 
+
+\section{Thermal neutron detector}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../thermal_neutron_detector/lndReadingVsTimeTCN18-042.pdf}
+\caption{Thermal neutron detector device reading. Notice the current rising prior to reading a plateau, stabilizing, and then dropping off}
+\label{fig:LNDplateau}
+\end{figure}
+
+The output on this device is a negative, time-averaged current reading, which will take some time before the reading is accurate. The reading is negative, so the convention adopted for the rest of this section is that when the magntiude of the reading increases (i.e. it becomes more negative), it will be said the the reading has increased. If it becomes more positive, it will be said that the reading has dropped, as it has decreased in magntiude. Some ``buffer'' time is requied until the reading stabilizes. Although it will sometimes stabilize more quickly, this buffer time is set at \SI{30}{\second}. If a cycle is completed before this time is reached (i.e. the beam on duration is less than \SI{30}{\second}), then that cycle is discarded. All of the LND readings between this buffer time and the moment the beam goes off are averaged, and that (negative) plateau is reported as the LND reading. If the cycle ends before the beam goes off, but after \SI{30}{\second}, then all times beyond \SI{30}{\second} are averaged to get the LND reading. An example of the LND reading over time is shown in Fig \ref{fig:LNDplateau}.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../thermal_neutron_detector/lndReadingOverTime.pdf}
+\caption{LND plateau reading from valid cycles plotted as function of time. Areas without data points indicate periods of data discarded.}
+\label{fig:LNDreadings}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../thermal_neutron_detector/lndHist.pdf}
+\caption{LND reading normalized by dividing to beam current, with Gaussian fit}
+\label{fig:LNDhist}
+\end{figure}
+
+Not every cycle has reliable data, however. Cycles in which the beam current drops below \SI{0.1}{\micro\ampere}, or those where the beam fluctuates with a standard deviation of more than \SI{0.02}{\micro\ampere} are discarded. There is also a period from November 16 to November 26 during which the average LND reading drops by $\approx$\SI{0.3}{\micro\ampere}. The cause of this change is uncertain, but it is highly likely that this was due to an issue with the DAQ hardware, and therefore not due to some sudden physical change. Accordingly, all cycles in which the LND plateau is below \SI{0.3}{\micro\ampere} are discarded. Additionally, all those where the reading is above \SI{0.6}{\micro\ampere} are also discarded. There are some cycles in which the device was disabled, and the reading was near zero ($\approx$ \SI{1}{\nano\ampere}). These will be discarded along with those readings associated due to DAQ issues (as in both cases, readings drop below \SI{0.3}{\micro\ampere}). The LND plateau readings of the valid cycles are plotted as a function of time in Fig \ref{fig:LNDreadings}. The readings are then normalized by dividing by beam current, and then are binned in and plotted in Fig \ref{fig:LNDhist}, with a Gaussian fit.
 
 \end{document}
