@@ -199,26 +199,7 @@ def Transmission(ex):
     ex['transmission2err'] = f.GetErrors()[0]*max(f.Chi2()/f.Ndf(), 1.)
     print('Li6-to-He3 ratio during irradiation: {0} +/- {1}\n'.format(ex['transmission2'], ex['transmission2err']))
 
-  graph = ROOT.TGraphErrors(len(ex['minvaporpressure']), numpy.array(ex['cyclenumber']),
-                            numpy.array([(maxvp + minvp)/2 for maxvp, minvp in zip(ex['maxvaporpressure'], ex['minvaporpressure'])]),
-                            numpy.array([0. for _ in ex['cyclenumber']]),
-                            numpy.array([(maxvp - minvp)/2 for maxvp, minvp in zip(ex['maxvaporpressure'], ex['minvaporpressure'])]))
-  graph.GetXaxis().SetTitle('Cycle')
-  graph.GetXaxis().SetLimits(0., max(ex['cyclenumber']))
-  graph.GetYaxis().SetTitle('Vapor pressure (torr)')
-  graph.SetMarkerStyle(20)
-  graph.Draw('AP')
-  fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(graph.GetHistogram().GetMinimum()), UCN.HeTemperature(graph.GetHistogram().GetMaximum()))
-  Taxis = ROOT.TGaxis(max(ex['cyclenumber']), graph.GetHistogram().GetMinimum(), max(ex['cyclenumber']), graph.GetHistogram().GetMaximum(), 'HeTemperature', 510, '+')
-  Taxis.SetTitle('Temperature (K)')
-  Taxis.SetLabelFont(42)
-  Taxis.SetLabelSize(0.035)
-  Taxis.SetLabelOffset(0.045)
-  Taxis.SetTitleSize(0.035)
-  Taxis.SetTitleFont(42)
-  Taxis.SetTitleOffset(1)
-  Taxis.Draw()
-  canvas.Print(pdf)
+  UCN.PrintTemperatureVsCycle(ex, pdf)
   
   he3axis = ex['He3rate'][0].GetXaxis()
   he3rate = ROOT.TH1D('TCN{0}_He3'.format(ex['TCN']), ';Time (s); He3 rate (1/s)', he3axis.GetNbins(), he3axis.GetXmin(), he3axis.GetXmax())

@@ -4,9 +4,11 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{siunitx}
 \DeclareSIUnit{\torr}{torr}
 \sisetup{retain-unity-mantissa = false}
+\sisetup{separate-uncertainty=true}
 \usepackage{booktabs}
 \usepackage{ulem}
 
@@ -22,9 +24,11 @@
 
 This document describes several analyses of the data taken during the 2018 run of the UCN source at TRIUMF, covering measurements of
 \begin{itemize}
-\item transmission through guide components
-\item storage lifetime in the source, and
-\item storage lifetime in guide components.
+\item transmission through guide components,
+\item storage lifetime in the source,
+\item storage lifetime in guide components,
+\item UCN rate during steady-state production, and
+\item thermal neutron flux.
 \end{itemize}
 
 All these experiments are performed in cycles. Each cycle contains several periods, typically starting with an irradiation period, during which the target is irradiated with protons and ultracold neutrons are produced. This can be followed by up to 9 more periods, like storage or detection periods. For each period, up to 8 UCN components like valves or spin flippers can be to set different states. The last (11th) period covers the time until the next irradiation and cycle starts.
@@ -368,35 +372,152 @@ All these effects have to be confirmed in simulation.
 \section{Storage lifetime in the source}
 \label{sec:storagelifetime}
 
-\iffalse
+To measure the storage lifetime of UCN in the source, we performed several cycles with three periods each. During the first period, the target is irradiated to accumulate UCN in the source with IV1 closed. During the second period, the beam is turned off and the UCN are stored with IV1 closed. In the third period, the valve is opened and the UCN stored in the source are emptied into the detector(s). This cycle is repeated several times with varying duration of the storage period. This measurement was repeated regularly to determine the change of storage lifetime over time.
 
+To determine the storage lifetime, we subtracted a constant background rate, see equation~\ref{eq:transmission_begin}, from the events in the respective detector, and divided it by the average beam current $\bar{I}$ during irradiation:
 \begin{equation}
-N = \epsilon P \tau_1 \frac{\tau_2}{\tau_d} \left[ 1 - \exp \left( -\frac{t_i}{\tau_1} \right) \right] \exp \left( -\frac{t_s}{\tau_1} \right)
+n_c = \frac{N_c}{\bar{I}}.
 \end{equation}
-with
+To take into account fluctuations of the beam current, its standard deviation during irradiation $\Delta I$ is included in the uncertainty
 \begin{equation}
-\tau_2 = \left( \frac{1}{\tau_2'} + f_2 B T^7 \right) ^{-1} = \frac{\tau_2'}{1 + p_4 T^7}
+\Delta n_c = n_c \sqrt{ \left( \frac{\Delta N_c}{N_c} \right)^2 + \left( \frac{\Delta I}{\bar{I}} \right)^2 }.
 \end{equation}
-and
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../storagelifetime/TCN18-015_1019.pdf}
+\includegraphics[width=\textwidth,page=2]{../storagelifetime/TCN18-015_1019.pdf}
+\caption{Number of UCN detected in the Li6 detector (top) and the He3 detector (bottom) divided by average beam current, after different storage times during one of the regular storage-lifetime experiments (TCN18-015, run 1019). A single exponential fit determines the storage lifetime.}
+\label{fig:storagelifetime}
+\end{figure}
+
+Ideally, the number of detected UCN should drop exponentially with increasing storage time and the exponential time constant is the storage lifetime, see fig.~\ref{fig:storagelifetime}. However, changes of liquid-helium temperatures can significantly change the UCN yield. Especially during the very first cycle of the sequence the temperature can change drastically when IV1 is opened after a long time being closed and the helium vapor suddenly pressure drops. Fig.~\ref{fig:storagelifetime}, for example, shows a large discrepancy in counts between two cycles with \SI{0}{\second} storage time---the lower one being the first cycle in the measurement---leading to a large $\chi^2/\nu$.
+
+
+\subsection{Temperature dependence of UCN yield}
+
+We also performed storage-lifetime measurements at several, tightly controlled temperatures. These measurements showed that the vapor pressure above the liquid likely present the temperature of the liquid helium in the UCN-production volume more accurately than the temperature sensors in the channel connecting production volume and $^3$He heat exchanger. Hence, the vapor pressure measured by pressure gauges PG9L (if below \SI{2}{\torr}) and PG9H (if above \SI{2}{\torr}, with an offset of \SI{0.18}{\torr} added) was used to determine the temperature of the production volume.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=4]{../storagelifetime/tauvstemp.pdf}
+\caption{Storage lifetime measured at different temperatures with the Li6 detector (black) and the He3 detector (red) during experiment TCN18-300 with an empirical fit.}
+\label{fig:storagelifetime_vs_temp}
+\end{figure}
+
+We were able to fit the temperature dependence of these storage lifetimes with a $B T^7$-dependence of the loss rate in the liquid helium, modified with an empirical first-order correction, see fig.~\ref{fig:storagelifetime_vs_temp}:
 \begin{equation}
-\tau_1 = \left( \frac{1}{\tau_1'} + (f_1 B - f_1' T) T^7 \right) ^{-1} = \frac{p_1}{1 + (p_2 - p_3 T) T^7}
+\tau = \left( \frac{1}{\tau'} + f B (1 - f' T) T^7 \right) ^{-1} = \left( \frac{1}{p_1} + p_2 (1 - p_3 T) T^7 \right) ^{-1},
 \end{equation}
-Fit
+where $\tau'$ is the wall-storage lifetime in the source, $f$ is the fraction of time that detectable UCN spend in the liquid helium during the storage period, and $f'$ is an empirical correction factor.
+
+Assuming that the number of detectable UCN saturates during the irradiation time, this fit can be extended to predict the UCN yield $N$ of the source for a range of irradiation times $t_i$ and storage times $t_s$:
 \begin{equation}
-N = p_0 \tau_1 \tau_2
-    \left[ 1 - \exp \left( -\frac{t_i}{\tau_1} \right) \right]
-    \exp \left( -\frac{t_s}{\tau_1} \right)
+N(T,t_i,t_s) = \epsilon P \tau \frac{\tau_2}{\tau_d} \left[ 1 - \exp \left( -\frac{t_i p_6}{\tau} \right) \right] \exp \left( -\frac{t_s}{\tau} \right)
 \end{equation}
-with
+where $\epsilon$ is the detector efficiency and $P$ is the UCN-production rate. The scaling parameter $p_6$ had to be added to properly fit measurements with different irradiation times; the reason is unknown. $\tau_2/\tau_d$, the ratio of storage lifetime $\tau_2$ in the whole system after IV1 opened to the storage lifetime with respect to the detector $\tau_d$, determines what fraction of the available UCN actually make it to the detector before being lost in any other part of the system.
+$\tau_2$ is temperature-dependent as well:
+\begin{equation}
+\tau_2 = \left( \frac{1}{\tau_2'} + f_2 B T^7 \right) ^{-1} = \frac{\tau_2'}{1 + p_4 T^7},
+\end{equation}
+with a wall-storage lifetime $\tau_2'$ and a fraction of time $f_2$ that detectable UCN spend in the liquid helium when IV1 is open.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\textwidth,page=2]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=3]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=4]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=5]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=6]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=7]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=8]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=9]{../storagelifetime/combinedfit.pdf}
+\includegraphics[width=0.45\textwidth,page=1]{../storagelifetime/combinedfit.pdf}
+\caption{Combined fit (red) of all UCN counts (black) with different temperatures, storage times, and irradiation times during TCN18-300 and run 1167 of TCN18-015.}
+\label{fig:combinedfit}
+\end{figure}
+
+Combining these, we can fit the function
+\begin{equation}
+N(T,t_i,t_s) = p_0 \frac{\tau}{1 + p_4 T^7}
+    \left[ 1 - \exp \left( -\frac{t_i p_6}{\tau} \right) \right]
+    \exp \left( -\frac{t_s}{\tau} \right)
+\end{equation}
+to the UCN counts measured in the Li6 and He3 detectors during the temperature-dependent storage-lifetime measurements (TCN18-300) and the regular storage-lifetime measurement done with the same geometry (TCN18-015, run 1167), see fig.~\ref{fig:combinedfit}.
+The resulting fit parameters are
 \begin{eqnarray}
-p_0 &= \frac{\epsilon P \tau_2'}{\tau_d} \\
-p_1 &= \tau_1' \\
-p_2 &= \tau_1' f_1 B \\
-p_3 &= \tau_1' f_1' \\
-p_4 &= \tau_2' f_2 B
+p_0^\mathrm{Li6} =& \frac{\epsilon_\mathrm{Li6} P \tau_2'}{\tau_d} =& \SI{2415+-30}{\per\second\per\micro\ampere} \\
+p_0^\mathrm{He3} =& \frac{\epsilon_\mathrm{He3} P \tau_2'}{\tau_d} =& \SI{39.5+-0.6}{\per\second\per\micro\ampere} \\
+p_1 =& \tau' =& \SI{36.35+-0.26}{\second} \\
+p_2 =& f B =& \SI{0.00730+-0.00016}{\per\kelvin\tothe{7}} \\
+p_3 =& f' =& \SI{0.322+-0.006}{\per\kelvin} \\
+p_4 =& \tau_2' f_2 B =& \SI{0.115+-0.003}{\per\kelvin\tothe{7}} \\
+p_6 =& & \num{1.31+-0.03}
 \end{eqnarray}
+with a $\chi^2/\nu$ of \num{1.91}.
 
-\fi
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=3]{../storagelifetime/TCN18-015_1019.pdf}
+\caption{Number of UCN detected in the Li6 detector (upper black data points), and in the He3 detector (lower black data points) during one of the regular storage-lifetime measurements (TCN18-015, run 1019). The red data points are the counts expected from the fit model with refit parameters $p_0^\mathrm{Li6}$, $p_0^\mathrm{He3}$ ($p_5$ in the figure), and $\tau' = p_1$.}
+\label{fig:storagelifetime_corrected}
+\end{figure}
+
+Unfortunately, this fit cannot be performed for each single storage-lifetime measurement because the temperature variations are not large enough to extract the temperature dependence. However, only the parameters $p_0$ and $p_4$ are dependent on the guide geometry downstream of IV1 and therefore are the only ones that should vary from measurement to measurement. If we assume that $p_4$ incurs only a weak temperature dependence, we can refit each individual storage-lifetime measurement with parameters $p_2$, $p_3$, and $p_4$ fixed to the values from the previous fit and determine new values for the scaling factor $p_0$ and the wall-storage lifetime $p_1 = \tau'$.
+
+This partial fit of the combined temperature- and storage-time-dependent Li6 and He3 data has a significantly reduced $\chi^2/\nu$ compared to the simple exponential fits performed separately on the Li6 and He3 data, see figures~\ref{fig:storagelifetime_corrected} and \ref{fig:storagelifetime}.
+
+
+\subsection{Excluded cycles}
+
+Individual cycles are excluded from the analyzed storage-lifetime data if
+\begin{itemize}
+\item the beam current dropped below \SI{0.1}{\micro\ampere} (15 cycles);
+\item the beam current fluctuated by more than \SI{0.02}{\micro\ampere} (22 cycles);
+\item the last period does not contain any Li6 events, i.e. the run was aborted at some point during this cycle (13 cycles);
+\item IV1 never opened (18 cycles); or
+\item no events were detected by either detector (2 cycles).
+\end{itemize}
+Data from a single detector is excluded if
+\begin{itemize}
+\item the ion gauges IG5 or IG6 read a pressure between \SIlist{1e-7;1e-2}{\torr}, indicating that they were on, causing additional background in the Li6 detector (Li6 detector only, 69 cycles); 
+\item only one detector detected no events; or
+\item the resulting uncertainty of the storage-lifetime fit is larger than \SI{5}{\second}.
+\end{itemize}
+
+In total, 71 out of 550 full cycles had to be excluded. All data of the daily lifetime measurements in runs 900 and 907 had to be discarded because the Li6 detector was the only detector used, but IG5 or IG6 were on.
+
+\subsection{Change of storage lifetime over time}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=2]{../storagelifetime/dailytau.pdf}
+\caption{Storage lifetimes on different dates determined from an exponential fit to the UCN counts in the Li6 detector (black) and the He3 detector (red) during the regular storage-lifetime measurements TCN18-015. The green data points are the wall-storage lifetimes $\tau'$ determined with the combined fit. The grey areas indicate when the production volume was refilled with isopure helium.}
+\label{fig:dailytau}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=2]{../storagelifetime/tauvstemp.pdf}
+\includegraphics[width=\textwidth,page=3]{../storagelifetime/tauvstemp.pdf}
+\caption{\textit{Top}: correlation of storage lifetimes with vapor pressure, measured with the primary detector. \textit{Bottom}: wall-storage lifetime determined from the combined fit. The measured values seem to fall into separate groups: the initial and final geometries in a ``high'' position (black), the measurements in ``low'' position before (red) and after refilling isopure helium (blue), and the final measurements after spoiling the source (green).}
+\label{fig:tauvstemp}
+\end{figure}
+
+The storage lifetime in the source seemed to gradually decrease over time, see fig.~\ref{fig:dailytau}, and partially recover after the UCN-production volume was refilled with isopure helium. Part of this change was correlated to a gradual increase in vapor pressure and temperature of the isopure helium, see fig.~\ref{fig:tauvstemp}, presumably caused by the gradually dropping helium level in the production volume.
+
+When performing the combined fit to determine the temperature-independent wall-storage lifetime, the measured values seem to fall in several groups, see fig.~\ref{fig:tauwallvstemp}:
+\begin{itemize}
+\item The initial measurements where UCN dropped directly (or through the rotary valve) into the He3 detector showed the highest wall-storage lifetimes of \SIrange{45}{47}{\second}.
+\item The bulk of the measurements were performed in a ``low geometry'', where UCN travelled down a sloped guide, through some additional guides, and then reached the detector at almost the same level. Their wall-storage lifetimes were shorter, from \SIrange{38}{43}{\second}, with a falling trend.
+\item The measurements in the final ``high'' geometry, including the measurements used to determine the parameters of the combined fit (TCN18-300) and the measurements after spoiling the source (TCN18-170), have even lower storage lifetimes of \SIrange{35}{37}{\second}.
+\item Finally, the last three measurements of TCN18-170 with the largest amount of nitrogen spoiling the source showed a marked drop in wall-storage lifetime. For these measurements it is not clear if the increase in vapor pressure is actually related to the temperature of the superfluid helium, or if it just indicates the additional pressure of nitrogen gas that has not condensed, yet.
+\end{itemize}
+
+It is possible that the falling trend of the measurements in the low geometry is a residual temperature dependence that was not compensated by the combined fit, since its parameters where determined in the high geometry and therefore should have a different temperature dependence. However, refilling the isopure helium lowered the vapor pressure to original values, but did not reset the wall-storage lifetime. The significant difference between the initial and final high geometries, which should have similar temperature-dependence, also suggests that the drop in wall-storage lifetime over time is a real effect.
+
+Three outliers in the measurements are remarkable. These measurements on Nov.~22, Nov.~23 and Dec.~1 gave significantly lower storage lifetimes in the Li6 detector than in the He3 detector (fig.~\ref{fig:dailytau}). Their wall-storage lifetimes were also significantly lower than the other measurements in the low geometry, falling right into the range of the measurements in the final high geometry (see fig.~\ref{fig:tauwallvstemp}). These three measurements are the ones performed with one or two polarizer foils installed in the guide.
+
 
 \section{Storage lifetime in guide components}
 
@@ -404,6 +525,7 @@ p_4 &= \tau_2' f_2 B
 
 
 \section{Steady state count rate}
+\label{sec:steadystate}
 
 \begin{figure}
 \centering

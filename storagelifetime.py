@@ -2,31 +2,21 @@ import ROOT
 import sys
 import numpy
 import math
+import time
 import datetime
 import itertools
-import scipy.optimize
 import UCN
 
-# calculate 4He vapor pressure from temperature
-def HeVaporPressure(T):
-  # from Clement, Logan, Gaffney, Phys. Rev. 100, 743
-  # https://doi.org/10.1103/PhysRev.100.743
-  I = 4.6202
-  A = 6.399
-  B = 2.541
-  C = 0.00612
-  D = 0.5197
-  a = 7.
-  b = 14.14
-  lnP = I - A/T + B*math.log(T) + C/2*T**2 - D*(a*b/(b**2 + 1) - 1./T)*math.atan(a*T - b) - a*D/2/(b**2 + 1)*math.log(T**2/(1 + (a*T - b)**2))
-  return math.exp(lnP)
+def UCNyield(x, p):
+  scale = p[0] if x[0] >= 0 else p[5]
+  T = UCN.HeTemperature(abs(x[0]))
+  tau1 = 1./(1./p[1] + p[2]*(1. - p[3]*T)*T**7)
+  tau2 = 1./(1. + p[4]*T**7)
+#  print(tau1, tau2)
+  if tau1 <= 0 or tau2 <= 0:
+    return 0.
+  return scale*tau1*tau2*(1. - math.exp(-x[2]*p[6]/tau1))*math.exp(-x[1]/tau1)
 
-# use scipy solver to invert vapor pressure formula to calculate temperature from vapor pressure
-def HeTemperature(P):
-  return scipy.optimize.brentq(lambda T: HeVaporPressure(T) - P, 0.5, 4)
-
-def VaporPressureCorrection(N, P, Pcorr):
-  return N/(0.0322*math.log(P)**3 - 0.016*math.log(P)**2 - 0.541*math.log(P) + 1)*(0.0322*math.log(Pcorr)**3 - 0.016*math.log(Pcorr)**2 - 0.541*math.log(Pcorr) + 1)
 
 def ReadCycles(infile, experiments):
   countperiod = 2
@@ -53,6 +43,8 @@ def ReadCycles(infile, experiments):
     ex['maxtemperature'] = []
     ex['minvaporpressure'] = []
     ex['maxvaporpressure'] = []
+    ex['meanvaporpressure'] = []
+    ex['vaporpressurestd'] = []
     ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10)
     ex['channels'].SetDirectory(0)
 
@@ -66,7 +58,7 @@ def ReadCycles(infile, experiments):
     d = cycle.durations
    
     # filter useless cycles
-    beam = [cur for cur, bon in zip(cycle.B1V_KSM_PREDCUR, cycle.B1V_KSM_BONPRD)]
+    beam = [cur*bon for cur, bon, t in zip(cycle.B1V_KSM_PREDCUR, cycle.B1V_KSM_BONPRD, getattr(cycle, 'Beamline/timestamp')) if 1 < t - cycle.start < 59]
     if min(beam) < 0.1:
       print('SKIPPING cycle {0} in run {1} because beam current dropped to {2}uA!'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
@@ -79,16 +71,19 @@ def ReadCycles(infile, experiments):
     if max(cycle.UCN_UGD_IV1_STATON) < 1:
       print('SKIPPING cycle {0} in run {1} because IV1 never opened!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
-    if (any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or
-        any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])):
-      print ('SKIPPING cycle {0} in run {1} because IG5 and/or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
-      continue
+#    if Li6[countperiod] > 80000:
+#      print('SKIPPING cycle {0} in run {1} because Li6 saw too many counts ({2})'.format(cycle.cyclenumber, cycle.runnumber, Li6[countperiod]))
+#      continue
+#    if Li6[countperiod] > 0 and (any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC])
+#                             or any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])):
+#      print ('SKIPPING cycle {0} in run {1} because IG5 and/or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
+#      continue
     if Li6[countperiod] == 0 and He3[countperiod] == 0:
       print('SKIPPING cycle {0} in run {1} because it contains no detector counts'.format(cycle.cyclenumber, cycle.runnumber))
       continue
 
     # IV1 should be closed during irradiation and storage, all valves should be open during counting
-    if (cycle.valve0state[0] != 0 or cycle.valve0state[1] != 0 or cycle.valve0state[2] != 1 or cycle.valve1state[2] != 1 or cycle.valve2state[2] != 1):
+    if (cycle.valve0state[0] != 0 or cycle.valve0state[1] != 0 or cycle.valve0state[2] != 1):
       print('Abnormal valve configuration in cycle {0} of run {1}'.format(cycle.cyclenumber, cycle.runnumber))
     
     
@@ -97,33 +92,141 @@ def ReadCycles(infile, experiments):
         continue
 
       ex['start'].append(cycle.start)
-      ex['cyclenumber'].append(cycle.cyclenumber)
+      ex['cyclenumber'].append(float(cycle.cyclenumber))
       ex['beamcurrent'].append(beam)
       ex['mintemperature'].append(min([min(getattr(cycle,'UCN_ISO_{0}_RDTEMP'.format(TS))) for TS in ['TS11', 'TS12', 'TS14']]))
       ex['maxtemperature'].append(max([max(getattr(cycle,'UCN_ISO_{0}_RDTEMP'.format(TS))) for TS in ['TS11', 'TS12', 'TS14']]))
-      if max(cycle.UCN_ISO_PG9L_RDPRESS) >= 2.:
-        ex['minvaporpressure'].append(min(cycle.UCN_ISO_PG9H_RDPRESS) - 0.18)
-        ex['maxvaporpressure'].append(max(cycle.UCN_ISO_PG9H_RDPRESS) - 0.18)
+      vp = [PG9L if PG9L < 2. else PG9H + 0.18 for PG9L, PG9H, t in zip(cycle.UCN_ISO_PG9L_RDPRESS, cycle.UCN_ISO_PG9H_RDPRESS, getattr(cycle, 'Source/timestamp')) if t - cycle.start <= d[0]]
+      ex['minvaporpressure'].append(min(vp))
+      ex['maxvaporpressure'].append(max(vp))
+      ex['meanvaporpressure'].append(numpy.mean(vp))
+      ex['vaporpressurestd'].append(numpy.std(vp))
+      if any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC]):
+        print ('EXCLUDING Li6 data from cycle {0} in run {1} because IG5 and/or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
+        ex['li6counts'].append(0)
+        ex['li6background'].append(0)
+        ex['li6irradiation'].append(0)
       else:
-        ex['minvaporpressure'].append(min(cycle.UCN_ISO_PG9L_RDPRESS))
-        ex['maxvaporpressure'].append(max(cycle.UCN_ISO_PG9L_RDPRESS))
-      ex['li6counts'].append(Li6[countperiod])
+        ex['li6counts'].append(Li6[countperiod])
+        ex['li6background'].append(Li6[backgroundperiod])
+        ex['li6irradiation'].append(Li6[0])
       ex['he3counts'].append(He3[countperiod])
       ex['countduration'].append(d[countperiod])
-      ex['li6background'].append(Li6[backgroundperiod])
       ex['he3background'].append(He3[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
       ex['storageduration'].append(d[storageperiod])
-      ex['li6irradiation'].append(Li6[0])
       ex['he3irradiation'].append(He3[0])
       ex['irradiationduration'].append(d[0])
 
       for c in getattr(cycle, 'Li6/channel'):
         ex['channels'].Fill(c)
 
+  print('Read {0} cycles\n'.format(len(numpy.concatenate([ex['start'] for ex in experiments]))))
+
+
+def DoCombinedFit(experiments, pdf, PreviousFit = None):
+  if sum(sum(ex['li6counts']) + sum(ex['he3counts']) for ex in experiments) < 1000:
+    for ex in experiments:
+      ex['tau_wall'] = 0.
+      ex['tau_wallerr'] = 0.
+    return
+
+  data = ROOT.Fit.BinData(2*sum([len(ex['start']) for ex in experiments]), 3, ROOT.Fit.BinData.kCoordError)
+  for ex in experiments:
+    for P, dP, ts, ti, li6, dli6, he3, dhe3 in zip(ex['meanvaporpressure'], ex['vaporpressurestd'], ex['storageduration'], ex['irradiationduration'],
+                                                    ex['li6counts_normalized'], ex['li6counts_normalized_err'], ex['he3counts_normalized'], ex['he3counts_normalized_err']):
+      if li6 > 0:
+        data.Add(numpy.array([P, ts, ti]), li6, numpy.array([dP, 0., 0.]), dli6)
+      if he3 > 0:
+        data.Add(numpy.array([-P, ts, ti]), he3, numpy.array([dP, 0., 0.]), dhe3)
+
+
+  f3 = ROOT.TF3('f3', UCNyield, -20., 20., 0., 180., 0., 120., 7)
+  yieldfunc = ROOT.Math.WrappedMultiTF1(f3)
+  fitter = ROOT.Fit.Fitter()
+  fitter.SetFunction(yieldfunc, False)
+  for i, setting in enumerate(zip([2800, 40, 0.3, 0.1, 0.1, 28, 5.], [10000, 100, 1, 1, 1, 10000, 30.])):
+    fitter.Config().ParSettings(i).SetValue(setting[0])
+    fitter.Config().ParSettings(i).SetLimits(0., setting[1])
+  if PreviousFit:
+    for i in [2, 3, 4, 6]:
+      fitter.Config().ParSettings(i).SetValue(PreviousFit.Parameter(i))
+      fitter.Config().ParSettings(i).Fix()
+  fitter.Config().SetMinimizer('Minuit2')
+  fitter.Fit(data)
+  r = ROOT.TFitResult(fitter.Result())
+#  r.Print()
+  for ex in experiments:
+    ex['tau_wall'] = r.Parameter(1)
+    ex['tau_wallerr'] = r.Error(1)*max(r.Chi2()/r.Ndf(), 1.)
+
+  canvas = ROOT.TCanvas('cfit', 'cfit')
+  canvas.SetLogy()
+  n = data.Size()
+  ddata = numpy.zeros(n)
+  r.GetConfidenceIntervals(data, ddata, 0.683)
+  grpress = {}
+  for i in range(n):
+    x = data.Coords(i)
+    if x[2] == 30.:
+      if x[1] not in grpress:
+        grpress[x[1]] = (ROOT.TGraphErrors(), ROOT.TGraphErrors())
+      gr = grpress[x[1]][0]
+      grfit = grpress[x[1]][1]
+      N = gr.GetN()
+      gr.Set(N + 1)
+      gr.SetPoint(N, abs(x[0]), data.Value(i))
+      gr.SetPointError(N, data.CoordErrors(i)[0], data.Error(i))
+      grfit.Set(N + 1)
+      grfit.SetPoint(N, abs(x[0]), yieldfunc(x))
+      grfit.SetPointError(N, 0., ddata[i])
+    else:
+      if -60. not in grpress:
+        grpress[-60.] = (ROOT.TGraphErrors(), ROOT.TGraphErrors())
+      gr = grpress[-60.][0]
+      grfit = grpress[-60.][1]
+      N = gr.GetN()
+      gr.Set(N + 1)
+      gr.SetPoint(N, x[1], data.Value(i))
+      gr.SetPointError(N, data.CoordErrors(i)[1], data.Error(i))
+      grfit.Set(N + 1)
+      grfit.SetPoint(N, x[1], yieldfunc(x))
+      grfit.SetPointError(N, 0., ddata[i])
+    
+  for i, ts in enumerate(grpress):
+    gr = grpress[ts][0]
+    grfit = grpress[ts][1]
+    if ts != -60.:
+      gr.SetTitle('{0}s irradiation, {1}s storage'.format(30., ts))
+#      gr.SetMinimum(1e-3)
+#      gr.SetMaximum(50000.)
+      gr.GetXaxis().SetTitle('Vapor pressure (torr)')
+    else:
+      gr.SetTitle('{0}s irradiation'.format(60.))
+      gr.GetXaxis().SetTitle('Storage time (s)')
+    gr.GetYaxis().SetTitle('UCN count (#muA^{-1})')
+    gr.Draw('AP')
+    grfit.SetLineColor(ROOT.kRed)
+    grfit.SetMarkerColor(ROOT.kRed)
+    grfit.Draw('SAMEP')
+    l = ROOT.TLatex()
+    l.SetTextSize(0.03)
+    for p in range(7):
+      l.DrawLatexNDC(0.15, 0.21 + 0.03*(6 - p), 'p{0} = {1:.4g} #pm {2:.2g}'.format(p, r.Parameter(p), r.Error(p)))
+    l.DrawLatexNDC(0.15, 0.18, '#chi^{{2}}/ndf = {0:.3g}'.format(r.Chi2()/r.Ndf()))
+    l.DrawLatexNDC(0.15, 0.15, 'N(T, t_{s}, t_{i}) = p0|p5 #tau #frac{1}{1 + p4 T^{7}} (1 - exp(-#frac{t_{i} p6}{#tau})) exp(-#frac{t_{s}}{#tau})')
+    if len(grpress) > 1 and i == 0:
+      canvas.Print(pdf + '(')
+    elif len(grpress) > 1 and i == len(grpress) - 1:
+      canvas.Print(pdf + ')')
+    else:
+      canvas.Print(pdf)
+
+  return r
+
 
 # analyze storage time from experiment
-def StorageLifetime(ex):
+def StorageLifetime(ex, FitResult = None):
   print('\nAnalyzing TCN{0} in runs {1}'.format(ex['TCN'], ex['runs']))
 
   if len(ex['start']) == 0:
@@ -134,105 +237,71 @@ def StorageLifetime(ex):
   print(datetime.datetime.fromtimestamp(min(ex['start'])))
 
   # report range of beam current
-  print('Beam current from {0} to {1} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))
+  print('Beam current from {0:.3} to {1:.3} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))
 
   # report range of temperature and vapor pressure
-  print('Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature'])))
-  print('Vapor pressure from {0} to {1} torr'.format(min(ex['minvaporpressure']), max(ex['maxvaporpressure'])))
+  print('Temperatures from {0:.3} to {1:.3} K'.format(min(ex['mintemperature']), max(ex['maxtemperature'])))
+  print('Vapor pressure from {0:.3} to {1:.3} torr'.format(min(ex['minvaporpressure']), max(ex['maxvaporpressure'])))
 
   beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
+  canvas = ROOT.TCanvas('c1', 'c1')
+  canvas.SetLogy()
   for det in ['li6', 'he3']:
     ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr'] = UCN.BackgroundRate(ex[det + 'background'], ex['backgroundduration'])
     ex[det + 'irradiationrate'], ex[det + 'irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex[det + 'irradiation'], ex['irradiationduration'], det, beam[0], beam[1])
-    print(det + ' detector background rate: {0} +/- {1} 1/s'.format(ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr']))
+    print(det + ' detector background rate: {0:.4} +/- {1:.2} 1/s'.format(ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr']))
 
-  x = ex['storageduration']
-  xerr = [0. for _ in x]
-  # subtract background from UCN counts
-  ex['li6counts_normalized'], ex['li6counts_normalized_err'] = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', beam[0], beam[1])
+    x = numpy.array(ex['storageduration'])
+    xerr = numpy.array([0. for _ in x])
+    # subtract background from UCN counts
+    ex[det + 'counts_normalized'], ex[det + 'counts_normalized_err'] = UCN.SubtractBackgroundAndNormalize(ex[det + 'counts'], ex['countduration'], det, beam[0], beam[1])
+    y = numpy.array(ex[det + 'counts_normalized'])
+    yerr = numpy.array(ex[det + 'counts_normalized_err'])
  
-  canvas = ROOT.TCanvas('c', 'c')
-  canvas.SetLogy()
-  li6tau = [0., 0.]
-#  if 6.*math.log(max(ex['maxvaporpressure'])/min(ex['minvaporpressure'])) < 0.1*(6.*math.log(min(ex['minvaporpressure'])) + 19.):
-  # plot normalized Li6 counts vs storage time
-  graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(ex['li6counts_normalized']), numpy.array(xerr), numpy.array(ex['li6counts_normalized_err']))
-  graph.SetTitle('TCN{0} (Li6 detector, single exponential fit, background subtracted, normalized to beam current)'.format(ex['TCN']))
-  graph.GetXaxis().SetTitle('Storage time (s)')
-  graph.GetYaxis().SetTitle('UCN count (#muA^{-1})')
-#  graph.SetMarkerStyle(20)
-  # do single exponential fit
-  f = graph.Fit(UCN.SingleExpo(), 'SQB')
-  li6tau = [f.GetParams()[1], f.GetErrors()[1]*f.Chi2()/f.Ndf()]
-  print('{0} +/- {1} (Li6 detector, single exponential fit, background subtracted, normalized to beam current)'.format(li6tau[0], li6tau[1]))
-  graph.Draw('AP')
-  pdf = 'TCN{0}_{1}.pdf'.format(ex['TCN'], ex['runs'][0])
-  canvas.Print(pdf + '(')
+    # plot normalized Li6 counts vs storage time
+    graph = ROOT.TGraphErrors(len(x), x, y, xerr, yerr)
+    graph.SetTitle('TCN{0} ({1} detector, single exponential fit, background subtracted, normalized to beam current)'.format(ex['TCN'], det))
+    graph.GetXaxis().SetTitle('Storage time (s)')
+    graph.GetYaxis().SetTitle('UCN count (#muA^{-1})')
+#    graph.SetMarkerStyle(20)
+    # do single exponential fit
+    f = graph.Fit(UCN.SingleExpo(), 'SQB')
+    if sum(y) > 0 and f.Error(1) < 5.:
+      ex[det + 'tau'] = f.Parameter(1)
+      ex[det + 'tauerr'] = f.Error(1)*max(f.Chi2()/f.Ndf(), 1.)
+    else:
+      print('SKIPPING lifetime measurement from {0} detector in run(s) {1} because there were no counts detected or the error is larger than 5 s.'.format(det, ex['runs']))
+      ex[det + 'tau'] = 0.
+      ex[det + 'tauerr'] = 0.
+    print('{0:.4} +/- {1:.2} ({2} detector, single exponential fit, background subtracted, normalized to beam current)'.format(ex[det + 'tau'], ex[det + 'tauerr'], det))
+    graph.Draw('AP')
+    pdf = 'TCN{0}_{1}.pdf'.format(ex['TCN'], ex['runs'][0])
+    if det == 'li6':
+      canvas.Print(pdf + '(')
+    else:
+      canvas.Print(pdf)
   
-  medianP = numpy.median(ex['minvaporpressure'] + ex['maxvaporpressure'])
-  vpcorr = [(VaporPressureCorrection(N, minP, medianP), VaporPressureCorrection(N, maxP, medianP)) for N, minP, maxP in zip(ex['li6counts_normalized'], ex['minvaporpressure'], ex['maxvaporpressure'])]
-  y = [(vp[0] + vp[1])/2. for vp in vpcorr]
-  yerr = [math.sqrt((vp[1] - vp[0])**2/4 + ye**2) for vp, ye in zip(vpcorr, ex['li6counts_normalized_err'])]
- 
-  # plot normalized Li6 counts vs storage time, with vapor pressure correction
-  graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
-  graph.SetTitle('TCN{0} (Li6 detector, single exponential fit, background subtracted, normalized to beam current, with vapor pressure correction)'.format(ex['TCN']))
-  graph.GetXaxis().SetTitle('Storage time (s)')
-  graph.GetYaxis().SetTitle('UCN count (#muA^{-1})')
-  # do single exponential fit
-  f = graph.Fit(UCN.SingleExpo(), 'SQB')
-  li6tau_corr = [f.GetParams()[1], f.GetErrors()[1]*f.Chi2()/f.Ndf()]
-  canvas = ROOT.TCanvas('c', 'c')
-  canvas.SetLogy()
-  graph.Draw('AP')
-  canvas.Print(pdf)
-  print('{0} +/- {1} (Li6 detector, single exponential fit, background subtracted, normalized to beam current)'.format(f.GetParams()[1], f.GetErrors()[1]))
+  if FitResult:
+    r = DoCombinedFit([ex], pdf, FitResult)
+    print('{0:.4} +/- {1:.2} (wall-storage lifetime from combined fit)'.format(ex['tau_wall'], ex['tau_wallerr']))
 
-  # plot beam-normalized He3 counts vs storage time
-  x = ex['storageduration']
-  xerr = [0. for _ in x]
-  ex['he3counts_normalized'], ex['he3counts_normalized_err'] = UCN.SubtractBackgroundAndNormalize(ex['he3counts'], ex['countduration'], 'he3', beam[0], beam[1])
-  graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(ex['he3counts_normalized']), numpy.array(xerr), numpy.array(ex['he3counts_normalized_err']))
-  graph.SetTitle('TCN{0} (He3 detector, single exponential fit, background subtracted, normalized to beam current)'.format(ex['TCN']))
-  graph.GetXaxis().SetTitle('Storage time (s)')
-  graph.GetYaxis().SetTitle('UCN count (#muA^{-1})')
-  # do single exponential fit
-  f = graph.Fit(UCN.SingleExpo(), 'SQB')
-  he3tau = [f.GetParams()[1], f.GetErrors()[1]]
-  graph.Draw('AP')
-  canvas.Print(pdf)
-  print('{0} +/- {1} (He3 detector, single exponential fit, background subtracted, normalized to beam current)'.format(he3tau[0], he3tau[1]))
+  canvas.SetLogy(0)
 
-  vpcorr = [(VaporPressureCorrection(N, minP, medianP), VaporPressureCorrection(N, maxP, medianP)) for N, minP, maxP in zip(ex['he3counts_normalized'], ex['minvaporpressure'], ex['maxvaporpressure'])]
-  y = [(vp[0] + vp[1])/2. for vp in vpcorr]
-  yerr = [math.sqrt((vp[1] - vp[0])**2/4 + ye**2) for vp, ye in zip(vpcorr, ex['he3counts_normalized_err'])]
- 
-  # plot normalized He3 counts vs storage time, with vapor pressure correction
-  graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
-  graph.SetTitle('TCN{0} (He3 detector, single exponential fit, background subtracted, normalized to beam current, with vapor pressure correction)'.format(ex['TCN']))
-  graph.GetXaxis().SetTitle('Storage time (s)')
-  graph.GetYaxis().SetTitle('UCN count (#muA^{-1})')
-  # do single exponential fit
-  f = graph.Fit(UCN.SingleExpo(), 'SQB')
-  he3tau_corr = [f.GetParams()[1], f.GetErrors()[1]]
-  graph.Draw('AP')
-  canvas.Print(pdf)
-  print('{0} +/- {1} (Li6 detector, single exponential fit, background subtracted, normalized to beam current)'.format(f.GetParams()[1], f.GetErrors()[1]))
+  UCN.PrintTemperatureVsCycle(ex, pdf)
 
   ex['channels'].Draw()
   canvas.Print(pdf + ')')
 
   # return result from primary detector
   if max(ex['li6counts']) > max(ex['he3counts']):
-    ex['tau'] = li6tau[0]
-    ex['tauerr'] = li6tau[1]
-    ex['tau_corrected'] = li6tau_corr[0]
-    ex['tau_corrected_err'] = li6tau_corr[1]
+    ex['tau'] = ex['li6tau']
+    ex['tauerr'] = ex['li6tauerr']
   else:
-    ex['tau'] = he3tau[0]
-    ex['tauerr'] = he3tau[1]
-    ex['tau_corrected'] = he3tau_corr[0]
-    ex['tau_corrected_err'] = he3tau_corr[1]
+    ex['tau'] = ex['he3tau']
+    ex['tauerr'] = ex['he3tauerr']
+
+
+
 
 
 ROOT.gStyle.SetOptStat(1001111)
@@ -242,10 +311,8 @@ ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 
 # list runs for different source-storage experiments
-#runs['TCN18-015'] = [[869], [870], [872], [895], [900], [907], [911], [923], [931], [941], [953], [968], [975], [984], [988], [998], [1011], [1019], [1030], [1049], [1053], [1088], [1123], [1137], [1151], [1167], [1179], [1193]] #Daily storage lifetimes
-#runs['TCN18-300'] = [[1153], [1154], [1155], [1156], [1158], [1159], [1160], [1161], [1167]]
-#runs['TCN18-170'] = [[1194], [1195, 1196, 1197], [1198], [1199], [1200], [1201], [1202], [1203], [1204], [1205]]
-experiments = [{'TCN': '18-015', 'runs': [ 869]},
+experiments = [{'TCN': '18-015', 'runs': [ 868]},
+               {'TCN': '18-015', 'runs': [ 869]},
                {'TCN': '18-015', 'runs': [ 870]},
                {'TCN': '18-015', 'runs': [ 872]},
                {'TCN': '18-015', 'runs': [ 895]},
@@ -298,117 +365,198 @@ experiments = [{'TCN': '18-015', 'runs': [ 869]},
 
 injectedpress = [1.04, 1.995, 4.236, 7.953, 16.284, 32.425, 62.84, 315, 628, 1365]
 
+IsopureFillTimes = [time.mktime(dt.timetuple()) for dt in [datetime.datetime(2018, 11, 20, 16, 54), 
+                                                           datetime.datetime(2018, 11, 20, 22, 14),
+                                                           datetime.datetime(2018, 11, 24, 11, 27),
+                                                           datetime.datetime(2018, 11, 24, 18, 3)]]
+
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
-for ex in experiments:
+
+tauvstemp = [ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']]
+for ex in tauvstemp:
   StorageLifetime(ex)
+r = DoCombinedFit(tauvstemp, 'combinedfit.pdf')
+
+
+for ex in experiments:
+  if ex['TCN'] != '18-300':
+    StorageLifetime(ex, r)
 
 UCN.PrintBackground(experiments, 'li6', 930, 1206)
 UCN.PrintBackground(experiments, 'he3')
-canvas = ROOT.TCanvas('c','c')
+
+def TauVsTime(experiments, parameter, variable, timeformat, color):
+  exs = [ex for ex in experiments if ex[variable] > 0.]
+  x = numpy.array([float(min(ex[parameter])) for ex in exs])
+  y = numpy.array([ex[variable] for ex in exs])
+  yerr = numpy.array([ex[variable + 'err'] for ex in exs])
+  grtaus = ROOT.TGraphErrors(len(exs), x, y, numpy.array([0. for _  in exs]), yerr)
+  if timeformat:
+    grtaus.GetXaxis().SetTimeDisplay(1)
+    grtaus.GetXaxis().SetTimeFormat('%m-%d%F2018-01-01 00:00:00')
+    grtaus.GetXaxis().SetNdivisions(10, 10, 0)
+    grtaus.GetXaxis().SetTitle('Date')
+  grtaus.SetTitle('TCN18-015')
+  grtaus.SetLineColor(color)
+  grtaus.SetMarkerColor(color)
+  grtaus.GetXaxis().SetTitle(parameter)
+  grtaus.GetYaxis().SetTitle('Storage lifetime (s)')
+  grtaus.GetYaxis().SetRangeUser(0,50)
+  return grtaus
+
 
 # plot storage lifetime vs time
+canvas = ROOT.TCanvas('c','c')
+l = ROOT.TLatex()
+l.SetTextSize(0.03)
 dailytaus = [ex for ex in experiments if ex['TCN'] == '18-015' and len(ex['start']) > 0]
-grtaus = ROOT.TGraphErrors(len(dailytaus),
-                           numpy.array([min(ex['start']) for ex in dailytaus]),
-                           numpy.array([ex['tau_corrected']        for ex in dailytaus]),
-                           numpy.array([0.               for _  in dailytaus]),
-                           numpy.array([ex['tau_corrected_err']     for ex in dailytaus]))
-grtaus.GetXaxis().SetTimeDisplay(1)
-grtaus.GetXaxis().SetNdivisions(10, 10, 0)
-grtaus.GetXaxis().SetTitle('Date')
-grtaus.GetYaxis().SetTitle('Storage lifetime (s)')
-grtaus.GetYaxis().SetRangeUser(0,40)
-grtaus.Draw('AP')
+
+mg = ROOT.TMultiGraph('mg', ';Run;Lifetime (s)')
+mg.Add(TauVsTime(dailytaus, 'runs', 'li6tau', False, ROOT.kBlack))
+mg.Add(TauVsTime(dailytaus, 'runs', 'he3tau', False, ROOT.kRed))
+mg.Add(TauVsTime(dailytaus, 'runs', 'tau_wall', False, ROOT.kGreen))
+mg.Draw('AP')
 canvas.Print('dailytau.pdf(')
 
-grtaus = ROOT.TGraphErrors(len(dailytaus),
-                           numpy.array([float(min(ex['runs'])) for ex in dailytaus]),
-                           numpy.array([ex['tau_corrected']       for ex in dailytaus]),
-                           numpy.array([0.              for _  in dailytaus]),
-                           numpy.array([ex['tau_corrected_err']    for ex in dailytaus]))
-grtaus.GetXaxis().SetTitle('Run')
-grtaus.GetYaxis().SetTitle('Storage lifetime (s)')
-grtaus.GetYaxis().SetRangeUser(0,40)
-grtaus.Draw('AP')
+mg = ROOT.TMultiGraph('mg', ';Date;Lifetime (s)')
+mg.Add(TauVsTime(dailytaus, 'start', 'li6tau', False, ROOT.kBlack))
+mg.Add(TauVsTime(dailytaus, 'start', 'he3tau', False, ROOT.kRed))
+mg.Add(TauVsTime(dailytaus, 'start', 'tau_wall', True, ROOT.kGreen))
+mg.GetXaxis().SetTimeDisplay(1)
+mg.GetXaxis().SetTimeFormat('%m-%d%F2018-01-01 00:00:00')
+mg.GetXaxis().SetNdivisions(10, 10, 0)
+mg.Draw('AP')
+box = ROOT.TBox(IsopureFillTimes[0], mg.GetHistogram().GetMinimum(), IsopureFillTimes[1], mg.GetHistogram().GetMaximum())
+box.Draw('SAME')
+box2 = ROOT.TBox(IsopureFillTimes[2], mg.GetHistogram().GetMinimum(), IsopureFillTimes[3], mg.GetHistogram().GetMaximum())
+box2.Draw('SAME')
 canvas.Print('dailytau.pdf')
 
 minvp = [min(ex['minvaporpressure']) for ex in dailytaus]
 maxvp = [max(ex['maxvaporpressure']) for ex in dailytaus]
 grtaus = ROOT.TGraphErrors(len(dailytaus),
-                           numpy.array([float(min(ex['runs'])) for ex in dailytaus]),
+                           numpy.array([float(min(ex['start'])) for ex in dailytaus]),
                            numpy.array([(ma + mi)/2. for ma, mi in zip(maxvp, minvp)]),
                            numpy.array([0.              for _  in dailytaus]),
-                           numpy.array([(ma - mi)/2. for ma, mi in zip(maxvp, minvp)]))
-grtaus.GetXaxis().SetTitle('Run')
+                           numpy.array([(ma - mi)/math.sqrt(12) for ma, mi in zip(maxvp, minvp)]))
+grtaus.GetXaxis().SetTitle('Date')
+grtaus.GetXaxis().SetTimeDisplay(1)
+grtaus.GetXaxis().SetTimeFormat('%m-%d%F2018-01-01 00:00:00')
+grtaus.GetXaxis().SetNdivisions(10, 10, 0)
 grtaus.GetYaxis().SetTitle('Vapor pressure (torr)')
 grtaus.Draw('AP')
 canvas.Print('dailytau.pdf)')
 
-# plot storage lifetime vs temperature
-tauvstemp = [ex for ex in experiments if ex['TCN'] == '18-300']
-grtemp = ROOT.TGraphErrors(len(tauvstemp),
-                           numpy.array([(max(ex['maxtemperature']) + min(ex['mintemperature']))/2 for ex in tauvstemp]),
-                           numpy.array([ex['tau']                                                 for ex in tauvstemp]),
-                           numpy.array([(max(ex['maxtemperature']) - min(ex['mintemperature']))/2 for ex in tauvstemp]),
-                           numpy.array([ex['tauerr']                                              for ex in tauvstemp]))
-grtemp.GetXaxis().SetTitle('Temperature (K)')
-grtemp.GetYaxis().SetTitle('Storage lifetime (s)')
-grtemp.SetLineColor(ROOT.kRed)
-grtemp.Draw('AP')
+def TauVsTemp(experiments, parameter, variable, color = ROOT.kBlack, convert = False):
+  exs = [ex for ex in experiments if ex[variable] > 0.]
+  if not convert:
+    x = numpy.array([(max(ex['max' + parameter]) + min(ex['min' + parameter]))/2 for ex in exs])
+    xerr = numpy.array([(max(ex['max' + parameter]) - min(ex['min' + parameter]))/2 for ex in exs])
+  else:
+    x = numpy.array([(UCN.HeTemperature(max(ex['max' + parameter])) + UCN.HeTemperature(min(ex['min' + parameter])))/2 for ex in exs])
+    xerr = numpy.array([(UCN.HeTemperature(max(ex['max' + parameter])) - UCN.HeTemperature(min(ex['min' + parameter])))/2 for ex in exs])
+  gr = ROOT.TGraphErrors(len(exs), x, numpy.array([ex[variable] for ex in exs]), xerr, numpy.array([ex[variable + 'err'] for ex in exs]))
+  gr.SetTitle('')
+
+  if parameter == 'temperature':
+    gr.GetXaxis().SetTitle('Temperature (K)')
+  elif parameter == 'vaporpressure' and not convert:
+    gr.GetXaxis().SetTitle('Vapor pressure (Torr)')
+  elif parameter == 'vaporpressure' and convert:
+    gr.GetXaxis().SetTitle('Temperature (K)')
+  else:
+    assert(True)
+  gr.GetYaxis().SetTitle('Storage lifetime (s)')
+  gr.SetLineColor(color)
+  gr.SetMarkerColor(color)
+  return gr
+
+
+def FormatTaxis(Taxis):
+  Taxis.SetTitle('Temperature (K)')
+  Taxis.SetLabelFont(42)
+  Taxis.SetLabelSize(0.035)
+#  Taxis.SetLabelOffset(0.045)
+  Taxis.SetTitleSize(0.035)
+  Taxis.SetTitleFont(42)
+#  Taxis.SetTitleOffset(1)
+
+initialgeometry = [ex for ex in experiments if min(ex['runs']) < 925 and len(ex['start']) > 0]
+finalgeometry = [ex for ex in experiments if ex['TCN'] != '18-170' and min(ex['runs']) > 1152 and len(ex['start']) > 0]
+afterfilling = [ex for ex in experiments if min(ex['runs']) <= 1152 and len(ex['start']) > 0 and min(ex['start']) > IsopureFillTimes[-1]]
+beforefilling = [ex for ex in experiments if len(ex['start']) > 0 and min(ex['runs']) > 925 and min(ex['start']) < IsopureFillTimes[-1]]
+spoiling = [ex for ex in experiments if ex['TCN'] == '18-170']
+
+mg = ROOT.TMultiGraph('mg', ';Temperature (K);Storage Lifetime (s)')
+mg.Add(TauVsTemp(initialgeometry, 'temperature', 'tau', ROOT.kBlack)) # initial geometry
+mg.Add(TauVsTemp(finalgeometry, 'temperature', 'tau', ROOT.kBlack)) # final geometry
+mg.Add(TauVsTemp(afterfilling, 'temperature', 'tau', ROOT.kBlue)) # after refill
+mg.Add(TauVsTemp(beforefilling, 'temperature', 'tau', ROOT.kRed)) # before refill
+mg.Add(TauVsTemp(spoiling, 'temperature', 'tau', ROOT.kGreen)) # source spoiling
+mg.Draw('AP')
 canvas.Print('tauvstemp.pdf(')
 
-# plot storage lifetime vs vapor pressure
-mintemp = [min(ex['minvaporpressure']) for ex in tauvstemp]
-maxtemp = [max(ex['maxvaporpressure']) for ex in tauvstemp]
-grpress = ROOT.TGraphErrors(len(tauvstemp),
-                            numpy.array([(maxT + minT)/2 for maxT, minT in zip(maxtemp, mintemp)]),
-                            numpy.array([ex['tau']       for ex in tauvstemp]),
-                            numpy.array([(maxT - minT)/2 for maxT, minT in zip(maxtemp, mintemp)]),
-                            numpy.array([ex['tauerr']    for ex in tauvstemp]))
-grpress.GetXaxis().SetTitle('Vapor pressure (torr)')
-grpress.GetYaxis().SetTitle('Storage lifetime (s)')
-grpress.SetLineColor(ROOT.kBlue)
-f = ROOT.TF1('f', '[0]*log(x) + [1]', 0.1, 20)
-f.SetParameters(-1, 20)
-grpress.Fit(f, '')
 canvas.SetLogx()
-grpress.Draw('AP')
-canvas.Print('tauvstemp.pdf')
-canvas.SetLogx(0)
-
-# plot storage lifetime vs vapor pressure temperature
-mintemp = [HeTemperature(min(ex['minvaporpressure']))   for ex in tauvstemp]
-maxtemp = [HeTemperature(max(ex['maxvaporpressure']))   for ex in tauvstemp]
-grpress = ROOT.TGraphErrors(len(tauvstemp),
-                            numpy.array([(maxT + minT)/2 for maxT, minT in zip(maxtemp, mintemp)]),
-                            numpy.array([ex['tau']       for ex in tauvstemp]),
-                            numpy.array([(maxT - minT)/2 for maxT, minT in zip(maxtemp, mintemp)]),
-                            numpy.array([ex['tauerr']    for ex in tauvstemp]))
-grpress.GetXaxis().SetTitle('Temperature derived from vapor pressure (K)')
-grpress.GetYaxis().SetTitle('Storage lifetime (s)')
-grpress.SetLineColor(ROOT.kBlue)
-grpress.Draw('AP')
+mg = ROOT.TMultiGraph('mg', ';Vapor pressure (Torr);Storage lifetime (s)')
+mg.Add(TauVsTemp(initialgeometry, 'vaporpressure', 'tau', ROOT.kBlack))
+mg.Add(TauVsTemp(finalgeometry, 'vaporpressure', 'tau', ROOT.kBlack))
+mg.Add(TauVsTemp(afterfilling, 'vaporpressure', 'tau', ROOT.kBlue))
+mg.Add(TauVsTemp(beforefilling, 'vaporpressure', 'tau', ROOT.kRed))
+mg.Add(TauVsTemp(spoiling, 'vaporpressure', 'tau', ROOT.kGreen))
+mg.Draw('AP')
+fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
+Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
+FormatTaxis(Taxis)
+Taxis.Draw()
 canvas.Print('tauvstemp.pdf')
 
-# plot yield after 0s storage vs vapor pressure
-mintemp = [vp for ex in tauvstemp for vp, t in zip(ex['minvaporpressure'], ex['storageduration']) if t == 0.]
-maxtemp = [vp for ex in tauvstemp for vp, t in zip(ex['maxvaporpressure'], ex['storageduration']) if t == 0.]
-y = [N for ex in tauvstemp for N, t in zip(ex['li6counts_normalized'], ex['storageduration']) if t == 0.]
-yerr = [Nerr for ex in tauvstemp for Nerr, t in zip(ex['li6counts_normalized_err'], ex['storageduration']) if t == 0.]
-print([(ex['runs'], ex['li6counts_normalized']) for ex in tauvstemp])
-grpress = ROOT.TGraphErrors(len(y),
-                            numpy.array([(maxT + minT)/2 for maxT, minT in zip(maxtemp, mintemp)]),
-                            numpy.array(y),
-                            numpy.array([(maxT - minT)/2 for maxT, minT in zip(maxtemp, mintemp)]),
-                            numpy.array(yerr))
-grpress.GetXaxis().SetTitle('Vapor pressur (torr)')
-grpress.GetYaxis().SetTitle('UCN yield')
-f = ROOT.TF1('f', '[0]*([1]*log(x)**3 + [2]*log(x)**2 + [3]*log(x) + 1)', 0.1, 20)
-grpress.Fit(f, '')
-canvas.SetLogx()
-grpress.Draw('AP')
+mg = ROOT.TMultiGraph('mg', ';Vapor pressure (Torr);Wall-storage lifetime (s)')
+mg.Add(TauVsTemp(initialgeometry, 'vaporpressure', 'tau_wall', ROOT.kBlack))
+mg.Add(TauVsTemp(finalgeometry, 'vaporpressure', 'tau_wall', ROOT.kBlack))
+mg.Add(TauVsTemp(afterfilling, 'vaporpressure', 'tau_wall', ROOT.kBlue))
+mg.Add(TauVsTemp(beforefilling, 'vaporpressure', 'tau_wall', ROOT.kRed))
+mg.Add(TauVsTemp(spoiling, 'vaporpressure', 'tau_wall', ROOT.kGreen))
+mg.Draw('AP')
+ROOT.gStyle.SetFillStyle(0)
+b1 = ROOT.TBox(0.12, 44., 0.2, 49.)
+b1.Draw()
+#l.SetTextColor(ROOT.kBlack)
+l.DrawLatex(0.12, 49.5, 'Initial geometry (He3 only)')
+b3 = ROOT.TBox(0.09, 38., 0.6, 44.)
+b3.Draw()
+#l.SetTextColor(ROOT.kBlue)
+l.DrawLatex(0.62, 42, '"Low" geometry')
+b4 = ROOT.TBox(0.1, 34., mg.GetXaxis().GetXmax(), 38.)
+b4.Draw()
+#l.SetTextColor(ROOT.kBlack)
+l.DrawLatex(1., 38.5, 'Final geometry/with polarizers')
+b5 = ROOT.TBox(0.3, 28., 0.7, 36.)
+b5.Draw()
+#l.SetTextColor(ROOT.kGreen)
+l.DrawLatex(0.75, 31., 'Source spoiled')
+fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
+Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
+FormatTaxis(Taxis)
+Taxis.Draw()
+canvas.Print('tauvstemp.pdf')
+
+ROOT.gStyle.SetOptFit(0)
+mg = ROOT.TMultiGraph('mg', 'TCN18-300;Vapor pressure (Torr);Storage lifetime (s)')
+mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300'], 'vaporpressure', 'li6tau', ROOT.kBlack, False))
+mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300'], 'vaporpressure', 'he3tau', ROOT.kRed, False))
+f = ROOT.TF1('f', lambda x, p: 1./(1./p[0] + p[1]*(1. - p[2]*UCN.HeTemperature(x[0]))*UCN.HeTemperature(x[0])**7), 0.5, 2, 3)
+f.SetParameters(40, 0.008, 0.2)
+mg.Fit(f, 'MQ')
+mg.Draw('AP')
+l.DrawLatex(0.2, 5., '#tau(T) = #frac{1}{#frac{1}{p1} + p2(1 - p3 T) T^{7}}')
+fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
+Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
+FormatTaxis(Taxis)
+Taxis.Draw()
 canvas.Print('tauvstemp.pdf)')
 
+ROOT.gStyle.SetOptFit(1111)
+canvas.SetLogx(0)
 
 # plot storage lifetime vs source spoilage
 tauvsspoil = [ex for ex in experiments if ex['TCN'] == '18-170']
@@ -421,5 +569,17 @@ canvas.SetLogx()
 grspoil.GetXaxis().SetTitle('Spoiling gas injected (torr L)')
 grspoil.GetYaxis().SetTitle('Storage Lifetime (s)')
 grspoil.Draw('AP')
-canvas.Print('tauvsspoilage.pdf')
+canvas.Print('tauvsspoilage.pdf(')
+
+
+grspoil = ROOT.TGraphErrors(len(tauvsspoil),
+                            numpy.cumsum([p*0.1       for p  in injectedpress]),
+                            numpy.array([(max(ex['maxvaporpressure']) + min(ex['minvaporpressure']))/2 for ex in tauvsspoil]),
+                            numpy.array([0.           for _  in tauvsspoil]),
+                            numpy.array([(max(ex['maxvaporpressure']) - min(ex['minvaporpressure']))/2 for ex in tauvsspoil]))
+canvas.SetLogx()
+grspoil.GetXaxis().SetTitle('Spoiling gas injected (torr L)')
+grspoil.GetYaxis().SetTitle('Vapor pressure (torr)')
+grspoil.Draw('AP')
+canvas.Print('tauvsspoilage.pdf)')
 

@@ -124,7 +124,7 @@ def PrintMonitorCounts(experiments):
   canvas = ROOT.TCanvas('c', 'c')
   mh = ROOT.TH2I('monitorcounts', 'monitorcounts', 270, 930., 1200., 200, 0., 1500.)
   for ex in experiments:
-    for m in ex['monitorcounts']:
+    for m in ex['monitorcounts2']:
       mh.Fill(float(min(ex['runs'])), m)
   mh.Draw('COL')
   canvas.Print('monitorcounts.pdf(')
@@ -132,4 +132,25 @@ def PrintMonitorCounts(experiments):
   mh.Draw('CANDLE')
   canvas.Print('monitorcounts.pdf)')
 
-
+def PrintTemperatureVsCycle(ex, pdf):
+  canvas = ROOT.TCanvas('cm', 'cm')
+  graph = ROOT.TGraphErrors(len(ex['minvaporpressure']), numpy.array(ex['cyclenumber']),
+                            numpy.array([(maxvp + minvp)/2 for maxvp, minvp in zip(ex['maxvaporpressure'], ex['minvaporpressure'])]),
+                            numpy.array([0. for _ in ex['cyclenumber']]),
+                            numpy.array([(maxvp - minvp)/2 for maxvp, minvp in zip(ex['maxvaporpressure'], ex['minvaporpressure'])]))
+  graph.GetXaxis().SetTitle('Cycle')
+  graph.GetXaxis().SetLimits(0., max(ex['cyclenumber']))
+  graph.GetYaxis().SetTitle('Vapor pressure (torr)')
+  graph.SetMarkerStyle(20)
+  graph.Draw('AP')
+  fHeTemperature = ROOT.TF1('HeTemperature', lambda x: HeTemperature(x[0]), HeTemperature(graph.GetHistogram().GetMinimum()), HeTemperature(graph.GetHistogram().GetMaximum()))
+  Taxis = ROOT.TGaxis(max(ex['cyclenumber']), graph.GetHistogram().GetMinimum(), max(ex['cyclenumber']), graph.GetHistogram().GetMaximum(), 'HeTemperature', 510, '+')
+  Taxis.SetTitle('Temperature (K)')
+  Taxis.SetLabelFont(42)
+  Taxis.SetLabelSize(0.035)
+  Taxis.SetLabelOffset(0.045)
+  Taxis.SetTitleSize(0.035)
+  Taxis.SetTitleFont(42)
+  Taxis.SetTitleOffset(1)
+  Taxis.Draw()
+  canvas.Print(pdf)
