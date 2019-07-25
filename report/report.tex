@@ -160,13 +160,13 @@ Individual cycles are excluded from the analyzed transmission data if
 \item the beam current fluctuated by more than \SI{0.02}{\micro\ampere} (10 cycles);
 \item the last period does not contain any Li6 events, i.e. the run was aborted at some point during this cycle (35 cycles);
 \item IV1 never opened (3 cycles);
-\item the ion gauge IG6 read a pressure between \SIlist{1e-7;1e-2}{\torr}, indicating that it was on, causing additional background in the Li6 detector (88 cycles);
+\item the ion gauge IG5 read a pressure between \SIlist{1e-7;1e-2}{\torr}, indicating that it was on, causing additional background in the Li6 detector (11 cycles);
 \item the Li6 detector detected an average rate below \SI{10}{\hertz} during the counting period (0 cycles); or
 \item the Li6 detector detected a large background rate above \SI{10}{\hertz} during the irradiation period (4 cycles).
-\item the He3 detector detected less than 300 UCN during counting (3 cycles);
+\item the He3 detector detected less than 300 UCN during counting (4 cycles);
 \end{itemize}
 
-In total, 153 out of 579 cycles were excluded. All cycles of experiments TCN18-028 (run 929)  TCN18-029 (run 934) and TCN18-080 (run 973) had to be discarded, due to IG6 being on.
+In total, 77 out of 579 cycles were excluded. All cycles of experiment TCN18-080 (run 973) had to be discarded, due to IG5 being on.
 
 \subsection{Results}
 
@@ -178,6 +178,7 @@ In total, 153 out of 579 cycles were excluded. All cycles of experiments TCN18-0
 \toprule
 Experiment & Run & $\bar{R}_c$ & $\chi^2/\nu$ & $\bar{R}_i$ & $\chi^2/\nu$ & Description \\
 \midrule
+TCN18-029 & 930, 934 & $27.22 \pm 0.09$ & 1.51 & $21.64 \pm 0.08$ & 1.22 & UGD17, no IV3, no elbow \\
 TCN18-031 & 938 & $34.92 \pm 0.27$ & 1.01 & $25.31 \pm 0.24$ & 1.02 & UGD17, no IV3 \\
 TCN18-035 & 944 & $31.26 \pm 0.26$ & 0.68 & $22.92 \pm 0.23$ & 1.48 & UGD22, O-rings of IVs pointing away from each other \\
 TCN18-045 & 954 & $31.78 \pm 0.27$ & 2.45 & $23.87 \pm 0.25$ & 0.97 & UGD22 \\
@@ -214,6 +215,7 @@ TCN18-310 & 1192 & $50.84 \pm 0.35$ & 1.50 & $32.14 \pm 0.26$ & 0.97 & UGD22 + 2
 Experiment & Reference & $T_c$ & $T_i$ & Description \\
 \midrule
 TCN18-045 & TCN18-245 & $0.980 \pm 0.029$ & $0.981 \pm 0.023$ & Comparison of reference measurements \\
+TCN18-029 & TCN18-031 & $0.779 \pm 0.007$ & \sout{$0.855 \pm 0.008$} & Adding elbow before detector \\
 TCN18-035 & TCN18-031 & $0.895 \pm 0.010$ & $0.906 \pm 0.016$ & UGD22+IV3 compared to UGD17\\
 TCN18-045 & TCN18-035 & $1.017 \pm 0.023$ & $1.041 \pm 0.018$ & Flipping IV2 and IV3\\
 TCN18-053 & TCN18-045 & $1.029 \pm 0.029$ & \sout{$0.955 \pm 0.015$} & Replacing UGD22 with burst disk and UGD2 \\
@@ -255,12 +257,13 @@ Most measurements give compatible results with both normalization methods, but t
 \item The burst-disk holder did not significantly reduce transmission compared to a bare stainless-steel guide with same length.
 \item The ``vent spider'' reduced transmission to \SI{95}{\percent} compared to the burst-disk holder or a stainless-steel guide of same length.
 \end{itemize}
-The largest discrepancies between the two normalization methods are seen in measurements that have a large effect on the number of UCN reflected back towards the source and He3 detector, e.g. adding a foil or replacing the elbow leading down to the Li6 detector:
+The largest discrepancies between the two normalization methods are seen in measurements that have a large effect on the number of UCN reflected back towards the source and He3 detector, e.g. adding a foil or adding/replacing the elbow leading down to the Li6 detector:
 \begin{itemize}
 \item Adding a \SI{100}{\micro\meter}-thick aluminium foil into the SCM warm bore reduced transmission to \SIlist{50;57}{\percent}.
 \item Adding a \SI{100}{\micro\meter}-thick aluminium foil into a \SI{1}{\meter}-high drop into the Li6 detector reduced transmission to \SIlist{50;58}{\percent}.
 \item Adding a \SI{15}{\micro\meter}-thick titanium foil reduced transmission to \SIlist{57;61}{\percent} (at the lower position, higher UCN energies) or to \SIlist{45;46}{\percent} (at the higher position, lower UCN energies).
-\item Replacing the mitered elbow with a bare, smooth elbow increased transmission by \SIlist{22;11}{\percent}.
+\item Adding a NiP-plated, mitered elbow before the Li6 detector increased transmission by \SI{28}{\percent} because more UCN can overcome its Fermi potential.
+\item Replacing the NiP-plated, mitered elbow with a bare, rounded elbow increased transmission by \SIlist{22;11}{\percent}.
 \end{itemize}
 
 Interestingly, some setups that have a \SI{1}{\meter}-long guide inserted (TCN18-085, -480) seem to have larger transmissions $T_c$ than the setup without the guide (TCN18-045); most likely because the added guide reduces back-scatter from the elbow attached at the end of each setup.

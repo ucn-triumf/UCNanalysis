@@ -71,9 +71,11 @@ def ReadCycles(infile, experiments):
     if max(cycle.UCN_UGD_IV1_STATON) < 1:
       print('SKIPPING cycle {0} in run {1} because IV1 never opened!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
-    if (#any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or 
-        any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])):
-      print ('SKIPPING cycle {0} in run {1} because IG6 was on!'.format(cycle.cyclenumber, cycle.runnumber))
+    if (any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) 
+        #or 
+        #any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])
+       ):
+      print ('SKIPPING cycle {0} in run {1} because IG5 was on!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
     if Li6[countperiod] < 10*d[countperiod]:
       print('SKIPPING cycle {0} in run {1} because Li6 seems to see only background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[countperiod]/d[countperiod]))
@@ -443,6 +445,7 @@ Normalize(experiments, '18-065_0A', '18-060') # warm bore without foil
 Normalize(experiments, '18-265_0A', '18-045') # warm bore with foil
 Normalize(experiments, '18-265_0A', '18-060') # warm bore with foil
 Normalize(experiments, '18-265_0A', '18-065') # warm bore with foil
+Normalize(experiments, '18-029', '18-031') # compare no elbow with elbow
 
 canvas = ROOT.TCanvas('c','c')
 
