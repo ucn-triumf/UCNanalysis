@@ -13,11 +13,14 @@ def ReadCycles(infile, experiments):
 
   for ex in experiments:
     ex['start'] = []
+    ex['cyclenumber'] = []
     ex['beamcurrent'] = []
     ex['li6counts'] = []
     ex['countduration'] = []
     ex['monitorcounts'] = []
     ex['monitorduration'] = []
+    ex['monitorcounts2'] = []
+    ex['monitorduration2'] = []
     ex['li6background'] = []
     ex['backgroundduration'] = []
     ex['li6irradiation'] = []
@@ -29,7 +32,13 @@ def ReadCycles(infile, experiments):
     ex['minvaporpressure'] = []
     ex['maxvaporpressure'] = []
     ex['SCMcurrent'] = []
+    ex['li6rate'] = []
     ex['he3rate'] = []
+    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10)
+    ex['channels'].SetDirectory(0)
+    ex['pinhole'] = []
+    ex['pinholetau'] = 0.
+    ex['pinholetauerr'] = 0.
 
   for cycle in infile.cycledata:
     run = cycle.runnumber
@@ -42,14 +51,18 @@ def ReadCycles(infile, experiments):
     d = cycle.durations
    
     # filter useless cycles
-    if min(cycle.B1V_KSM_PREDCUR) < 0.1:
-      print('SKIPPING cycle {0} in run {1} because beam dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(cycle.B1V_KSM_PREDCUR)))
+    beam = [cur*bon for cur, bon, t in zip(cycle.B1V_KSM_PREDCUR, cycle.B1V_KSM_BONPRD, getattr(cycle, 'Beamline/timestamp')) if 1 < t - cycle.start < 59]
+    if min(beam) < 0.1:
+      print('SKIPPING cycle {0} in run {1} because beam dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
-    if numpy.std(cycle.B1V_KSM_PREDCUR) > 0.02:
-      print('SKIPPING cycle {0} in run {1} because beam fluctuated by {2}uA'.format(cycle.cyclenumber, cycle.runnumber, numpy.std(cycle.B1V_KSM_PREDCUR)))
+    if numpy.std(beam) > 0.02:
+      print('SKIPPING cycle {0} in run {1} because beam fluctuated by {2}uA'.format(cycle.cyclenumber, cycle.runnumber, numpy.std(beam)))
       continue
     if Li6[10] == 0:
       print('SKIPPING cycle {0} in run {1} because Li6 does not contain data in all periods'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
+    if max(cycle.UCN_UGD_IV1_STATON) < 1:
+      print('SKIPPING cycle {0} in run {1} because IV1 never opened!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
     if He3[monitorperiod] < 1000:
       print('SKIPPING cycle {0} in run {1} because He3 saw less than 1000 monitor counts ({2})'.format(cycle.cyclenumber, cycle.runnumber, He3[monitorperiod]))
@@ -57,9 +70,18 @@ def ReadCycles(infile, experiments):
     if d[backgroundperiod] > 0 and Li6[backgroundperiod]/d[backgroundperiod] > 10:
       print('SKIPPING cycle {0} in run {1} because of high Li6 background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[backgroundperiod]/d[backgroundperiod]))
       continue
-    if any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC]):
-      print ('SKIPPING cycle {0} in run {1} because IG5 or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
+    if (cycle.runnumber == 956 and cycle.cyclenumber == 56) or (cycle.runnumber == 1003 and cycle.cyclenumber == 41) or (cycle.runnumber == 1003 and cycle.cyclenumber == 45):
+      print('SKIPPING cycle {0} in run {1}!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
+#    chist, bin_edges = numpy.histogram(getattr(cycle, 'Li6/channel'), 10, (0., 10.), True)
+#    if sum(chist) > 1000 and not (chist[0] > chist[1] and chist[1] < chist[2] and chist[2] > chist[3] and chist[3] < chist[4] and chist[4] > chist[5] and chist[5] < chist[6] and chist[7] == 0 and chist[8] < chist[9]):
+#      print('SKIPPING cycle {0} in run {1} because Li6 channel distribution looks weird!'.format(cycle.cyclenumber, cycle.runnumber))
+#      continue
+      
+#    if (#any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or 
+#        any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])):
+#      print ('SKIPPING cycle {0} in run {1} because IG6 was on!'.format(cycle.cyclenumber, cycle.runnumber))
+#      continue
 
     if (cycle.valve0state[0] != 1 or cycle.valve0state[1] != 0 or cycle.valve0state[2] != 0 or # IV1 should be open during irradiation, closed after
        cycle.valve1state[0] != 1 or # IV2 should be open during irradiation, state after depends on storage mode (between IV1+IV3 or between IV2+IV3)
@@ -71,7 +93,8 @@ def ReadCycles(infile, experiments):
         continue
 
       ex['start'].append(cycle.start)
-      ex['beamcurrent'].append([cur for cur in cycle.B1V_KSM_PREDCUR])
+      ex['cyclenumber'].append(float(cycle.cyclenumber))
+      ex['beamcurrent'].append(beam)
       ex['mintemperature'].append(min([min(getattr(cycle,'UCN_ISO_{0}_RDTEMP'.format(TS))) for TS in ['TS11', 'TS12', 'TS14']]))
       ex['maxtemperature'].append(max([max(getattr(cycle,'UCN_ISO_{0}_RDTEMP'.format(TS))) for TS in ['TS11', 'TS12', 'TS14']]))
       if max(cycle.UCN_ISO_PG9L_RDPRESS) >= 2.:
@@ -85,12 +108,25 @@ def ReadCycles(infile, experiments):
       ex['countduration'].append(d[countperiod])
       ex['monitorcounts'].append(He3[monitorperiod])
       ex['monitorduration'].append(d[monitorperiod])
+      he3window = (-10., 0.)
+      ex['monitorcounts2'].append(len([t for t in getattr(cycle, 'He3/hits') if d[monitorperiod] + he3window[0] < t < d[monitorperiod] + he3window[1]]))
+      ex['monitorduration2'].append(he3window[1] - he3window[0])
       ex['li6background'].append(Li6[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
       ex['storageduration'].append(d[storageperiod])
       ex['irradiationduration'].append(d[0])
       ex['li6irradiation'].append(Li6[0])
 
+      li6rate = ROOT.TH1I('Li6_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'Li6 detector rate', int(math.floor(sum(d))), 0., math.floor(sum(d)))
+      for h in getattr(cycle, 'Li6/hits'):
+        li6rate.Fill(h)
+      li6rate.GetXaxis().SetTitle('Time (s)')
+      li6rate.GetYaxis().SetTitle('Li6 rate (s^{-1})')
+      li6rate.SetDirectory(0)
+      ex['li6rate'].append(li6rate)
+
+      if cycle.valve1state[storageperiod] == 1:
+        ex['pinhole'].append(True)
       he3rate = ROOT.TH1I('He3_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'He3 detector rate', int(math.floor(sum(d))), 0., math.floor(sum(d)))
       for h in getattr(cycle, 'He3/hits'):
         he3rate.Fill(h)
@@ -98,6 +134,11 @@ def ReadCycles(infile, experiments):
       he3rate.GetYaxis().SetTitle('He3 rate (s^{-1})')
       he3rate.SetDirectory(0)
       ex['he3rate'].append(he3rate)
+
+      for c in getattr(cycle, 'Li6/channel'):
+        ex['channels'].Fill(c)
+
+  print('Read {0} cycles\n'.format(len(numpy.concatenate([ex['start'] for ex in experiments]))))
 	  
 	  
 # analyze storage time from list of runs
@@ -108,88 +149,96 @@ def StorageLifetime(ex):
     print('Found no cycles with run numbers {0}!'.format(ex['runs']))
     return
 
-  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.BackgroundRate(ex['li6background'], ex['backgroundduration'])
-  print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
-  beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
-  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', beam[0], beam[1])
+  canvas = ROOT.TCanvas('c', 'c')
+  pdf = 'TCN{0}.pdf'.format(ex['TCN'])
 
-  # report average monitor counts, range of beam current, range of He-II temperature
-  monitoravg = numpy.average(ex['monitorcounts'], None, [1./m for m in ex['monitorcounts']], True)
-  print 'Monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1]))
-  print('Beam current from {0} to {1} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))
-  print 'Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature']))
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts2'], [math.sqrt(m) for m in ex['monitorcounts2']])
 
   x = ex['storageduration']
   xerr = [0. for _ in ex['storageduration']]  
 
-  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(m) for m in ex['monitorcounts']])
-  
   # plot normalized, background corrected counts vs storage time
   graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
   graph.SetTitle('TCN{0} (single exponential fit, with background subtracted, normalized to monitor detector)'.format(ex['TCN']))
   graph.GetXaxis().SetTitle('Storage time (s)')
   graph.GetYaxis().SetTitle('UCN-count-to-monitor ratio')
-#  graph.SetMarkerStyle(20)
+  graph.SetMarkerStyle(20)
 
-  # do single exponential fit
-  f = graph.Fit(UCN.SingleExpo(), 'SQB', '', 0., 1000.)
-
-  canvas = ROOT.TCanvas('c', 'c')
   canvas.SetLogy()
-  graph.Draw('AP')
-  pdf = 'TCN{0}.pdf'.format(ex['TCN'])
-  canvas.Print(pdf + '(')
-  ex['tau'] = f.GetParams()[1]
-  ex['tauerr'] = f.GetErrors()[1]
-  print('{0} +/- {1} (single exponential fit, with background subtracted, normalized to monitor detector)'.format(ex['tau'], ex['tauerr']))
-  
+
   #do single exponential fit with data point at 0 excluded
   f = graph.Fit(UCN.SingleExpo(), 'SQB', '', 1., 1000.)
   graph.SetTitle('TCN{0} (single exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)'.format(ex['TCN']))
   graph.Draw('AP')
-  canvas.Print(pdf)
+  canvas.Print(pdf + '(')
+  ex['tau'] = f.GetParams()[1]
+  ex['tauerr'] = f.GetErrors()[1]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.0)
 
   # do double exponential fit
-  graph.SetTitle('TCN{0} (double exponential fit, with background subtracted, normalized to monitor detector)'.format(ex['TCN']))
-  f = graph.Fit(UCN.DoubleExpo(), 'SQB')
+  graph.SetTitle('TCN{0} (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)'.format(ex['TCN']))
+  f = graph.Fit(UCN.DoubleExpo(), 'SQB', '', 1., 1000.)
   graph.Draw('AP')
   canvas.Print(pdf)
-  print('{0} +/- {1}, {2} +/- {3} (double exponential fit, with background subtracted, normalized to monitor detector)'.format(f.GetParams()[1], f.GetErrors()[1], f.GetParams()[3], f.GetErrors()[3]))
+  print('{0} +/- {1}, {2} +/- {3} (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)'.format(f.GetParams()[1], f.GetErrors()[1], f.GetParams()[3], f.GetErrors()[3]))
   
   # plot uncorrected UCN counts
-  y = [float(c) for c in ex['li6counts']]
-  yerr = [math.sqrt(c) for c in ex['li6counts']]
-  graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
-  graph.SetTitle('TCN{0} (single exponential fit + background, unnormalized)'.format(ex['TCN']))
-  graph.GetXaxis().SetTitle('Storage time (s)')
-  graph.GetYaxis().SetTitle('UCN count')
+#  y = [float(c) for c in ex['li6counts']]
+#  yerr = [math.sqrt(c) for c in ex['li6counts']]
+#  graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
+#  graph.SetTitle('TCN{0} (single exponential fit + background, unnormalized)'.format(ex['TCN']))
+#  graph.GetXaxis().SetTitle('Storage time (s)')
+#  graph.GetYaxis().SetTitle('UCN count')
   # do single exponential fit with background
-  f = graph.Fit(UCN.SingleExpoWithBackground(), 'SQB')
-  graph.Draw('AP')
-  canvas.Print(pdf)
-  print('{0} +/- {1} (single exponential fit with {2} +/- {3} background, unnormalized)'.format(f.GetParams()[1], f.GetErrors()[1], f.GetParams()[2], f.GetErrors()[2]))
+#  f = graph.Fit(UCN.SingleExpoWithBackground(), 'SQB')
+#  graph.Draw('AP')
+#  canvas.Print(pdf)
+#  print('{0} +/- {1} (single exponential fit with {2} +/- {3} background, unnormalized)'.format(f.GetParams()[1], f.GetErrors()[1], f.GetParams()[2], f.GetErrors()[2]))
+
+  UCN.PrintTemperatureVsCycle(ex, pdf)
 
   mtau = []
   mtauerr = []
-  for he3rate, m, s in zip(ex['he3rate'], ex['monitorduration'], ex['storageduration']):
+  for he3rate, m, s, c in zip(ex['he3rate'], ex['monitorduration'], ex['storageduration'], ex['countduration']):
     fitstart = m + 5
     fitend = m + s
+#    if not ex['pinhole']:
+#      fitend = fitend + c
     if fitend > fitstart + 10 and he3rate.Integral(he3rate.FindBin(fitstart), he3rate.FindBin(fitend)) > 0:
       f = he3rate.Fit(UCN.SingleExpo(), 'SQB', '', fitstart, fitend)
+      he3rate.SetTitle('TCN{0} (He3 rate)'.format(ex['TCN']))
       he3rate.Draw()
       canvas.Print(pdf) # print fitted He3 rate to pdf
       mtau.append(f.GetParams()[1])
-      mtauerr.append(f.GetErrors()[1])
+      mtauerr.append(f.GetErrors()[1]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.0))
 	  
   # print average storage lifetime from He3 fits to pdf
   canvas = ROOT.TCanvas('c','c')
   if len(mtau) > 0:
-    tauavg = numpy.average(mtau, None, [1./dt**2 for dt in mtauerr], True)
-    label = ROOT.TLatex(0.1, 0.6, 'Average lifetime from He3 data:')
-    label.Draw()
-    label2 = ROOT.TLatex(0.1, 0.5, '#tau = {0} +/- {1} s'.format(tauavg[0], 1./tauavg[1]**2))
-    label2.Draw()
-    print('{0} +/- {1} (single exponential fit to rate in monitor detector during storage period)'.format(tauavg[0], 1./tauavg[1]**2))
+    he3tau = ROOT.TGraphErrors(len(mtau), numpy.array(ex['cyclenumber']), numpy.array(mtau), numpy.array([0. for _ in mtau]), numpy.array(mtauerr))
+    fit = he3tau.Fit('pol0', 'SQ')
+    ex['pinholetau'] = fit.Parameter(0)
+    ex['pinholetauerr'] = fit.ParError(0)
+    he3tau.SetMarkerStyle(20)
+    he3tau.GetXaxis().SetTitle('Cycle')
+    he3tau.GetYaxis().SetTitle('Pinhole storage lifetime (s)')
+    he3tau.SetTitle('')
+    he3tau.Draw('AP')
+    print('{0} +/- {1} (single exponential fit to rate in monitor detector during storage period)'.format(fit.Parameter(0), fit.ParError(0)))
+  canvas.Print(pdf)
+
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
+  print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+  beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
+  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', beam[0], beam[1])
+  UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, 'li6')
+
+  # report average monitor counts, range of beam current, range of He-II temperature
+  monitoravg = numpy.average(ex['monitorcounts2'], None, [1./m for m in ex['monitorcounts2']], True)
+  print('Monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
+  print('Beam current from {0} to {1} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))
+  print('Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature'])))
+
+  ex['channels'].Draw()
   canvas.Print(pdf + ')')
   
 
@@ -286,3 +335,13 @@ for tcn in ['18-066', '18-068', '18-268', '18-266']:
   gr.GetYaxis().SetTitle('Storage lifetime (s)')
   gr.Draw('AP')
   canvas.Print('TCN{0}.pdf'.format(tcn))
+
+exps = [ex for ex in experiments if not any(ex['pinhole'])]
+pinhole = ROOT.TGraphErrors(len(exps),
+                            numpy.array([float(min(ex['runs'])) for ex in exps]),
+                            numpy.array([ex['pinholetau'] for ex in exps]),
+                            numpy.array([0. for _ in exps]),
+                            numpy.array([ex['pinholetauerr'] for ex in exps]))
+pinhole.Draw('AP')
+canvas.Print('pinhole.pdf')
+
