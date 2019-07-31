@@ -32,7 +32,7 @@ def HeTemperature(P):
 
 def SingleExpo():
   SingleExpo = ROOT.TF1('SingleExpo', '[0]*exp(-x/[1])')
-  SingleExpo.SetParameters(10, 10)
+  SingleExpo.SetParameters(10, 5)
   SingleExpo.SetParName(1, '#tau')
   SingleExpo.SetParLimits(0, 0, 1e6)
   SingleExpo.SetParLimits(1, 0, 1000)
@@ -72,12 +72,6 @@ def SubtractBackgroundAndNormalizeRate(counts, countdurations, detector, normali
   return [n/d for n, d in zip(norm, countdurations)], [ne/d for ne, d in zip(normerr, countdurations)]
 
 
-def BackgroundRate(counts, durations):
-#  if len(counts) == 0 or len(durations) == 0:
-#    return 0., 0.
-  return float(sum(counts))/sum(durations), math.sqrt(sum(counts))/sum(durations)
-
-
 def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
   canvas = ROOT.TCanvas('c', 'c')
   bgexps = [ex for ex in experiments if detector + 'backgroundrate' in ex and ex[detector + 'backgroundrateerr'] > 0]
@@ -93,7 +87,7 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
     bg.SetMarkerStyle(20)
     bg.Draw('AP')
 
-  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.7]
+  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.5]
   if len(lowbackground) > 0:
     lowbg = ROOT.TGraphErrors(len(lowbackground), numpy.array([float(min(ex['runs'])) for ex in lowbackground]), 
                                                   numpy.array([ex[detector + 'backgroundrate'] for ex in lowbackground]),
@@ -117,7 +111,7 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
     irrbg.GetYaxis().SetTitle('Added background rate during irradiation (s^{-1} #muA^{-1})')
     irrbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
     irrbg.Draw('AP')
-    canvas.Print(detector + '_irradiationbackground.pdf')
+  canvas.Print(detector + '_irradiationbackground.pdf')
 
 
 def PrintMonitorCounts(experiments):
@@ -154,3 +148,41 @@ def PrintTemperatureVsCycle(ex, pdf):
   Taxis.SetTitleOffset(1)
   Taxis.Draw()
   canvas.Print(pdf)
+
+def PrintBackgroundVsCycle(ex, pdf, detector):
+  if detector + 'background' not in ex or sum(ex[detector + 'background']) == 0:
+    return 0., 0.
+  canvas = ROOT.TCanvas('bg', 'bg')
+  x = numpy.array([float(c) for c, bg in zip(ex['cyclenumber'], ex[detector + 'background']) if bg > 0])
+  y = numpy.array([bg/bd for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration']) if bg > 0])
+  ye = numpy.array([math.sqrt(bg)/bd for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration']) if bg > 0])
+  graph = ROOT.TGraphErrors(len(x), x, y, numpy.array([0. for _ in x]), ye)
+  graph.SetTitle('')
+  graph.GetXaxis().SetTitle('Cycle')
+  graph.GetYaxis().SetTitle(detector + ' background rate (1/s)')
+  graph.SetMarkerStyle(20)
+  fit = graph.Fit('pol0', 'SQ')
+  graph.Draw('AP')
+  canvas.Print(pdf)
+  if fit.Ndf() > 0 and fit.Chi2()/fit.Ndf() > 3.:
+    print('High background variation!')
+  return fit.Parameter(0), fit.ParError(0)
+
+def PrintIrradiationBackgroundVsCycle(ex, pdf, detector):
+  if detector + 'irradiationrate' not in ex or sum(ex[detector + 'irradiationrate']) == 0:
+    return
+  canvas = ROOT.TCanvas('bg', 'bg')
+  x = numpy.array([float(c) for c in ex['cyclenumber']])
+  y = numpy.array(ex[detector + 'irradiationrate'])
+  ye = numpy.array(ex[detector + 'irradiationrateerr'])
+  graph = ROOT.TGraphErrors(len(x), x, y, numpy.array([0. for _ in x]), ye)
+  graph.SetTitle('')
+  graph.GetXaxis().SetTitle('Cycle')
+  graph.GetYaxis().SetTitle(detector + ' background rate during irradiation (1/(s #muA))')
+  graph.SetMarkerStyle(20)
+  fit = graph.Fit('pol0', 'SQ')
+  graph.Draw('AP')
+  canvas.Print(pdf)
+  if fit.Chi2()/fit.Ndf() > 3.:
+    print('High irradiation-background variation!')
+

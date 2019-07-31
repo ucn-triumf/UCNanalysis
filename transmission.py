@@ -147,11 +147,6 @@ def Transmission(ex):
     print('Found no cycles with run numbers {0}!'.format(ex['runs']))
     return
 
-  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.BackgroundRate(ex['li6background'], ex['backgroundduration'])
-  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', \
-                                                                                                 [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']])
-  print('Li6 background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
-
   # report average monitor counts
   monitoravg = numpy.average(ex['monitorcounts'], None, [1./m for m in ex['monitorcounts']], True)
   print('Monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
@@ -180,7 +175,7 @@ def Transmission(ex):
   canvas.Print(pdf + '(')
 
   ex['transmission'] = f.GetParams()[0]
-  ex['transmissionerr'] = f.GetErrors()[0]*max(f.Chi2()/f.Ndf(), 1.)
+  ex['transmissionerr'] = f.GetErrors()[0]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.)
   print('Li6-to-He3 ratio during counting: {0} +/- {1}'.format(ex['transmission'], ex['transmissionerr']))
 
   if min(ex['monitorcounts2']) > 0:
@@ -198,11 +193,16 @@ def Transmission(ex):
     canvas.Print(pdf)
 
     ex['transmission2'] = f.GetParams()[0]
-    ex['transmission2err'] = f.GetErrors()[0]*max(f.Chi2()/f.Ndf(), 1.)
+    ex['transmission2err'] = f.GetErrors()[0]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.)
     print('Li6-to-He3 ratio during irradiation: {0} +/- {1}\n'.format(ex['transmission2'], ex['transmission2err']))
 
   UCN.PrintTemperatureVsCycle(ex, pdf)
   
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
+  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', \
+                                                                                                 [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']])
+  print('Li6 background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+
   he3axis = ex['He3rate'][0].GetXaxis()
   he3rate = ROOT.TH1D('TCN{0}_He3'.format(ex['TCN']), ';Time (s); He3 rate (1/s)', he3axis.GetNbins(), he3axis.GetXmin(), he3axis.GetXmax())
   he3rate.SetDirectory(0)

@@ -11,6 +11,7 @@
 \sisetup{separate-uncertainty=true}
 \usepackage{booktabs}
 \usepackage{ulem}
+\usepackage{rotating}
 
 \author{W. Schreyer, S. Morawetz}
 \title{Fall run 2018 -- analysis report}
@@ -80,6 +81,7 @@ N^\mathrm{Li6}_c = C^\mathrm{Li6}_c - b^\mathrm{Li6} \cdot t_c,
 \end{equation}
 with an uncertainty
 \begin{equation}
+\label{eq:background_subtraction_end}
 \Delta N^\mathrm{Li6}_c = \sqrt{ \sqrt{C^\mathrm{Li6}_c}^2 + \left( \Delta b^\mathrm{Li6} \cdot t_c \right)^2}.
 \end{equation}
 
@@ -117,11 +119,13 @@ Another measure of transmission would be the the number of UCN that make it to t
 If we assume that the rate in the monitor detector $r_\mathrm{He3}(t)$ is proportional to the number of UCN in the source, this transmission would be given by
 
 \begin{equation}
+\label{eq:normalization_irradiation_begin}
 R = \frac{N_c^\mathrm{Li6}}{r_\mathrm{He3}(t_i)} \propto \frac{N_c^\mathrm{Li6}}{N_\mathrm{src}(t_i)} .
 \end{equation}
 
 The rate in the monitor detector is small and to determine the rate right when the valve opens requires an integration over a time window $\Delta t$ wide enough to reduce statistical uncertainties to an acceptable level:
 \begin{equation}
+\label{eq:normalization_irradiation_end}
 r_\mathrm{He3}(t_i) \approx \frac{1}{\Delta t} \int_{t_i - \Delta t}^{t_i}  r_\mathrm{He3}(t)
 \end{equation}
 However, the wider the time window the more the measurement of the instantaneous rate is affected by changes in the storage lifetime in the source. E.g. if we assume a simple model for the number of UCN in the source
@@ -214,31 +218,31 @@ TCN18-310 & 1192 & $50.84 \pm 0.35$ & 1.50 & $32.14 \pm 0.26$ & 0.97 & UGD22 + 2
 \toprule
 Experiment & Reference & $T_c$ & $T_i$ & Description \\
 \midrule
-TCN18-045 & TCN18-245 & $0.980 \pm 0.029$ & $0.981 \pm 0.023$ & Comparison of reference measurements \\
+TCN18-045 & TCN18-245 & $0.980 \pm 0.019$ & $0.981 \pm 0.018$ & Comparison of reference measurements \\
 TCN18-029 & TCN18-031 & $0.779 \pm 0.007$ & \sout{$0.855 \pm 0.008$} & Adding elbow before detector \\
-TCN18-035 & TCN18-031 & $0.895 \pm 0.010$ & $0.906 \pm 0.016$ & UGD22+IV3 compared to UGD17\\
-TCN18-045 & TCN18-035 & $1.017 \pm 0.023$ & $1.041 \pm 0.018$ & Flipping IV2 and IV3\\
-TCN18-053 & TCN18-045 & $1.029 \pm 0.029$ & \sout{$0.955 \pm 0.015$} & Replacing UGD22 with burst disk and UGD2 \\
-TCN18-053 & TCN18-480 & $0.996 \pm 0.022$ & $0.994 \pm 0.015$ & Burst disk compared to UGD22 \\
-TCN18-057 & TCN18-053 & $0.939 \pm 0.023$ & $0.969 \pm 0.014$ & Vent spider compared to burst disk \\
-TCN18-085 & TCN18-045 & $1.031 \pm 0.025$ & \sout{$0.973 \pm 0.015$} & Adding UGD19 (NiP) \\
-TCN18-085 & TCN18-480 & $0.998 \pm 0.015$ & $1.012 \pm 0.015$ & UGD19 (NiP) compared to UGD2 \\
-TCN18-090 & TCN18-045 & $0.919 \pm 0.023$ & \sout{$0.905 \pm 0.017$} & Adding UGG3 with UGA11+3 \\
-TCN18-090 & TCN18-480 & $0.900 \pm 0.015$ & $0.941 \pm 0.017$ & UGG3 with UGA11+3 compared to UGD2 \\
-TCN18-290 & TCN18-045 & $0.955 \pm 0.031$ & \sout{$0.893 \pm 0.015$} & Adding UGG3 with UGA5+6\\
-TCN18-290 & TCN18-480 & $0.924 \pm 0.024$ & $0.929 \pm 0.015$ & UGG3 with UGA5+6 compared to UGD2\\
-TCN18-060 & TCN18-045 & $1.010 \pm 0.023$ & \sout{$0.955 \pm 0.024$} & Replacing UGD22 with UGD10 + 17 + 11 \\
-TCN18-065 & TCN18-045 & $0.977 \pm 0.024$ & \sout{$0.894 \pm 0.014$} & Replacing UGD22 with SCM warm bore \\
-TCN18-065 & TCN18-060 & $0.968 \pm 0.016$ & $0.936 \pm 0.022$ & Warm bore compared to UGD10 + 17 + 11 \\
-TCN18-265 & TCN18-065 & $0.497 \pm 0.008$ & $0.567 \pm 0.008$ & Adding foil to SCM warm bore \\
-TCN18-115 & TCN18-480 & $0.571 \pm 0.010$ & $0.610 \pm 0.009$ & Adding Ti foil \\
-TCN18-480 & TCN18-045 & $1.033 \pm 0.024$ & \sout{$0.962 \pm 0.016$} & Adding UGD2 \\
-TCN18-057 & TCN18-045 & $0.966 \pm 0.025$ & \sout{$0.926 \pm 0.014$} & Replacing UGD22 with vent spider and UGD2 \\
+TCN18-035 & TCN18-031 & $0.895 \pm 0.010$ & $0.906 \pm 0.014$ & UGD22+IV3 compared to UGD17\\
+TCN18-045 & TCN18-035 & $1.017 \pm 0.016$ & $1.041 \pm 0.016$ & Flipping IV2 and IV3\\
+TCN18-053 & TCN18-045 & $1.029 \pm 0.019$ & \sout{$0.955 \pm 0.015$} & Replacing UGD22 with burst disk and UGD2 \\
+TCN18-053 & TCN18-480 & $0.996 \pm 0.016$ & $0.994 \pm 0.015$ & Burst disk compared to UGD22 \\
+TCN18-057 & TCN18-053 & $0.939 \pm 0.016$ & $0.969 \pm 0.014$ & Vent spider compared to burst disk \\
+TCN18-085 & TCN18-045 & $1.031 \pm 0.018$ & \sout{$0.973 \pm 0.015$} & Adding UGD19 (NiP) \\
+TCN18-085 & TCN18-480 & $0.998 \pm 0.014$ & $1.012 \pm 0.015$ & UGD19 (NiP) compared to UGD2 \\
+TCN18-090 & TCN18-045 & $0.919 \pm 0.016$ & \sout{$0.905 \pm 0.015$} & Adding UGG3 with UGA11+3 \\
+TCN18-090 & TCN18-480 & $0.900 \pm 0.013$ & $0.941 \pm 0.015$ & UGG3 with UGA11+3 compared to UGD2 \\
+TCN18-290 & TCN18-045 & $0.955 \pm 0.019$ & \sout{$0.893 \pm 0.015$} & Adding UGG3 with UGA5+6\\
+TCN18-290 & TCN18-480 & $0.924 \pm 0.017$ & $0.929 \pm 0.015$ & UGG3 with UGA5+6 compared to UGD2\\
+TCN18-060 & TCN18-045 & $1.010 \pm 0.016$ & \sout{$0.955 \pm 0.019$} & Replacing UGD22 with UGD10 + 17 + 11 \\
+TCN18-065 & TCN18-045 & $0.977 \pm 0.017$ & \sout{$0.894 \pm 0.014$} & Replacing UGD22 with SCM warm bore \\
+TCN18-065 & TCN18-060 & $0.968 \pm 0.014$ & $0.936 \pm 0.018$ & Warm bore compared to UGD10 + 17 + 11 \\
+TCN18-265 & TCN18-065 & $0.497 \pm 0.007$ & $0.567 \pm 0.008$ & Adding foil to SCM warm bore \\
+TCN18-115 & TCN18-480 & $0.571 \pm 0.008$ & $0.610 \pm 0.009$ & Adding Ti foil \\
+TCN18-480 & TCN18-045 & $1.033 \pm 0.017$ & \sout{$0.962 \pm 0.016$} & Adding UGD2 \\
+TCN18-057 & TCN18-045 & $0.966 \pm 0.017$ & \sout{$0.926 \pm 0.014$} & Replacing UGD22 with vent spider and UGD2 \\
 \midrule
 \multicolumn{4}{l}{Experiments at high position:} \\
-TCN18-240 & TCN18-302 & $0.495 \pm 0.019$ & $0.582 \pm 0.007$ & Adding Al foil after \SI{50}{\centi\meter} drop \\
-TCN18-215 & TCN18-380 & $0.447 \pm 0.008$ & $0.464 \pm 0.008$ & Adding Ti foil in horizontal guide \\
-TCN18-310 & TCN18-380 & $1.224 \pm 0.024$ & $1.111 \pm 0.019$ & Smooth compared to mitered elbow\\
+TCN18-240 & TCN18-302 & $0.495 \pm 0.010$ & $0.582 \pm 0.006$ & Adding Al foil after \SI{50}{\centi\meter} drop \\
+TCN18-215 & TCN18-380 & $0.447 \pm 0.007$ & $0.464 \pm 0.007$ & Adding Ti foil in horizontal guide \\
+TCN18-310 & TCN18-380 & $1.224 \pm 0.018$ & $1.111 \pm 0.017$ & Smooth compared to mitered elbow\\
 \bottomrule
 \end{tabular}
 }
@@ -272,7 +276,7 @@ Interestingly, some setups that have a \SI{1}{\meter}-long guide inserted (TCN18
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth,page=4]{{"../transmission/TCN18-045 (IV2+UGD22+IV3, O-rings in)"}.pdf}
+\includegraphics[width=\textwidth,page=5]{{"../transmission/TCN18-045 (IV2+UGD22+IV3, O-rings in)"}.pdf}
 \caption{Rate in the He3 detector during transmission experiment TCN18-045, summed over all cycles.}
 \label{fig:he3rate}
 \end{figure}
@@ -300,7 +304,7 @@ where erfc is the complementary error function. Fitting this function to the mea
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth,page=5]{{"../transmission/TCN18-045 (IV2+UGD22+IV3, O-rings in)"}.pdf}
+\includegraphics[width=\textwidth,page=6]{{"../transmission/TCN18-045 (IV2+UGD22+IV3, O-rings in)"}.pdf}
 \caption{Rate in the Li6 detector during transmission experiment TCN18-045, summed over all cycles.}
 \label{fig:li6rate}
 \end{figure}
@@ -317,7 +321,7 @@ Due to timing jitter in the valve actuation and different flight lengths between
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth,page=8]{{"../transmission/TCN18-045 (IV2+UGD22+IV3, O-rings in)"}.pdf}
+\includegraphics[width=\textwidth,page=9]{{"../transmission/TCN18-045 (IV2+UGD22+IV3, O-rings in)"}.pdf}
 \caption{Ratio of rates in the Li6 detector and in the He3 detector during transmission experiment TCN18-045.}
 \label{fig:rateratio}
 \end{figure}
@@ -449,7 +453,7 @@ N(T,t_i,t_s) = p_0 \frac{\tau}{1 + p_4 T^7}
 to the UCN counts measured in the Li6 and He3 detectors during the temperature-dependent storage-lifetime measurements (TCN18-300) and the regular storage-lifetime measurement done with the same geometry (TCN18-015, run 1167), see fig.~\ref{fig:combinedfit}.
 The resulting fit parameters are
 \begin{eqnarray}
-p_0^\mathrm{Li6} =& \frac{\epsilon_\mathrm{Li6} P \tau_2'}{\tau_d} =& \SI{2415+-30}{\per\second\per\micro\ampere} \\
+p_0^\mathrm{Li6} =& \frac{\epsilon_\mathrm{Li6} P \tau_2'}{\tau_d} =& \SI{2405+-37}{\per\second\per\micro\ampere} \\
 p_0^\mathrm{He3} =& \frac{\epsilon_\mathrm{He3} P \tau_2'}{\tau_d} =& \SI{39.5+-0.6}{\per\second\per\micro\ampere} \\
 p_1 =& \tau' =& \SI{36.35+-0.26}{\second} \\
 p_2 =& f B =& \SI{0.00730+-0.00016}{\per\kelvin\tothe{7}} \\
@@ -457,7 +461,7 @@ p_3 =& f' =& \SI{0.322+-0.006}{\per\kelvin} \\
 p_4 =& \tau_2' f_2 B =& \SI{0.115+-0.003}{\per\kelvin\tothe{7}} \\
 p_6 =& & \num{1.31+-0.03}
 \end{eqnarray}
-with a $\chi^2/\nu$ of \num{1.91}.
+with a $\chi^2/\nu$ of \num{1.53}.
 
 \begin{figure}
 \centering
@@ -483,12 +487,12 @@ Individual cycles are excluded from the analyzed storage-lifetime data if
 \end{itemize}
 Data from a single detector is excluded if
 \begin{itemize}
-\item the ion gauges IG5 or IG6 read a pressure between \SIlist{1e-7;1e-2}{\torr}, indicating that they were on, causing additional background in the Li6 detector (Li6 detector only, 69 cycles); 
+\item if channel 3 of the Li6 detector detected more than \SI{10}{\percent} of the total events, indicating that background light entered the detector, most likely from one of the ion gauges (Li6 detector only, 58 cycles); 
 \item only one detector detected no events; or
 \item the resulting uncertainty of the storage-lifetime fit is larger than \SI{5}{\second}.
 \end{itemize}
 
-In total, 71 out of 550 full cycles had to be excluded. All data of the daily lifetime measurements in runs 900 and 907 had to be discarded because the Li6 detector was the only detector used, but IG5 or IG6 were on.
+In total, 71 out of 550 full cycles had to be excluded.
 
 \subsection{Change of storage lifetime over time}
 
@@ -509,7 +513,7 @@ In total, 71 out of 550 full cycles had to be excluded. All data of the daily li
 
 The storage lifetime in the source seemed to gradually decrease over time, see fig.~\ref{fig:dailytau}, and partially recover after the UCN-production volume was refilled with isopure helium. Part of this change was correlated to a gradual increase in vapor pressure and temperature of the isopure helium, see fig.~\ref{fig:tauvstemp}, presumably caused by the gradually dropping helium level in the production volume.
 
-When performing the combined fit to determine the temperature-independent wall-storage lifetime, the measured values seem to fall in several groups, see fig.~\ref{fig:tauwallvstemp}:
+When performing the combined fit to determine the temperature-independent wall-storage lifetime, the measured values seem to fall in several groups, see fig.~\ref{fig:tauvstemp}:
 \begin{itemize}
 \item The initial measurements where UCN dropped directly (or through the rotary valve) into the He3 detector showed the highest wall-storage lifetimes of \SIrange{45}{47}{\second}.
 \item The bulk of the measurements were performed in a ``low geometry'', where UCN travelled down a sloped guide, through some additional guides, and then reached the detector at almost the same level. Their wall-storage lifetimes were shorter, from \SIrange{38}{43}{\second}, with a falling trend.
@@ -519,15 +523,152 @@ When performing the combined fit to determine the temperature-independent wall-s
 
 It is possible that the falling trend of the measurements in the low geometry is a residual temperature dependence that was not compensated by the combined fit, since its parameters where determined in the high geometry and therefore should have a different temperature dependence. However, refilling the isopure helium lowered the vapor pressure to original values, but did not reset the wall-storage lifetime. The significant difference between the initial and final high geometries, which should have similar temperature-dependence, also suggests that the drop in wall-storage lifetime over time is a real effect.
 
-Three outliers in the measurements are remarkable. These measurements on Nov.~22, Nov.~23 and Dec.~1 gave significantly lower storage lifetimes in the Li6 detector than in the He3 detector (fig.~\ref{fig:dailytau}). Their wall-storage lifetimes were also significantly lower than the other measurements in the low geometry, falling right into the range of the measurements in the final high geometry (see fig.~\ref{fig:tauwallvstemp}). These three measurements are the ones performed with one or two polarizer foils installed in the guide.
+Three outliers in the measurements are remarkable. These measurements on Nov.~22, Nov.~23 and Dec.~1 gave significantly lower storage lifetimes in the Li6 detector than in the He3 detector (fig.~\ref{fig:dailytau}). Their wall-storage lifetimes were also significantly lower than the other measurements in the low geometry, falling right into the range of the measurements in the final high geometry (see fig.~\ref{fig:tauvstemp}). These three measurements are the ones performed with one or two polarizer foils installed in the guide.
 
 
 \section{Storage lifetime in guide components}
 
+To determine the storage lifetime in different guide components we ran experiments with three periods per cycle. An irradiation period, where UCN are produced and filled into the component to measure with the valve to the detector closed. A storage period, where the irradiation is stopped and the UCN valves between source and component might be closed. And a counting period, where the valve to the detector is opened to count the UCN remaining within the guide volume. The He3 detector again serves as monitor detector, measuring the UCN density filled into the component during irradiation.
+
+Additionally, the He3 detector can measure the storage lifetime in the guide volume connected to it using a ``pinhole method''.
+
+\subsection{Storage method}
+
+In the classical storage method, remaining UCN are counted with the Li6 detector. The background is subtracted using equations (\ref{eq:transmission_begin})--(\ref{eq:background_subtraction_end}) and then normalized using the counts in the He3 detector during irradiation, see equations (\ref{eq:normalization_irradiation_begin})--(\ref{eq:normalization_irradiation_end}). To avoid similar issues with normalization as in the transmission experiments, only the He3 counts during the last $\Delta t = \SI{10}{\second}$ of the irradiation period are used.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{{"../storagelifetime_with_monitor/TCN18-082 (UGD22+2, IV1-IV3)"}.pdf}
+\caption{Background-corrected and normalized number of UCN detected in the Li6 detector after different storage times in guides UGD22 and UGD2 between valves IV2 and IV3 (TCN18-081). Cycles with a storage time of \SI{0}{\second} are excluded from the single exponential fit.}
+\label{fig:storagelifetime_with_monitor_Li6}
+\end{figure}
+
+This is repeated for several different storage times. The background-corrected, normalized number of detected UCN is assumed to drop exponentially with storage time. The storage lifetime $\tau_\mathrm{s}$ is determined with a single exponential fit, see fig.~\ref{fig:storagelifetime_with_monitor_Li6}. We excluded cycles with a storage time of \SI{0}{\second} (i.e. valve to the detector opening at the same time as the valve(s) to the source closing) from the fit, since UCN could simply be transmitted through both still partially open valves and not have been stored at all.
+
+During these experiments, the source is never directly connected to the vacuum pump on the Li6 detector and the vapor pressure variations are much smaller between the cycles. Additionally, all cycles of each experiment are run within a short period of time (typically less than an hour) and are not compared to other experiments (potentially run weeks later), as with the transmission measurements. Hence, short-term variations in the source are small and long-term variations are no concern, and the stability of the normalization is much less of an issue.
+
+\subsection{Pinhole method}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=7]{{"../storagelifetime_with_monitor/TCN18-082 (UGD22+2, IV1-IV3)"}.pdf}
+\caption{Rate in the He3 detector during storage in the guides between valves IV1 and IV3, including UGD22 and UGD2. A single exponential fit from \SI{5}{\second} after the irradiation stopped to the moment the valve to the detector opened determines the storage lifetime.}
+\label{fig:storagelifetime_with_monitor_He3}
+\end{figure}
+
+The rate in the He3 detector is directly proportional to the number of UCN in the guide volume connected to the He3 detector via its pinhole. Therefore, it should see a rate dropping exponentially with the same storage lifetime. For each cycle, we can fit a single exponential with storage lifetime $\tau_\mathrm{p}$ to the He3 rate between the time the irradiation stops and the valve to the detector opens, see fig.~\ref{fig:storagelifetime_with_monitor_He3}. To leave some time for valves closing and the UCN distribution settling in the storage volume, we excluded the first \SI{5}{\second} of the storage period from the fit.
+
+A weighted average over all cycles $\bar{\tau}_\mathrm{p}$ gives a very precise measurement of the storage lifetime.
+
+\subsection{Excluded cycles}
+
+Individual cycles are excluded from the analyzed transmission data if
+\begin{itemize}
+\item the beam current dropped below \SI{0.1}{\micro\ampere} (61 cycles);
+\item the beam current fluctuated by more than \SI{0.02}{\micro\ampere} (42 cycles);
+\item the last period does not contain any Li6 events, i.e. the run was aborted at some point during this cycle (52 cycles);
+\item IV1 never opened (0 cycles);
+\item the He3 detector detected less than 1000 UCN during irradiation (1 cycle);
+\item the Li6 detector detected a large background rate above \SI{10}{\hertz} during the irradiation period (0 cycles).
+\end{itemize}
+The last cycle of run 956 was excluded manually, because, due to an unknown reason, the Li6 detector saw no UCN. Cycles 41 and 45 of run 1003 were also manually excluded, since the Li6 detector saw an unusually high background rate.
+
+In total, 157 out of 1400 cycles had to be excluded.
+
+\subsection{Results}
+
+\begin{sidewaystable}
+\caption{Results of storage experiments in different guide components. All measurements were performed with the listed guides between IV2 and IV3 with their O-rings pointing towards each other and a \SI{90}{\degree} elbow downstream of IV3. For the storage method, the $\chi^2$ gives an indication of how well the data fits the single exponential; for the pinhole method, it shows how well the data fits the assumption that each cycle measured the same storage lifetime. Struck-out measurements were affected by large variations of background in the Li6 detector and have to be considered unreliable. Measurements where the pinhole was not connected to the volume of interest are listed in parentheses.}
+\begin{tabular}{l r r r r r r l}
+\toprule
+Experiment & Runs & $\tau_\mathrm{s}$ & $\chi^2/\nu$ & $\bar{\tau}_\mathrm{p}$ & $\chi^2/\nu$ & Between & Description \\
+\midrule
+TCN18-046 & 961, 962, 967, 969 & $8.41 \pm 0.17$ & 2.01 & ($20.1 \pm 0.4$) & 0.99 & IV2, IV3 & UGD22 \\
+TCN18-050 & 966 & $28.2 \pm 0.4$ & 3.42 & $26.3 \pm 0.5$ & 0.45 & source, IV3 & UGD22 \\
+TCN18-051 & 965 & $21.0 \pm 0.3$ & 0.94 & $16.1 \pm 0.3$ & 4.70 & IV1, IV3 & UGD22 \\
+TCN18-052 & 970 & $25.8 \pm 0.5$ & 1.67 & $22.1 \pm 0.5$ & 0.87 & IV1, IV2 & UGD22 \\
+TCN18-054 & 986 & \sout{$21.6 \pm 0.3$} & 9.91 & ($22.0 \pm 0.3$) & 1.00 & IV2, IV3 & burst disk + UGD2 \\
+TCN18-055 & 983 & \sout{$23.4 \pm 0.4$} & 3.91 & $17.2 \pm 0.3$ & 1.82 & IV1, IV3 & burst disk + UGD2 \\
+TCN18-058 & 1142 & $18.5 \pm 0.3$ & 2.82 & ($21.5 \pm 0.3$) & 1.40 & IV2, IV3 & spider + UGD2 \\
+TCN18-059 & 1143 & $22.9 \pm 0.5$ & 4.68 & $17.3 \pm 0.5$ & 2.03 & IV1, IV3 & spider + UGD2 \\
+TCN18-061 & 1014--1016, 1018 & $17.6 \pm 0.2$ & 1.50 & ($20.7 \pm 0.3$) & 1.81 & IV2, IV3 & UGD10 + 17 + 11 \\
+TCN18-062 & 1017 & $21.9 \pm 0.4$ & 4.19 & $17.3 \pm 0.6$ & 0.04 & IV1, IV3 & UGD10 + 17 + 11 \\
+TCN18-066 & 1067 & $11.8 \pm 0.3$ & 0.78 & ($20.4 \pm 0.6$) & 0.29 & IV2, IV3 & SCM bore without foil \\
+TCN18-068 & 1072--1074 & $19.5 \pm 0.2$ & 2.24 & $16.5 \pm 0.3$ & 1.38 & IV1, IV3 & SCM bore without foil \\
+TCN18-266 & 1094 & $3.0 \pm 0.2$ & 1.74 & ($19.6 \pm 1.1$) & 0.31 & IV2, IV3 & SCM bore with foil \\
+TCN18-268 & 1089 & $10.2 \pm 0.3$ & 0.52 & $10.0 \pm 0.6$ & 2.00 & IV1, IV3 & SCM bore with foil \\
+TCN18-081 & 976, 977 & $19.1 \pm 0.3$ & 1.84 & ($21.6 \pm 0.2$) & 0.81 & IV2, IV3 & UGD22 + 2 \\
+TCN18-082 & 974 & $23.4 \pm 0.5$ & 2.86 & $18.3 \pm 0.5$ & 1.28 & IV1, IV3 & UGD22 + 2 \\
+TCN18-481 & 1136 & $20.1 \pm 0.2$ & 2.38 & ($21.7 \pm 0.2$) & 1.50 & IV2, IV3 & UGD22 + 2 \\
+TCN18-482 & 1134, 1135 & $23.8 \pm 0.5$ & 5.40 & $18.4 \pm 0.5$ & 3.42 & IV1, IV3 & UGD22 + 2 \\
+TCN18-086 & 991 & $15.6 \pm 0.2$ & 3.71 & ($20.2 \pm 0.2$) & 1.21 & IV2, IV3 & UGD22 + 19 \\
+TCN18-087 & 989 & $21.5 \pm 0.5$ & 1.92 & $17.5 \pm 0.5$ & 1.70 & IV1, IV3 & UGD22 + 19 \\
+TCN18-091 & 1001--1004 & $14.4 \pm 0.2$ & 5.39 & ($21.0 \pm 0.3$) & 2.24 & IV2, IV3 & UGD22 + UGA11 + UGG3 + UGA5 \\
+TCN18-092 & 999 & $21.8 \pm 0.5$ & 6.09 & $17.2 \pm 0.5$ & 4.90 & IV1, IV3 & UGD22 + UGA11 + UGG3 + UGA5 \\
+TCN18-291 & 1008 & $22.8 \pm 0.4$ & 6.94 & ($20.9 \pm 0.4$) & 1.88 & IV2, IV3 & UGD22 + UGA5 + UGG3 + UGA6 \\
+TCN18-292 & 1010 & $24.6 \pm 0.5$ & 8.16 & $17.9 \pm 0.5$ & 0.70 & IV1, IV3 & UGD22 + UGA5 + UGG3 + UGA6 \\
+TCN18-116 & 1126 & $1.9 \pm 0.3$ & 1.31 & ($21.9 \pm 1.6$) & 1.08 & IV2, IV3 & UGD22 + 2 + Ti foil \\
+TCN18-117 & 1127 & $8.1 \pm 0.2$ & 1.21 & $6.18 \pm 0.03$ & 0.96 & IV1, IV3 & UGD22 + 2 + Ti foil \\
+TCN18-125 & 1118, 1119 & $67.4 \pm 1.1$ & 1.77 & ($21.6 \pm 0.2$) & 1.53 & bottle valves & NiP bottle, unbaked \\
+TCN18-126 & 1122 & $75.4 \pm 1.4$ & 1.42 & ($21.6 \pm 0.2$) & 0.82 & bottle valves & NiP bottle, baked \SI{100}{\celsius} \\
+TCN18-127 & 1124 & $76.0 \pm 1.2$ & 0.89 & ($22.0 \pm 0.2$) & 1.12 & bottle valves & NiP bottle, baked \SI{150}{\celsius} \\
+\bottomrule
+\end{tabular}
+\label{tab:storagelifetime_with_monitor2}
+\end{sidewaystable}
 
 
+\begin{sidewaystable}
+\caption{Results of initial storage experiments in different guide components. These were performed with IV2 pointing upstream and IV3 pointing downstream, and some without elbow or IV3. For the storage method, the $\chi^2$ gives an indication of how well the data fits the single exponential; for the pinhole method, it shows how well the data fits the assumption that each cycle measured the same storage lifetime.}
+\begin{tabular}{l r r r r r r l}
+\toprule
+Experiment & Runs & $\tau_\mathrm{s}$ & $\chi^2/\nu$ & $\bar{\tau}_\mathrm{p}$ & $\chi^2/\nu$ & Between & Description \\
+\midrule
+TCN18-025 & 932 & $38.0 \pm 0.6$ & 3.68 & $38.1 \pm 0.8$ & 0.42 & source, IV2 & UGD17, no IV3, no elbow \\
+TCN18-026 & 933 & $38.4 \pm 0.5$ & 8.66 & $33.8 \pm 0.4$ & 3.65 & IV1, IV2 & UGD17, no IV3, no elbow \\
+TCN18-032 & 939 & $40.0 \pm 0.6$ & 1.88 & $37.0 \pm 0.7$ & 1.81 & source, IV2 & UGD17, no IV3 \\
+TCN18-033 & 940 & $41.2 \pm 0.6$ & 1.88 & $32.8 \pm 0.5$ & 3.48 & IV1, IV2 & UGD17, no IV3 \\
+TCN18-036 & 949, 955--958 & $2.80 \pm 0.08$ & 0.97 & ($25.5 \pm 1.9$) & 0.69 & IV2, IV3 & UGD22 \\
+TCN18-040 & 950 & $26.8 \pm 0.4$ & 5.67 & $24.3 \pm 0.5$ & 1.70 & source, IV3 & UGD22 \\
+TCN18-041 & 951 & $17.6 \pm 0.4$ & 1.51 & $14.3 \pm 0.4$ & 1.10 & IV1, IV3 & UGD22 \\
+TCN18-042 & 952 & $38.9 \pm 0.6$ & 0.95 & $36.6 \pm 0.6$ & 1.02 & source, IV2 & UGD22 \\
+\bottomrule
+\end{tabular}
+\label{tab:storagelifetime_with_monitor1}
+%\end{sidewaystable}
 
-\section{Steady state count rate}
+%\begin{sidewaystable}
+\caption{Results of storage experiments in different guide components at high position. All measurements were performed with the listed guides between IV2 and IV3 with their O-rings pointing towards each other and a \SI{90}{\degree} elbow downstream of IV3. For the storage method, the $\chi^2$ gives an indication of how well the data fits the single exponential; for the pinhole method, it shows how well the data fits the assumption that each cycle measured the same storage lifetime.}
+\begin{tabular}{l r r r r r r l}
+\toprule
+Experiment & Runs & $\tau_\mathrm{s}$ & $\chi^2/\nu$ & $\bar{\tau}_\mathrm{p}$ & $\chi^2/\nu$ & Between & Description \\
+\midrule
+TCN18-216 & 1182--1184 & $3.05 \pm 0.14$ & 0.66 & ($24.3 \pm 1.3$) & 4.44 & IV2, IV3 & UGD22 + 20 + Ti foil \\
+TCN18-217 & 1185--1187 & $10.6 \pm 0.2$ & 1.43 & $10.4 \pm 0.5$ & 0.67 & IV1, IV3 & UGD22 + 20 + Ti foil \\
+TCN18-381 & 1189, 1190 & $84.4 \pm 1.6$ & 3.02 & ($33.8 \pm 0.4$) & 2.13 & IV2, IV3 & UGD22 + 20 \\
+TCN18-382 & 1191 & $57.0 \pm 1.0$ & 15.3 & $41.2 \pm 0.6$ & 2.10 & IV1, IV3 & UGD22 + 20 \\
+\bottomrule
+\end{tabular}
+\label{tab:storagelifetime_with_monitor3}
+\end{sidewaystable}
+
+The results, see tables \ref{tab:storagelifetime_with_monitor2}, \ref{tab:storagelifetime_with_monitor1}, and \ref{tab:storagelifetime_with_monitor3}, show significant discrepancies between the storage and pinhole methods. This is most likely caused by the difference of storage lifetime of low- and high-energy UCN. In the storage method, the $\xi^2$ of the single exponential fit indicates a poor fit, and a sum of two exponentials would be more suited. However the associated uncertainties would be large due too little statistics. In contrast to the storage method, the pinhole method always includes the faster initial drop in UCN density, biasing it towards shorter storage lifetimes.
+
+As expected, if the O-ring of the VAT valve points into the storage volume (TCN18-046), its storage properties are much better compared to having the backside of the sealing mechanism exposed (TCN18-036). Hence, for storage measurements between IV1 and IV3 (including all pinhole measurements), the storage lifetime was mostly determined by IV1, whose O-ring is pointing towards the source. The impact of changing a short guide section was therefore small and storage in the section between IV2 and IV3 gives a better indication of its storage properties.
+
+When comparing storage in straight \SI{1}{\meter}-long guides, a bare stainless-steel guide had the highest storage lifetime (TCN18-081/082). A repetition of the same measurement several weeks later (TCN18-481/482) gave similar results. Storage lifetime in a NiP-coated guide was significantly shorter (TCN18-086/087). The storage lifetime in a NiMo-coated glass guide (TCN18-091/92/291/292) strongly depended on the flange adapters used. If an adapter with a pump port (UGA11) was used, the storage lifetime dropped drastically; without the pump port the storage lifetime was comparable to the bare stainless-steel guide.
+
+Unfortunately, during storage in a guide with a burst disk holder attached (TCN18-054/055), the Li6 detector was affected by large variations in background. However, using the pinhole method, we can still compare burst disk and vent spider (TCN18-058/59), which had almost identical storage lifetimes. Storage lifetime in the vent spider was slightly shorter compared to UGD22, a bare stainless-steel guide of same length (TCN18-081/082).
+
+Storage lifetime in the warm bore of the SCM (without foil, TCN18-066/068) was much shorter than in any other guide, likely due to large gaps on both ends.
+
+Adding a foil drastically reduced the storage lifetime, a \SI{15}{\micro\meter}-thick titanium foil (TCN18-116/117) even more so than a \SI{100}{\micro\meter}-thick aluminium foil (TCN18-266/268).
+
+Measurements with a large NiP-coated storage bottle showed that its storage lifetime is slightly improved after vacuum-baking it at \SI{100}{\celsius}. Increasing the baking temperature to \SI{150}{\celsius} did not significantly improve it further. These measurements showed a stark increase in apparent background in the Li6 detector during the irradiation and storage periods. This was most likely caused by UCN leaking through the valves of the storage bottle, which are not vacuum-tight.
+
+When measuring storage lifetimes in guides at a higher position without initial drop (TCN18-381/382), storage lifetimes were much longer, thanks to the reduced UCN energies. Adding a Ti foil here still reduced storage lifetime enormously (TCN18-216/217).
+
+\section{Steady-state count rate}
 \label{sec:steadystate}
 
 \begin{figure}

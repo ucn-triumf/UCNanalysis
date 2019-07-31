@@ -101,8 +101,14 @@ def ReadCycles(infile, experiments):
       ex['maxvaporpressure'].append(max(vp))
       ex['meanvaporpressure'].append(numpy.mean(vp))
       ex['vaporpressurestd'].append(numpy.std(vp))
-      if any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC]):
-        print ('EXCLUDING Li6 data from cycle {0} in run {1} because IG5 and/or IG6 were on!'.format(cycle.cyclenumber, cycle.runnumber))
+      for c in getattr(cycle, 'Li6/channel'):
+        ex['channels'].Fill(c)
+#      if False:(any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC])
+          #or
+          #any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])
+          #):
+      if ex['channels'].GetBinContent(ex['channels'].FindBin(3)) > ex['channels'].GetEntries()/10.:
+        print ('EXCLUDING Li6 data from cycle {0} in run {1} because channel distribution looks weird!'.format(cycle.cyclenumber, cycle.runnumber))
         ex['li6counts'].append(0)
         ex['li6background'].append(0)
         ex['li6irradiation'].append(0)
@@ -117,9 +123,6 @@ def ReadCycles(infile, experiments):
       ex['storageduration'].append(d[storageperiod])
       ex['he3irradiation'].append(He3[0])
       ex['irradiationduration'].append(d[0])
-
-      for c in getattr(cycle, 'Li6/channel'):
-        ex['channels'].Fill(c)
 
   print('Read {0} cycles\n'.format(len(numpy.concatenate([ex['start'] for ex in experiments]))))
 
@@ -158,7 +161,7 @@ def DoCombinedFit(experiments, pdf, PreviousFit = None):
 #  r.Print()
   for ex in experiments:
     ex['tau_wall'] = r.Parameter(1)
-    ex['tau_wallerr'] = r.Error(1)*max(r.Chi2()/r.Ndf(), 1.)
+    ex['tau_wallerr'] = r.Error(1)*max(math.sqrt(r.Chi2()/r.Ndf()), 1.)
 
   canvas = ROOT.TCanvas('cfit', 'cfit')
   canvas.SetLogy()
@@ -247,10 +250,6 @@ def StorageLifetime(ex, FitResult = None):
   canvas = ROOT.TCanvas('c1', 'c1')
   canvas.SetLogy()
   for det in ['li6', 'he3']:
-    ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr'] = UCN.BackgroundRate(ex[det + 'background'], ex['backgroundduration'])
-    ex[det + 'irradiationrate'], ex[det + 'irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex[det + 'irradiation'], ex['irradiationduration'], det, beam[0], beam[1])
-    print(det + ' detector background rate: {0:.4} +/- {1:.2} 1/s'.format(ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr']))
-
     x = numpy.array(ex['storageduration'])
     xerr = numpy.array([0. for _ in x])
     # subtract background from UCN counts
@@ -268,7 +267,7 @@ def StorageLifetime(ex, FitResult = None):
     f = graph.Fit(UCN.SingleExpo(), 'SQB')
     if sum(y) > 0 and f.Error(1) < 5.:
       ex[det + 'tau'] = f.Parameter(1)
-      ex[det + 'tauerr'] = f.Error(1)*max(f.Chi2()/f.Ndf(), 1.)
+      ex[det + 'tauerr'] = f.Error(1)*max(math.sqrt(f.Chi2()/f.Ndf()), 1.)
     else:
       print('SKIPPING lifetime measurement from {0} detector in run(s) {1} because there were no counts detected or the error is larger than 5 s.'.format(det, ex['runs']))
       ex[det + 'tau'] = 0.
@@ -280,7 +279,7 @@ def StorageLifetime(ex, FitResult = None):
       canvas.Print(pdf + '(')
     else:
       canvas.Print(pdf)
-  
+
   if FitResult:
     r = DoCombinedFit([ex], pdf, FitResult)
     print('{0:.4} +/- {1:.2} (wall-storage lifetime from combined fit)'.format(ex['tau_wall'], ex['tau_wallerr']))
@@ -288,6 +287,11 @@ def StorageLifetime(ex, FitResult = None):
   canvas.SetLogy(0)
 
   UCN.PrintTemperatureVsCycle(ex, pdf)
+  for det in ['li6', 'he3']:
+    ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, det)
+    ex[det + 'irradiationrate'], ex[det + 'irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex[det + 'irradiation'], ex['irradiationduration'], det, beam[0], beam[1])
+    UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, det)
+    print(det + ' detector background rate: {0:.4} +/- {1:.2} 1/s'.format(ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr']))
 
   ex['channels'].Draw()
   canvas.Print(pdf + ')')
@@ -542,8 +546,8 @@ canvas.Print('tauvstemp.pdf')
 
 ROOT.gStyle.SetOptFit(0)
 mg = ROOT.TMultiGraph('mg', 'TCN18-300;Vapor pressure (Torr);Storage lifetime (s)')
-mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300'], 'vaporpressure', 'li6tau', ROOT.kBlack, False))
-mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300'], 'vaporpressure', 'he3tau', ROOT.kRed, False))
+mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']], 'vaporpressure', 'li6tau', ROOT.kBlack, False))
+mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']], 'vaporpressure', 'he3tau', ROOT.kRed, False))
 f = ROOT.TF1('f', lambda x, p: 1./(1./p[0] + p[1]*(1. - p[2]*UCN.HeTemperature(x[0]))*UCN.HeTemperature(x[0])**7), 0.5, 2, 3)
 f.SetParameters(40, 0.008, 0.2)
 mg.Fit(f, 'MQ')
