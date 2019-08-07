@@ -36,7 +36,7 @@ def ReadCycles(infile, experiments):
     ex['he3rate'] = []
     ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10)
     ex['channels'].SetDirectory(0)
-    ex['pinhole'] = []
+    ex['IV1IV2'] = []
     ex['pinholetau'] = 0.
     ex['pinholetauerr'] = 0.
 
@@ -125,8 +125,8 @@ def ReadCycles(infile, experiments):
       li6rate.SetDirectory(0)
       ex['li6rate'].append(li6rate)
 
-      if cycle.valve1state[storageperiod] == 1:
-        ex['pinhole'].append(True)
+      if cycle.valve1state[storageperiod] == 0 and cycle.valve0state[storageperiod] == 0:
+        ex['IV1IV2'].append(True)
       he3rate = ROOT.TH1I('He3_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'He3 detector rate', int(math.floor(sum(d))), 0., math.floor(sum(d)))
       for h in getattr(cycle, 'He3/hits'):
         he3rate.Fill(h)
@@ -217,7 +217,7 @@ def StorageLifetime(ex):
     he3tau = ROOT.TGraphErrors(len(mtau), numpy.array(ex['cyclenumber']), numpy.array(mtau), numpy.array([0. for _ in mtau]), numpy.array(mtauerr))
     fit = he3tau.Fit('pol0', 'SQ')
     ex['pinholetau'] = fit.Parameter(0)
-    ex['pinholetauerr'] = fit.ParError(0)
+    ex['pinholetauerr'] = fit.ParError(0)*max(math.sqrt(f.Chi2()/f.Ndf()), 1.0)
     he3tau.SetMarkerStyle(20)
     he3tau.GetXaxis().SetTitle('Cycle')
     he3tau.GetYaxis().SetTitle('Pinhole storage lifetime (s)')
@@ -336,12 +336,15 @@ for tcn in ['18-066', '18-068', '18-268', '18-266']:
   gr.Draw('AP')
   canvas.Print('TCN{0}.pdf'.format(tcn))
 
-exps = [ex for ex in experiments if not any(ex['pinhole'])]
+exps = [ex for ex in experiments if any(ex['IV1IV2'])]
 pinhole = ROOT.TGraphErrors(len(exps),
                             numpy.array([float(min(ex['runs'])) for ex in exps]),
                             numpy.array([ex['pinholetau'] for ex in exps]),
                             numpy.array([0. for _ in exps]),
                             numpy.array([ex['pinholetauerr'] for ex in exps]))
+pinhole.SetTitle(';Run;Storage lifetime between IV1 and IV2 (s)')
+pinhole.Fit('pol0','Q','',960,1150)
+pinhole.GetYaxis().SetRangeUser(15,40)
 pinhole.Draw('AP')
 canvas.Print('pinhole.pdf')
 

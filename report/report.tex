@@ -692,9 +692,42 @@ Two separate plots of count rate vs temperature are made, for warming up and coo
 \section{Background rates}
 \label{sec:background}
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../storagelifetime/he3_background.pdf}
+\includegraphics[width=\textwidth]{../storagelifetime/li6_background.pdf}
+\caption{Background rates in the He3 (top) and Li6 (bottom) detectors averaged over all storage periods of each measurement of storage lifetime in the source. The red line indicates the overall average. The first three runs, where the Li6 detector was connected to the DAQ but not used for the actual measurement, were excluded from the overall average.}
+\label{fig:background1}
+\end{figure}
+
+We used the storage periods in the storage-lifetime measurements to estimate background rates of the Li6 and He3 detectors. When measuring storage lifetime in the source, both detectors are separated from the source by vacuum-tight valves, so we assumed that no UCN can leak from the source into the detectors. The background rate in the He3 detector proved to be very stable around an average of \SI{0.0345 +- 0.0015}{\per\second}, see fig.~\ref{fig:background1}. The Li6 detector had a much higher background rate of \SI{2.140 +- 0.013}{\per\second}, 60 times more than the He3 detector, and showed more fluctuations between measurements.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../storagelifetime_with_monitor/li6_background.pdf}
+\caption{Background rate in the Li6 detector averaged over all storage periods of each measurement of storage lifetime in a guide component. Runs with excessive background (red dots) are excluded from the overall average (red line).}
+\label{fig:background2}
+\end{figure}
+
+During storage-lifetime measurements in guide components, the He3 detector is always connected to the source, but the storage periods can be used to determine background in the Li6 detector. Its average background rate in those measurements of \SI{2.102 +- 0.009}{\per\second}, see fig.~\ref{fig:background2}, is compatible with the previous measurement.
+
+The transmission measurements had no period where any detector was only measuring background, so they cannot be used to estimate the background rate.
+
+While the target was irradiated with protons, both detectors saw a significant increase in background rate. To estimate the increase, we subtracted the previously determined background from the UCN counted during the irradiation period, and normalized the result to beam current. The He3 detector saw an increase in background rate of \SI{0.0601 +- 0.0020}{\per\second\per\micro\ampere} (+\SI{150}{\percent} at \SI{1}{\micro\ampere}), the Li6 detector an increase of \SI{4.864 +- 0.009}{\per\second\per\micro\ampere} (+\SI{230}{\percent} at \SI{1}{\micro\ampere}). In the transmission measurements where the Li6 background rate appears to increase by \SI{5.293 +- 0.016}{\per\second\per\micro\ampere}, significantly more than during storage-lifetime measurements, due to UCN still remaining from the previous cycle being detected during irradiation.
+
 
 
 \section{Reproducibility}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../storagelifetime_with_monitor/pinhole.pdf}
+\caption{Storage lifetime between IV1 and IV2, measured with the pinhole method. The red line shows the average over all runs where this guide section was unchanged. The first three runs where performed with IV2 flipped, giving higher storage lifetimes. The last two runs were performed in the higher position, resulting in a softer UCN spectrum and longer storage lifetimes.}
+\label{fig:pinhole}
+\end{figure}
+
+Unfortunately, we repeated only one measurement: TCN18-045/245. But, thanks to the pinhole method, we repeatedly measured the storage lifetime in the unchanging guide section between IV1 and IV2. The results are shown in fig.~\ref{fig:pinhole}. This lifetime showed significant fluctuations around an average of \SI{21.3 +- 0.08}{\second}.
+
 
 
 \section{Thermal neutron detector}
