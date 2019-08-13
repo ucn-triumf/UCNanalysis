@@ -5,6 +5,8 @@ import math
 import itertools
 import UCN
 
+# Read cycles from file and map them to TCN numbers as given in 'experiments' array of dictionaries
+# Fill array of dictionaries with data
 def ReadCycles(infile, experiments):
   countperiod = 2
   monitorperiod = 0
@@ -12,38 +14,36 @@ def ReadCycles(infile, experiments):
   storageperiod = 1
 
   for ex in experiments:
-    ex['start'] = []
-    ex['cyclenumber'] = []
-    ex['beamcurrent'] = []
-    ex['li6counts'] = []
-    ex['countduration'] = []
-    ex['monitorcounts'] = []
-    ex['monitorduration'] = []
-    ex['monitorcounts2'] = []
-    ex['monitorduration2'] = []
-    ex['li6background'] = []
-    ex['backgroundduration'] = []
-    ex['li6irradiation'] = []
-    ex['irradiationduration'] = []
-    ex['storageduration'] = []
-    ex['beamcurrent'] = []
-    ex['mintemperature'] = []
-    ex['maxtemperature'] = []
-    ex['minvaporpressure'] = []
-    ex['maxvaporpressure'] = []
-    ex['SCMcurrent'] = []
-    ex['li6rate'] = []
-    ex['he3rate'] = []
-    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10)
+    # initialize dictionary for each experiment
+    ex['start'] = []                # list cycle-start times
+    ex['cyclenumber'] = []          # list of cycle numbers
+    ex['beamcurrent'] = []          # list of arrays of beam-current samples
+    ex['li6counts'] = []            # list of Li6 counts during countperiod
+    ex['countduration'] = []        # list of countperiod durations
+    ex['monitorcounts'] = []        # list of He3 counts during monitorperiod
+    ex['monitorduration'] = []      # list of monitorperiod durations
+    ex['monitorcounts2'] = []       # list of He3 counts during time window at end of monitorperiod
+    ex['monitorduration2'] = []     # list of time windows for monitorcounts2
+    ex['li6background'] = []        # list of Li6 counts during background period
+    ex['backgroundduration'] = []   # list of backgroundperiod durations
+    ex['li6irradiation'] = []       # list of Li6 counts during irradiationperiod
+    ex['irradiationduration'] = []  # list of irradiation durations
+    ex['storageduration'] = []      # list of storage durations
+    ex['mintemperature'] = []       # list of minimum He-II temperature during cycles (from temperature sensors)
+    ex['maxtemperature'] = []       # list of maximum He-II temperature during cycles (from temperature sensors)
+    ex['minvaporpressure'] = []     # list of minimum He-II temperature during cycles (from tvapor pressure)
+    ex['maxvaporpressure'] = []     # list of maximum He-II temperature during cycles (from tvapor pressure)
+    ex['SCMcurrent'] = []           # list of arrays of SCM current samples
+    ex['li6rate'] = []              # list of Li6 count-rate histograms
+    ex['he3rate'] = []              # list of He3 count-rate histograms
+    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10) # histogram of Li6 channels
     ex['channels'].SetDirectory(0)
-    ex['IV1IV2'] = []
-    ex['pinholetau'] = 0.
-    ex['pinholetauerr'] = 0.
+    ex['IV1IV2'] = []               # list of boolean values that indicate if storage was between IV2 and IV3 (i.e. not connected to He3 detector)
 
-  for cycle in infile.cycledata:
+  for cycle in infile.cycledata: # loop over all cycles
     run = cycle.runnumber
   
-    if not any(run in ex['runs'] for ex in experiments): # if there is no experiment using this cycle
+    if not any(run in ex['runs'] for ex in experiments): # skip if there is no experiment using this cycle
       continue
     
     Li6 = cycle.countsLi6
@@ -89,9 +89,10 @@ def ReadCycles(infile, experiments):
       print('Abnormal valve configuration in cycle {0} of run {1}'.format(cycle.cyclenumber, cycle.runnumber))
     
     for ex in experiments:
-      if run not in ex['runs']:
+      if run not in ex['runs']: # find experiment this cycle belongs to
         continue
 
+      # add data to experiment
       ex['start'].append(cycle.start)
       ex['cyclenumber'].append(float(cycle.cyclenumber))
       ex['beamcurrent'].append(beam)
@@ -103,7 +104,7 @@ def ReadCycles(infile, experiments):
       else:
         ex['minvaporpressure'].append(min(cycle.UCN_ISO_PG9L_RDPRESS))
         ex['maxvaporpressure'].append(max(cycle.UCN_ISO_PG9L_RDPRESS))
-      ex['SCMcurrent'].append([v/250e-6 for v in cycle.SCMVoltages3])
+      ex['SCMcurrent'].append([v/250e-6 for v in cycle.SCMVoltages3]) # calculate SCM current from voltage drop over 250uOhm shunt resistor
       ex['li6counts'].append(Li6[countperiod])
       ex['countduration'].append(d[countperiod])
       ex['monitorcounts'].append(He3[monitorperiod])
@@ -118,7 +119,7 @@ def ReadCycles(infile, experiments):
       ex['li6irradiation'].append(Li6[0])
 
       li6rate = ROOT.TH1I('Li6_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'Li6 detector rate', int(math.floor(sum(d))), 0., math.floor(sum(d)))
-      for h in getattr(cycle, 'Li6/hits'):
+      for h in getattr(cycle, 'Li6/hits'): # fill Li6 count-rate histogram
         li6rate.Fill(h)
       li6rate.GetXaxis().SetTitle('Time (s)')
       li6rate.GetYaxis().SetTitle('Li6 rate (s^{-1})')
@@ -128,7 +129,7 @@ def ReadCycles(infile, experiments):
       if cycle.valve1state[storageperiod] == 0 and cycle.valve0state[storageperiod] == 0:
         ex['IV1IV2'].append(True)
       he3rate = ROOT.TH1I('He3_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'He3 detector rate', int(math.floor(sum(d))), 0., math.floor(sum(d)))
-      for h in getattr(cycle, 'He3/hits'):
+      for h in getattr(cycle, 'He3/hits'): # fill He3 count-rate histogram
         he3rate.Fill(h)
       he3rate.GetXaxis().SetTitle('Time (s)')
       he3rate.GetYaxis().SetTitle('He3 rate (s^{-1})')
@@ -152,6 +153,7 @@ def StorageLifetime(ex):
   canvas = ROOT.TCanvas('c', 'c')
   pdf = 'TCN{0}.pdf'.format(ex['TCN'])
 
+  # subtract background from Li6 counts and normalize to monitor counts
   y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts2'], [math.sqrt(m) for m in ex['monitorcounts2']])
 
   x = ex['storageduration']
@@ -194,10 +196,12 @@ def StorageLifetime(ex):
 #  canvas.Print(pdf)
 #  print('{0} +/- {1} (single exponential fit with {2} +/- {3} background, unnormalized)'.format(f.GetParams()[1], f.GetErrors()[1], f.GetParams()[2], f.GetErrors()[2]))
 
+  # draw plot of temperature during each cycle
   UCN.PrintTemperatureVsCycle(ex, pdf)
 
   mtau = []
   mtauerr = []
+  # fit single exponential to He3 count-rate histogram during storage period (pinhole method)
   for he3rate, m, s, c in zip(ex['he3rate'], ex['monitorduration'], ex['storageduration'], ex['countduration']):
     fitstart = m + 5
     fitend = m + s
@@ -224,11 +228,16 @@ def StorageLifetime(ex):
     he3tau.SetTitle('')
     he3tau.Draw('AP')
     print('{0} +/- {1} (single exponential fit to rate in monitor detector during storage period)'.format(fit.Parameter(0), fit.ParError(0)))
+  else:
+    ex['pinholetau'] = 0.
+    ex['pinholetauerr'] = 0.
   canvas.Print(pdf)
 
+  # draw plot of Li6 background rate during each cycle
   ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
   print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
   beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
+  # subtract background from Li6 counts during irradiation and normalize to beam current, draw plot for each cycle
   ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', beam[0], beam[1])
   UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, 'li6')
 
@@ -238,13 +247,17 @@ def StorageLifetime(ex):
   print('Beam current from {0} to {1} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))
   print('Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature'])))
 
+  # draw Li6 channel histogram
   ex['channels'].Draw()
   canvas.Print(pdf + ')')
   
 
+# show additional fit statistics
 ROOT.gStyle.SetOptStat(1001111)
 ROOT.gStyle.SetOptFit(1111)
+# run ROOT silently
 ROOT.gROOT.SetBatch(1)
+# suppress stupid ROOT warnings
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
@@ -313,29 +326,40 @@ experiments = [{'TCN': '18-025 (source-IV2, no elbow)', 'runs': [ 932]},
                {'TCN': '18-382 (UGD22+20, high pos, IV1-IV3)', 'runs': [1191]}
 			  ]
 
+# read all data from file
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 			  
 # loop over experiments
 for ex in experiments:
   StorageLifetime(ex)
 
+# draw plot of average background during each experiment
 UCN.PrintBackground(experiments)
 
+# plot storage lifetime vs SCM current for all SCM measurements
 canvas = ROOT.TCanvas('c','c')
 for tcn in ['18-066', '18-068', '18-268', '18-266']:
   SCMex = [ex for ex in experiments if ex['TCN'].startswith(tcn)]
-  gr = ROOT.TGraphErrors()
-  for ex in SCMex:
-    SCMcurrent = numpy.concatenate(ex['SCMcurrent'])
-    i = gr.GetN()
-    gr.SetPoint(i, numpy.mean(SCMcurrent), ex['tau'])
-    gr.SetPointError(i, numpy.std(SCMcurrent)/math.sqrt(len(SCMcurrent)), ex['tauerr'])
-  gr.SetTitle('TCN' + tcn)
-  gr.GetXaxis().SetTitle('SCM current (A)')
-  gr.GetYaxis().SetTitle('Storage lifetime (s)')
-  gr.Draw('AP')
+  mg = ROOT.TMultiGraph()
+  mg.SetTitle('TCN' + tcn)
+  mg.GetXaxis().SetTitle('SCM current (A)')
+  mg.GetYaxis().SetTitle('Storage lifetime (s)')
+  for measurement in ['tau', 'pinholetau']: # plot both results from storage and pinhole measurement
+    gr = ROOT.TGraphErrors()
+    if measurement == 'pinholetau':
+      if any(ex['IV1IV2']): # skip pinhole measurement if storage was between IV2 and IV3
+        continue
+      gr.SetLineColor(ROOT.kRed)
+    for ex in SCMex:
+      SCMcurrent = numpy.concatenate(ex['SCMcurrent'])
+      i = gr.GetN()
+      gr.SetPoint(i, numpy.mean(SCMcurrent), ex[measurement])
+      gr.SetPointError(i, numpy.std(SCMcurrent)/math.sqrt(len(SCMcurrent)), ex[measurement+'err'])
+    mg.Add(gr)
+  mg.Draw('AP')
   canvas.Print('TCN{0}.pdf'.format(tcn))
 
+# plot all storage lifetimes determined from pinhole measurements between IV1 and IV2
 exps = [ex for ex in experiments if any(ex['IV1IV2'])]
 pinhole = ROOT.TGraphErrors(len(exps),
                             numpy.array([float(min(ex['runs'])) for ex in exps]),
