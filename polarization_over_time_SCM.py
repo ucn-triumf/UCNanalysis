@@ -46,6 +46,8 @@ def ReadCycles(infile, experiments):
     ex['cycle'] =[]
     ex['N0'] = [] 
     ex['N1'] = []
+    ex['numN0cycles'] = []
+    ex['numN1cycles'] = []
     ex['monitorN0ir'] = [] 
     ex['monitorN1ir'] = []
     ex['monitorN0ct'] = [] 
@@ -108,12 +110,18 @@ def ReadCycles(infile, experiments):
       #print('Monitor Conuts is {0}').format(He3[monitorperiod],)
       print("Readcycles")
       li6rate = ROOT.TH1D('Le6_{0}_{1}'.format(cycle.runnumber, cycle.cyclenumber), 'Li6 detector rate', int(math.floor(sum(d))-d[monitorperiod]), d[monitorperiod], math.floor(sum(d)))
+
+      if cycle.cyclenumber%2==0:
+        ex['numN0cycles'].append(1)
+      if cycle.cyclenumber%2==1:
+        ex['numN1cycles'].append(1)
+
       for c in getattr(cycle, 'Li6/hits'):
         if cycle.cyclenumber%2==0 and c>60.:
           ex['N0'].append(c)
         if cycle.cyclenumber%2==1 and c>60.:
           ex['N1'].append(c)    
- 
+         
         if c>60.:
           li6rate.Fill(c)
       for c in getattr(cycle, 'He3/hits'):
@@ -209,12 +217,20 @@ def PolarizationOvertime(ex):
   #bins = [60., 62., 64., 67., 70., 74., 80., 100., 180.]
   bins = [60., 62., 62.5, 63., 63.5, 64., 67., 70., 74., 80., 100., 180.]
   times1 = [2. , 0.5, 0.5,  0.5, 0.5,  3.,  3.,  4.,  6., 20.,   80.]
+  # polA = [1., 0.650421187204, 0.650382003687, 0.617015405736, 0.657047099164, 
+  #          0.60224505266, 0.586506092553, 0.617312444481, 0.60206302199, 
+  #          0.60583140569, 0.644695711584]
   
-  # from the TCN18-180 results
-  polA = [1., 0.650421187204, 0.650382003687, 0.617015405736, 0.657047099164, 
-            0.60224505266, 0.586506092553, 0.617312444481, 0.60206302199, 
-            0.60583140569, 0.644695711584]
+  #polA = [0.671,0.646,0.646,0.613,0.653,0.598,0.582,0.612,0.595,0.590,0.524]#TCN18-180
+  #poleA = [0.048,0.297,0.031,0.033,0.033,0.015,0.016,0.016,0.015,0.012,0.017]
+  f = open('TCN18-180-v3-polarization.txt','r')
+  polA180 = []
+  polAe180 = []
   numbin = 11
+  for line in f:
+    columns = line.split()
+    polA180.append(float(columns[0]))
+    polAe180.append(float(columns[1]))
 
   li6n0graph = ROOT.TH1D("Li6_N0","Li N0 Detector Rate",numbin,array('d',bins))
   li6n0graph.GetXaxis().SetTitle('Time (s)')
@@ -249,7 +265,7 @@ def PolarizationOvertime(ex):
 
   Plotted = ROOT.TH1D('Polarization Power of SCM','',numbin,array('d',bins))
   i=1
-  for a in polA:
+  for a in polA180:
     e = 1./2.*float(subgraph.GetBinError(i))
     
     p = (abs(subgraph.GetBinContent(i))/a)
@@ -280,20 +296,21 @@ def PolarizationOvertime(ex):
       He3N0 = He3N0 + float(monitor)
     if cycle%2==1:
       He3N1 = He3N1 + float(monitor)
+    print("n0, n1 He counts  {0}, {1}".format(He3N0,He3N1) )
+  
 
+  # Gets cycle number to account for each cycles throughing out runs
+  numrun1=sum(ex['numN1cycles'])
+  numrun0=sum(ex['numN0cycles'])
 
- 
-
-  print("n0, n1 He counts  {0}, {1}".format(He3N0,He3N1) )
+  print('There are {0} cycles for N0 and {1} cycles for N1').format(numrun0, numrun1)
 
   i = 1
   for t in times1:
-    num = 10
+    num = numrun0
     LI = li6n0graph.GetBinContent(i)/num
-    #print ("{0}, {1}, {2} ".format(math.sqrt(LI)/LI, math.sqrt(He3N00/15)*15/He3N00, bge1/bg1))
     RelError = math.sqrt((LI/(num*num)+bge1**2*t**2)/abs(LI/(num)-bg1*t)**2+math.sqrt(num)/(He3N0))
     LI = li6n0graph.GetBinContent(i)/num-bg1*t
-   # print ("counts {0}, scaled counts {1}, bg = {2}, Dt = {3}, BGcorrCounts = {4}".format(li6n00graph.GetBinContent(i),li6n00graph.GetBinContent(i)/15., bg1, t, li6n00graph.GetBinContent(i)/15.-bg1*t))
     Ratio = LI/((He3N0/num)/120*t)
     Error = Ratio*RelError
     li6n0graph.SetBinContent(i, Ratio)
@@ -301,8 +318,7 @@ def PolarizationOvertime(ex):
     error1  = Error
     
     #print('N00 ratio is {0}+/-{1} with rel {2}'.format(Ratio,error1,error1/Ratio))
-    numRun = 10 # originally 16
-
+    numRun = numrun1 
     LI = li6n1graph.GetBinContent(i)/numRun
     RelError = math.sqrt((LI/(numRun**2)+bge1**2*t**2)/abs(LI/(numRun)-bg1*t)**2+math.sqrt(numRun)/(He3N1))
     LI = li6n1graph.GetBinContent(i)/numRun-bg1*t
@@ -316,23 +332,23 @@ def PolarizationOvertime(ex):
   print("***new values***")
   Plotted2 = ROOT.TH1D('Polarization Power','',numbin,array('d',bins))
   i=1
-  for a in polA:
-
+  f = open("TCN{0}-poalrization.tex".format(ex['TCN']),"w+")
+  for a in polA180:
     e = 0.
-    
     p = ((li6n0graph.GetBinContent(i)-li6n1graph.GetBinContent(i))/(li6n0graph.GetBinContent(i)+li6n1graph.GetBinContent(i)))
     Plotted2.SetBinContent(i,p/a)
     if a==1.:
       Plotted2.SetBinContent(i,0.)
     Plotted2.SetBinError(i,e)
     print(p/a)
+    f.write("{0}\n".format(p/a))
     i=i+1
   Plotted2.GetXaxis().SetTitle('Time (s)')
   Plotted2.GetYaxis().SetTitle('Polarization Power, p')
   Plotted2.SetTitle('Polarization Power Over Time')
   Plotted2.Draw()
   canvas.Print(pdf)
-
+  f.close()
 
 
   li6n0g = ROOT.TH1D("Li6_N0_rate","Li N0 Detector Rate",120,60.,180.)
@@ -445,44 +461,11 @@ def PolarizationOvertime(ex):
     else: pol1 = math.sqrt(abs((numN0-numN1)/(numN0+numN1)) )
     pol1 = ((numN0-numN1)/(numN0+numN1)) 
     gPolNorm.SetBinContent(nbin, pol1)
-   # gPolNorm.SetBinError(nbin, math.sqrt( ((numN10/((math.sqrt(abs(pol1))*(numN10+numN00))**2))**2)*(errN00)**2+(((numN00/((math.sqrt(abs(pol1))*(numN10+numN00))**2))**2)*(errN10)**2 ) ))
 
   
   gPolNorm.SetDirectory(0)
   gPolNorm.Draw()
   canvas.Print(pdf+ ')')
-
-
-  
-
-
- # f=open("Li6det-NutronPerSec.txt","w+")
- # f.write("n00 n10 n01 n11\n")
- # for c in range(120):
- #  f.write("{0} {1} {2} {3}\n".format(li6n00g.GetBinContent(c),li6n10g.GetBinContent(c), li6n01g.GetBinContent(c), li6n11g.GetBinContent(c)))
- # f.close()
- # 
- # f=open("He3det-NeutronPerSecIr.txt","w+")
- # f.write("n00 n10 n01 n11\n")
- # for c in range(60):
- #   f.write("{0} {1} {2} {3}\n".format(He3I00g.GetBinContent(c),He3I10g.GetBinContent(c),He3I01g.GetBinContent(c), He3I11g.GetBinContent(c)))
- # f.close()
- #
- #  f=open("He3det-NeutronPerSecCT.txt","w+")
- #  f.write("n00 n10 n01 n11\n")
- #  for c in range(120):
- #   f.write("{0} {1} {2} {3}\n".format(He3C00g.GetBinContent(c),He3C10g.GetBinContent(c),He3C01g.GetBinContent(c), He3C11g.GetBinContent(c)))
- #  f.close()
-
-
- # plot background corrected UCN counts (not corrected on a cycle by cycle basis)
- # y, yerr = UCN.SubtractBackgroundAndNormalizeToMonitor(ex['li6counts'], ex['countduration'], ex['li6backgroundrate'], ex['li6backgroundrateerr'], ex['monitorcounts'])
- # graph = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
- # graph.SetTitle('TCN{0} (UCN Ratio for monitor counts)'.format(ex['TCN']))
- # graph.GetXaxis().SetTitle('Cycle Number')
- # graph.GetYaxis().SetTitle('UCN Normalized rate')
- # graph.Draw('AP')
- # canvas.Print(pdf + ')')
 
 
   
@@ -493,12 +476,12 @@ ROOT.gROOT.SetBatch(1)
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
-experiments = [{'TCN': '18-070-200A', 'runs': [1035]},
-               {'TCN': '18-070-0A'  , 'runs': [1033]},
+experiments = [{'TCN': '18-070-0A'  , 'runs': [1033]},
                {'TCN': '18-070-50A' , 'runs': [1037]},
                {'TCN': '18-070-100A', 'runs': [1041]},
                {'TCN': '18-070-150A', 'runs': [1039]},
-               {'TCN': '18-070-175A', 'runs': [1045]}]
+               {'TCN': '18-070-175A', 'runs': [1045]},
+               {'TCN': '18-070-200A', 'runs': [1035]}]
 
 
 #experiments = [{'TCN': '18-180', 'runs': [1029]}]
