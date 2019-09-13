@@ -304,35 +304,53 @@ def PolarizationOvertime(ex):
   numrun0=sum(ex['numN0cycles'])
 
   print('There are {0} cycles for N0 and {1} cycles for N1').format(numrun0, numrun1)
-
-  i = 1
+  f = open("TCN{0}-polarization.txt".format(ex['TCN']),"w+")
+  i = 1 
   for t in times1:
     num = numrun0
-    LI = li6n0graph.GetBinContent(i)/num
-    RelError = math.sqrt((LI/(num*num)+bge1**2*t**2)/abs(LI/(num)-bg1*t)**2+math.sqrt(num)/(He3N0))
-    LI = li6n0graph.GetBinContent(i)/num-bg1*t
-    Ratio = LI/((He3N0/num)/120*t)
-    Error = Ratio*RelError
-    li6n0graph.SetBinContent(i, Ratio)
-    li6n0graph.SetBinError(i, Error)
-    error1  = Error
+    LI = li6n0graph.GetBinContent(i)
+    Nc = LI - bg1*t*num
+    ebg = bge1/num
+    eNc = math.sqrt(math.sqrt(LI**2)+(ebg*t)**2)
+    HEc = (He3N0/120)*t #scaling the counts to bin size
+    eHEc = (math.sqrt(He3N0)/120)*t #scaling the error to bin size 
+    Rc = Nc/HEc
+    eRc = math.sqrt((eNc/HEc)*(eNc/HEc)+(eHEc*Nc/(HEc*HEc))*(eHEc*Nc/(HEc*HEc)))
+    li6n0graph.SetBinContent(i, Rc)# fill histogram with Ratio counts 
+    li6n0graph.SetBinError(i, eRc)# fill histogram with error in ratio counts
+
+    num = numrun1 
+    LI = li6n1graph.GetBinContent(i)
+    Nc = LI - bg1*t*num
+    ebg = bge1/num
+    eNc = math.sqrt(math.sqrt(LI**2)+(ebg*t)**2)
+    HEc = (He3N1/120)*t #scaling the counts to bin size
+    eHEc = (math.sqrt(He3N1)/120)*t #scaling the error to bin size 
+    Rc = Nc/HEc
+    eRc = math.sqrt((eNc/HEc)*(eNc/HEc)+(eHEc*Nc/(HEc*HEc))*(eHEc*Nc/(HEc*HEc)))
+
+    li6n1graph.SetBinContent(i, Rc)# fill histogram with Ratio counts 
+    li6n1graph.SetBinError(i, eRc)# fill histogram with error in ratio counts
     
-    #print('N00 ratio is {0}+/-{1} with rel {2}'.format(Ratio,error1,error1/Ratio))
-    numRun = numrun1 
-    LI = li6n1graph.GetBinContent(i)/numRun
-    RelError = math.sqrt((LI/(numRun**2)+bge1**2*t**2)/abs(LI/(numRun)-bg1*t)**2+math.sqrt(numRun)/(He3N1))
-    LI = li6n1graph.GetBinContent(i)/numRun-bg1*t
-    Ratio = LI/((He3N1/numRun)/120*t)
-    Error = Ratio*RelError
-    li6n1graph.SetBinContent(i,Ratio)
-    li6n1graph.SetBinError(i,Error)
-    error2  = Error
+    R0 = li6n0graph.GetBinContent(i)
+    eR0 = li6n0graph.GetBinError(i)
+    R1 = li6n1graph.GetBinContent(i)
+    eR1 = li6n1graph.GetBinError(i)
+
+    numer = R0-R1 
+    denom = R1+R0
+    eGlobal2 = eR0*eR0+eR1+eR1
+    A = numer/denom #polarization assymetery
+    # A = p_SCM * p_foil
+    eA=abs(A)*math.sqrt((eGlobal2)/(numer*numer)+(eGlobal2)/(denom*denom)) #total error propagation for A
+    f.write("{0} {1}\n".format(A,eA))
 
     i=i+1
+  f.close()
   print("***new values***")
   Plotted2 = ROOT.TH1D('Polarization Power','',numbin,array('d',bins))
   i=1
-  f = open("TCN{0}-poalrization.tex".format(ex['TCN']),"w+")
+
   for a in polA180:
     e = 0.
     p = ((li6n0graph.GetBinContent(i)-li6n1graph.GetBinContent(i))/(li6n0graph.GetBinContent(i)+li6n1graph.GetBinContent(i)))
@@ -341,14 +359,13 @@ def PolarizationOvertime(ex):
       Plotted2.SetBinContent(i,0.)
     Plotted2.SetBinError(i,e)
     print(p/a)
-    f.write("{0}\n".format(p/a))
     i=i+1
   Plotted2.GetXaxis().SetTitle('Time (s)')
   Plotted2.GetYaxis().SetTitle('Polarization Power, p')
   Plotted2.SetTitle('Polarization Power Over Time')
   Plotted2.Draw()
   canvas.Print(pdf)
-  f.close()
+
 
 
   li6n0g = ROOT.TH1D("Li6_N0_rate","Li N0 Detector Rate",120,60.,180.)

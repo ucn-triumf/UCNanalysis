@@ -957,10 +957,10 @@ ROOT.gROOT.SetBatch(1)
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
-#experiments = [{'TCN': '18-180-v3', 'runs': [1029]}]
+experiments = [{'TCN': '18-180-v3', 'runs': [1029]}]
 #experiments = [{'TCN': '18-070', 'runs': [1029]}]
 # 1147, 1148,  1149, 1150
-experiments = [{'TCN': '18-280-v3', 'runs': [1150]}]
+#experiments = [{'TCN': '18-280-v3', 'runs': [1150]}]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 			  
