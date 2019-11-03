@@ -3,7 +3,7 @@ import math
 import numpy
 import scipy.optimize
 
-DetectorBackground = {'li6': (2.16, 0.03), 'he3': (0.0403, 0.0017)}
+DetectorBackground = {'li6': (1.5, 0.1), 'he3': (0.03, 0.003)}
 
 
 # calculate 4He vapor pressure from temperature
@@ -57,9 +57,13 @@ def DoubleExpo():
   return DoubleExpo
 
 
-def SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr):
-  bgsub = [c - DetectorBackground[detector][0]*cd if c > 0 else 0. for c, cd in zip(counts, countdurations)]
-  bgsuberr = [math.sqrt(c + DetectorBackground[detector][1]**2*cd**2) if c > 0 else 0. for c,cd in zip(counts, countdurations)]
+def SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr, backgroundrate = None, backgroundrateerr = None):
+  if not backgroundrate:
+    backgroundrate = DetectorBackground[detector][0]
+  if not backgroundrateerr:
+    backgroundrateerr = DetectorBackground[detector][1]
+  bgsub = [c - backgroundrate*cd if c > 0 else 0. for c, cd in zip(counts, countdurations)]
+  bgsuberr = [math.sqrt(c + backgroundrateerr**2*cd**2) if c > 0 else 0. for c,cd in zip(counts, countdurations)]
  
   norm = [bgs/m for bgs, m in zip(bgsub, normalization)]
   normerr = [math.sqrt((bgserr/m)**2 + (dm*bgs/m**2)**2) for bgserr, bgs, m, dm in zip(bgsuberr, bgsub, normalization, normalizationerr)]
@@ -67,8 +71,12 @@ def SubtractBackgroundAndNormalize(counts, countdurations, detector, normalizati
   return norm, normerr
 
 
-def SubtractBackgroundAndNormalizeRate(counts, countdurations, detector, normalization, normalizationerr):
-  norm, normerr = SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr)
+def SubtractBackgroundAndNormalizeRate(counts, countdurations, detector, normalization, normalizationerr, backgroundrate = None, backgroundrateerr = None):
+  if not backgroundrate:
+    backgroundrate = DetectorBackground[detector][0]
+  if not backgroundrateerr:
+    backgroundrateerr = DetectorBackground[detector][1]
+  norm, normerr = SubtractBackgroundAndNormalize(counts, countdurations, detector, normalization, normalizationerr, backgroundrate, backgroundrateerr)
   return [n/d for n, d in zip(norm, countdurations)], [ne/d for ne, d in zip(normerr, countdurations)]
 
 
@@ -87,15 +95,15 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
     bg.SetMarkerStyle(20)
     bg.Draw('AP')
 
-  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.5]
-  if len(lowbackground) > 0:
-    lowbg = ROOT.TGraphErrors(len(lowbackground), numpy.array([float(min(ex['runs'])) for ex in lowbackground]), 
-                                                  numpy.array([ex[detector + 'backgroundrate'] for ex in lowbackground]),
-                                                  numpy.array([0. for _ in lowbackground]),
-                                                  numpy.array([ex[detector + 'backgroundrateerr'] for ex in lowbackground]))
-    lowbg.SetMarkerStyle(20)
-    lowbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
-    lowbg.Draw('PSAME')
+#  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.5]
+#  if len(lowbackground) > 0:
+#    lowbg = ROOT.TGraphErrors(len(lowbackground), numpy.array([float(min(ex['runs'])) for ex in lowbackground]), 
+#                                                  numpy.array([ex[detector + 'backgroundrate'] for ex in lowbackground]),
+#                                                  numpy.array([0. for _ in lowbackground]),
+#                                                  numpy.array([ex[detector + 'backgroundrateerr'] for ex in lowbackground]))
+#    lowbg.SetMarkerStyle(20)
+#    lowbg.Fit(ROOT.TF1('pol0','pol0'), 'Q', '', fitmin, fitmax)
+#    lowbg.Draw('PSAME')
 
     canvas.Print(detector + '_background.pdf')
 
@@ -116,9 +124,9 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
 
 def PrintMonitorCounts(experiments):
   canvas = ROOT.TCanvas('c', 'c')
-  mh = ROOT.TH2I('monitorcounts', 'monitorcounts', 270, 930., 1200., 200, 0., 1500.)
+  mh = ROOT.TH2I('monitorcounts', 'monitorcounts', 160, 1840., 2000., 200, 0., 1500.)
   for ex in experiments:
-    for m in ex['monitorcounts2']:
+    for m in ex['monitorcounts']:
       mh.Fill(float(min(ex['runs'])), m)
   mh.Draw('COL')
   canvas.Print('monitorcounts.pdf(')

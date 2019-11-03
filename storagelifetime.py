@@ -107,15 +107,15 @@ def ReadCycles(infile, experiments):
           #or
           #any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])
           #):
-      if ex['channels'].GetBinContent(ex['channels'].FindBin(3)) > ex['channels'].GetEntries()/10.:
-        print ('EXCLUDING Li6 data from cycle {0} in run {1} because channel distribution looks weird!'.format(cycle.cyclenumber, cycle.runnumber))
-        ex['li6counts'].append(0)
-        ex['li6background'].append(0)
-        ex['li6irradiation'].append(0)
-      else:
-        ex['li6counts'].append(Li6[countperiod])
-        ex['li6background'].append(Li6[backgroundperiod])
-        ex['li6irradiation'].append(Li6[0])
+#      if ex['channels'].GetBinContent(ex['channels'].FindBin(3)) > ex['channels'].GetEntries()/10.:
+#        print ('EXCLUDING Li6 data from cycle {0} in run {1} because channel distribution looks weird!'.format(cycle.cyclenumber, cycle.runnumber))
+#        ex['li6counts'].append(0)
+#        ex['li6background'].append(0)
+#        ex['li6irradiation'].append(0)
+#      else:
+      ex['li6counts'].append(Li6[countperiod])
+      ex['li6background'].append(Li6[backgroundperiod])
+      ex['li6irradiation'].append(Li6[0])
       ex['he3counts'].append(He3[countperiod])
       ex['countduration'].append(d[countperiod])
       ex['he3background'].append(He3[backgroundperiod])
@@ -315,76 +315,24 @@ ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 
 # list runs for different source-storage experiments
-experiments = [{'TCN': '18-015', 'runs': [ 868]},
-               {'TCN': '18-015', 'runs': [ 869]},
-               {'TCN': '18-015', 'runs': [ 870]},
-               {'TCN': '18-015', 'runs': [ 872]},
-               {'TCN': '18-015', 'runs': [ 895]},
-               {'TCN': '18-015', 'runs': [ 900]},
-               {'TCN': '18-015', 'runs': [ 907]},
-               {'TCN': '18-015', 'runs': [ 911]},
-               {'TCN': '18-015', 'runs': [ 923]},
-               {'TCN': '18-015', 'runs': [ 931]},
-               {'TCN': '18-015', 'runs': [ 941]},
-               {'TCN': '18-015', 'runs': [ 953]},
-               {'TCN': '18-015', 'runs': [ 968]},
-               {'TCN': '18-015', 'runs': [ 975]},
-               {'TCN': '18-015', 'runs': [ 984]},
-               {'TCN': '18-015', 'runs': [ 988]},
-               {'TCN': '18-015', 'runs': [ 998]},
-               {'TCN': '18-015', 'runs': [1011]},
-               {'TCN': '18-015', 'runs': [1019]},
-               {'TCN': '18-015', 'runs': [1030]},
-               {'TCN': '18-015', 'runs': [1049]},
-               {'TCN': '18-015', 'runs': [1053]},
-               {'TCN': '18-015', 'runs': [1088]},
-               {'TCN': '18-015', 'runs': [1123]},
-               {'TCN': '18-015', 'runs': [1137]},
-               {'TCN': '18-015', 'runs': [1151]},
-               {'TCN': '18-015', 'runs': [1167]},
-               {'TCN': '18-015', 'runs': [1179]},
-               {'TCN': '18-015', 'runs': [1193]},
-
-               {'TCN': '18-300', 'runs': [1153]},
-               {'TCN': '18-300', 'runs': [1154]},
-               {'TCN': '18-300', 'runs': [1155]},
-               {'TCN': '18-300', 'runs': [1156]},
-               {'TCN': '18-300', 'runs': [1158]},
-               {'TCN': '18-300', 'runs': [1159]},
-               {'TCN': '18-300', 'runs': [1160]},
-               {'TCN': '18-300', 'runs': [1161]},
-#               {'TCN': '18-300', 'runs': [1167]},
-
-               {'TCN': '18-170', 'runs': [1194]},
-               {'TCN': '18-170', 'runs': [1195, 1196, 1197]},
-               {'TCN': '18-170', 'runs': [1198]},
-               {'TCN': '18-170', 'runs': [1199]},
-               {'TCN': '18-170', 'runs': [1200]},
-               {'TCN': '18-170', 'runs': [1201]},
-               {'TCN': '18-170', 'runs': [1202]},
-               {'TCN': '18-170', 'runs': [1203]},
-               {'TCN': '18-170', 'runs': [1204]},
-               {'TCN': '18-170', 'runs': [1205]}
+experiments = [{'TCN': '19-010', 'runs': [1846]},
+               {'TCN': '19-020', 'runs': [1873, 1875]},
+               {'TCN': '19-190', 'runs': [1892]},
+               {'TCN': '19-190', 'runs': [1902, 1905]},
+               {'TCN': '19-191', 'runs': [1908]},
+               {'TCN': '19-192', 'runs': [1918]}
               ]
 
-injectedpress = [1.04, 1.995, 4.236, 7.953, 16.284, 32.425, 62.84, 315, 628, 1365]
 
-IsopureFillTimes = [time.mktime(dt.timetuple()) for dt in [datetime.datetime(2018, 11, 20, 16, 54), 
-                                                           datetime.datetime(2018, 11, 20, 22, 14),
-                                                           datetime.datetime(2018, 11, 24, 11, 27),
-                                                           datetime.datetime(2018, 11, 24, 18, 3)]]
+#IsopureFillTimes = [time.mktime(dt.timetuple()) for dt in [datetime.datetime(2018, 11, 20, 16, 54), 
+#                                                           datetime.datetime(2018, 11, 20, 22, 14),
+#                                                           datetime.datetime(2018, 11, 24, 11, 27),
+#                                                           datetime.datetime(2018, 11, 24, 18, 3)]]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 
-tauvstemp = [ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']]
-for ex in tauvstemp:
-  StorageLifetime(ex)
-r = DoCombinedFit(tauvstemp, 'combinedfit.pdf')
-
-
 for ex in experiments:
-  if ex['TCN'] != '18-300':
-    StorageLifetime(ex, r)
+  StorageLifetime(ex)
 
 UCN.PrintBackground(experiments, 'li6', 930, 1206)
 UCN.PrintBackground(experiments, 'he3')
@@ -397,10 +345,10 @@ def TauVsTime(experiments, parameter, variable, timeformat, color):
   grtaus = ROOT.TGraphErrors(len(exs), x, y, numpy.array([0. for _  in exs]), yerr)
   if timeformat:
     grtaus.GetXaxis().SetTimeDisplay(1)
-    grtaus.GetXaxis().SetTimeFormat('%m-%d%F2018-01-01 00:00:00')
+    grtaus.GetXaxis().SetTimeFormat('%m-%d%F2019-01-01 00:00:00')
     grtaus.GetXaxis().SetNdivisions(10, 10, 0)
     grtaus.GetXaxis().SetTitle('Date')
-  grtaus.SetTitle('TCN18-015')
+  grtaus.SetTitle('Source-storage lifetime')
   grtaus.SetLineColor(color)
   grtaus.SetMarkerColor(color)
   grtaus.GetXaxis().SetTitle(parameter)
@@ -413,27 +361,25 @@ def TauVsTime(experiments, parameter, variable, timeformat, color):
 canvas = ROOT.TCanvas('c','c')
 l = ROOT.TLatex()
 l.SetTextSize(0.03)
-dailytaus = [ex for ex in experiments if ex['TCN'] == '18-015' and len(ex['start']) > 0]
+dailytaus = [ex for ex in experiments if len(ex['start']) > 0]
 
 mg = ROOT.TMultiGraph('mg', ';Run;Lifetime (s)')
 mg.Add(TauVsTime(dailytaus, 'runs', 'li6tau', False, ROOT.kBlack))
 mg.Add(TauVsTime(dailytaus, 'runs', 'he3tau', False, ROOT.kRed))
-mg.Add(TauVsTime(dailytaus, 'runs', 'tau_wall', False, ROOT.kGreen))
 mg.Draw('AP')
 canvas.Print('dailytau.pdf(')
 
 mg = ROOT.TMultiGraph('mg', ';Date;Lifetime (s)')
 mg.Add(TauVsTime(dailytaus, 'start', 'li6tau', False, ROOT.kBlack))
 mg.Add(TauVsTime(dailytaus, 'start', 'he3tau', False, ROOT.kRed))
-mg.Add(TauVsTime(dailytaus, 'start', 'tau_wall', True, ROOT.kGreen))
 mg.GetXaxis().SetTimeDisplay(1)
-mg.GetXaxis().SetTimeFormat('%m-%d%F2018-01-01 00:00:00')
+mg.GetXaxis().SetTimeFormat('%m-%d%F2019-01-01 00:00:00')
 mg.GetXaxis().SetNdivisions(10, 10, 0)
 mg.Draw('AP')
-box = ROOT.TBox(IsopureFillTimes[0], mg.GetHistogram().GetMinimum(), IsopureFillTimes[1], mg.GetHistogram().GetMaximum())
-box.Draw('SAME')
-box2 = ROOT.TBox(IsopureFillTimes[2], mg.GetHistogram().GetMinimum(), IsopureFillTimes[3], mg.GetHistogram().GetMaximum())
-box2.Draw('SAME')
+#box = ROOT.TBox(IsopureFillTimes[0], mg.GetHistogram().GetMinimum(), IsopureFillTimes[1], mg.GetHistogram().GetMaximum())
+#box.Draw('SAME')
+#box2 = ROOT.TBox(IsopureFillTimes[2], mg.GetHistogram().GetMinimum(), IsopureFillTimes[3], mg.GetHistogram().GetMaximum())
+#box2.Draw('SAME')
 canvas.Print('dailytau.pdf')
 
 minvp = [min(ex['minvaporpressure']) for ex in dailytaus]
@@ -445,7 +391,7 @@ grtaus = ROOT.TGraphErrors(len(dailytaus),
                            numpy.array([(ma - mi)/math.sqrt(12) for ma, mi in zip(maxvp, minvp)]))
 grtaus.GetXaxis().SetTitle('Date')
 grtaus.GetXaxis().SetTimeDisplay(1)
-grtaus.GetXaxis().SetTimeFormat('%m-%d%F2018-01-01 00:00:00')
+grtaus.GetXaxis().SetTimeFormat('%m-%d%F2019-01-01 00:00:00')
 grtaus.GetXaxis().SetNdivisions(10, 10, 0)
 grtaus.GetYaxis().SetTitle('Vapor pressure (torr)')
 grtaus.Draw('AP')
@@ -485,105 +431,18 @@ def FormatTaxis(Taxis):
   Taxis.SetTitleFont(42)
 #  Taxis.SetTitleOffset(1)
 
-initialgeometry = [ex for ex in experiments if min(ex['runs']) < 925 and len(ex['start']) > 0]
-finalgeometry = [ex for ex in experiments if ex['TCN'] != '18-170' and min(ex['runs']) > 1152 and len(ex['start']) > 0]
-afterfilling = [ex for ex in experiments if min(ex['runs']) <= 1152 and len(ex['start']) > 0 and min(ex['start']) > IsopureFillTimes[-1]]
-beforefilling = [ex for ex in experiments if len(ex['start']) > 0 and min(ex['runs']) > 925 and min(ex['start']) < IsopureFillTimes[-1]]
-spoiling = [ex for ex in experiments if ex['TCN'] == '18-170']
-
 mg = ROOT.TMultiGraph('mg', ';Temperature (K);Storage Lifetime (s)')
-mg.Add(TauVsTemp(initialgeometry, 'temperature', 'tau', ROOT.kBlack)) # initial geometry
-mg.Add(TauVsTemp(finalgeometry, 'temperature', 'tau', ROOT.kBlack)) # final geometry
-mg.Add(TauVsTemp(afterfilling, 'temperature', 'tau', ROOT.kBlue)) # after refill
-mg.Add(TauVsTemp(beforefilling, 'temperature', 'tau', ROOT.kRed)) # before refill
-mg.Add(TauVsTemp(spoiling, 'temperature', 'tau', ROOT.kGreen)) # source spoiling
+mg.Add(TauVsTemp(dailytaus, 'temperature', 'tau', ROOT.kBlack)) # initial geometry
 mg.Draw('AP')
 canvas.Print('tauvstemp.pdf(')
 
 canvas.SetLogx()
 mg = ROOT.TMultiGraph('mg', ';Vapor pressure (Torr);Storage lifetime (s)')
-mg.Add(TauVsTemp(initialgeometry, 'vaporpressure', 'tau', ROOT.kBlack))
-mg.Add(TauVsTemp(finalgeometry, 'vaporpressure', 'tau', ROOT.kBlack))
-mg.Add(TauVsTemp(afterfilling, 'vaporpressure', 'tau', ROOT.kBlue))
-mg.Add(TauVsTemp(beforefilling, 'vaporpressure', 'tau', ROOT.kRed))
-mg.Add(TauVsTemp(spoiling, 'vaporpressure', 'tau', ROOT.kGreen))
+mg.Add(TauVsTemp(dailytaus, 'vaporpressure', 'tau', ROOT.kBlack))
 mg.Draw('AP')
-fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
-Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
-FormatTaxis(Taxis)
-Taxis.Draw()
-canvas.Print('tauvstemp.pdf')
-
-mg = ROOT.TMultiGraph('mg', ';Vapor pressure (Torr);Wall-storage lifetime (s)')
-mg.Add(TauVsTemp(initialgeometry, 'vaporpressure', 'tau_wall', ROOT.kBlack))
-mg.Add(TauVsTemp(finalgeometry, 'vaporpressure', 'tau_wall', ROOT.kBlack))
-mg.Add(TauVsTemp(afterfilling, 'vaporpressure', 'tau_wall', ROOT.kBlue))
-mg.Add(TauVsTemp(beforefilling, 'vaporpressure', 'tau_wall', ROOT.kRed))
-mg.Add(TauVsTemp(spoiling, 'vaporpressure', 'tau_wall', ROOT.kGreen))
-mg.Draw('AP')
-ROOT.gStyle.SetFillStyle(0)
-b1 = ROOT.TBox(0.12, 44., 0.2, 49.)
-b1.Draw()
-#l.SetTextColor(ROOT.kBlack)
-l.DrawLatex(0.12, 49.5, 'Initial geometry (He3 only)')
-b3 = ROOT.TBox(0.09, 38., 0.6, 44.)
-b3.Draw()
-#l.SetTextColor(ROOT.kBlue)
-l.DrawLatex(0.62, 42, '"Low" geometry')
-b4 = ROOT.TBox(0.1, 34., mg.GetXaxis().GetXmax(), 38.)
-b4.Draw()
-#l.SetTextColor(ROOT.kBlack)
-l.DrawLatex(1., 38.5, 'Final geometry/with polarizers')
-b5 = ROOT.TBox(0.3, 28., 0.7, 36.)
-b5.Draw()
-#l.SetTextColor(ROOT.kGreen)
-l.DrawLatex(0.75, 31., 'Source spoiled')
-fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
-Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
-FormatTaxis(Taxis)
-Taxis.Draw()
-canvas.Print('tauvstemp.pdf')
-
-ROOT.gStyle.SetOptFit(0)
-mg = ROOT.TMultiGraph('mg', 'TCN18-300;Vapor pressure (Torr);Storage lifetime (s)')
-mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']], 'vaporpressure', 'li6tau', ROOT.kBlack, False))
-mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']], 'vaporpressure', 'he3tau', ROOT.kRed, False))
-f = ROOT.TF1('f', lambda x, p: 1./(1./p[0] + p[1]*(1. - p[2]*UCN.HeTemperature(x[0]))*UCN.HeTemperature(x[0])**7), 0.5, 2, 3)
-f.SetParameters(40, 0.008, 0.2)
-mg.Fit(f, 'MQ')
-mg.Draw('AP')
-l.DrawLatex(0.2, 5., '#tau(T) = #frac{1}{#frac{1}{p1} + p2(1 - p3 T) T^{7}}')
 fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
 Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
 FormatTaxis(Taxis)
 Taxis.Draw()
 canvas.Print('tauvstemp.pdf)')
-
-ROOT.gStyle.SetOptFit(1111)
-canvas.SetLogx(0)
-
-# plot storage lifetime vs source spoilage
-tauvsspoil = [ex for ex in experiments if ex['TCN'] == '18-170']
-grspoil = ROOT.TGraphErrors(len(tauvsspoil),
-                            numpy.cumsum([p*0.1       for p  in injectedpress]),
-                            numpy.array([ex['tau']    for ex in tauvsspoil]),
-                            numpy.array([0.           for _  in tauvsspoil]),
-                            numpy.array([ex['tauerr'] for ex in tauvsspoil]))
-canvas.SetLogx()
-grspoil.GetXaxis().SetTitle('Spoiling gas injected (torr L)')
-grspoil.GetYaxis().SetTitle('Storage Lifetime (s)')
-grspoil.Draw('AP')
-canvas.Print('tauvsspoilage.pdf(')
-
-
-grspoil = ROOT.TGraphErrors(len(tauvsspoil),
-                            numpy.cumsum([p*0.1       for p  in injectedpress]),
-                            numpy.array([(max(ex['maxvaporpressure']) + min(ex['minvaporpressure']))/2 for ex in tauvsspoil]),
-                            numpy.array([0.           for _  in tauvsspoil]),
-                            numpy.array([(max(ex['maxvaporpressure']) - min(ex['minvaporpressure']))/2 for ex in tauvsspoil]))
-canvas.SetLogx()
-grspoil.GetXaxis().SetTitle('Spoiling gas injected (torr L)')
-grspoil.GetYaxis().SetTitle('Vapor pressure (torr)')
-grspoil.Draw('AP')
-canvas.Print('tauvsspoilage.pdf)')
 

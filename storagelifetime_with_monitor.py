@@ -22,8 +22,6 @@ def ReadCycles(infile, experiments):
     ex['countduration'] = []        # list of countperiod durations
     ex['monitorcounts'] = []        # list of He3 counts during monitorperiod
     ex['monitorduration'] = []      # list of monitorperiod durations
-    ex['monitorcounts2'] = []       # list of He3 counts during time window at end of monitorperiod
-    ex['monitorduration2'] = []     # list of time windows for monitorcounts2
     ex['li6background'] = []        # list of Li6 counts during background period
     ex['backgroundduration'] = []   # list of backgroundperiod durations
     ex['li6irradiation'] = []       # list of Li6 counts during irradiationperiod
@@ -70,13 +68,6 @@ def ReadCycles(infile, experiments):
     if d[backgroundperiod] > 0 and Li6[backgroundperiod]/d[backgroundperiod] > 10:
       print('SKIPPING cycle {0} in run {1} because of high Li6 background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[backgroundperiod]/d[backgroundperiod]))
       continue
-    if (cycle.runnumber == 956 and cycle.cyclenumber == 56) or (cycle.runnumber == 1003 and cycle.cyclenumber == 41) or (cycle.runnumber == 1003 and cycle.cyclenumber == 45):
-      print('SKIPPING cycle {0} in run {1}!'.format(cycle.cyclenumber, cycle.runnumber))
-      continue
-#    chist, bin_edges = numpy.histogram(getattr(cycle, 'Li6/channel'), 10, (0., 10.), True)
-#    if sum(chist) > 1000 and not (chist[0] > chist[1] and chist[1] < chist[2] and chist[2] > chist[3] and chist[3] < chist[4] and chist[4] > chist[5] and chist[5] < chist[6] and chist[7] == 0 and chist[8] < chist[9]):
-#      print('SKIPPING cycle {0} in run {1} because Li6 channel distribution looks weird!'.format(cycle.cyclenumber, cycle.runnumber))
-#      continue
       
 #    if (#any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or 
 #        any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])):
@@ -107,11 +98,9 @@ def ReadCycles(infile, experiments):
       ex['SCMcurrent'].append([v/250e-6 for v in cycle.SCMVoltages3]) # calculate SCM current from voltage drop over 250uOhm shunt resistor
       ex['li6counts'].append(Li6[countperiod])
       ex['countduration'].append(d[countperiod])
-      ex['monitorcounts'].append(He3[monitorperiod])
-      ex['monitorduration'].append(d[monitorperiod])
-      he3window = (-10., 0.)
-      ex['monitorcounts2'].append(len([t for t in getattr(cycle, 'He3/hits') if d[monitorperiod] + he3window[0] < t < d[monitorperiod] + he3window[1]]))
-      ex['monitorduration2'].append(he3window[1] - he3window[0])
+      he3window = (0., d[countperiod])
+      ex['monitorcounts'].append(len([t for t in getattr(cycle, 'He3/hits') if d[monitorperiod] + he3window[0] < t < d[monitorperiod] + he3window[1]]))
+      ex['monitorduration'].append(he3window[1] - he3window[0])
       ex['li6background'].append(Li6[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
       ex['storageduration'].append(d[storageperiod])
@@ -154,7 +143,7 @@ def StorageLifetime(ex):
   pdf = 'TCN{0}.pdf'.format(ex['TCN'])
 
   # subtract background from Li6 counts and normalize to monitor counts
-  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts2'], [math.sqrt(m) for m in ex['monitorcounts2']])
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(m) for m in ex['monitorcounts']])
 
   x = ex['storageduration']
   xerr = [0. for _ in ex['storageduration']]  
@@ -202,12 +191,10 @@ def StorageLifetime(ex):
   mtau = []
   mtauerr = []
   # fit single exponential to He3 count-rate histogram during storage period (pinhole method)
-  for he3rate, m, s, c in zip(ex['he3rate'], ex['monitorduration'], ex['storageduration'], ex['countduration']):
-    fitstart = m + 5
-    fitend = m + s
-#    if not ex['pinhole']:
-#      fitend = fitend + c
-    if fitend > fitstart + 10 and he3rate.Integral(he3rate.FindBin(fitstart), he3rate.FindBin(fitend)) > 0:
+  for he3rate, irr, m in zip(ex['he3rate'], ex['irradiationduration'], ex['monitorduration']):
+    fitstart = irr + 5
+    fitend = irr + m
+    if he3rate.Integral(he3rate.FindBin(fitstart), he3rate.FindBin(fitend)) > 0:
       f = he3rate.Fit(UCN.SingleExpo(), 'SQB', '', fitstart, fitend)
       he3rate.SetTitle('TCN{0} (He3 rate)'.format(ex['TCN']))
       he3rate.Draw()
@@ -242,7 +229,7 @@ def StorageLifetime(ex):
   UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, 'li6')
 
   # report average monitor counts, range of beam current, range of He-II temperature
-  monitoravg = numpy.average(ex['monitorcounts2'], None, [1./m for m in ex['monitorcounts2']], True)
+  monitoravg = numpy.average(ex['monitorcounts'], None, [1./m for m in ex['monitorcounts']], True)
   print('Monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
   print('Beam current from {0} to {1} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))
   print('Temperatures from {0} to {1} K'.format(min(ex['mintemperature']), max(ex['maxtemperature'])))
@@ -261,70 +248,8 @@ ROOT.gROOT.SetBatch(1)
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
-experiments = [{'TCN': '18-025 (source-IV2, no elbow)', 'runs': [ 932]},
-               {'TCN': '18-026 (IV1-IV2, no elbow)', 'runs': [ 933]},
-               {'TCN': '18-032 (source-IV2, with elbow)', 'runs': [ 939]},
-               {'TCN': '18-033 (IV1-IV2, with elbow)', 'runs': [ 940]},
-               {'TCN': '18-036 (IV2-IV3, non-O-ring side)', 'runs': [ 949, 955, 956, 957, 958]}, #[947, 948, 949, 955, 956, 957, 958] # TCN18-036
-               {'TCN': '18-040 (source-IV3, O-ring downstream)', 'runs': [ 950]},
-               {'TCN': '18-041 (IV1-IV3, O-ring downstream)', 'runs': [ 951]},
-               {'TCN': '18-042 (source-IV2, O-ring upstream)', 'runs': [ 952]},
-               {'TCN': '18-046 (IV2-IV3, O-ring side)', 'runs': [ 961, 962, 967, 969]},
-               {'TCN': '18-050 (source-IV3, O-ring upstream)', 'runs': [ 966]},
-               {'TCN': '18-051 (IV1-IV3, O-ring upstream)', 'runs': [ 965]},
-               {'TCN': '18-052 (IV1-IV2, O-ring downstream)', 'runs': [ 970]},
-               {'TCN': '18-081 (UGD22+2, IV2-IV3)', 'runs': [ 976, 977]},
-               {'TCN': '18-082 (UGD22+2, IV1-IV3)', 'runs': [ 974]},
-               {'TCN': '18-055 (burst disk+UGD2, IV1-IV3)', 'runs': [ 983]},
-               {'TCN': '18-054 (burst disk+UGD2, IV2-IV3)', 'runs': [ 986]},
-               {'TCN': '18-087 (UGD22+19, IV1-IV3, MV open)', 'runs': [ 989]},
-               {'TCN': '18-086 (UGD22+19, IV2-IV3, MV open)', 'runs': [ 991]},
-               {'TCN': '18-087 (UGD22+19, IV1-IV3)', 'runs': [ 992]},
-               {'TCN': '18-092 (UGD22+UGA11+UGG3+UGA5, IV1-IV3)', 'runs': [ 999]},
-               {'TCN': '18-091 (UGD22+UGA11+UGG3+UGA5, IV2-IV3)', 'runs': [1001, 1002, 1003, 1004]},
-               {'TCN': '18-291 (UGD22+UGA5+UGG3+UGA6, IV2-IV3)', 'runs': [1008]},
-               {'TCN': '18-292 (UGD22+UGA5+UGG3+UGA6, IV1-IV3)', 'runs': [1010]},
-               {'TCN': '18-061 (UGD10+17+11, IV2-IV3)', 'runs': [1014, 1015, 1016, 1018]},
-               {'TCN': '18-062 (UGD10+17+11, IV1-IV3)', 'runs': [1017]},
-			   
-               {'TCN': '18-066_0A', 'runs': [1067]},
-               {'TCN': '18-066_200A', 'runs': [1068]},
-               {'TCN': '18-066_150A', 'runs': [1069]},
-               {'TCN': '18-066_100A', 'runs': [1070]},
-               {'TCN': '18-066_50A', 'runs': [1071]},
-			   
-               {'TCN': '18-068_0A', 'runs': [1072, 1073, 1074]},
-               {'TCN': '18-068_200A', 'runs': [1075]},
-               {'TCN': '18-068_150A', 'runs': [1076]},
-               {'TCN': '18-068_50A', 'runs': [1077]},
-               {'TCN': '18-068_100A', 'runs': [1078]},
-			   
-               {'TCN': '18-268_0A', 'runs': [1089]},
-               {'TCN': '18-268_200A', 'runs': [1090]},
-               {'TCN': '18-268_100A', 'runs': [1091]},
-               {'TCN': '18-268_150A', 'runs': [1092]},
-               {'TCN': '18-268_50A', 'runs': [1093]},
-			   
-               {'TCN': '18-266_0A', 'runs': [1094]},
-               {'TCN': '18-266_200A', 'runs': [1095]},
-               {'TCN': '18-266_100A', 'runs': [1096]},
-               {'TCN': '18-266_50A', 'runs': [1097]},
-               {'TCN': '18-266_150A', 'runs': [1098]},
-			   
-               {'TCN': '18-125 (NiP bottle, unbaked)', 'runs': [1118, 1119]},
-               {'TCN': '18-126 (NiP bottle, baked 100C)', 'runs': [1122]},
-               {'TCN': '18-127 (NiP bottle, baked 150C)', 'runs': [1124]},
-               {'TCN': '18-116 (UGD22+2+Ti, IV2-IV3)', 'runs': [1126]},
-               {'TCN': '18-117 (UGD22+2+Ti, IV1-IV3)', 'runs': [1127]},
-               {'TCN': '18-481 (UGD22+2, IV2-IV3)', 'runs': [1136]},
-               {'TCN': '18-482 (UGD22+2, IV1-IV3)', 'runs': [1134, 1135]},
-               {'TCN': '18-058 (spider+UGD2, IV2-IV3)', 'runs': [1142]},
-               {'TCN': '18-059 (spider+UGD2, IV1-IV3)', 'runs': [1143]},
-               {'TCN': '18-216 (UGD22+20+Ti, high pos, IV2-IV3)', 'runs': [1182, 1183, 1184]},
-               {'TCN': '18-217 (UGD22+20+Ti, high pos, IV1-IV3)', 'runs': [1185, 1186, 1187]},
-               {'TCN': '18-381 (UGD22+20, high pos, IV2-IV3)', 'runs': [1189, 1190]},
-               {'TCN': '18-382 (UGD22+20, high pos, IV1-IV3)', 'runs': [1191]}
-			  ]
+experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]}
+	      ]
 
 # read all data from file
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -338,26 +263,26 @@ UCN.PrintBackground(experiments)
 
 # plot storage lifetime vs SCM current for all SCM measurements
 canvas = ROOT.TCanvas('c','c')
-for tcn in ['18-066', '18-068', '18-268', '18-266']:
-  SCMex = [ex for ex in experiments if ex['TCN'].startswith(tcn)]
-  mg = ROOT.TMultiGraph()
-  mg.SetTitle('TCN' + tcn)
-  mg.GetXaxis().SetTitle('SCM current (A)')
-  mg.GetYaxis().SetTitle('Storage lifetime (s)')
-  for measurement in ['tau', 'pinholetau']: # plot both results from storage and pinhole measurement
-    gr = ROOT.TGraphErrors()
-    if measurement == 'pinholetau':
-      if any(ex['IV1IV2']): # skip pinhole measurement if storage was between IV2 and IV3
-        continue
-      gr.SetLineColor(ROOT.kRed)
-    for ex in SCMex:
-      SCMcurrent = numpy.concatenate(ex['SCMcurrent'])
-      i = gr.GetN()
-      gr.SetPoint(i, numpy.mean(SCMcurrent), ex[measurement])
-      gr.SetPointError(i, numpy.std(SCMcurrent)/math.sqrt(len(SCMcurrent)), ex[measurement+'err'])
-    mg.Add(gr)
-  mg.Draw('AP')
-  canvas.Print('TCN{0}.pdf'.format(tcn))
+#for tcn in ['18-066', '18-068', '18-268', '18-266']:
+#  SCMex = [ex for ex in experiments if ex['TCN'].startswith(tcn)]
+#  mg = ROOT.TMultiGraph()
+#  mg.SetTitle('TCN' + tcn)
+#  mg.GetXaxis().SetTitle('SCM current (A)')
+#  mg.GetYaxis().SetTitle('Storage lifetime (s)')
+#  for measurement in ['tau', 'pinholetau']: # plot both results from storage and pinhole measurement
+#    gr = ROOT.TGraphErrors()
+#    if measurement == 'pinholetau':
+#      if any(ex['IV1IV2']): # skip pinhole measurement if storage was between IV2 and IV3
+#        continue
+#      gr.SetLineColor(ROOT.kRed)
+#    for ex in SCMex:
+#      SCMcurrent = numpy.concatenate(ex['SCMcurrent'])
+#      i = gr.GetN()
+#      gr.SetPoint(i, numpy.mean(SCMcurrent), ex[measurement])
+#      gr.SetPointError(i, numpy.std(SCMcurrent)/math.sqrt(len(SCMcurrent)), ex[measurement+'err'])
+#    mg.Add(gr)
+#  mg.Draw('AP')
+#  canvas.Print('TCN{0}.pdf'.format(tcn))
 
 # plot all storage lifetimes determined from pinhole measurements between IV1 and IV2
 exps = [ex for ex in experiments if any(ex['IV1IV2'])]

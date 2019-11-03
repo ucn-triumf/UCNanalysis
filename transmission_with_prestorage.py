@@ -6,9 +6,9 @@ import UCN
 
 
 def ReadCycles(infile, experiments):
-  countperiod = 1
-  monitorperiod = 0
-  backgroundperiod = 10
+  countperiod = 2
+  monitorperiod = 1
+  backgroundperiod = 1
   binspersec = 5
 
   for ex in experiments:
@@ -19,10 +19,6 @@ def ReadCycles(infile, experiments):
     ex['countduration'] = []
     ex['monitorcounts'] = []
     ex['monitorduration'] = []
-    ex['li6counts2'] = []
-    ex['countduration2'] = []
-    ex['monitorcounts2'] = []
-    ex['monitorduration2'] = []
     ex['li6background'] = []
     ex['he3background'] = []
     ex['li6irradiation'] = []
@@ -72,22 +68,22 @@ def ReadCycles(infile, experiments):
       print('SKIPPING cycle {0} in run {1} because IV1 never opened!'.format(cycle.cyclenumber, cycle.runnumber))
       continue
     if (any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) 
-        #or 
-        #any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])
+        or 
+        any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])
        ):
-      print ('SKIPPING cycle {0} in run {1} because IG5 was on!'.format(cycle.cyclenumber, cycle.runnumber))
-      continue
-    if Li6[countperiod] < 10*d[countperiod]:
-      print('SKIPPING cycle {0} in run {1} because Li6 seems to see only background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[countperiod]/d[countperiod]))
-      continue
-    if Li6[backgroundperiod] > 10*d[backgroundperiod]:
-      print('SKIPPING cycle {0} in run {1} because Li6 sees high background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[backgroundperiod]/d[backgroundperiod]))
-      continue
-    if He3[countperiod] < 300:
-      print('SKIPPING cycle {0} in run{1} because there are not enough monitor counts ({2} + {3})'.format(cycle.cyclenumber, cycle.runnumber, He3[monitorperiod], He3[countperiod]))
-      continue
+        print ('WARNING for cycle {0} in run {1} because IG5 was on!'.format(cycle.cyclenumber, cycle.runnumber))
+#      continue
+#    if Li6[countperiod] < 10*d[countperiod]:
+#      print('SKIPPING cycle {0} in run {1} because Li6 seems to see only background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[countperiod]/d[countperiod]))
+#      continue
+#    if Li6[backgroundperiod] > 10*d[backgroundperiod]:
+#      print('SKIPPING cycle {0} in run {1} because Li6 sees high background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[backgroundperiod]/d[backgroundperiod]))
+#      continue
+#    if He3[countperiod] < 300:
+#      print('SKIPPING cycle {0} in run{1} because there are not enough monitor counts ({2} + {3})'.format(cycle.cyclenumber, cycle.runnumber, He3[monitorperiod], He3[countperiod]))
+#      continue
 
-    if cycle.valve0state[0] != 1 or cycle.valve0state[1] != 1 or cycle.valve1state[0] != 0 or cycle.valve1state[1] != 1:
+    if cycle.valve0state[0] != 1 or cycle.valve0state[1] != 0 or cycle.valve1state[0] != 0 or cycle.valve1state[1] != 0 or cycle.valve0state[2] != 0 or cycle.valve1state[2] != 1:
       print('Abnormal valve configuration in cycle {0} of run {1}'.format(cycle.cyclenumber, cycle.runnumber))
 
     for ex in experiments:
@@ -120,15 +116,10 @@ def ReadCycles(infile, experiments):
 
       ex['li6counts'].append(Li6[countperiod])
       ex['countduration'].append(d[countperiod])
-      ex['monitorcounts'].append(He3[countperiod])
-      ex['monitorduration'].append(d[countperiod])
+      ex['monitorcounts'].append(He3[monitorperiod])
+      ex['monitorduration'].append(d[monitorperiod])
       triggertime = ex['Li6rate'][-1].GetBinLowEdge(ex['Li6rate'][-1].FindFirstBinAbove(10)) - 60.
       ex['li6window'].append((triggertime, triggertime + 10.))
-      ex['li6counts2'].append(len([t for t in getattr(cycle, 'Li6/hits') if d[monitorperiod] + ex['li6window'][-1][0] < t < d[monitorperiod] + ex['li6window'][-1][1]]))
-      ex['countduration2'].append(ex['li6window'][-1][1] - ex['li6window'][-1][0])
-      he3window = (-10., 0.)
-      ex['monitorcounts2'].append(len([t for t in getattr(cycle, 'He3/hits') if d[monitorperiod] + he3window[0] < t < d[monitorperiod] + he3window[1]]))
-      ex['monitorduration2'].append(he3window[1] - he3window[0])
       ex['li6background'].append(Li6[backgroundperiod])
       ex['backgroundduration'].append(d[backgroundperiod])
       ex['li6irradiation'].append(Li6[0])
@@ -160,48 +151,33 @@ def Transmission(ex):
   canvas = ROOT.TCanvas('c', 'c')
   pdf = 'TCN{0}.pdf'.format(ex['TCN'])
 
-  # plot ratio of background-corrected counts to monitor counts during counting
-  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(c) for c in ex['monitorcounts']])
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
+  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', \
+                                                                                                 [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']], \
+                                                                                                 ex['li6backgroundrate'], ex['li6backgroundrateerr'])
+  print('Li6 background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+
+  # plot ratio of background-corrected counts to monitor counts during prestorage
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(c) for c in ex['monitorcounts']], ex['li6backgroundrate'], ex['li6backgroundrateerr'])
   graph = ROOT.TGraphErrors(len(y), numpy.array(ex['cyclenumber']), numpy.array(y), numpy.array([0. for _ in ex['cyclenumber']]), numpy.array(yerr))
-  graph.SetTitle('TCN{0}, normalized during counting'.format(ex['TCN']))
+  graph.SetTitle('TCN{0}, transmission normalized during prestorage'.format(ex['TCN']))
   graph.GetXaxis().SetTitle('Cycle')
   graph.GetXaxis().SetLimits(0., max(ex['cyclenumber']))
   graph.GetYaxis().SetTitle('UCN-count-to-monitor ratio')
   graph.SetMarkerStyle(20)
   transfit = ROOT.TF1('transfit', 'pol0', 0, 100)
-  transfit.SetParName(0, '#bar{R}_{c}')
+  transfit.SetParName(0, '#bar{R}')
   f = graph.Fit(transfit, 'QS')
   graph.Draw('AP')
   canvas.Print(pdf + '(')
 
   ex['transmission'] = f.GetParams()[0]
   ex['transmissionerr'] = f.GetErrors()[0]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.)
-  print('Li6-to-He3 ratio during counting: {0} +/- {1}'.format(ex['transmission'], ex['transmissionerr']))
-
-  if min(ex['monitorcounts2']) > 0:
-    # plot ratio of background-corrected counts to monitor counts during irradiation
-    y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts2'], ex['countduration2'], 'li6', ex['monitorcounts2'], [math.sqrt(c) for c in ex['monitorcounts2']])
-    graph = ROOT.TGraphErrors(len(y), numpy.array(ex['cyclenumber']), numpy.array(y), numpy.array([0. for _ in ex['cyclenumber']]), numpy.array(yerr))
-    graph.SetTitle('TCN{0}, normalized during irradiation'.format(ex['TCN']))
-    graph.GetXaxis().SetTitle('Cycle')
-    graph.GetXaxis().SetLimits(0., max(ex['cyclenumber']))
-    graph.GetYaxis().SetTitle('UCN-count-to-monitor ratio')
-    graph.SetMarkerStyle(20)
-    transfit.SetParName(0, '#bar{R}_{i}')
-    f = graph.Fit(transfit, 'QS')
-    graph.Draw('AP')
-    canvas.Print(pdf)
-
-    ex['transmission2'] = f.GetParams()[0]
-    ex['transmission2err'] = f.GetErrors()[0]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.)
-    print('Li6-to-He3 ratio during irradiation: {0} +/- {1}\n'.format(ex['transmission2'], ex['transmission2err']))
+  print('Li6-to-He3 ratio: {0} +/- {1}'.format(ex['transmission'], ex['transmissionerr']))
 
   UCN.PrintTemperatureVsCycle(ex, pdf)
   
-  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
-  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', \
-                                                                                                 [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']])
-  print('Li6 background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+  UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
 
   he3axis = ex['He3rate'][0].GetXaxis()
   he3rate = ROOT.TH1D('TCN{0}_He3'.format(ex['TCN']), ';Time (s); He3 rate (1/s)', he3axis.GetNbins(), he3axis.GetXmin(), he3axis.GetXmax())
@@ -228,8 +204,8 @@ def Transmission(ex):
   for i, p in enumerate(zip([5, 1e5, 5., 10., 10, 30., 10., 100.], ['t_{d}', 'p_{0}', '#tau_{rise}', '#tau_{1}', 'N_{2}', '#tau_{2}', 'N_{3}', '#tau_{3}'])):
     li6fit.SetParLimits(i, 0., p[0])
     li6fit.SetParName(i, p[1])
-  li6fit.FixParameter(8, UCN.DetectorBackground['li6'][0]*binwidth)
-  li6fit.SetParError(8, UCN.DetectorBackground['li6'][1]*binwidth)
+  li6fit.FixParameter(8, ex['li6backgroundrate']*binwidth)
+  li6fit.SetParError(8, ex['li6backgroundrateerr']*binwidth)
   li6rate.Fit(li6fit, 'MRSQL', '')
 #  canvas.SetLogy()
   li6rate.Draw()
@@ -239,11 +215,11 @@ def Transmission(ex):
   li6background = ROOT.TH1D('Li6background', ';Time (s); Li6 background rate (1/{0}s)'.format(binwidth), li6axis.GetNbins(), li6axis.GetXmin(), li6axis.GetXmax())
   li6background.SetDirectory(0)
   for b in range(li6background.GetNbinsX()):
-    li6background.SetBinContent(b, UCN.DetectorBackground['li6'][0]*li6background.GetBinWidth(b))
-    li6background.SetBinError(b, UCN.DetectorBackground['li6'][1]*li6background.GetBinWidth(b))
+    li6background.SetBinContent(b, ex['li6backgroundrate']*li6background.GetBinWidth(b))
+    li6background.SetBinError(b, ex['li6backgroundrateerr']*li6background.GetBinWidth(b))
   li6background.Sumw2()
 
-  li6norm = ROOT.TH1D('TCN{0}_Li6_norm'.format(ex['TCN']), ';Time (s);Li6 rate normalized during counting (1/{0}s)'.format(binwidth), int(li6axis.GetNbins()/4.), li6axis.GetXmin(), li6axis.GetXmax())
+  li6norm = ROOT.TH1D('TCN{0}_Li6_norm'.format(ex['TCN']), ';Time (s);Normalized Li6 rate (1/{0}s)'.format(binwidth), int(li6axis.GetNbins()/4.), li6axis.GetXmin(), li6axis.GetXmax())
   li6norm.SetDirectory(0)
   for li6, m in zip(ex['Li6rate'], ex['monitorcounts']):
     li6copy = li6.Clone()
@@ -258,28 +234,10 @@ def Transmission(ex):
     li6copy.SetBit(ROOT.TH1.kIsAverage)
     li6norm.Add(li6copy)
     li6norm.SetBit(ROOT.TH1.kIsAverage)
+
   li6norm.Draw()
   canvas.Print(pdf)
   ex['Li6rate_normalized'] = li6norm
-
-  li6norm2 = ROOT.TH1D('TCN{0}_Li6_norm'.format(ex['TCN']), ';Time (s);Li6 rate normalized during irradiation (1/{0}s)'.format(binwidth), int(li6axis.GetNbins()/4.), li6axis.GetXmin(), li6axis.GetXmax())
-  li6norm2.SetDirectory(0)
-  for li6, m in zip(ex['Li6rate'], ex['monitorcounts2']):
-    li6copy = li6.Clone()
-    li6copy.Add(li6background, -1.)
-    li6copy.Rebin(4)
-    normhist2 = ROOT.TH1D('normhist', ';Time (s);Normalization factor', int(li6axis.GetNbins()/4.), li6axis.GetXmin(), li6axis.GetXmax())
-    for b in range(normhist2.GetNbinsX()):
-      normhist2.SetBinContent(b, m)
-      normhist2.SetBinError(b, math.sqrt(m))
-    normhist2.Sumw2()
-    li6copy.Divide(normhist2)
-    li6copy.SetBit(ROOT.TH1.kIsAverage)
-    li6norm2.Add(li6copy)
-    li6norm2.SetBit(ROOT.TH1.kIsAverage)
-  li6norm2.Draw()
-  canvas.Print(pdf)
-  ex['Li6rate_normalized2'] = li6norm2
 
   li6rate.SetStats(False)
   li6rate.GetYaxis().SetTitle('Ratio of cumulated rates')
@@ -325,34 +283,20 @@ def Normalize(experiments, transtcn, reftcn):
 
   transmission = trans['transmission']/ref['transmission']
   transmissionerr = math.sqrt((trans['transmissionerr']/trans['transmission'])**2 + (ref['transmissionerr']/ref['transmission'])**2)*transmission
-  print('Transmission ratio {1}/{2} (normalized during counting): {0} +/- {3}'.format(transmission, trans['TCN'], ref['TCN'], transmissionerr))
-
-  transmission2 = trans['transmission2']/ref['transmission2']
-  transmission2err = math.sqrt((trans['transmission2err']/trans['transmission2'])**2 + (ref['transmission2err']/ref['transmission2'])**2)*transmission
-  print('Transmission ratio {1}/{2} (normalized during irradiation): {0} +/- {3}'.format(transmission2, trans['TCN'], ref['TCN'], transmission2err))
-
+  print('Transmission ratio {1}/{2} (normalized during prestorage): {0} +/- {3}'.format(transmission, trans['TCN'], ref['TCN'], transmissionerr))
 
   tofspec = trans['Li6rate_normalized'].Clone() # make copy of tof spectrum
   tofspec.Divide(ref['Li6rate_normalized']) # normalize to reference spectrum
   tofspec.GetXaxis().SetRangeUser(60, 120)
   tofspec.GetYaxis().SetRangeUser(0, 1.5)
   tofspec.SetTitle('TCN{0} normalized to TCN{1}: {2} +/- {3}'.format(transtcn, reftcn, transmission, transmissionerr))
-  tofspec.GetYaxis().SetTitle('Transmission (normalized during counting)')
+  tofspec.GetYaxis().SetTitle('Transmission (normalized during prestorage)')
   c = ROOT.TCanvas('c', 'c')
   tofspec.Draw()
   pdf = 'TCN{0}_TCN{1}.pdf'.format(transtcn, reftcn)
-  c.Print(pdf + '(') # print to pdf
+  c.Print(pdf) # print to pdf
 
-  tofspec2 = trans['Li6rate_normalized2'].Clone() # make copy of tof spectrum
-  tofspec2.Divide(ref['Li6rate_normalized2']) # normalize to reference spectrum
-  tofspec2.GetXaxis().SetRangeUser(60, 120)
-  tofspec2.GetYaxis().SetRangeUser(0, 1.5)
-  tofspec2.SetTitle('TCN{0} normalized to TCN{1}: {2} +/- {3}'.format(transtcn, reftcn, transmission2, transmission2err))
-  tofspec2.GetYaxis().SetTitle('Transmission (normalized during irradiation)')
-  tofspec2.Draw()
-  c.Print(pdf + ')') # print to pdf
-
-  return transmission, transmissionerr, transmission2, transmission2err
+  return transmission, transmissionerr
 
 
 ### Main program starts here ###
@@ -364,9 +308,29 @@ ROOT.gErrorIgnoreLevel = ROOT.kWarning + 1
 ROOT.Math.IntegratorOneDimOptions.SetDefaultIntegrator('GaussLegendre')
 
 # list of runs belonging to each experiment
-experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1866, 1869]},
-               {'TCN': '19-020 (UGD19+17, no IV3)', 'runs': [1877]}
-              ]
+experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
+               {'TCN': '19-020 (UGD19+17, no IV3)', 'runs': [1876]},
+        {'TCN': '19-190 (DRex UGD02, 97cm)', 'position': 97, 'runs': [1882, 1894]},
+        {'TCN': '19-190 (DRex UGD02, 20cm)', 'position': 20, 'runs': [1883, 1906]},
+        {'TCN': '19-190 (DRex UGD02, 60cm)', 'position': 60, 'runs': [1884, 1899]},
+        {'TCN': '19-190 (DRex UGD02, 0cm)',  'position':  0, 'runs': [1885, 1895, 1907]},
+        {'TCN': '19-190 (DRex UGD02, 40cm)', 'position': 40, 'runs': [1886, 1898]},
+        {'TCN': '19-190 (DRex UGD02, 80cm)', 'position': 80, 'runs': [1887, 1896]},
+        {'TCN': '19-190 (DRex UGD02, 20cm)', 'position': 20, 'runs': [1890, 1906]},
+        {'TCN': '19-191 (DRex UGD19, 97cm)', 'position': 97, 'runs': [1909]},
+        {'TCN': '19-191 (DRex UGD19, 20cm)', 'position': 20, 'runs': [1910, 1911]},
+        {'TCN': '19-191 (DRex UGD19, 60cm)', 'position': 60, 'runs': [1912]},
+        {'TCN': '19-191 (DRex UGD19, 0cm)',  'position':  0, 'runs': [1913]},
+        {'TCN': '19-191 (DRex UGD19, 40cm)', 'position': 40, 'runs': [1914]},
+        {'TCN': '19-191 (DRex UGD19, 80cm)', 'position': 80, 'runs': [1915]},
+        {'TCN': '19-191 (DRex UGD19, 10cm)', 'position': 10, 'runs': [1916]},
+        {'TCN': '19-192 (DRex UGG3, 96cm)', 'position': 96, 'runs': [1919]},
+        {'TCN': '19-192 (DRex UGG3, 20cm)', 'position': 20, 'runs': [1920]}
+#        {'TCN': '19-192 (DRex UGG3, 60cm)', 'position': 60, 'runs': [1912]},
+#        {'TCN': '19-192 (DRex UGG3, 0cm)',  'position':  0, 'runs': [1913]},
+#        {'TCN': '19-192 (DRex UGG3, 40cm)', 'position': 40, 'runs': [1914]},
+#        {'TCN': '19-192 (DRex UGG3, 80cm)', 'position': 80, 'runs': [1915]},
+       ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 
@@ -374,12 +338,23 @@ ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 for ex in experiments:
   Transmission(ex)
 
+canvas = ROOT.TCanvas('c','c')
+for tcn in ['19-190', '19-191', '19-192']:
+  x = numpy.array([float(ex['position']) for ex in experiments if ex['TCN'].startswith(tcn)])
+  y = numpy.array([float(ex['transmission']) for ex in experiments if ex['TCN'].startswith(tcn)])
+  yerr = numpy.array([float(ex['transmissionerr']) for ex in experiments if ex['TCN'].startswith(tcn)])
+  gr = ROOT.TGraphErrors(len(x), x, y, numpy.array([0. for _ in x]), yerr)
+  gr.SetTitle(tcn + ';Absorber position (cm);Background-corrected Li6-He3 ratio')
+  gr.Fit('pol1', 'Q', '', 5., 100.)
+  gr.Draw('AP')
+  canvas.Print('TCN{0}.pdf'.format(tcn))
+
+
 UCN.PrintBackground(experiments, 'li6')
-UCN.PrintMonitorCounts(experiments)
+#UCN.PrintMonitorCounts(experiments)
 
 Normalize(experiments, '19-010', '19-020') # IV3
 
-canvas = ROOT.TCanvas('c','c')
 
 #for tcn in ['18-065', '18-265']: # normalize all the SCM measurements to zero current and plot transmission vs. SCMcurrent
 #  gr = ROOT.TGraphErrors()
