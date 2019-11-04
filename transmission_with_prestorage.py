@@ -325,11 +325,12 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-191 (DRex UGD19, 80cm)', 'position': 80, 'runs': [1915]},
         {'TCN': '19-191 (DRex UGD19, 10cm)', 'position': 10, 'runs': [1916]},
         {'TCN': '19-192 (DRex UGG3, 96cm)', 'position': 96, 'runs': [1919]},
-        {'TCN': '19-192 (DRex UGG3, 20cm)', 'position': 20, 'runs': [1920]}
-#        {'TCN': '19-192 (DRex UGG3, 60cm)', 'position': 60, 'runs': [1912]},
-#        {'TCN': '19-192 (DRex UGG3, 0cm)',  'position':  0, 'runs': [1913]},
-#        {'TCN': '19-192 (DRex UGG3, 40cm)', 'position': 40, 'runs': [1914]},
-#        {'TCN': '19-192 (DRex UGG3, 80cm)', 'position': 80, 'runs': [1915]},
+        {'TCN': '19-192 (DRex UGG3, 20cm)', 'position': 20, 'runs': [1920]},
+        {'TCN': '19-192 (DRex UGG3, 60cm)', 'position': 60, 'runs': [1921]},
+        {'TCN': '19-192 (DRex UGG3, 0cm)',  'position':  0, 'runs': [1922]},
+        {'TCN': '19-192 (DRex UGG3, 40cm)', 'position': 40, 'runs': [1923]},
+        {'TCN': '19-192 (DRex UGG3, 80cm)', 'position': 80, 'runs': [1924]},
+        {'TCN': '19-240 (UGD02+22)', 'runs': [1927]}
        ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -354,6 +355,7 @@ UCN.PrintBackground(experiments, 'li6')
 #UCN.PrintMonitorCounts(experiments)
 
 Normalize(experiments, '19-010', '19-020') # IV3
+Normalize(experiments, '19-240', '19-010') # UGD02 compared to UGD19
 
 
 #for tcn in ['18-065', '18-265']: # normalize all the SCM measurements to zero current and plot transmission vs. SCMcurrent

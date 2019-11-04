@@ -1,747 +1,163 @@
- Skipping run 871 because no UCN were detected
-Reading 9 and 9 cycles from run 869 in /data/ucn/root_files_20190214/ucn_tree_00000869.root
-Writing 9 cycles from run 869
-Reading 17 and 17 cycles from run 870 in /data/ucn/root_files_20190214/ucn_tree_00000870.root
-Reading 18 and 18 cycles from run 872 in /data/ucn/root_files_20190214/ucn_tree_00000872.root
-Writing 17 cycles from run 870
-Writing 18 cycles from run 872
- Sequencer was disabled in run 874, trying to add artifical cycle from 1541376361 to 1541376885
-Writing 1 cycles from run 874
-Reading 6 and 6 cycles from run 875 in /data/ucn/root_files_20190214/ucn_tree_00000875.root
-Writing 6 cycles from run 875
-Reading 1 and 2 cycles from run 878 in /data/ucn/root_files_20190214/ucn_tree_00000878.root
- Found no match to Li6 cycles at [1541386398.6023118] in run 878
-Writing 1 cycles from run 878
-Reading 7 and 8 cycles from run 876 in /data/ucn/root_files_20190214/ucn_tree_00000876.root
- Found no match to Li6 cycles at [1541383903.394738] in run 876
-Writing 7 cycles from run 876
-Reading 6 and 7 cycles from run 877 in /data/ucn/root_files_20190214/ucn_tree_00000877.root
- Found no match to Li6 cycles at [1541385151.4831896] in run 877
-Writing 6 cycles from run 877
-Reading 12 and 9 cycles from run 879 in /data/ucn/root_files_20190214/ucn_tree_00000879.root
- Found no match to Li6 cycles at [13.412110664, 13.416206132000001, 13.417315284] in run 879
-Writing 6 cycles from run 879
-Reading 6 and 7 cycles from run 880 in /data/ucn/root_files_20190214/ucn_tree_00000880.root
- Found no match to Li6 cycles at [1541388236.1150334] in run 880
-Writing 6 cycles from run 880
-Reading 7 and 8 cycles from run 881 in /data/ucn/root_files_20190214/ucn_tree_00000881.root
- Found no match to Li6 cycles at [1541389811.3488598] in run 881
-Writing 7 cycles from run 881
-Reading 6 and 7 cycles from run 882 in /data/ucn/root_files_20190214/ucn_tree_00000882.root
- Found no match to Li6 cycles at [1541391834.2261615] in run 882
-Writing 6 cycles from run 882
-Reading 4 and 4 cycles from run 884 in /data/ucn/root_files_20190214/ucn_tree_00000884.root
-Writing 4 cycles from run 884
- Skipping run 886 because no UCN were detected
- Sequencer was disabled in run 887, trying to add artifical cycle from 1541448849 to 1541448896
-Writing 1 cycles from run 887
- Sequencer was disabled in run 888, trying to add artifical cycle from 1541449990 to 1541450004
-Writing 1 cycles from run 888
- Sequencer was disabled in run 889, trying to add artifical cycle from 1541540887 to 1541540917
-Writing 1 cycles from run 889
- Sequencer was disabled in run 891, trying to add artifical cycle from 1541542997 to 1541543038
-Writing 1 cycles from run 891
-Reading 9 and 10 cycles from run 883 in /data/ucn/root_files_20190214/ucn_tree_00000883.root
- Found no match to Li6 cycles at [1541433690.8479624] in run 883
-Writing 9 cycles from run 883
-Reading 10 and 11 cycles from run 885 in /data/ucn/root_files_20190214/ucn_tree_00000885.root
- Found no match to Li6 cycles at [6.706830056] in run 885
-Writing 10 cycles from run 885
-Reading 3 and 3 cycles from run 894 in /data/ucn/root_files_20190214/ucn_tree_00000894.root
-Writing 3 cycles from run 894
-Reading 49 and 67 cycles from run 873 in /data/ucn/root_files_20190214/ucn_tree_00000873.root
- Found no match to Li6 cycles at [1541367608.5931914, 1541367788.5976846, 1541367968.6030667, 1541368148.6075675, 1541368328.6120636, 1541368508.616561, 1541368688.621063, 1541373188.7346404,
-1541373368.7391832, 1541373548.7437348, 1541373728.7482798, 1541373908.7528303, 1541374088.7573743, 1541374268.7619216, 1541374448.7664707, 1541374628.771017, 1541374808.7755668, 1541374988.780114] in
-run 873
-Writing 49 cycles from run 873
-Reading 9 and 9 cycles from run 895 in /data/ucn/root_files_20190214/ucn_tree_00000895.root
-Writing 9 cycles from run 895
-Reading 17 and 17 cycles from run 898 in /data/ucn/root_files_20190214/ucn_tree_00000898.root
-Writing 17 cycles from run 898
-Reading 1 and 1 cycles from run 899 in /data/ucn/root_files_20190214/ucn_tree_00000899.root
-Writing 1 cycles from run 899
-Reading 11 and 11 cycles from run 900 in /data/ucn/root_files_20190214/ucn_tree_00000900.root
-Writing 11 cycles from run 900
- Sequencer was disabled in run 901, trying to add artifical cycle from 1541653826 to 1541659559
-Writing 1 cycles from run 901
-Reading 14 and 14 cycles from run 902 in /data/ucn/root_files_20190214/ucn_tree_00000902.root
-Writing 14 cycles from run 902
- Sequencer was disabled in run 892, trying to add artifical cycle from 1541544268 to 1541565781
-Writing 1 cycles from run 892
-Reading 22 and 22 cycles from run 904 in /data/ucn/root_files_20190214/ucn_tree_00000904.root
-Writing 22 cycles from run 904
- Sequencer was disabled in run 903, trying to add artifical cycle from 1541672550 to 1541689775
-Writing 1 cycles from run 903
-Reading 1 and 1 cycles from run 906 in /data/ucn/root_files_20190214/ucn_tree_00000906.root
-Writing 1 cycles from run 906
-Reading 9 and 9 cycles from run 907 in /data/ucn/root_files_20190214/ucn_tree_00000907.root
-Writing 9 cycles from run 907
-Reading 4 and 4 cycles from run 908 in /data/ucn/root_files_20190214/ucn_tree_00000908.root
-Writing 4 cycles from run 908
-Reading 15 and 15 cycles from run 909 in /data/ucn/root_files_20190214/ucn_tree_00000909.root
-Writing 15 cycles from run 909
-Reading 5 and 5 cycles from run 910 in /data/ucn/root_files_20190214/ucn_tree_00000910.root
-Writing 5 cycles from run 910
-Reading 10 and 10 cycles from run 911 in /data/ucn/root_files_20190214/ucn_tree_00000911.root
-Writing 10 cycles from run 911
-Reading 10 and 10 cycles from run 916 in /data/ucn/root_files_20190214/ucn_tree_00000916.root
-Writing 10 cycles from run 916
- Sequencer was disabled in run 917, trying to add artifical cycle from 1541744825 to 1541746794
-Writing 1 cycles from run 917
- Sequencer was disabled in run 918, trying to add artifical cycle from 1541746979 to 1541747625
-Writing 1 cycles from run 918
-Reading 11 and 11 cycles from run 919 in /data/ucn/root_files_20190214/ucn_tree_00000919.root
-Writing 11 cycles from run 919
-Reading 4 and 4 cycles from run 920 in /data/ucn/root_files_20190214/ucn_tree_00000920.root
-Writing 4 cycles from run 920
-Reading 8 and 8 cycles from run 921 in /data/ucn/root_files_20190214/ucn_tree_00000921.root
-Writing 8 cycles from run 921
-Reading 18 and 18 cycles from run 922 in /data/ucn/root_files_20190214/ucn_tree_00000922.root
-Writing 18 cycles from run 922
-Reading 9 and 9 cycles from run 923 in /data/ucn/root_files_20190214/ucn_tree_00000923.root
-Writing 9 cycles from run 923
-Reading 190 and 190 cycles from run 924 in /data/ucn/root_files_20190214/ucn_tree_00000924.root
-Writing 190 cycles from run 924
-Reading 11 and 11 cycles from run 925 in /data/ucn/root_files_20190214/ucn_tree_00000925.root
-Writing 11 cycles from run 925
- Sequencer was disabled in run 928, trying to add artifical cycle from 1541806729 to 1541827619
-Writing 1 cycles from run 928
-Reading 9 and 9 cycles from run 896 in /data/ucn/root_files_20190214/ucn_tree_00000896.root
-Reading 12 and 12 cycles from run 929 in /data/ucn/root_files_20190214/ucn_tree_00000929.root
-Writing 12 cycles from run 929
- Sequencer was disabled in run 897, trying to add artifical cycle from 1541622974 to 1541624350
-Reading 2 and 2 cycles from run 905 in /data/ucn/root_files_20190214/ucn_tree_00000905.root
-Reading 14 and 14 cycles from run 930 in /data/ucn/root_files_20190214/ucn_tree_00000930.root
-Writing 1 cycles from run 897
-Writing 14 cycles from run 930
-Reading 9 and 10 cycles from run 932 in /data/ucn/root_files_20190214/ucn_tree_00000932.root
- Found no match to Li6 cycles at [6.811120568000001] in run 932
-Writing 2 cycles from run 905
-Writing 9 cycles from run 932
-Reading 16 and 16 cycles from run 931 in /data/ucn/root_files_20190214/ucn_tree_00000931.root
-Writing 16 cycles from run 931
-Reading 11 and 11 cycles from run 933 in /data/ucn/root_files_20190214/ucn_tree_00000933.root
-Writing 9 cycles from run 896
-Writing 11 cycles from run 933
- Sequencer was disabled in run 936, trying to add artifical cycle from 1541880046 to 1541881283
-Writing 1 cycles from run 936
- Sequencer was disabled in run 935, trying to add artifical cycle from 1541862971 to 1541866978
-Writing 1 cycles from run 935
-Reading 12 and 12 cycles from run 937 in /data/ucn/root_files_20190214/ucn_tree_00000937.root
-Writing 12 cycles from run 937
-Reading 12 and 12 cycles from run 938 in /data/ucn/root_files_20190214/ucn_tree_00000938.root
-Writing 12 cycles from run 938
-Reading 9 and 9 cycles from run 939 in /data/ucn/root_files_20190214/ucn_tree_00000939.root
-Writing 9 cycles from run 939
-Reading 8 and 8 cycles from run 943 in /data/ucn/root_files_20190214/ucn_tree_00000943.root
-Writing 8 cycles from run 943
-Reading 10 and 10 cycles from run 940 in /data/ucn/root_files_20190214/ucn_tree_00000940.root
-Reading 9 and 9 cycles from run 941 in /data/ucn/root_files_20190214/ucn_tree_00000941.root
-Writing 9 cycles from run 941
-Writing 10 cycles from run 940
-Reading 4 and 4 cycles from run 945 in /data/ucn/root_files_20190214/ucn_tree_00000945.root
-Writing 4 cycles from run 945
-Reading 11 and 11 cycles from run 944 in /data/ucn/root_files_20190214/ucn_tree_00000944.root
-Reading 53 and 53 cycles from run 934 in /data/ucn/root_files_20190214/ucn_tree_00000934.root
-Writing 11 cycles from run 944
-Reading 11 and 11 cycles from run 946 in /data/ucn/root_files_20190214/ucn_tree_00000946.root
-Writing 11 cycles from run 946
-Reading 9 and 10 cycles from run 948 in /data/ucn/root_files_20190214/ucn_tree_00000948.root
- Found no match to Li6 cycles at [14.404516056] in run 948
-Reading 9 and 9 cycles from run 947 in /data/ucn/root_files_20190214/ucn_tree_00000947.root
-Writing 9 cycles from run 948
-Writing 9 cycles from run 947
-Reading 9 and 9 cycles from run 949 in /data/ucn/root_files_20190214/ucn_tree_00000949.root
-Writing 9 cycles from run 949
-Writing 53 cycles from run 934
-Reading 9 and 9 cycles from run 951 in /data/ucn/root_files_20190214/ucn_tree_00000951.root
-Writing 9 cycles from run 951
-Reading 9 and 9 cycles from run 950 in /data/ucn/root_files_20190214/ucn_tree_00000950.root
-Writing 9 cycles from run 950
-Reading 9 and 10 cycles from run 952 in /data/ucn/root_files_20190214/ucn_tree_00000952.root
- Found no match to Li6 cycles at [1541936273.0] in run 952
-Writing 9 cycles from run 952
-Reading 11 and 11 cycles from run 955 in /data/ucn/root_files_20190214/ucn_tree_00000955.root
-Reading 9 and 9 cycles from run 953 in /data/ucn/root_files_20190214/ucn_tree_00000953.root
-Writing 11 cycles from run 955
-Writing 9 cycles from run 953
- Skipping run 957 because He3 (14) or Li6 (0) detector does not contain any cycles
- Sequencer was disabled in run 959, trying to add artifical cycle from 1541989695 to 1541989864
-Writing 1 cycles from run 959
-Reading 8 and 8 cycles from run 960 in /data/ucn/root_files_20190214/ucn_tree_00000960.root
-Writing 8 cycles from run 960
-Reading 9 and 9 cycles from run 961 in /data/ucn/root_files_20190214/ucn_tree_00000961.root
-Writing 9 cycles from run 961
-Reading 33 and 33 cycles from run 954 in /data/ucn/root_files_20190214/ucn_tree_00000954.root
-Reading 42 and 43 cycles from run 958 in /data/ucn/root_files_20190214/ucn_tree_00000958.root
- Found no match to Li6 cycles at [1541972174.481509] in run 958
-Reading 10 and 10 cycles from run 962 in /data/ucn/root_files_20190214/ucn_tree_00000962.root
-Writing 10 cycles from run 962
-Writing 42 cycles from run 958
-Writing 33 cycles from run 954
-Reading 59 and 57 cycles from run 956 in /data/ucn/root_files_20190214/ucn_tree_00000956.root
- Found no match to He3 cycles at [1541968383.0, 1541968533.0] in run 956
-Reading 9 and 9 cycles from run 963 in /data/ucn/root_files_20190214/ucn_tree_00000963.root
-Writing 9 cycles from run 963
-Writing 57 cycles from run 956
-Reading 12 and 12 cycles from run 964 in /data/ucn/root_files_20190214/ucn_tree_00000964.root
-Writing 12 cycles from run 964
-Reading 9 and 9 cycles from run 966 in /data/ucn/root_files_20190214/ucn_tree_00000966.root
-Writing 9 cycles from run 966
-Reading 17 and 17 cycles from run 965 in /data/ucn/root_files_20190214/ucn_tree_00000965.root
-Writing 17 cycles from run 965
-Reading 25 and 25 cycles from run 967 in /data/ucn/root_files_20190214/ucn_tree_00000967.root
-Writing 25 cycles from run 967
- Sequencer was disabled in run 971, trying to add artifical cycle from 1542073863 to 1542076189
-Writing 1 cycles from run 971
-Reading 9 and 9 cycles from run 970 in /data/ucn/root_files_20190214/ucn_tree_00000970.root
-Writing 9 cycles from run 970
-Reading 3 and 3 cycles from run 972 in /data/ucn/root_files_20190214/ucn_tree_00000972.root
-Writing 3 cycles from run 972
-Reading 25 and 26 cycles from run 968 in /data/ucn/root_files_20190214/ucn_tree_00000968.root
- Found no match to Li6 cycles at [1542032146.8137412] in run 968
-Reading 12 and 13 cycles from run 973 in /data/ucn/root_files_20190214/ucn_tree_00000973.root
- Found no match to Li6 cycles at [1542094019.0823457] in run 973
-Writing 12 cycles from run 973
-Writing 25 cycles from run 968
-Reading 9 and 10 cycles from run 974 in /data/ucn/root_files_20190214/ucn_tree_00000974.root
- Found no match to Li6 cycles at [1542096597.551728] in run 974
-Writing 9 cycles from run 974
-Reading 10 and 10 cycles from run 976 in /data/ucn/root_files_20190214/ucn_tree_00000976.root
-Writing 10 cycles from run 976
-Reading 42 and 42 cycles from run 969 in /data/ucn/root_files_20190214/ucn_tree_00000969.root
- Sequencer was disabled in run 979, trying to add artifical cycle from 1542265836 to 1542266291
-Writing 1 cycles from run 979
- Skipping run 980 because He3 (0) or Li6 (0) detector does not contain any cycles
-Writing 42 cycles from run 969
- Skipping run 981 because He3 (0) or Li6 (0) detector does not contain any cycles
-Reading 15 and 15 cycles from run 983 in /data/ucn/root_files_20190214/ucn_tree_00000983.root
-Writing 15 cycles from run 983
-Reading 8 and 8 cycles from run 984 in /data/ucn/root_files_20190214/ucn_tree_00000984.root
-Writing 8 cycles from run 984
-Reading 29 and 30 cycles from run 975 in /data/ucn/root_files_20190214/ucn_tree_00000975.root
- Found no match to Li6 cycles at [1542099682.6212912] in run 975
-Reading 11 and 11 cycles from run 985 in /data/ucn/root_files_20190214/ucn_tree_00000985.root
-Writing 11 cycles from run 985
-Reading 50 and 51 cycles from run 977 in /data/ucn/root_files_20190214/ucn_tree_00000977.root
- Found no match to Li6 cycles at [1542114227.0766728] in run 977
-Writing 29 cycles from run 975
-Writing 50 cycles from run 977
-Reading 1 and 1 cycles from run 987 in /data/ucn/root_files_20190214/ucn_tree_00000987.root
-Writing 1 cycles from run 987
-Reading 10 and 10 cycles from run 989 in /data/ucn/root_files_20190214/ucn_tree_00000989.root
-Reading 10 and 10 cycles from run 988 in /data/ucn/root_files_20190214/ucn_tree_00000988.root
-Writing 10 cycles from run 989
-Writing 10 cycles from run 988
-Reading 12 and 12 cycles from run 990 in /data/ucn/root_files_20190214/ucn_tree_00000990.root
-Writing 12 cycles from run 990
-Reading 9 and 9 cycles from run 992 in /data/ucn/root_files_20190214/ucn_tree_00000992.root
-Writing 9 cycles from run 992
-Reading 49 and 49 cycles from run 986 in /data/ucn/root_files_20190214/ucn_tree_00000986.root
-Writing 49 cycles from run 986
- Sequencer was disabled in run 995, trying to add artifical cycle from 1542526021 to 1542526089
-Writing 1 cycles from run 995
-Reading 1 and 1 cycles from run 996 in /data/ucn/root_files_20190214/ucn_tree_00000996.root
-Writing 1 cycles from run 996
-Reading 11 and 11 cycles from run 993 in /data/ucn/root_files_20190214/ucn_tree_00000993.root
-Writing 11 cycles from run 993
-Reading 1 and 1 cycles from run 997 in /data/ucn/root_files_20190214/ucn_tree_00000997.root
-Writing 1 cycles from run 997
-Reading 10 and 10 cycles from run 998 in /data/ucn/root_files_20190214/ucn_tree_00000998.root
-Writing 10 cycles from run 998
-Reading 10 and 10 cycles from run 999 in /data/ucn/root_files_20190214/ucn_tree_00000999.root
-Writing 10 cycles from run 999
-Reading 6 and 6 cycles from run 1001 in /data/ucn/root_files_20190214/ucn_tree_00001001.root
-Writing 6 cycles from run 1001
-Reading 11 and 11 cycles from run 1000 in /data/ucn/root_files_20190214/ucn_tree_00001000.root
-Writing 11 cycles from run 1000
-Reading 1 and 1 cycles from run 1002 in /data/ucn/root_files_20190214/ucn_tree_00001002.root
-Writing 1 cycles from run 1002
-Reading 7 and 8 cycles from run 1004 in /data/ucn/root_files_20190214/ucn_tree_00001004.root
- Found no match to Li6 cycles at [5.2931279280000005] in run 1004
-Writing 7 cycles from run 1004
-Reading 2 and 2 cycles from run 1005 in /data/ucn/root_files_20190214/ucn_tree_00001005.root
-Writing 2 cycles from run 1005
-Reading 5 and 5 cycles from run 1006 in /data/ucn/root_files_20190214/ucn_tree_00001006.root
-Writing 5 cycles from run 1006
-Reading 3 and 3 cycles from run 1007 in /data/ucn/root_files_20190214/ucn_tree_00001007.root
-Writing 3 cycles from run 1007
-Reading 103 and 103 cycles from run 991 in /data/ucn/root_files_20190214/ucn_tree_00000991.root
-Reading 58 and 58 cycles from run 1003 in /data/ucn/root_files_20190214/ucn_tree_00001003.root
-Writing 103 cycles from run 991
-Reading 11 and 11 cycles from run 1009 in /data/ucn/root_files_20190214/ucn_tree_00001009.root
-Writing 11 cycles from run 1009
-Writing 58 cycles from run 1003
-Reading 10 and 10 cycles from run 1010 in /data/ucn/root_files_20190214/ucn_tree_00001010.root
-Writing 10 cycles from run 1010
-Reading 1 and 1 cycles from run 1012 in /data/ucn/root_files_20190214/ucn_tree_00001012.root
-Writing 1 cycles from run 1012
- Skipping run 982 because He3 (0) or Li6 (0) detector does not contain any cycles
- Sequencer was disabled in run 1014, trying to add artifical cycle from 1542708973 to 1542709596
-Writing 1 cycles from run 1014
-Reading 9 and 9 cycles from run 1011 in /data/ucn/root_files_20190214/ucn_tree_00001011.root
- Sequencer was disabled in run 1015, trying to add artifical cycle from 1542709615 to 1542709916
-Writing 1 cycles from run 1015
-Writing 9 cycles from run 1011
-Reading 58 and 58 cycles from run 1008 in /data/ucn/root_files_20190214/ucn_tree_00001008.root
-Reading 13 and 13 cycles from run 1013 in /data/ucn/root_files_20190214/ucn_tree_00001013.root
-Writing 13 cycles from run 1013
-Reading 9 and 10 cycles from run 1017 in /data/ucn/root_files_20190214/ucn_tree_00001017.root
- Found no match to Li6 cycles at [1542714381.5640798] in run 1017
-Reading 17 and 17 cycles from run 1016 in /data/ucn/root_files_20190214/ucn_tree_00001016.root
-Writing 9 cycles from run 1017
-Writing 17 cycles from run 1016
-Reading 9 and 9 cycles from run 1019 in /data/ucn/root_files_20190214/ucn_tree_00001019.root
-Writing 9 cycles from run 1019
-Reading 18 and 26 cycles from run 1020 in /data/ucn/root_files_20190214/ucn_tree_00001020.root
- Found no match to Li6 cycles at [1542859634.1558003, 1542859634.161489, 1542859637.65572, 1542859638.2100003, 1542859638.9883308, 1542859641.789459, 1542859642.2438962, 1542859651.4679773] in run 1020
-Writing 18 cycles from run 1020
-Writing 58 cycles from run 1008
-Reading 50 and 50 cycles from run 1018 in /data/ucn/root_files_20190214/ucn_tree_00001018.root
-Writing 50 cycles from run 1018
-Reading 5 and 6 cycles from run 1023 in /data/ucn/root_files_20190214/ucn_tree_00001023.root
- Found no match to Li6 cycles at [1542870788.2445195] in run 1023
-Writing 5 cycles from run 1023
-Reading 5 and 6 cycles from run 1024 in /data/ucn/root_files_20190214/ucn_tree_00001024.root
- Found no match to Li6 cycles at [1542873265.0182135] in run 1024
-Writing 5 cycles from run 1024
-Reading 15 and 16 cycles from run 1026 in /data/ucn/root_files_20190214/ucn_tree_00001026.root
- Found no match to Li6 cycles at [1542884148.8383186] in run 1026
-Writing 15 cycles from run 1026
-Reading 11 and 11 cycles from run 1022 in /data/ucn/root_files_20190214/ucn_tree_00001022.root
-Writing 11 cycles from run 1022
-Reading 26 and 26 cycles from run 1025 in /data/ucn/root_files_20190214/ucn_tree_00001025.root
-Reading 6 and 6 cycles from run 1028 in /data/ucn/root_files_20190214/ucn_tree_00001028.root
-Writing 6 cycles from run 1028
-Writing 26 cycles from run 1025
-Reading 17 and 17 cycles from run 1027 in /data/ucn/root_files_20190214/ucn_tree_00001027.root
-Writing 17 cycles from run 1027
- Sequencer was disabled in run 1031, trying to add artifical cycle from 1542945651 to 1542946049
-Writing 1 cycles from run 1031
-Reading 6 and 6 cycles from run 1032 in /data/ucn/root_files_20190214/ucn_tree_00001032.root
-Writing 6 cycles from run 1032
-Reading 21 and 21 cycles from run 1033 in /data/ucn/root_files_20190214/ucn_tree_00001033.root
-Reading 16 and 16 cycles from run 1021 in /data/ucn/root_files_20190214/ucn_tree_00001021.root
-Writing 21 cycles from run 1033
-Writing 16 cycles from run 1021
-Reading 33 and 33 cycles from run 1030 in /data/ucn/root_files_20190214/ucn_tree_00001030.root
-Reading 12 and 12 cycles from run 1034 in /data/ucn/root_files_20190214/ucn_tree_00001034.root
-Writing 12 cycles from run 1034
-Reading 68 and 68 cycles from run 1029 in /data/ucn/root_files_20190214/ucn_tree_00001029.root
-Writing 33 cycles from run 1030
-Reading 22 and 22 cycles from run 1035 in /data/ucn/root_files_20190214/ucn_tree_00001035.root
-Reading 14 and 14 cycles from run 1036 in /data/ucn/root_files_20190214/ucn_tree_00001036.root
-Writing 22 cycles from run 1035
-Writing 14 cycles from run 1036
-Reading 11 and 11 cycles from run 1038 in /data/ucn/root_files_20190214/ucn_tree_00001038.root
-Writing 11 cycles from run 1038
-Reading 24 and 24 cycles from run 1037 in /data/ucn/root_files_20190214/ucn_tree_00001037.root
-Reading 10 and 10 cycles from run 1040 in /data/ucn/root_files_20190214/ucn_tree_00001040.root
-Reading 21 and 21 cycles from run 1039 in /data/ucn/root_files_20190214/ucn_tree_00001039.root
-Writing 10 cycles from run 1040
-Writing 24 cycles from run 1037
-Writing 21 cycles from run 1039
-Reading 8 and 8 cycles from run 1043 in /data/ucn/root_files_20190214/ucn_tree_00001043.root
-Writing 8 cycles from run 1043
-Reading 5 and 5 cycles from run 1044 in /data/ucn/root_files_20190214/ucn_tree_00001044.root
-Writing 5 cycles from run 1044
-Writing 68 cycles from run 1029
-Reading 22 and 22 cycles from run 1042 in /data/ucn/root_files_20190214/ucn_tree_00001042.root
- Skipping run 1046 because He3 (0) or Li6 (0) detector does not contain any cycles
-Writing 22 cycles from run 1042
-Reading 3 and 3 cycles from run 1048 in /data/ucn/root_files_20190214/ucn_tree_00001048.root
-Writing 3 cycles from run 1048
-Reading 16 and 16 cycles from run 1047 in /data/ucn/root_files_20190214/ucn_tree_00001047.root
-Writing 16 cycles from run 1047
-Reading 27 and 29 cycles from run 1045 in /data/ucn/root_files_20190214/ucn_tree_00001045.root
- Found no match to Li6 cycles at [1543008822.5687234, 1543008822.6393456] in run 1045
-Writing 27 cycles from run 1045
-Reading 13 and 13 cycles from run 1050 in /data/ucn/root_files_20190214/ucn_tree_00001050.root
-Reading 16 and 16 cycles from run 1049 in /data/ucn/root_files_20190214/ucn_tree_00001049.root
-Writing 13 cycles from run 1050
-Reading 1 and 1 cycles from run 1052 in /data/ucn/root_files_20190214/ucn_tree_00001052.root
-Writing 1 cycles from run 1052
-Writing 16 cycles from run 1049
-Reading 10 and 10 cycles from run 1053 in /data/ucn/root_files_20190214/ucn_tree_00001053.root
-Reading 13 and 13 cycles from run 1054 in /data/ucn/root_files_20190214/ucn_tree_00001054.root
-Writing 10 cycles from run 1053
-Writing 13 cycles from run 1054
-Reading 88 and 88 cycles from run 1041 in /data/ucn/root_files_20190214/ucn_tree_00001041.root
-Reading 13 and 13 cycles from run 1055 in /data/ucn/root_files_20190214/ucn_tree_00001055.root
-Reading 13 and 13 cycles from run 1056 in /data/ucn/root_files_20190214/ucn_tree_00001056.root
-Writing 13 cycles from run 1056
-Writing 13 cycles from run 1055
- Sequencer was disabled in run 1051, trying to add artifical cycle from 1543101422 to 1543112313
-Writing 1 cycles from run 1051
-Reading 13 and 13 cycles from run 1057 in /data/ucn/root_files_20190214/ucn_tree_00001057.root
-Reading 13 and 14 cycles from run 1058 in /data/ucn/root_files_20190214/ucn_tree_00001058.root
- Found no match to Li6 cycles at [1543128539.0777006] in run 1058
-Writing 13 cycles from run 1057
-Writing 13 cycles from run 1058
-Reading 13 and 13 cycles from run 1059 in /data/ucn/root_files_20190214/ucn_tree_00001059.root
- Skipping run 1061 because He3 (6) or Li6 (0) detector does not contain any cycles
-Reading 6 and 3 cycles from run 1060 in /data/ucn/root_files_20190214/ucn_tree_00001060.root
- Found no match to He3 cycles at [1543134766.0, 1543134956.0, 1543135146.0] in run 1060
-Writing 3 cycles from run 1060
-Writing 13 cycles from run 1059
-Reading 2 and 2 cycles from run 1063 in /data/ucn/root_files_20190214/ucn_tree_00001063.root
-Writing 2 cycles from run 1063
-Reading 13 and 13 cycles from run 1064 in /data/ucn/root_files_20190214/ucn_tree_00001064.root
-Writing 13 cycles from run 1064
-Reading 13 and 13 cycles from run 1065 in /data/ucn/root_files_20190214/ucn_tree_00001065.root
- Skipping run 1062 because He3 (24) or Li6 (0) detector does not contain any cycles
-Writing 13 cycles from run 1065
-Reading 13 and 13 cycles from run 1066 in /data/ucn/root_files_20190214/ucn_tree_00001066.root
-Reading 17 and 17 cycles from run 1067 in /data/ucn/root_files_20190214/ucn_tree_00001067.root
-Writing 13 cycles from run 1066
-Reading 17 and 17 cycles from run 1068 in /data/ucn/root_files_20190214/ucn_tree_00001068.root
-Writing 17 cycles from run 1067
-Writing 17 cycles from run 1068
-Writing 88 cycles from run 1041
-Reading 17 and 17 cycles from run 1069 in /data/ucn/root_files_20190214/ucn_tree_00001069.root
-Reading 7 and 7 cycles from run 1072 in /data/ucn/root_files_20190214/ucn_tree_00001072.root
-Writing 7 cycles from run 1072
-Reading 17 and 17 cycles from run 1070 in /data/ucn/root_files_20190214/ucn_tree_00001070.root
-Writing 17 cycles from run 1069
-Reading 17 and 17 cycles from run 1071 in /data/ucn/root_files_20190214/ucn_tree_00001071.root
-Writing 17 cycles from run 1070
-Writing 17 cycles from run 1071
-Reading 8 and 11 cycles from run 1073 in /data/ucn/root_files_20190214/ucn_tree_00001073.root
- Found no match to Li6 cycles at [1543182283.869553, 1543182283.8750808, 1543182286.615401] in run 1073
-Writing 8 cycles from run 1073
-Reading 9 and 9 cycles from run 1074 in /data/ucn/root_files_20190214/ucn_tree_00001074.root
-Writing 9 cycles from run 1074
-Reading 9 and 9 cycles from run 1075 in /data/ucn/root_files_20190214/ucn_tree_00001075.root
-Writing 9 cycles from run 1075
-Reading 9 and 9 cycles from run 1076 in /data/ucn/root_files_20190214/ucn_tree_00001076.root
-Writing 9 cycles from run 1076
- Sequencer was disabled in run 1080, trying to add artifical cycle from 1543211190 to 1543211241
-Writing 1 cycles from run 1080
-Reading 9 and 9 cycles from run 1078 in /data/ucn/root_files_20190214/ucn_tree_00001078.root
-Writing 9 cycles from run 1078
- Sequencer was disabled in run 1079, trying to add artifical cycle from 1543207933 to 1543211024
-Writing 1 cycles from run 1079
-Reading 11 and 11 cycles from run 1081 in /data/ucn/root_files_20190214/ucn_tree_00001081.root
-Writing 11 cycles from run 1081
-Reading 10 and 11 cycles from run 1077 in /data/ucn/root_files_20190214/ucn_tree_00001077.root
- Found no match to Li6 cycles at [1543189861.3513422] in run 1077
-Reading 11 and 11 cycles from run 1082 in /data/ucn/root_files_20190214/ucn_tree_00001082.root
-Writing 11 cycles from run 1082
-Writing 10 cycles from run 1077
-Reading 11 and 11 cycles from run 1083 in /data/ucn/root_files_20190214/ucn_tree_00001083.root
-Writing 11 cycles from run 1083
-Reading 11 and 11 cycles from run 1084 in /data/ucn/root_files_20190214/ucn_tree_00001084.root
-Writing 11 cycles from run 1084
-Reading 11 and 11 cycles from run 1085 in /data/ucn/root_files_20190214/ucn_tree_00001085.root
-Reading 11 and 11 cycles from run 1086 in /data/ucn/root_files_20190214/ucn_tree_00001086.root
-Writing 11 cycles from run 1085
-Writing 11 cycles from run 1086
-Reading 11 and 11 cycles from run 1087 in /data/ucn/root_files_20190214/ucn_tree_00001087.root
-Writing 11 cycles from run 1087
-Reading 8 and 8 cycles from run 1090 in /data/ucn/root_files_20190214/ucn_tree_00001090.root
-Writing 8 cycles from run 1090
-Reading 10 and 10 cycles from run 1088 in /data/ucn/root_files_20190214/ucn_tree_00001088.root
-Reading 9 and 9 cycles from run 1089 in /data/ucn/root_files_20190214/ucn_tree_00001089.root
-Writing 10 cycles from run 1088
-Writing 9 cycles from run 1089
-Reading 8 and 8 cycles from run 1091 in /data/ucn/root_files_20190214/ucn_tree_00001091.root
-Writing 8 cycles from run 1091
-Reading 8 and 8 cycles from run 1092 in /data/ucn/root_files_20190214/ucn_tree_00001092.root
-Writing 8 cycles from run 1092
-Reading 8 and 8 cycles from run 1093 in /data/ucn/root_files_20190214/ucn_tree_00001093.root
-Writing 8 cycles from run 1093
-Reading 11 and 11 cycles from run 1095 in /data/ucn/root_files_20190214/ucn_tree_00001095.root
-Writing 11 cycles from run 1095
-Reading 11 and 11 cycles from run 1096 in /data/ucn/root_files_20190214/ucn_tree_00001096.root
-Writing 11 cycles from run 1096
-Reading 15 and 15 cycles from run 1094 in /data/ucn/root_files_20190214/ucn_tree_00001094.root
-Reading 11 and 11 cycles from run 1097 in /data/ucn/root_files_20190214/ucn_tree_00001097.root
-Writing 11 cycles from run 1097
-Reading 11 and 11 cycles from run 1098 in /data/ucn/root_files_20190214/ucn_tree_00001098.root
-Writing 15 cycles from run 1094
-Writing 11 cycles from run 1098
- Skipping run 1100 because He3 (1) or Li6 (0) detector does not contain any cycles
- Skipping run 1101 because He3 (1) or Li6 (0) detector does not contain any cycles
- Skipping run 1104 because no UCN were detected
- Sequencer was disabled in run 1105, trying to add artifical cycle from 1543298050 to 1543298066
-Writing 1 cycles from run 1105
- Skipping run 1103 because He3 (0) or Li6 (0) detector does not contain any cycles
- Skipping run 1108 because He3 (1) or Li6 (0) detector does not contain any cycles
-Reading 13 and 5 cycles from run 1099 in /data/ucn/root_files_20190214/ucn_tree_00001099.root
- Removing cycle at 1543277244.0 from run 1099 because offset is 827.537415981
- Removing cycle at 1543277405.0 from run 1099 because offset is 988.537415981
- Removing cycle at 1543277621.0 from run 1099 because offset is 1204.53741598
- Removing cycle at 1543277781.0 from run 1099 because offset is 1364.53741598
- Removing cycle at 1543278343.0 from run 1099 because offset is 1926.53741598
- Removing cycle at 1543278696.0 from run 1099 because offset is 2279.53741598
- Removing cycle at 1543278876.0 from run 1099 because offset is 2459.53741598
- Removing cycle at 1543279056.0 from run 1099 because offset is 2639.53741598
- Removing cycle at 1543279236.0 from run 1099 because offset is 2819.53741598
- Found no match to He3 cycles at [1543277244.0, 1543277405.0, 1543277621.0, 1543277781.0, 1543278343.0, 1543278696.0, 1543278876.0, 1543279056.0, 1543279236.0] in run 1099
- Found no match to Li6 cycles at [1543276416.462584] in run 1099
-Writing 4 cycles from run 1099
- Skipping run 1107 because He3 (1) or Li6 (0) detector does not contain any cycles
- Skipping run 1102 because He3 (0) or Li6 (0) detector does not contain any cycles
- Sequencer was disabled in run 1109, trying to add artifical cycle from 1543299080 to 1543300071
-Writing 1 cycles from run 1109
- Sequencer was disabled in run 1111, trying to add artifical cycle from 1543302636 to 1543302907
-Writing 1 cycles from run 1111
- Sequencer was disabled in run 1110, trying to add artifical cycle from 1543300078 to 1543302611
- Sequencer was disabled in run 1115, trying to add artifical cycle from 1543304750 to 1543304892
- Skipping run 1116 because He3 (0) or Li6 (0) detector does not contain any cycles
-Writing 1 cycles from run 1110
-Writing 1 cycles from run 1115
-Reading 1 and 1 cycles from run 1117 in /data/ucn/root_files_20190214/ucn_tree_00001117.root
-Writing 1 cycles from run 1117
-Reading 6 and 6 cycles from run 1118 in /data/ucn/root_files_20190214/ucn_tree_00001118.root
-Writing 6 cycles from run 1118
-Reading 21 and 21 cycles from run 1119 in /data/ucn/root_files_20190214/ucn_tree_00001119.root
-Writing 21 cycles from run 1119
- Sequencer was disabled in run 1112, trying to add artifical cycle from 1543303103 to 1543303333
- Skipping run 1120 because He3 (0) or Li6 (0) detector does not contain any cycles
-Writing 1 cycles from run 1112
-Reading 21 and 21 cycles from run 1122 in /data/ucn/root_files_20190214/ucn_tree_00001122.root
-Reading 9 and 9 cycles from run 1123 in /data/ucn/root_files_20190214/ucn_tree_00001123.root
-Writing 9 cycles from run 1123
-Writing 21 cycles from run 1122
-Reading 11 and 11 cycles from run 1125 in /data/ucn/root_files_20190214/ucn_tree_00001125.root
-Writing 11 cycles from run 1125
-Reading 17 and 17 cycles from run 1126 in /data/ucn/root_files_20190214/ucn_tree_00001126.root
-Writing 17 cycles from run 1126
-Reading 17 and 17 cycles from run 1127 in /data/ucn/root_files_20190214/ucn_tree_00001127.root
-Writing 17 cycles from run 1127
-Reading 3 and 3 cycles from run 1128 in /data/ucn/root_files_20190214/ucn_tree_00001128.root
-Writing 3 cycles from run 1128
-Reading 15 and 15 cycles from run 1129 in /data/ucn/root_files_20190214/ucn_tree_00001129.root
-Writing 15 cycles from run 1129
-Reading 36 and 36 cycles from run 1124 in /data/ucn/root_files_20190214/ucn_tree_00001124.root
-Writing 36 cycles from run 1124
-Reading 14 and 14 cycles from run 1130 in /data/ucn/root_files_20190214/ucn_tree_00001130.root
-Writing 14 cycles from run 1130
-Reading 11 and 11 cycles from run 1131 in /data/ucn/root_files_20190214/ucn_tree_00001131.root
-Writing 11 cycles from run 1131
-Reading 3 and 3 cycles from run 1132 in /data/ucn/root_files_20190214/ucn_tree_00001132.root
-Writing 3 cycles from run 1132
-Reading 1 and 1 cycles from run 1134 in /data/ucn/root_files_20190214/ucn_tree_00001134.root
-Writing 1 cycles from run 1134
-Reading 11 and 11 cycles from run 1133 in /data/ucn/root_files_20190214/ucn_tree_00001133.root
-Writing 11 cycles from run 1133
-Reading 9 and 9 cycles from run 1135 in /data/ucn/root_files_20190214/ucn_tree_00001135.root
-Writing 9 cycles from run 1135
-Reading 9 and 9 cycles from run 1137 in /data/ucn/root_files_20190214/ucn_tree_00001137.root
-Writing 9 cycles from run 1137
- Skipping run 1139 because He3 (0) or Li6 (2) detector does not contain any cycles
-Reading 3 and 3 cycles from run 1140 in /data/ucn/root_files_20190214/ucn_tree_00001140.root
-Writing 3 cycles from run 1140
-Reading 14 and 14 cycles from run 1141 in /data/ucn/root_files_20190214/ucn_tree_00001141.root
-Writing 14 cycles from run 1141
-Reading 77 and 77 cycles from run 1136 in /data/ucn/root_files_20190214/ucn_tree_00001136.root
-Reading 40 and 40 cycles from run 1142 in /data/ucn/root_files_20190214/ucn_tree_00001142.root
-Writing 77 cycles from run 1136
-Writing 40 cycles from run 1142
- Sequencer was disabled in run 1144, trying to add artifical cycle from 1543641355 to 1543642201
-Writing 1 cycles from run 1144
- Sequencer was disabled in run 1145, trying to add artifical cycle from 1543642285 to 1543642488
-Writing 1 cycles from run 1145
-Reading 9 and 9 cycles from run 1143 in /data/ucn/root_files_20190214/ucn_tree_00001143.root
-Writing 9 cycles from run 1143
-Reading 15 and 20 cycles from run 1146 in /data/ucn/root_files_20190214/ucn_tree_00001146.root
- Found no match to Li6 cycles at [1543651532.9424033, 1543651532.9607098, 1543651533.5109892, 1543651534.316158, 1543651534.7782788] in run 1146
-Writing 15 cycles from run 1146
-Reading 14 and 14 cycles from run 1147 in /data/ucn/root_files_20190214/ucn_tree_00001147.root
-Writing 14 cycles from run 1147
-Reading 1 and 2 cycles from run 1149 in /data/ucn/root_files_20190214/ucn_tree_00001149.root
- Found no match to Li6 cycles at [1543659489.3893092] in run 1149
-Writing 1 cycles from run 1149
-Reading 19 and 19 cycles from run 1148 in /data/ucn/root_files_20190214/ucn_tree_00001148.root
-Writing 19 cycles from run 1148
-Reading 17 and 18 cycles from run 1151 in /data/ucn/root_files_20190214/ucn_tree_00001151.root
- Found no match to Li6 cycles at [1543671493.247057] in run 1151
-Writing 17 cycles from run 1151
- Sequencer was disabled in run 1152, trying to add artifical cycle from 1543689736 to 1543689858
-Writing 1 cycles from run 1152
-Reading 10 and 10 cycles from run 1153 in /data/ucn/root_files_20190214/ucn_tree_00001153.root
- Removed 2761 suspected pileup events (20.5324607719%) from run 1153
- Removed 6 suspected pileup events (0.0561482313307%) from run 1153
- Removed 17 suspected pileup events (0.159176029963%) from run 1153
- Removed 8 suspected pileup events (0.0750257901154%) from run 1153
- Removed 16 suspected pileup events (0.15016424214%) from run 1153
-Writing 10 cycles from run 1153
-Reading 61 and 61 cycles from run 1150 in /data/ucn/root_files_20190214/ucn_tree_00001150.root
-Reading 8 and 8 cycles from run 1154 in /data/ucn/root_files_20190214/ucn_tree_00001154.root
- Removed 9 suspected pileup events (0.13028372901%) from run 1154
- Removed 12 suspected pileup events (0.173938251921%) from run 1154
- Removed 12 suspected pileup events (0.174241324234%) from run 1154
- Removed 19 suspected pileup events (0.276363636364%) from run 1154
- Removed 26 suspected pileup events (0.379229871645%) from run 1154
-Writing 8 cycles from run 1154
-Writing 61 cycles from run 1150
-Reading 9 and 9 cycles from run 1155 in /data/ucn/root_files_20190214/ucn_tree_00001155.root
- Removed 926 suspected pileup events (4.67063452033%) from run 1155
- Removed 50 suspected pileup events (0.26455026455%) from run 1155
- Removed 79 suspected pileup events (0.419098143236%) from run 1155
- Removed 345 suspected pileup events (1.83794150551%) from run 1155
- Removed 1065 suspected pileup events (5.7798762618%) from run 1155
- Removed 28 suspected pileup events (0.161281032199%) from run 1155
- Removed 47 suspected pileup events (0.271159060751%) from run 1155
-Writing 9 cycles from run 1155
-Reading 5 and 5 cycles from run 1157 in /data/ucn/root_files_20190214/ucn_tree_00001157.root
- Removed 862 suspected pileup events (2.0822261945%) from run 1157
- Removed 2069 suspected pileup events (5.10410499309%) from run 1157
- Removed 1500 suspected pileup events (3.89944627863%) from run 1157
- Removed 1219 suspected pileup events (3.2975356399%) from run 1157
-Writing 5 cycles from run 1157
-Reading 15 and 15 cycles from run 1156 in /data/ucn/root_files_20190214/ucn_tree_00001156.root
- Removed 116 suspected pileup events (0.500733834067%) from run 1156
- Removed 183 suspected pileup events (0.793926247289%) from run 1156
- Removed 41 suspected pileup events (0.179297677876%) from run 1156
- Removed 463 suspected pileup events (2.02838867958%) from run 1156
- Removed 549 suspected pileup events (2.45494790502%) from run 1156
- Removed 28 suspected pileup events (0.128357935271%) from run 1156
- Removed 260 suspected pileup events (1.19342697145%) from run 1156
- Removed 403 suspected pileup events (1.87215460374%) from run 1156
- Removed 416 suspected pileup events (1.96941722293%) from run 1156
- Removed 178 suspected pileup events (0.85961269136%) from run 1156
- Removed 48 suspected pileup events (0.233815577963%) from run 1156
- Removed 30 suspected pileup events (0.146477222792%) from run 1156
- Removed 47 suspected pileup events (0.229817612831%) from run 1156
-Writing 15 cycles from run 1156
-Reading 8 and 8 cycles from run 1158 in /data/ucn/root_files_20190214/ucn_tree_00001158.root
- Removed 2964 suspected pileup events (3.82624411024%) from run 1158
- Removed 2414 suspected pileup events (3.24022496342%) from run 1158
- Removed 1323 suspected pileup events (1.83528236714%) from run 1158
- Removed 1849 suspected pileup events (2.61291051947%) from run 1158
- Removed 548 suspected pileup events (0.79518247116%) from run 1158
- Removed 1121 suspected pileup events (1.63967996256%) from run 1158
- Removed 1581 suspected pileup events (2.35106920858%) from run 1158
-Writing 8 cycles from run 1158
-Reading 9 and 9 cycles from run 1159 in /data/ucn/root_files_20190214/ucn_tree_00001159.root
- Removed 2596 suspected pileup events (1.79719897263%) from run 1159
- Removed 2647 suspected pileup events (1.86604253759%) from run 1159
- Removed 2326 suspected pileup events (1.67092899629%) from run 1159
- Removed 2631 suspected pileup events (1.92214965151%) from run 1159
- Removed 2274 suspected pileup events (1.69389260095%) from run 1159
- Removed 2595 suspected pileup events (1.96631129095%) from run 1159
- Removed 2812 suspected pileup events (2.1734761706%) from run 1159
- Removed 1452 suspected pileup events (1.14722753346%) from run 1159
-Writing 9 cycles from run 1159
-Reading 10 and 10 cycles from run 1160 in /data/ucn/root_files_20190214/ucn_tree_00001160.root
- Removed 1986 suspected pileup events (1.03383654347%) from run 1160
- Removed 2927 suspected pileup events (1.53960255426%) from run 1160
- Removed 2125 suspected pileup events (1.13522840796%) from run 1160
- Removed 2909 suspected pileup events (1.57190563163%) from run 1160
- Removed 942 suspected pileup events (0.517147672561%) from run 1160
- Removed 2947 suspected pileup events (1.62628096528%) from run 1160
- Removed 1554 suspected pileup events (0.871740788942%) from run 1160
- Removed 2438 suspected pileup events (1.37966159244%) from run 1160
- Removed 2813 suspected pileup events (1.61414340801%) from run 1160
-Writing 10 cycles from run 1160
-Reading 17 and 17 cycles from run 1161 in /data/ucn/root_files_20190214/ucn_tree_00001161.root
-Writing 17 cycles from run 1161
- Sequencer was disabled in run 1114, trying to add artifical cycle from 1543304430 to 1543304744
-Writing 1 cycles from run 1114
-Reading 2 and 2 cycles from run 1164 in /data/ucn/root_files_20190214/ucn_tree_00001164.root
-Writing 2 cycles from run 1164
-Reading 15 and 15 cycles from run 1165 in /data/ucn/root_files_20190214/ucn_tree_00001165.root
-Writing 15 cycles from run 1165
- Sequencer was disabled in run 1162, trying to add artifical cycle from 1543728963 to 1543739939
-Writing 1 cycles from run 1162
-Reading 11 and 11 cycles from run 1166 in /data/ucn/root_files_20190214/ucn_tree_00001166.root
-Writing 11 cycles from run 1166
-Reading 4 and 4 cycles from run 1168 in /data/ucn/root_files_20190214/ucn_tree_00001168.root
-Writing 4 cycles from run 1168
- Sequencer was disabled in run 1169, trying to add artifical cycle from 1543780718 to 1543780871
-Writing 1 cycles from run 1169
-Reading 10 and 10 cycles from run 1167 in /data/ucn/root_files_20190214/ucn_tree_00001167.root
-Writing 10 cycles from run 1167
- Sequencer was disabled in run 1170, trying to add artifical cycle from 1543780881 to 1543781228
- Skipping run 1171 because He3 (0) or Li6 (2) detector does not contain any cycles
-Writing 1 cycles from run 1170
- Sequencer was disabled in run 1173, trying to add artifical cycle from 1543781400 to 1543781496
-Writing 1 cycles from run 1173
- Sequencer was disabled in run 1172, trying to add artifical cycle from 1543781258 to 1543781385
-Writing 1 cycles from run 1172
- Sequencer was disabled in run 1163, trying to add artifical cycle from 1543739970 to 1543754990
- Sequencer was disabled in run 1175, trying to add artifical cycle from 1543782644 to 1543783319
-Writing 1 cycles from run 1175
- Sequencer was disabled in run 1174, trying to add artifical cycle from 1543781507 to 1543782626
-Writing 1 cycles from run 1174
-Reading 2 and 2 cycles from run 1177 in /data/ucn/root_files_20190214/ucn_tree_00001177.root
-Writing 2 cycles from run 1177
-Writing 1 cycles from run 1163
-Reading 1 and 1 cycles from run 1178 in /data/ucn/root_files_20190214/ucn_tree_00001178.root
-Writing 1 cycles from run 1178
- Sequencer was disabled in run 1180, trying to add artifical cycle from 1543817603 to 1543817925
-Writing 1 cycles from run 1180
-Reading 9 and 9 cycles from run 1179 in /data/ucn/root_files_20190214/ucn_tree_00001179.root
-Writing 9 cycles from run 1179
-Reading 1 and 2 cycles from run 1182 in /data/ucn/root_files_20190214/ucn_tree_00001182.root
- Found no match to Li6 cycles at [11.136769976] in run 1182
-Writing 1 cycles from run 1182
-Reading 1 and 1 cycles from run 1183 in /data/ucn/root_files_20190214/ucn_tree_00001183.root
-Writing 1 cycles from run 1183
-Reading 18 and 18 cycles from run 1176 in /data/ucn/root_files_20190214/ucn_tree_00001176.root
-Reading 15 and 15 cycles from run 1181 in /data/ucn/root_files_20190214/ucn_tree_00001181.root
-Writing 18 cycles from run 1176
-Writing 15 cycles from run 1181
-Reading 1 and 1 cycles from run 1185 in /data/ucn/root_files_20190214/ucn_tree_00001185.root
-Writing 1 cycles from run 1185
- Sequencer was disabled in run 1113, trying to add artifical cycle from 1543304204 to 1543304424
-Reading 17 and 17 cycles from run 1187 in /data/ucn/root_files_20190214/ucn_tree_00001187.root
-Writing 17 cycles from run 1187
-Reading 22 and 22 cycles from run 1186 in /data/ucn/root_files_20190214/ucn_tree_00001186.root
-Writing 22 cycles from run 1186
-Reading 42 and 42 cycles from run 1184 in /data/ucn/root_files_20190214/ucn_tree_00001184.root
-Reading 9 and 9 cycles from run 1189 in /data/ucn/root_files_20190214/ucn_tree_00001189.root
-Writing 1 cycles from run 1113
-Writing 9 cycles from run 1189
-Writing 42 cycles from run 1184
-Reading 13 and 13 cycles from run 1188 in /data/ucn/root_files_20190214/ucn_tree_00001188.root
-Writing 13 cycles from run 1188
-Reading 9 and 9 cycles from run 1190 in /data/ucn/root_files_20190214/ucn_tree_00001190.root
-Writing 9 cycles from run 1190
-Reading 9 and 9 cycles from run 1191 in /data/ucn/root_files_20190214/ucn_tree_00001191.root
-Writing 9 cycles from run 1191
-Reading 9 and 9 cycles from run 1193 in /data/ucn/root_files_20190214/ucn_tree_00001193.root
-Writing 9 cycles from run 1193
-Reading 4 and 4 cycles from run 1196 in /data/ucn/root_files_20190214/ucn_tree_00001196.root
-Writing 4 cycles from run 1196
-Reading 2 and 2 cycles from run 1197 in /data/ucn/root_files_20190214/ucn_tree_00001197.root
-Writing 2 cycles from run 1197
-Reading 19 and 19 cycles from run 1192 in /data/ucn/root_files_20190214/ucn_tree_00001192.root
-Writing 19 cycles from run 1192
-Reading 12 and 12 cycles from run 1194 in /data/ucn/root_files_20190214/ucn_tree_00001194.root
-Writing 12 cycles from run 1194
-Reading 10 and 10 cycles from run 1195 in /data/ucn/root_files_20190214/ucn_tree_00001195.root
-Writing 10 cycles from run 1195
-Reading 9 and 9 cycles from run 1198 in /data/ucn/root_files_20190214/ucn_tree_00001198.root
-Writing 9 cycles from run 1198
-Reading 9 and 9 cycles from run 1200 in /data/ucn/root_files_20190214/ucn_tree_00001200.root
-Writing 9 cycles from run 1200
-Reading 10 and 10 cycles from run 1199 in /data/ucn/root_files_20190214/ucn_tree_00001199.root
-Reading 9 and 9 cycles from run 1201 in /data/ucn/root_files_20190214/ucn_tree_00001201.root
-Writing 9 cycles from run 1201
-Writing 10 cycles from run 1199
-Reading 9 and 9 cycles from run 1202 in /data/ucn/root_files_20190214/ucn_tree_00001202.root
-Writing 9 cycles from run 1202
-Reading 9 and 9 cycles from run 1203 in /data/ucn/root_files_20190214/ucn_tree_00001203.root
- Removed 202 suspected pileup events (0.122122267363%) from run 1203
- Removed 69 suspected pileup events (0.0417660375531%) from run 1203
- Removed 4 suspected pileup events (0.00242223123831%) from run 1203
-Reading 9 and 9 cycles from run 1204 in /data/ucn/root_files_20190214/ucn_tree_00001204.root
- Removed 4 suspected pileup events (0.00242228991177%) from run 1203
-Writing 9 cycles from run 1203
- Removed 179 suspected pileup events (0.134934455023%) from run 1204
- Removed 29 suspected pileup events (0.0218904270898%) from run 1204
-Writing 9 cycles from run 1204
-Reading 13 and 13 cycles from run 1205 in /data/ucn/root_files_20190214/ucn_tree_00001205.root
- Removed 745 suspected pileup events (0.520764160242%) from run 1205
- Removed 578 suspected pileup events (0.406144160097%) from run 1205
- Removed 21 suspected pileup events (0.0148162781509%) from run 1205
- Removed 787 suspected pileup events (0.555339942843%) from run 1205
- Removed 281 suspected pileup events (0.199392597639%) from run 1205
- Removed 27 suspected pileup events (0.0191969967365%) from run 1205
- Removed 615 suspected pileup events (0.437348883516%) from run 1205
- Removed 102 suspected pileup events (0.0728545409093%) from run 1205
-Writing 13 cycles from run 1205
-
+Reading 1 and 1 cycles from run 1842 in root_files/ucn_tree_00001842.root
+Reading 2 and 2 cycles from run 1845 in root_files/ucn_tree_00001845.root
+Reading 16 and 16 cycles from run 1847 in root_files/ucn_tree_00001847.root
+Reading 4 and 4 cycles from run 1854 in root_files/ucn_tree_00001854.root
+Reading 15 and 15 cycles from run 1856 in root_files/ucn_tree_00001856.root
+Reading 16 and 16 cycles from run 1858 in root_files/ucn_tree_00001858.root
+Reading 15 and 15 cycles from run 1866 in root_files/ucn_tree_00001866.root
+Reading 5 and 5 cycles from run 1874 in root_files/ucn_tree_00001874.root
+Reading 3 and 3 cycles from run 1875 in root_files/ucn_tree_00001875.root
+Reading 35 and 35 cycles from run 1876 in root_files/ucn_tree_00001876.root
+Reading 19 and 19 cycles from run 1886 in root_files/ucn_tree_00001886.root
+ Skipping run 1891 because He3 (0) or Li6 (0) detector does not contain any cycles
+Reading 10 and 10 cycles from run 1892 in root_files/ucn_tree_00001892.root
+Reading 39 and 39 cycles from run 1895 in root_files/ucn_tree_00001895.root
+Reading 42 and 42 cycles from run 1909 in root_files/ucn_tree_00001909.root
+Reading 41 and 41 cycles from run 1915 in root_files/ucn_tree_00001915.root
+Reading 41 and 41 cycles from run 1921 in root_files/ucn_tree_00001921.root
+Reading 41 and 41 cycles from run 1925 in root_files/ucn_tree_00001925.root
+Reading 5 and 5 cycles from run 1841 in root_files/ucn_tree_00001841.root
+Reading 1 and 1 cycles from run 1849 in root_files/ucn_tree_00001849.root
+Reading 5 and 5 cycles from run 1850 in root_files/ucn_tree_00001850.root
+Reading 4 and 4 cycles from run 1851 in root_files/ucn_tree_00001851.root
+ Skipping run 1852 because He3 (0) or Li6 (0) detector does not contain any cycles
+Reading 13 and 13 cycles from run 1853 in root_files/ucn_tree_00001853.root
+Reading 5 and 5 cycles from run 1859 in root_files/ucn_tree_00001859.root
+Reading 19 and 19 cycles from run 1863 in root_files/ucn_tree_00001863.root
+Reading 18 and 18 cycles from run 1867 in root_files/ucn_tree_00001867.root
+Reading 13 and 13 cycles from run 1872 in root_files/ucn_tree_00001872.root
+Reading 10 and 10 cycles from run 1880 in root_files/ucn_tree_00001880.root
+Reading 19 and 19 cycles from run 1883 in root_files/ucn_tree_00001883.root
+Reading 19 and 19 cycles from run 1885 in root_files/ucn_tree_00001885.root
+Reading 2 and 2 cycles from run 1889 in root_files/ucn_tree_00001889.root
+Reading 22 and 22 cycles from run 1890 in root_files/ucn_tree_00001890.root
+ Skipping run 1897 because He3 (0) or Li6 (0) detector does not contain any cycles
+Reading 19 and 19 cycles from run 1898 in root_files/ucn_tree_00001898.root
+ Skipping run 1901 because He3 (0) or Li6 (0) detector does not contain any cycles
+ Skipping run 1902 because He3 (0) or Li6 (0) detector does not contain any cycles
+Reading 2 and 2 cycles from run 1903 in root_files/ucn_tree_00001903.root
+Reading 2 and 2 cycles from run 1904 in root_files/ucn_tree_00001904.root
+Reading 11 and 11 cycles from run 1905 in root_files/ucn_tree_00001905.root
+Reading 23 and 23 cycles from run 1906 in root_files/ucn_tree_00001906.root
+Reading 27 and 27 cycles from run 1910 in root_files/ucn_tree_00001910.root
+Reading 41 and 41 cycles from run 1914 in root_files/ucn_tree_00001914.root
+Reading 43 and 43 cycles from run 1919 in root_files/ucn_tree_00001919.root
+Reading 43 and 43 cycles from run 1924 in root_files/ucn_tree_00001924.root
+Reading 21 and 21 cycles from run 1929 in root_files/ucn_tree_00001929.root
+Reading 14 and 14 cycles from run 1843 in root_files/ucn_tree_00001843.root
+ Sequencer was disabled in run 1860, trying to add artifical cycle from 1572505369 to 1572505858
+Reading 17 and 17 cycles from run 1861 in root_files/ucn_tree_00001861.root
+Reading 11 and 11 cycles from run 1868 in root_files/ucn_tree_00001868.root
+ Sequencer was disabled in run 1870, trying to add artifical cycle from 1572544365 to 1572544371
+Reading 12 and 12 cycles from run 1871 in root_files/ucn_tree_00001871.root
+Reading 27 and 27 cycles from run 1877 in root_files/ucn_tree_00001877.root
+Reading 3 and 3 cycles from run 1893 in root_files/ucn_tree_00001893.root
+Reading 40 and 40 cycles from run 1894 in root_files/ucn_tree_00001894.root
+Reading 17 and 17 cycles from run 1908 in root_files/ucn_tree_00001908.root
+Reading 41 and 41 cycles from run 1912 in root_files/ucn_tree_00001912.root
+Reading 41 and 41 cycles from run 1916 in root_files/ucn_tree_00001916.root
+Reading 42 and 42 cycles from run 1922 in root_files/ucn_tree_00001922.root
+Reading 19 and 19 cycles from run 1926 in root_files/ucn_tree_00001926.root
+Reading 31 and 31 cycles from run 1927 in root_files/ucn_tree_00001927.root
+Reading 3 and 3 cycles from run 1840 in root_files/ucn_tree_00001840.root
+Reading 2 and 2 cycles from run 1844 in root_files/ucn_tree_00001844.root
+Reading 17 and 17 cycles from run 1846 in root_files/ucn_tree_00001846.root
+Reading 9 and 9 cycles from run 1855 in root_files/ucn_tree_00001855.root
+Reading 15 and 15 cycles from run 1857 in root_files/ucn_tree_00001857.root
+Reading 15 and 15 cycles from run 1862 in root_files/ucn_tree_00001862.root
+ Sequencer was disabled in run 1864, trying to add artifical cycle from 1572519134 to 1572519171
+Reading 23 and 23 cycles from run 1865 in root_files/ucn_tree_00001865.root
+Reading 17 and 17 cycles from run 1873 in root_files/ucn_tree_00001873.root
+Reading 9 and 9 cycles from run 1879 in root_files/ucn_tree_00001879.root
+Reading 5 and 5 cycles from run 1881 in root_files/ucn_tree_00001881.root
+Reading 19 and 19 cycles from run 1882 in root_files/ucn_tree_00001882.root
+Reading 19 and 19 cycles from run 1884 in root_files/ucn_tree_00001884.root
+Reading 22 and 22 cycles from run 1887 in root_files/ucn_tree_00001887.root
+Reading 19 and 19 cycles from run 1896 in root_files/ucn_tree_00001896.root
+Reading 19 and 19 cycles from run 1899 in root_files/ucn_tree_00001899.root
+Reading 16 and 16 cycles from run 1907 in root_files/ucn_tree_00001907.root
+Reading 15 and 15 cycles from run 1911 in root_files/ucn_tree_00001911.root
+Reading 43 and 43 cycles from run 1913 in root_files/ucn_tree_00001913.root
+Reading 22 and 22 cycles from run 1918 in root_files/ucn_tree_00001918.root
+Reading 42 and 42 cycles from run 1920 in root_files/ucn_tree_00001920.root
+Reading 41 and 41 cycles from run 1923 in root_files/ucn_tree_00001923.root
+Reading 27 and 27 cycles from run 1928 in root_files/ucn_tree_00001928.root
+Writing 3 cycles from run 1840
+Writing 1 cycles from run 1842
+Writing 2 cycles from run 1844
+Writing 2 cycles from run 1845
+Writing 5 cycles from run 1841
+Writing 1 cycles from run 1849
+Writing 5 cycles from run 1850
+Writing 4 cycles from run 1851
+Writing 16 cycles from run 1847
+Writing 17 cycles from run 1846
+Writing 4 cycles from run 1854
+Writing 9 cycles from run 1855
+Writing 15 cycles from run 1856
+Writing 13 cycles from run 1853
+Writing 14 cycles from run 1843
+Writing 1 cycles from run 1860
+Writing 15 cycles from run 1857
+Writing 5 cycles from run 1859
+Writing 15 cycles from run 1862
+Writing 1 cycles from run 1864
+Writing 16 cycles from run 1858
+Writing 19 cycles from run 1863
+Writing 17 cycles from run 1861
+Writing 11 cycles from run 1868
+Writing 1 cycles from run 1870
+Writing 18 cycles from run 1867
+Writing 23 cycles from run 1865
+Writing 15 cycles from run 1866
+Writing 5 cycles from run 1874
+Writing 3 cycles from run 1875
+Writing 12 cycles from run 1871
+Writing 17 cycles from run 1873
+Writing 13 cycles from run 1872
+Writing 9 cycles from run 1879
+Writing 5 cycles from run 1881
+Writing 10 cycles from run 1880
+Writing 19 cycles from run 1882
+Writing 19 cycles from run 1883
+Writing 35 cycles from run 1876
+Writing 19 cycles from run 1884
+Writing 19 cycles from run 1885
+Writing 2 cycles from run 1889
+Writing 19 cycles from run 1886
+Writing 27 cycles from run 1877
+Writing 3 cycles from run 1893
+Writing 10 cycles from run 1892
+Writing 22 cycles from run 1887
+Writing 22 cycles from run 1890
+Writing 19 cycles from run 1896
+Writing 19 cycles from run 1898
+Writing 2 cycles from run 1903
+Writing 2 cycles from run 1904
+Writing 11 cycles from run 1905
+Writing 19 cycles from run 1899
+Writing 40 cycles from run 1894
+Writing 39 cycles from run 1895
+Writing 23 cycles from run 1906
+Writing 16 cycles from run 1907
+Writing 17 cycles from run 1908
+Writing 15 cycles from run 1911
+Writing 27 cycles from run 1910
+Writing 42 cycles from run 1909
+Writing 41 cycles from run 1912
+Writing 43 cycles from run 1913
+Writing 41 cycles from run 1914
+Writing 22 cycles from run 1918
+Writing 41 cycles from run 1915
+Writing 41 cycles from run 1916
+Writing 42 cycles from run 1920
+Writing 43 cycles from run 1919
+Writing 41 cycles from run 1921
+Writing 42 cycles from run 1922
+Writing 19 cycles from run 1926
+Writing 41 cycles from run 1923
+Writing 43 cycles from run 1924
+Writing 41 cycles from run 1925
+Writing 31 cycles from run 1927
+Writing 27 cycles from run 1928
+Writing 21 cycles from run 1929

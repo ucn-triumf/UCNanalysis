@@ -248,7 +248,8 @@ ROOT.gROOT.SetBatch(1)
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
-experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]}
+experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]},
+               {'TCN': '19-240 (UGD02+22)', 'runs': [1928]}
 	      ]
 
 # read all data from file

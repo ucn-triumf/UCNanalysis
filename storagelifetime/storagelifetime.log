@@ -12,8 +12,8 @@ Analyzing TCN19-010 in runs [1846]
 Beam current from 0.841 to 0.918 uA
 Temperatures from 0.877 to 0.925 K
 Vapor pressure from 0.0585 to 0.0767 torr
-36.95 +/- 0.38 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
-37.51 +/- 0.53 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+37.38 +/- 0.43 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+37.56 +/- 0.54 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 High background variation!
 High irradiation-background variation!
 li6 detector background rate: 1.248 +/- 0.045 1/s
@@ -24,8 +24,8 @@ Analyzing TCN19-020 in runs [1873, 1875]
 Beam current from 0.92 to 0.961 uA
 Temperatures from 0.89 to 0.926 K
 Vapor pressure from 0.0576 to 0.0796 torr
-36.8 +/- 0.37 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
-37.4 +/- 0.52 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+37.11 +/- 0.42 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+37.44 +/- 0.52 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.499 +/- 0.047 1/s
 he3 detector background rate: 0.02483 +/- 0.0065 1/s
 
@@ -34,8 +34,8 @@ Analyzing TCN19-190 in runs [1892]
 Beam current from 0.989 to 1.01 uA
 Temperatures from 0.897 to 0.926 K
 Vapor pressure from 0.0646 to 0.0918 torr
-33.09 +/- 0.47 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
-36.04 +/- 0.57 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+34.54 +/- 0.66 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+36.09 +/- 0.57 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.277 +/- 0.064 1/s
 he3 detector background rate: 0.04151 +/- 0.014 1/s
 
@@ -44,8 +44,8 @@ Analyzing TCN19-190 in runs [1902, 1905]
 Beam current from 0.987 to 1.02 uA
 Temperatures from 0.9 to 0.927 K
 Vapor pressure from 0.0669 to 0.0907 torr
-33.44 +/- 0.45 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
-36.06 +/- 0.9 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+35.23 +/- 0.58 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+36.12 +/- 0.91 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.316 +/- 0.055 1/s
 he3 detector background rate: 0.02872 +/- 0.0089 1/s
 
@@ -54,8 +54,8 @@ Analyzing TCN19-191 in runs [1908]
 Beam current from 0.993 to 1.01 uA
 Temperatures from 0.896 to 0.928 K
 Vapor pressure from 0.0616 to 0.0889 torr
-34.02 +/- 0.38 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
-36.95 +/- 0.52 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+35.36 +/- 0.56 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+37.0 +/- 0.53 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.357 +/- 0.047 1/s
 he3 detector background rate: 0.01949 +/- 0.0057 1/s
 
@@ -64,7 +64,7 @@ Analyzing TCN19-192 in runs [1918]
 Beam current from 0.99 to 1.03 uA
 Temperatures from 0.906 to 0.931 K
 Vapor pressure from 0.0659 to 0.0886 torr
-33.35 +/- 0.27 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
-35.15 +/- 0.35 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+34.69 +/- 0.4 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+35.2 +/- 0.35 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.356 +/- 0.039 1/s
 he3 detector background rate: 0.03038 +/- 0.0061 1/s
