@@ -1,21 +1,28 @@
-Reading 1 and 1 cycles from run 1842 in root_files/ucn_tree_00001842.root
-Reading 2 and 2 cycles from run 1845 in root_files/ucn_tree_00001845.root
-Reading 16 and 16 cycles from run 1847 in root_files/ucn_tree_00001847.root
-Reading 4 and 4 cycles from run 1854 in root_files/ucn_tree_00001854.root
-Reading 15 and 15 cycles from run 1856 in root_files/ucn_tree_00001856.root
-Reading 16 and 16 cycles from run 1858 in root_files/ucn_tree_00001858.root
-Reading 15 and 15 cycles from run 1866 in root_files/ucn_tree_00001866.root
-Reading 5 and 5 cycles from run 1874 in root_files/ucn_tree_00001874.root
-Reading 3 and 3 cycles from run 1875 in root_files/ucn_tree_00001875.root
-Reading 35 and 35 cycles from run 1876 in root_files/ucn_tree_00001876.root
-Reading 19 and 19 cycles from run 1886 in root_files/ucn_tree_00001886.root
- Skipping run 1891 because He3 (0) or Li6 (0) detector does not contain any cycles
-Reading 10 and 10 cycles from run 1892 in root_files/ucn_tree_00001892.root
-Reading 39 and 39 cycles from run 1895 in root_files/ucn_tree_00001895.root
-Reading 42 and 42 cycles from run 1909 in root_files/ucn_tree_00001909.root
-Reading 41 and 41 cycles from run 1915 in root_files/ucn_tree_00001915.root
-Reading 41 and 41 cycles from run 1921 in root_files/ucn_tree_00001921.root
-Reading 41 and 41 cycles from run 1925 in root_files/ucn_tree_00001925.root
+Reading 3 and 3 cycles from run 1840 in root_files/ucn_tree_00001840.root
+Reading 2 and 2 cycles from run 1844 in root_files/ucn_tree_00001844.root
+Reading 17 and 17 cycles from run 1846 in root_files/ucn_tree_00001846.root
+Reading 9 and 9 cycles from run 1855 in root_files/ucn_tree_00001855.root
+Reading 15 and 15 cycles from run 1857 in root_files/ucn_tree_00001857.root
+Reading 15 and 15 cycles from run 1862 in root_files/ucn_tree_00001862.root
+ Sequencer was disabled in run 1864, trying to add artifical cycle from 1572519134 to 1572519171
+Reading 23 and 23 cycles from run 1865 in root_files/ucn_tree_00001865.root
+Reading 17 and 17 cycles from run 1873 in root_files/ucn_tree_00001873.root
+Reading 9 and 9 cycles from run 1879 in root_files/ucn_tree_00001879.root
+Reading 5 and 5 cycles from run 1881 in root_files/ucn_tree_00001881.root
+Reading 19 and 19 cycles from run 1882 in root_files/ucn_tree_00001882.root
+Reading 19 and 19 cycles from run 1884 in root_files/ucn_tree_00001884.root
+Reading 22 and 22 cycles from run 1887 in root_files/ucn_tree_00001887.root
+Reading 19 and 19 cycles from run 1896 in root_files/ucn_tree_00001896.root
+Reading 19 and 19 cycles from run 1899 in root_files/ucn_tree_00001899.root
+Reading 16 and 16 cycles from run 1907 in root_files/ucn_tree_00001907.root
+Reading 15 and 15 cycles from run 1911 in root_files/ucn_tree_00001911.root
+Reading 43 and 43 cycles from run 1913 in root_files/ucn_tree_00001913.root
+Reading 22 and 22 cycles from run 1918 in root_files/ucn_tree_00001918.root
+Reading 42 and 42 cycles from run 1920 in root_files/ucn_tree_00001920.root
+Reading 41 and 41 cycles from run 1923 in root_files/ucn_tree_00001923.root
+Reading 27 and 27 cycles from run 1928 in root_files/ucn_tree_00001928.root
+Reading 25 and 25 cycles from run 1934 in root_files/ucn_tree_00001934.root
+Reading 23 and 23 cycles from run 1939 in root_files/ucn_tree_00001939.root
 Reading 5 and 5 cycles from run 1841 in root_files/ucn_tree_00001841.root
 Reading 1 and 1 cycles from run 1849 in root_files/ucn_tree_00001849.root
 Reading 5 and 5 cycles from run 1850 in root_files/ucn_tree_00001850.root
@@ -44,6 +51,8 @@ Reading 41 and 41 cycles from run 1914 in root_files/ucn_tree_00001914.root
 Reading 43 and 43 cycles from run 1919 in root_files/ucn_tree_00001919.root
 Reading 43 and 43 cycles from run 1924 in root_files/ucn_tree_00001924.root
 Reading 21 and 21 cycles from run 1929 in root_files/ucn_tree_00001929.root
+Reading 21 and 21 cycles from run 1937 in root_files/ucn_tree_00001937.root
+Reading 21 and 21 cycles from run 1941 in root_files/ucn_tree_00001941.root
 Reading 14 and 14 cycles from run 1843 in root_files/ucn_tree_00001843.root
  Sequencer was disabled in run 1860, trying to add artifical cycle from 1572505369 to 1572505858
 Reading 17 and 17 cycles from run 1861 in root_files/ucn_tree_00001861.root
@@ -59,29 +68,33 @@ Reading 41 and 41 cycles from run 1916 in root_files/ucn_tree_00001916.root
 Reading 42 and 42 cycles from run 1922 in root_files/ucn_tree_00001922.root
 Reading 19 and 19 cycles from run 1926 in root_files/ucn_tree_00001926.root
 Reading 31 and 31 cycles from run 1927 in root_files/ucn_tree_00001927.root
-Reading 3 and 3 cycles from run 1840 in root_files/ucn_tree_00001840.root
-Reading 2 and 2 cycles from run 1844 in root_files/ucn_tree_00001844.root
-Reading 17 and 17 cycles from run 1846 in root_files/ucn_tree_00001846.root
-Reading 9 and 9 cycles from run 1855 in root_files/ucn_tree_00001855.root
-Reading 15 and 15 cycles from run 1857 in root_files/ucn_tree_00001857.root
-Reading 15 and 15 cycles from run 1862 in root_files/ucn_tree_00001862.root
- Sequencer was disabled in run 1864, trying to add artifical cycle from 1572519134 to 1572519171
-Reading 23 and 23 cycles from run 1865 in root_files/ucn_tree_00001865.root
-Reading 17 and 17 cycles from run 1873 in root_files/ucn_tree_00001873.root
-Reading 9 and 9 cycles from run 1879 in root_files/ucn_tree_00001879.root
-Reading 5 and 5 cycles from run 1881 in root_files/ucn_tree_00001881.root
-Reading 19 and 19 cycles from run 1882 in root_files/ucn_tree_00001882.root
-Reading 19 and 19 cycles from run 1884 in root_files/ucn_tree_00001884.root
-Reading 22 and 22 cycles from run 1887 in root_files/ucn_tree_00001887.root
-Reading 19 and 19 cycles from run 1896 in root_files/ucn_tree_00001896.root
-Reading 19 and 19 cycles from run 1899 in root_files/ucn_tree_00001899.root
-Reading 16 and 16 cycles from run 1907 in root_files/ucn_tree_00001907.root
-Reading 15 and 15 cycles from run 1911 in root_files/ucn_tree_00001911.root
-Reading 43 and 43 cycles from run 1913 in root_files/ucn_tree_00001913.root
-Reading 22 and 22 cycles from run 1918 in root_files/ucn_tree_00001918.root
-Reading 42 and 42 cycles from run 1920 in root_files/ucn_tree_00001920.root
-Reading 41 and 41 cycles from run 1923 in root_files/ucn_tree_00001923.root
-Reading 27 and 27 cycles from run 1928 in root_files/ucn_tree_00001928.root
+Reading 2 and 2 cycles from run 1932 in root_files/ucn_tree_00001932.root
+Reading 25 and 25 cycles from run 1933 in root_files/ucn_tree_00001933.root
+ Sequencer was disabled in run 1936, trying to add artifical cycle from 1572868971 to 1572869969
+Reading 18 and 18 cycles from run 1938 in root_files/ucn_tree_00001938.root
+Reading 17 and 17 cycles from run 1940 in root_files/ucn_tree_00001940.root
+Reading 25 and 25 cycles from run 1942 in root_files/ucn_tree_00001942.root
+Reading 1 and 1 cycles from run 1842 in root_files/ucn_tree_00001842.root
+Reading 2 and 2 cycles from run 1845 in root_files/ucn_tree_00001845.root
+Reading 16 and 16 cycles from run 1847 in root_files/ucn_tree_00001847.root
+Reading 4 and 4 cycles from run 1854 in root_files/ucn_tree_00001854.root
+Reading 15 and 15 cycles from run 1856 in root_files/ucn_tree_00001856.root
+Reading 16 and 16 cycles from run 1858 in root_files/ucn_tree_00001858.root
+Reading 15 and 15 cycles from run 1866 in root_files/ucn_tree_00001866.root
+Reading 5 and 5 cycles from run 1874 in root_files/ucn_tree_00001874.root
+Reading 3 and 3 cycles from run 1875 in root_files/ucn_tree_00001875.root
+Reading 35 and 35 cycles from run 1876 in root_files/ucn_tree_00001876.root
+Reading 19 and 19 cycles from run 1886 in root_files/ucn_tree_00001886.root
+ Skipping run 1891 because He3 (0) or Li6 (0) detector does not contain any cycles
+Reading 10 and 10 cycles from run 1892 in root_files/ucn_tree_00001892.root
+Reading 39 and 39 cycles from run 1895 in root_files/ucn_tree_00001895.root
+Reading 42 and 42 cycles from run 1909 in root_files/ucn_tree_00001909.root
+Reading 41 and 41 cycles from run 1915 in root_files/ucn_tree_00001915.root
+Reading 41 and 41 cycles from run 1921 in root_files/ucn_tree_00001921.root
+Reading 41 and 41 cycles from run 1925 in root_files/ucn_tree_00001925.root
+Reading 24 and 24 cycles from run 1931 in root_files/ucn_tree_00001931.root
+Reading 21 and 21 cycles from run 1935 in root_files/ucn_tree_00001935.root
+Reading 21 and 21 cycles from run 1943 in root_files/ucn_tree_00001943.root
 Writing 3 cycles from run 1840
 Writing 1 cycles from run 1842
 Writing 2 cycles from run 1844
@@ -159,5 +172,18 @@ Writing 41 cycles from run 1923
 Writing 43 cycles from run 1924
 Writing 41 cycles from run 1925
 Writing 31 cycles from run 1927
+Writing 2 cycles from run 1932
 Writing 27 cycles from run 1928
+Writing 24 cycles from run 1931
+Writing 25 cycles from run 1933
 Writing 21 cycles from run 1929
+Writing 1 cycles from run 1936
+Writing 25 cycles from run 1934
+Writing 18 cycles from run 1938
+Writing 21 cycles from run 1937
+Writing 17 cycles from run 1940
+Writing 21 cycles from run 1935
+Writing 23 cycles from run 1939
+Writing 21 cycles from run 1941
+Writing 25 cycles from run 1942
+Writing 21 cycles from run 1943

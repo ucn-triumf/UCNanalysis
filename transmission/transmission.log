@@ -7,7 +7,13 @@ SKIPPING cycle 22 in run 1877 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 23 in run 1877 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 26 in run 1877 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 20 in run 1929 because not all periods contain Li6 data
-Read 54 cycles
+SKIPPING cycle 20 in run 1935 because not all periods contain Li6 data
+SKIPPING cycle 0 in run 1939 because Li6 seems to see only background (1.86666666667/s)
+SKIPPING cycle 17 in run 1939 because beam current dropped below 0.1uA (0.0uA)
+SKIPPING cycle 18 in run 1939 because beam current dropped below 0.1uA (0.0uA)
+SKIPPING cycle 19 in run 1939 because beam current dropped below 0.1uA (0.0uA)
+SKIPPING cycle 20 in run 1943 because not all periods contain Li6 data
+Read 113 cycles
 
 
 Analyzing TCN19-010 (UGD19+22)
@@ -36,7 +42,27 @@ Li6-to-He3 ratio during counting: 7.32535332455 +/- 0.031619608263
 Li6-to-He3 ratio during irradiation: 4.68587735459 +/- 0.0206632820113
 
 Li6 background rate: 2.02420404759 +/- 0.100610226024 1/s
+
+Analyzing TCN19-250 (UGD02+19+22)
+Monitor counts: 4328.20839116 +/- 10.5346904244
+Beam current from 0.968791007996 to 1.0282779932 uA
+Temperatures from 0.908999979496 to 0.93900001049 K
+Li6-to-He3 ratio during counting: 6.92824550388 +/- 0.0204638917219
+Li6-to-He3 ratio during irradiation: 4.29257447009 +/- 0.0148190251718
+
+Li6 background rate: 1.75506179448 +/- 0.0670878510212 1/s
+
+Analyzing TCN19-260 (UGD22)
+Monitor counts: 4222.93750194 +/- 14.5308938162
+Beam current from 0.977289021015 to 1.03252696991 uA
+Temperatures from 0.90499997139 to 0.936999976635 K
+Li6-to-He3 ratio during counting: 7.56101982273 +/- 0.0276998144799
+Li6-to-He3 ratio during irradiation: 4.99684297649 +/- 0.0215591650322
+
+Li6 background rate: 1.75470325575 +/- 0.0936735158962 1/s
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during counting): 0.911167897495 +/- 0.00530403288589
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during irradiation): 0.914616905482 +/- 0.00656842113131
 Transmission ratio 19-240 (UGD02+22)/19-010 (UGD19+22) (normalized during counting): 1.02795210681 +/- 0.00645711624681
 Transmission ratio 19-240 (UGD02+22)/19-010 (UGD19+22) (normalized during irradiation): 1.02585105031 +/- 0.00740331042755
+Transmission ratio 19-250 (UGD02+19+22)/19-010 (UGD19+22) (normalized during counting): 0.972226764591 +/- 0.00528502635529
+Transmission ratio 19-250 (UGD02+19+22)/19-010 (UGD19+22) (normalized during irradiation): 0.939747606571 +/- 0.00647399413107

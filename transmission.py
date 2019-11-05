@@ -366,7 +366,9 @@ ROOT.Math.IntegratorOneDimOptions.SetDefaultIntegrator('GaussLegendre')
 # list of runs belonging to each experiment
 experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1866, 1869]},
                {'TCN': '19-020 (UGD19+17, no IV3)', 'runs': [1877]},
-               {'TCN': '19-240 (UGD02+22)', 'runs': [1929]}
+               {'TCN': '19-240 (UGD02+22)', 'runs': [1929]},
+               {'TCN': '19-250 (UGD02+19+22)', 'runs': [1935, 1939]},
+               {'TCN': '19-260 (UGD22)', 'runs': [1943]}
               ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -380,6 +382,7 @@ UCN.PrintMonitorCounts(experiments)
 
 Normalize(experiments, '19-010', '19-020') # IV3
 Normalize(experiments, '19-240', '19-010') # UGD02 compared to UGD19
+Normalize(experiments, '19-250', '19-010') # UGD02+19 compared to UGD19
 
 canvas = ROOT.TCanvas('c','c')
 

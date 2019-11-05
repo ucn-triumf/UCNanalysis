@@ -50,6 +50,9 @@ def ReadCycles(infile, experiments):
    
     # filter useless cycles
     beam = [cur*bon for cur, bon, t in zip(cycle.B1V_KSM_PREDCUR, cycle.B1V_KSM_BONPRD, getattr(cycle, 'Beamline/timestamp')) if 1 < t - cycle.start < 59]
+    if len(beam) == 0:
+      print('SKIPPING cycle {0} in run {1} because there''s no beam data'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
     if min(beam) < 0.1:
       print('SKIPPING cycle {0} in run {1} because beam dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
@@ -142,8 +145,16 @@ def StorageLifetime(ex):
   canvas = ROOT.TCanvas('c', 'c')
   pdf = 'TCN{0}.pdf'.format(ex['TCN'])
 
+  # draw plot of Li6 background rate during each cycle
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
+  print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
+  beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
+  # subtract background from Li6 counts during irradiation and normalize to beam current, draw plot for each cycle
+  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', beam[0], beam[1])
+  UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, 'li6')
+
   # subtract background from Li6 counts and normalize to monitor counts
-  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(m) for m in ex['monitorcounts']])
+  y, yerr = UCN.SubtractBackgroundAndNormalize(ex['li6counts'], ex['countduration'], 'li6', ex['monitorcounts'], [math.sqrt(m) for m in ex['monitorcounts']], ex['li6backgroundrate'], ex['li6backgroundrateerr'])
 
   x = ex['storageduration']
   xerr = [0. for _ in ex['storageduration']]  
@@ -220,14 +231,6 @@ def StorageLifetime(ex):
     ex['pinholetauerr'] = 0.
   canvas.Print(pdf)
 
-  # draw plot of Li6 background rate during each cycle
-  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
-  print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
-  beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
-  # subtract background from Li6 counts during irradiation and normalize to beam current, draw plot for each cycle
-  ex['li6irradiationrate'], ex['li6irradiationrateerr'] = UCN.SubtractBackgroundAndNormalizeRate(ex['li6irradiation'], ex['irradiationduration'], 'li6', beam[0], beam[1])
-  UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, 'li6')
-
   # report average monitor counts, range of beam current, range of He-II temperature
   monitoravg = numpy.average(ex['monitorcounts'], None, [1./m for m in ex['monitorcounts']], True)
   print('Monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
@@ -249,7 +252,9 @@ ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
 experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]},
-               {'TCN': '19-240 (UGD02+22)', 'runs': [1928]}
+               {'TCN': '19-240 (UGD02+22)', 'runs': [1928]},
+               {'TCN': '19-250 (UGD02+19+22)', 'runs': [1934, 1938]},
+               {'TCN': '19-260 (UGD22)', 'runs': [1942]}
 	      ]
 
 # read all data from file
