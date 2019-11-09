@@ -348,7 +348,10 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-193 (DRex Cu, -4.5cm)', 'position': -4.5, 'runs': [1970]},
         {'TCN': '19-010D', 'runs': [1973]},
         {'TCN': '19-270', 'runs': [1981]},
-        {'TCN': '19-120', 'runs': [1985]}
+        {'TCN': '19-120', 'runs': [1985]},
+        {'TCN': '19-121', 'runs': [1991]},
+        {'TCN': '19-123', 'runs': [1993]},
+        {'TCN': '19-123v2', 'runs': [1994]}
        ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -387,6 +390,9 @@ Normalize(experiments, '19-280 (spider v4)', '19-280 (spider v1)') # Cam spider 
 Normalize(experiments, '19-010D', '19-010 ')
 Normalize(experiments, '19-270', '19-010') # Cu guide
 Normalize(experiments, '19-120', '19-010 ')
+Normalize(experiments, '19-121', '19-120')
+Normalize(experiments, '19-123', '19-120')
+Normalize(experiments, '19-123v2', '19-120')
 
 #for tcn in ['18-065', '18-265']: # normalize all the SCM measurements to zero current and plot transmission vs. SCMcurrent
 #  gr = ROOT.TGraphErrors()

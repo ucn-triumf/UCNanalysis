@@ -16,7 +16,10 @@ SKIPPING cycle 0 in run 1959 because beam dropped below 0.8uA (0.0uA)
 SKIPPING cycle 16 in run 1959 because Li6 does not contain data in all periods
 SKIPPING cycle 16 in run 1980 because Li6 does not contain data in all periods
 SKIPPING cycle 16 in run 1983 because Li6 does not contain data in all periods
-Read 219 cycles
+SKIPPING cycle 13 in run 1992 because beam dropped below 0.8uA (0.0uA)
+SKIPPING cycle 18 in run 1992 because Li6 does not contain data in all periods
+SKIPPING cycle 0 in run 1996 because theres no beam data
+Read 255 cycles
 
 
 Analyzing TCN19-010 (UGD19+22)
@@ -110,3 +113,19 @@ Li6 detector background rate: 1.41500677283 +/- 0.0417961953025 1/s
 Monitor counts: 5462.36201968 +/- 16.9556108082
 Beam current from 0.99428498745 to 1.01128196716 uA
 Temperatures from 0.912000000477 to 0.944999992847 K
+
+Analyzing TCN19-121
+Li6 detector background rate: 1.29937866323 +/- 0.0407368069082 1/s
+3.98220167952 +/- 2.69728128574, 51.5867225048 +/- 0.966575068762 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+19.2337728664 +/- 0.0881490558757 (single exponential fit to rate in monitor detector during storage period)
+Monitor counts: 5420.98262949 +/- 17.8572487004
+Beam current from 0.996410012245 to 1.00915694237 uA
+Temperatures from 0.930999994278 to 1.0379999876 K
+
+Analyzing TCN19-123
+Li6 detector background rate: 1.337533219 +/- 0.040635890282 1/s
+7.52457709291 +/- 5.07046206796, 55.0054160183 +/- 1.22489230103 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+19.3723227753 +/- 0.0817755404694 (single exponential fit to rate in monitor detector during storage period)
+Monitor counts: 5482.4173902 +/- 16.9867090307
+Beam current from 0.992160975933 to 1.01340603828 uA
+Temperatures from 0.907999992371 to 0.949000000954 K
