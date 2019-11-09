@@ -6,7 +6,15 @@ SKIPPING cycle 16 in run 1908 because not all periods contain Li6detector counts
 SKIPPING cycle 0 in run 1918 because beam current dropped to 0.0uA!
 SKIPPING cycle 24 in run 1933 because IV1 never opened!
 SKIPPING cycle 16 in run 1940 because not all periods contain Li6detector counts
-Read 131 cycles
+SKIPPING cycle 0 in run 1960 because beam current dropped to 0.0uA!
+SKIPPING cycle 6 in run 1960 because beam current dropped to 0.0uA!
+SKIPPING cycle 18 in run 1960 because not all periods contain Li6detector counts
+SKIPPING cycle 19 in run 1971 because beam current dropped to 0.0uA!
+SKIPPING cycle 24 in run 1971 because not all periods contain Li6detector counts
+SKIPPING cycle 16 in run 1982 because not all periods contain Li6detector counts
+SKIPPING cycle 22 in run 1988 because beam current dropped to 0.0uA!
+SKIPPING cycle 25 in run 1988 because IV1 never opened!
+Read 210 cycles
 
 
 Analyzing TCN19-010 in runs [1846]
@@ -90,3 +98,43 @@ Vapor pressure from 0.0699 to 0.105 torr
 35.2 +/- 0.52 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.363 +/- 0.047 1/s
 he3 detector background rate: 0.04012 +/- 0.0088 1/s
+
+Analyzing TCN19-193 in runs [1960]
+2019-11-06 02:12:56.796084
+Beam current from 0.99 to 1.01 uA
+Temperatures from 0.904 to 0.932 K
+Vapor pressure from 0.0759 to 0.0969 torr
+33.49 +/- 0.27 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+33.7 +/- 0.48 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.338 +/- 0.047 1/s
+he3 detector background rate: 0.02182 +/- 0.0065 1/s
+
+Analyzing TCN19-010D in runs [1971]
+2019-11-06 22:14:22.059049
+Beam current from 0.994 to 1.01 uA
+Temperatures from 0.902 to 0.933 K
+Vapor pressure from 0.0759 to 0.107 torr
+32.91 +/- 0.24 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+32.79 +/- 0.38 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.429 +/- 0.041 1/s
+he3 detector background rate: 0.03085 +/- 0.0068 1/s
+
+Analyzing TCN19-270 in runs [1982]
+2019-11-07 11:24:07.031154
+Beam current from 0.994 to 1.01 uA
+Temperatures from 0.904 to 0.994 K
+Vapor pressure from 0.0779 to 0.123 torr
+33.91 +/- 0.36 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+33.25 +/- 0.43 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.499 +/- 0.049 1/s
+he3 detector background rate: 0.01916 +/- 0.0065 1/s
+
+Analyzing TCN19-120 in runs [1988]
+2019-11-08 00:25:02.634667
+Beam current from 0.941 to 1.01 uA
+Temperatures from 0.903 to 1.02 K
+Vapor pressure from 0.0748 to 0.123 torr
+32.8 +/- 0.27 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+32.61 +/- 0.47 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.518 +/- 0.041 1/s
+he3 detector background rate: 0.0166 +/- 0.0045 1/s

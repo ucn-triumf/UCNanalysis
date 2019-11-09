@@ -32,7 +32,7 @@ def HeTemperature(P):
 
 def SingleExpo():
   SingleExpo = ROOT.TF1('SingleExpo', '[0]*exp(-x/[1])')
-  SingleExpo.SetParameters(10, 5)
+  SingleExpo.SetParameters(10, 30)
   SingleExpo.SetParName(1, '#tau')
   SingleExpo.SetParLimits(0, 0, 1e6)
   SingleExpo.SetParLimits(1, 0, 1000)

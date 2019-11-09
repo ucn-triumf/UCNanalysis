@@ -4,6 +4,7 @@ import numpy
 import math
 import UCN
 
+mincurrent = 0.8
 
 def ReadCycles(infile, experiments):
   countperiod = 2
@@ -55,8 +56,8 @@ def ReadCycles(infile, experiments):
    
     # filter useless runs
     beam = [b for b in cycle.B1V_KSM_PREDCUR]
-    if min(beam) < 0.1:
-      print('SKIPPING cycle {0} in run {1} because beam current dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
+    if min(beam) < mincurrent:
+      print('SKIPPING cycle {0} in run {1} because beam current dropped below {3}uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam), mincurrent))
       continue
     if numpy.std(beam) > 0.02:
       print('SKIPPING cycle {0} in run {1} because beam current fluctuated by {2}'.format(cycle.cyclenumber, cycle.runnumber, numpy.std(beam)))
@@ -192,7 +193,7 @@ def Transmission(ex):
   he3rate.Draw()
   canvas.Print(pdf)
 
-  li6fit = ROOT.TF1('li6fit', '(x<60 + [0]?0:[1])*(1 - exp(-(x - 60 - [0])/[2]))*(exp(-(x - 60 - [0])/[3]) + [4]*exp(-(x - 60 - [0])/[5]) +[6]*exp(-(x - 60 - [0])/[7])) + [8]', 60, 180)
+  li6fit = ROOT.TF1('li6fit', '(x<60 + [0]?0:[1])*(1 - exp(-(x - 60 - [0])/[2]))*(exp(-(x - 60 - [0])/[3]) + [4]*exp(-(x - 60 - [0])/[5])) + [8]', 60, 180)
   li6axis = ex['Li6rate'][0].GetXaxis()
   binwidth = li6axis.GetBinWidth(1)
   li6rate = ROOT.TH1D('TCN{0}_Li6'.format(ex['TCN']), ';Time (s); Li6 rate (1/{0}s)'.format(binwidth), li6axis.GetNbins(), li6axis.GetXmin(), li6axis.GetXmax())
@@ -200,8 +201,8 @@ def Transmission(ex):
   for h in ex['Li6rate']:
     li6rate.Add(h)
   li6fit.SetNpx(li6rate.GetNbinsX())
-  li6fit.SetParameters(1.5, 1000., 0.2, 1.5, 1., 14., 0.1, 30.)
-  for i, p in enumerate(zip([5, 1e5, 5., 10., 10, 30., 10., 100.], ['t_{d}', 'p_{0}', '#tau_{rise}', '#tau_{1}', 'N_{2}', '#tau_{2}', 'N_{3}', '#tau_{3}'])):
+  li6fit.SetParameters(16, 1000., 0.2, 1., 1., 5.)
+  for i, p in enumerate(zip([20, 1e5, 5., 15., 10, 10.], ['t_{d}', 'p_{0}', '#tau_{rise}', '#tau_{1}', 'N_{2}', '#tau_{2}', 'N_{3}', '#tau_{3}'])):
     li6fit.SetParLimits(i, 0., p[0])
     li6fit.SetParName(i, p[1])
   li6fit.FixParameter(8, ex['li6backgroundrate']*binwidth)
@@ -275,8 +276,8 @@ def Transmission(ex):
 
 # normalize one time-of-flight spectrum to another and print to pdf
 def Normalize(experiments, transtcn, reftcn):
-  trans = next((ex for ex in experiments if ex['TCN'].startswith(transtcn)), None) # find experiment with given TCN number
-  ref = next((ex for ex in experiments if ex['TCN'].startswith(reftcn)), None) # find reference experiment with given TCN number
+  trans = next((ex for ex in experiments if ex['TCN'].startswith(transtcn) and 'transmission' in ex), None) # find experiment with given TCN number
+  ref = next((ex for ex in experiments if ex['TCN'].startswith(reftcn) and 'transmission' in ex), None) # find reference experiment with given TCN number
   if not trans or not ref:
     return 0., 0.
 
@@ -332,7 +333,22 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-192 (DRex UGG3, 80cm)', 'position': 80, 'runs': [1924]},
         {'TCN': '19-240 (UGD02+22)', 'runs': [1927]},
         {'TCN': '19-250 (UGD02+19+22)', 'runs': [1931, 1937]},
-        {'TCN': '19-260 (UGD22)', 'runs': [1941]}
+        {'TCN': '19-260 (UGD22)', 'runs': [1941]},
+        {'TCN': '19-280 (spider v1)', 'runs': [1945]},
+        {'TCN': '19-280 (spider v2)', 'runs': [1954]},
+        {'TCN': '19-280 (spider v3)', 'runs': [1957]},
+        {'TCN': '19-280 (spider v4)', 'runs': [1958]},
+        {'TCN': '19-193 (DRex Cu, 99cm)', 'position': 99, 'runs': [1961]},
+        {'TCN': '19-193 (DRex Cu, 20cm)', 'position': 20, 'runs': [1962]},
+        {'TCN': '19-193 (DRex Cu, 60cm)', 'position': 60, 'runs': [1963, 1964]},
+        {'TCN': '19-193 (DRex Cu, 0cm)',  'position':  0, 'runs': [1965]},
+        {'TCN': '19-193 (DRex Cu, 40cm)', 'position': 40, 'runs': [1966]},
+        {'TCN': '19-193 (DRex Cu, 80cm)', 'position': 80, 'runs': [1967]},
+        {'TCN': '19-193 (DRex Cu, 10cm)', 'position': 10, 'runs': [1969]},
+        {'TCN': '19-193 (DRex Cu, -4.5cm)', 'position': -4.5, 'runs': [1970]},
+        {'TCN': '19-010D', 'runs': [1973]},
+        {'TCN': '19-270', 'runs': [1981]},
+        {'TCN': '19-120', 'runs': [1985]}
        ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -342,12 +358,13 @@ for ex in experiments:
   Transmission(ex)
 
 canvas = ROOT.TCanvas('c','c')
-for tcn in ['19-190', '19-191', '19-192']:
+for tcn in ['19-190', '19-191', '19-192', '19-193']:
   x = numpy.array([float(ex['position']) for ex in experiments if ex['TCN'].startswith(tcn)])
   y = numpy.array([float(ex['transmission']) for ex in experiments if ex['TCN'].startswith(tcn)])
   yerr = numpy.array([float(ex['transmissionerr']) for ex in experiments if ex['TCN'].startswith(tcn)])
   gr = ROOT.TGraphErrors(len(x), x, y, numpy.array([0. for _ in x]), yerr)
   gr.SetTitle(tcn + ';Absorber position (cm);Background-corrected Li6-He3 ratio')
+  gr.GetYaxis().SetRangeUser(0.4, 1.)
   gr.Fit('pol1', 'Q', '', 5., 100.)
   gr.Draw('AP')
   canvas.Print('TCN{0}.pdf'.format(tcn))
@@ -356,11 +373,20 @@ for tcn in ['19-190', '19-191', '19-192']:
 UCN.PrintBackground(experiments, 'li6')
 #UCN.PrintMonitorCounts(experiments)
 
-Normalize(experiments, '19-010', '19-020') # IV3
-Normalize(experiments, '19-010', '19-260') # UGD19+22
+Normalize(experiments, '19-010 ', '19-020') # IV3
+Normalize(experiments, '19-010 ', '19-260') # UGD19+22
 Normalize(experiments, '19-240', '19-260') # UGD02+22
 Normalize(experiments, '19-250', '19-260') # UGD02+19+22
-
+Normalize(experiments, '19-280 (spider v1)', '19-260') # Cam spider compared to UGD22
+Normalize(experiments, '19-280 (spider v2)', '19-260') # Cam spider compared to UGD22
+Normalize(experiments, '19-280 (spider v2)', '19-280 (spider v1)') # Cam spider compared to UGD22
+Normalize(experiments, '19-280 (spider v3)', '19-260') # Cam spider compared to UGD22
+Normalize(experiments, '19-280 (spider v3)', '19-280 (spider v1)') # Cam spider compared to UGD22
+Normalize(experiments, '19-280 (spider v4)', '19-260') # Cam spider compared to UGD22
+Normalize(experiments, '19-280 (spider v4)', '19-280 (spider v1)') # Cam spider compared to UGD22
+Normalize(experiments, '19-010D', '19-010 ')
+Normalize(experiments, '19-270', '19-010') # Cu guide
+Normalize(experiments, '19-120', '19-010 ')
 
 #for tcn in ['18-065', '18-265']: # normalize all the SCM measurements to zero current and plot transmission vs. SCMcurrent
 #  gr = ROOT.TGraphErrors()
@@ -385,4 +411,3 @@ Normalize(experiments, '19-250', '19-260') # UGD02+19+22
 #  gr2.SetLineColor(ROOT.kRed)
 #  gr2.SetMarkerColor(ROOT.kRed)
 #  gr2.Draw('SAMEP')
-#  canvas.Print('TCN{0}.pdf'.format(tcn))

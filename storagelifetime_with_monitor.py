@@ -5,6 +5,8 @@ import math
 import itertools
 import UCN
 
+mincurrent = 0.8
+
 # Read cycles from file and map them to TCN numbers as given in 'experiments' array of dictionaries
 # Fill array of dictionaries with data
 def ReadCycles(infile, experiments):
@@ -53,8 +55,8 @@ def ReadCycles(infile, experiments):
     if len(beam) == 0:
       print('SKIPPING cycle {0} in run {1} because there''s no beam data'.format(cycle.cyclenumber, cycle.runnumber))
       continue
-    if min(beam) < 0.1:
-      print('SKIPPING cycle {0} in run {1} because beam dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
+    if min(beam) < mincurrent:
+      print('SKIPPING cycle {0} in run {1} because beam dropped below {3}uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam), mincurrent))
       continue
     if numpy.std(beam) > 0.02:
       print('SKIPPING cycle {0} in run {1} because beam fluctuated by {2}uA'.format(cycle.cyclenumber, cycle.runnumber, numpy.std(beam)))
@@ -146,7 +148,7 @@ def StorageLifetime(ex):
   pdf = 'TCN{0}.pdf'.format(ex['TCN'])
 
   # draw plot of Li6 background rate during each cycle
-  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
+  ex['li6backgroundrate'], ex['li6backgroundrateerr'] = UCN.PrintBackgroundVsCycle(ex, pdf + '(', 'li6')
   print('Li6 detector background rate: {0} +/- {1} 1/s'.format(ex['li6backgroundrate'], ex['li6backgroundrateerr']))
   beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
   # subtract background from Li6 counts during irradiation and normalize to beam current, draw plot for each cycle
@@ -172,7 +174,7 @@ def StorageLifetime(ex):
   f = graph.Fit(UCN.SingleExpo(), 'SQB', '', 1., 1000.)
   graph.SetTitle('TCN{0} (single exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)'.format(ex['TCN']))
   graph.Draw('AP')
-  canvas.Print(pdf + '(')
+  canvas.Print(pdf)
   ex['tau'] = f.GetParams()[1]
   ex['tauerr'] = f.GetErrors()[1]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.0)
 
@@ -254,7 +256,14 @@ ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]},
                {'TCN': '19-240 (UGD02+22)', 'runs': [1928]},
                {'TCN': '19-250 (UGD02+19+22)', 'runs': [1934, 1938]},
-               {'TCN': '19-260 (UGD22)', 'runs': [1942]}
+               {'TCN': '19-260 (UGD22)', 'runs': [1942]},
+               {'TCN': '19-280 (spider v1)', 'runs': [1946]},
+               {'TCN': '19-280 (spider v2)', 'runs': [1951]},
+               {'TCN': '19-280 (spider v3)', 'runs': [1956]},
+               {'TCN': '19-280 (spider v4)', 'runs': [1959]},
+               {'TCN': '19-010D', 'runs': [1979, 1980]},
+               {'TCN': '19-270', 'runs': [1983]},
+               {'TCN': '19-120', 'runs': [1986]}
 	      ]
 
 # read all data from file
@@ -298,8 +307,8 @@ pinhole = ROOT.TGraphErrors(len(exps),
                             numpy.array([0. for _ in exps]),
                             numpy.array([ex['pinholetauerr'] for ex in exps]))
 pinhole.SetTitle(';Run;Storage lifetime between IV1 and IV2 (s)')
-pinhole.Fit('pol0','Q','',960,1150)
-pinhole.GetYaxis().SetRangeUser(15,40)
+pinhole.Fit('pol0','Q','')
+#pinhole.GetYaxis().SetRangeUser(15,40)
 pinhole.Draw('AP')
 canvas.Print('pinhole.pdf')
 

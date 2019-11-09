@@ -59,6 +59,9 @@ def ReadCycles(infile, experiments):
    
     # filter useless runs
     beam = [b for b in cycle.B1V_KSM_PREDCUR]
+    if len(beam) == 0:
+      print('SKIPPING cycle {0} in run {1} because beam data not availablr'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
     if min(beam) < 0.1:
       print('SKIPPING cycle {0} in run {1} because beam current dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
@@ -368,7 +371,12 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1866, 1869]},
                {'TCN': '19-020 (UGD19+17, no IV3)', 'runs': [1877]},
                {'TCN': '19-240 (UGD02+22)', 'runs': [1929]},
                {'TCN': '19-250 (UGD02+19+22)', 'runs': [1935, 1939]},
-               {'TCN': '19-260 (UGD22)', 'runs': [1943]}
+               {'TCN': '19-260 (UGD22)', 'runs': [1943]},
+               {'TCN': '19-280 (spider v1)', 'runs': [1947]},
+               {'TCN': '19-280 (spider v2)', 'runs': [1950]},
+               {'TCN': '19-010D', 'runs': [1977]},
+               {'TCN': '19-270', 'runs': [1984]},
+               {'TCN': '19-120', 'runs': [1987]}
               ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -381,8 +389,12 @@ UCN.PrintBackground(experiments, 'li6')
 UCN.PrintMonitorCounts(experiments)
 
 Normalize(experiments, '19-010', '19-020') # IV3
-Normalize(experiments, '19-240', '19-010') # UGD02 compared to UGD19
-Normalize(experiments, '19-250', '19-010') # UGD02+19 compared to UGD19
+Normalize(experiments, '19-240', '19-260') # UGD02 compared to UGD19
+Normalize(experiments, '19-250', '19-260') # UGD02+19 compared to UGD19
+Normalize(experiments, '19-280 (spider v1)', '19-260')
+Normalize(experiments, '19-280 (spider v2)', '19-260')
+Normalize(experiments, '19-010', '19-010D')
+Normalize(experiments, '19-270', '19-260') # Cu guide
 
 canvas = ROOT.TCanvas('c','c')
 
