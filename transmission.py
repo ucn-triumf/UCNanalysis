@@ -377,7 +377,8 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1866, 1869]},
                {'TCN': '19-010D', 'runs': [1977]},
                {'TCN': '19-270', 'runs': [1984]},
                {'TCN': '19-120', 'runs': [1987]},
-               {'TCN': '19-123', 'runs': [1998]}
+               {'TCN': '19-123', 'runs': [1998]},
+               {'TCN': '19-120A', 'runs': [2012]}
               ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -396,7 +397,8 @@ Normalize(experiments, '19-280 (spider v1)', '19-260')
 Normalize(experiments, '19-280 (spider v2)', '19-260')
 Normalize(experiments, '19-010', '19-010D')
 Normalize(experiments, '19-270', '19-260') # Cu guide
-Normalize(experiments, '19-123', '19-120')
+Normalize(experiments, '19-123', '19-120A')
+Normalize(experiments, '19-120A', '19-120')
 
 canvas = ROOT.TCanvas('c','c')
 

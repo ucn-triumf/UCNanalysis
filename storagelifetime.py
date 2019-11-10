@@ -59,6 +59,9 @@ def ReadCycles(infile, experiments):
    
     # filter useless cycles
     beam = [cur*bon for cur, bon, t in zip(cycle.B1V_KSM_PREDCUR, cycle.B1V_KSM_BONPRD, getattr(cycle, 'Beamline/timestamp')) if 1 < t - cycle.start < 59]
+    if len(beam) == 0:
+      print('SKIPPING cycle {0} in run {1} because there is no beam data!'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
     if min(beam) < 0.1:
       print('SKIPPING cycle {0} in run {1} because beam current dropped to {2}uA!'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
@@ -327,7 +330,8 @@ experiments = [{'TCN': '19-010', 'runs': [1846]},
                {'TCN': '19-010D', 'runs': [1971]},
                {'TCN': '19-270', 'runs': [1982]},
                {'TCN': '19-120', 'runs': [1988]},
-               {'TCN': '19-123', 'runs': [1995]}
+               {'TCN': '19-123', 'runs': [1995]},
+               {'TCN': '19-120A', 'runs': [2008, 2009]}
               ]
 
 

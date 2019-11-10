@@ -25,7 +25,10 @@ SKIPPING cycle 12 in run 1998 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 13 in run 1998 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 14 in run 1998 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 15 in run 1998 because beam current dropped below 0.1uA (0.0uA)
-Read 232 cycles
+SKIPPING cycle 0 in run 2012 because beam data not availablr
+SKIPPING cycle 6 in run 2012 because beam current fluctuated by 0.0337632351464
+SKIPPING cycle 21 in run 2012 because not all periods contain Li6 data
+Read 251 cycles
 
 
 Analyzing TCN19-010 (UGD19+22)
@@ -126,6 +129,15 @@ Li6-to-He3 ratio during counting: 6.24464728159 +/- 0.0242589079356
 Li6-to-He3 ratio during irradiation: 4.02767058672 +/- 0.0221424843828
 
 Li6 background rate: 1.61260521454 +/- 0.0946580939876 1/s
+
+Analyzing TCN19-120A
+Monitor counts: 4161.46489993 +/- 14.7994752751
+Beam current from 0.99428498745 to 1.01128196716 uA
+Temperatures from 0.898000001907 to 0.958999991417 K
+Li6-to-He3 ratio during counting: 6.20966860032 +/- 0.0284212049058
+Li6-to-He3 ratio during irradiation: 3.99762265919 +/- 0.0185504794306
+
+Li6 background rate: 1.44026612227 +/- 0.0870712040844 1/s
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during counting): 0.911167897495 +/- 0.00530403288589
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during irradiation): 0.914616905482 +/- 0.00656842113131
 Transmission ratio 19-240 (UGD02+22)/19-260 (UGD22) (normalized during counting): 0.968831387339 +/- 0.00548508260586
@@ -140,5 +152,7 @@ Transmission ratio 19-010 (UGD19+22)/19-010D (normalized during counting): 0.998
 Transmission ratio 19-010 (UGD19+22)/19-010D (normalized during irradiation): 0.989894179355 +/- 0.00789004622577
 Transmission ratio 19-270/19-260 (UGD22) (normalized during counting): 0.582278436957 +/- 0.00382109446182
 Transmission ratio 19-270/19-260 (UGD22) (normalized during irradiation): 0.582499496355 +/- 0.00373762605649
-Transmission ratio 19-123/19-120 (normalized during counting): 0.921063881789 +/- 0.00490063720327
-Transmission ratio 19-123/19-120 (normalized during irradiation): 0.92327448627 +/- 0.00649497646819
+Transmission ratio 19-123/19-120A (normalized during counting): 1.00563293849 +/- 0.00603711268296
+Transmission ratio 19-123/19-120A (normalized during irradiation): 1.00751644917 +/- 0.00723473119782
+Transmission ratio 19-120A/19-120 (normalized during counting): 0.915904647247 +/- 0.00535362034447
+Transmission ratio 19-120A/19-120 (normalized during irradiation): 0.916386513618 +/- 0.0058671326011
