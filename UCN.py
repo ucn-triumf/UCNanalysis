@@ -91,8 +91,9 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
     bg.SetTitle(detector + ' background')
     bg.GetXaxis().SetTitle('Run')
     bg.GetYaxis().SetTitle('Background rate (s^{-1})')
-    bg.SetMarkerColor(ROOT.kRed)
+#    bg.SetMarkerColor(ROOT.kRed)
     bg.SetMarkerStyle(20)
+    bg.Fit('pol0', 'Q')
     bg.Draw('AP')
 
 #  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.5]
@@ -158,13 +159,15 @@ def PrintTemperatureVsCycle(ex, pdf):
   canvas.Print(pdf)
 
 def PrintBackgroundVsCycle(ex, pdf, detector):
-  if detector + 'background' not in ex or sum(ex[detector + 'background']) == 0:
+  if detector + 'background' not in ex:
     return 0., 0.
   canvas = ROOT.TCanvas('bg', 'bg')
-  x = numpy.array([float(c) for c, bg in zip(ex['cyclenumber'], ex[detector + 'background']) if bg > 0])
-  y = numpy.array([bg/bd for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration']) if bg > 0])
+  x = numpy.array([float(c) for c, bg in zip(ex['cyclenumber'], ex[detector + 'background'])])
+  y = numpy.array([bg/bd if bd > 0. else 0. for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration'])])
   ye = numpy.array([math.sqrt(bg)/bd for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration']) if bg > 0])
-  graph = ROOT.TGraphErrors(len(x), x, y, numpy.array([0. for _ in x]), ye)
+  yeh = numpy.array([0.5*ROOT.TMath.ChisquareQuantile(1 - 0.317/2, 2*bg + 2)/bd - bg/bd for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration'])])
+  yel = numpy.array([bg/bd - 0.5*ROOT.TMath.ChisquareQuantile(0.317/2, 2*bg)/bd for bg, bd in zip(ex[detector + 'background'], ex['backgroundduration'])])
+  graph = ROOT.TGraphAsymmErrors(len(x), x, y, numpy.array([0. for _ in x]), numpy.array([0. for _ in x]), yel, yeh)
   graph.SetTitle('')
   graph.GetXaxis().SetTitle('Cycle')
   graph.GetYaxis().SetTitle(detector + ' background rate (1/s)')

@@ -27,25 +27,25 @@ Read 310 cycles
 
 Analyzing TCN19-010 (UGD19+22)
 High background variation!
-Li6 detector background rate: 0.734694095823 +/- 0.0302667709909 1/s
+Li6 detector background rate: 0.80935291744 +/- 0.0344801580035 1/s
 High irradiation-background variation!
-40.7264830663 +/- 0.831375130766, 40.7305590033 +/- 39.4499913498 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+40.2843690484 +/- 0.878359708051, 40.2953813616 +/- 23.1432829428 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 18.7928091194 +/- 0.0901857607624 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 4715.89352488 +/- 16.1862313315
 Beam current from 0.812751114368 to 0.860559999943 uA
 Temperatures from 0.885999977589 to 0.925000011921 K
 
 Analyzing TCN19-240 (UGD02+22)
-Li6 detector background rate: 1.44037135976 +/- 0.0420395863656 1/s
-23.6475314278 +/- 2.71557934095, 48.2524644809 +/- 1.97685360559 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.45947255677 +/- 0.0446327203928 1/s
+23.1420082692 +/- 2.85652922699, 47.6285974647 +/- 1.90631821925 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.4156625218 +/- 0.0692951139895 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5862.8587018 +/- 15.3138613051
 Beam current from 0.97516399622 to 1.01340603828 uA
 Temperatures from 0.90600001812 to 0.931999981403 K
 
 Analyzing TCN19-250 (UGD02+19+22)
-Li6 detector background rate: 1.49819233085 +/- 0.035319315735 1/s
-23.815708505 +/- 2.45414140651, 45.1456752918 +/- 1.13454208375 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.51670690518 +/- 0.0370942252229 1/s
+23.4193016403 +/- 2.57030086284, 44.8045278036 +/- 1.11058353672 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.321554132 +/- 0.0583656779432 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5389.02239613 +/- 12.0685232713
 Beam current from 0.973039984703 to 1.0282779932 uA
@@ -53,105 +53,105 @@ Temperatures from 0.908999979496 to 0.935000002384 K
 
 Analyzing TCN19-260 (UGD22)
 High background variation!
-Li6 detector background rate: 1.50399356026 +/- 0.0444268480734 1/s
+Li6 detector background rate: 1.57410000009 +/- 0.0494191341548 1/s
 High irradiation-background variation!
-32.485563534 +/- 0.871758791099, 0.113252126677 +/- 0.019054609085 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+37.3091852857 +/- 2.3712934886, 6.43717125892 +/- 2.40647969252 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.3445587015 +/- 0.0687097263449 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 6075.02476835 +/- 15.5884890459
 Beam current from 0.977289021015 to 1.01128196716 uA
 Temperatures from 0.910000026226 to 0.939999997616 K
 
 Analyzing TCN19-280 (spider v1)
-Li6 detector background rate: 1.39317394804 +/- 0.0545606764102 1/s
-0.333454707457 +/- 1.95683317047, 20.4253604865 +/- 0.889731896353 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.41139341479 +/- 0.058810302271 1/s
+0.462615583841 +/- 13.900853941, 20.2636425313 +/- 0.893370509014 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.3790214218 +/- 0.0872593063849 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5892.68219234 +/- 19.8203299541
 Beam current from 0.94754499197 to 1.02402901649 uA
 Temperatures from 0.911000013351 to 0.940999984741 K
 
 Analyzing TCN19-280 (spider v2)
-Li6 detector background rate: 1.50580524172 +/- 0.0544443160182 1/s
-0.822881737084 +/- 1.22150604503, 21.7330344726 +/- 0.950407075179 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.5336612171 +/- 0.057575969726 1/s
+0.857543745181 +/- 1.26198654621, 21.4600993262 +/- 0.944293080646 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.5283149799 +/- 0.0869073285093 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5938.27977192 +/- 19.2650586748
 Beam current from 0.99428498745 to 1.01553094387 uA
 Temperatures from 0.910000026226 to 0.940999984741 K
 
 Analyzing TCN19-280 (spider v3)
-Li6 detector background rate: 1.3852090336 +/- 0.0521161792951 1/s
-21.2383086061 +/- 0.688700688839, 0.236115414609 +/- 0.546387351252 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.46041261043 +/- 0.0572276783568 1/s
+20.5285127785 +/- 0.783337992638, 0.229081949077 +/- 0.4425101226 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.6435921121 +/- 0.0853525904085 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5891.61268252 +/- 18.6162684745
 Beam current from 0.964541971684 to 1.04952299595 uA
 Temperatures from 0.907000005245 to 0.936999976635 K
 
 Analyzing TCN19-280 (spider v4)
-Li6 detector background rate: 1.34491997707 +/- 0.0574140443865 1/s
-0.109635105217 +/- 139791.796966, 23.9086663005 +/- 0.761109442249 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.39118106524 +/- 0.0617035792076 1/s
+0.112949288977 +/- 2607.7438633, 23.4917230179 +/- 0.858089197947 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.4154041538 +/- 0.0885698644004 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5893.14185235 +/- 19.8211029837
 Beam current from 0.98578697443 to 1.01128196716 uA
 Temperatures from 0.907000005245 to 0.93900001049 K
 
 Analyzing TCN19-010D
-Li6 detector background rate: 1.47176345079 +/- 0.0538253857137 1/s
-16.2021167098 +/- 19.8158992421, 39.64237972 +/- 6.82356074774 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.50246811056 +/- 0.0574322399494 1/s
+15.0860275405 +/- 18.6908815318, 39.0605451177 +/- 5.5237003028 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.1676922389 +/- 0.0879032325187 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5475.65804028 +/- 18.4994223563
 Beam current from 0.99428498745 to 1.01128196716 uA
 Temperatures from 0.903999984264 to 0.944000005722 K
 
 Analyzing TCN19-270
-Li6 detector background rate: 1.51514183987 +/- 0.0546128435161 1/s
-2.63601094164 +/- 2.44108786773, 20.3588065451 +/- 0.709481078387 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.53471269078 +/- 0.0586652231019 1/s
+2.49228362681 +/- 2.29565483931, 20.2399524863 +/- 0.676401535976 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.8479325997 +/- 0.0970468141524 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 4805.58161552 +/- 17.3305756099
 Beam current from 0.99428498745 to 1.01128196716 uA
 Temperatures from 0.912000000477 to 0.952000021935 K
 
 Analyzing TCN19-120
-Li6 detector background rate: 1.41500677283 +/- 0.0417961953025 1/s
-16.645808212 +/- 7.88959726289, 59.0466311203 +/- 2.74069751219 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.43011011621 +/- 0.0440258874167 1/s
+16.4877800273 +/- 8.16340956569, 58.8894453491 +/- 2.8413078893 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.1555526141 +/- 0.0801130414849 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5462.36201968 +/- 16.9556108082
 Beam current from 0.99428498745 to 1.01128196716 uA
 Temperatures from 0.912000000477 to 0.944999992847 K
 
 Analyzing TCN19-121
-Li6 detector background rate: 1.29937866323 +/- 0.0407368069082 1/s
-3.98220167952 +/- 2.69728128574, 51.5867225048 +/- 0.966575068762 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.31552504402 +/- 0.0434113283296 1/s
+3.91464294536 +/- 2.66078619593, 51.4843627751 +/- 0.95897806901 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.2337728664 +/- 0.0881490558757 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5420.98262949 +/- 17.8572487004
 Beam current from 0.996410012245 to 1.00915694237 uA
 Temperatures from 0.930999994278 to 1.0379999876 K
 
 Analyzing TCN19-123
-Li6 detector background rate: 1.337533219 +/- 0.040635890282 1/s
-7.52457709291 +/- 5.07046206796, 55.0054160183 +/- 1.22489230103 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.35796632913 +/- 0.0427249726206 1/s
+7.37965488135 +/- 4.97182450804, 54.8627125907 +/- 1.21846505527 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.3723227753 +/- 0.0817755404694 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5482.4173902 +/- 16.9867090307
 Beam current from 0.992160975933 to 1.01340603828 uA
 Temperatures from 0.907999992371 to 0.949000000954 K
 
 Analyzing TCN19-100
-Li6 detector background rate: 1.20334470191 +/- 0.0385436213024 1/s
-5.96485869431 +/- 3.87203068192, 48.5960170262 +/- 0.914429053589 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.2244125321 +/- 0.0411220037829 1/s
+5.85734542419 +/- 3.86130564847, 48.4603635055 +/- 0.906780704912 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.2694744501 +/- 0.0814210350204 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5381.02909052 +/- 16.8289054129
 Beam current from 0.998534023762 to 1.01128196716 uA
 Temperatures from 0.911000013351 to 0.955999970436 K
 
 Analyzing TCN19-101
-Li6 detector background rate: 1.30370263054 +/- 0.0402681100221 1/s
-12.1005982505 +/- 0.33234495514, 78367.0405046 +/- 561.371354408 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.30717172932 +/- 0.0427573568696 1/s
+12.0966430464 +/- 0.329571639701, 409926.729639 +/- 1563.67308657 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 18.8812082711 +/- 0.0906926346038 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 4444.45107452 +/- 15.7134957468
 Beam current from 0.99428498745 to 1.01128196716 uA
 Temperatures from 0.911000013351 to 1.00199997425 K
 
 Analyzing TCN19-120A
-Li6 detector background rate: 1.2659221056 +/- 0.04386221355 1/s
-47.3721235361 +/- 2.11985392065, 136.221283851 +/- 74.9081267709 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
+Li6 detector background rate: 1.28877859243 +/- 0.0460377339896 1/s
+47.3607688434 +/- 9.08746162245, 133.108871493 +/- 349.669900091 (double exponential fit, with background subtracted, normalized to monitor detector, 0s excluded)
 19.0080657995 +/- 0.0850779910145 (single exponential fit to rate in monitor detector during storage period)
 Monitor counts: 5219.69702851 +/- 17.0288921616
 Beam current from 0.99428498745 to 1.01128196716 uA

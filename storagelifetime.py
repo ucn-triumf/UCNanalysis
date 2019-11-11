@@ -345,7 +345,7 @@ ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 for ex in experiments:
   StorageLifetime(ex)
 
-UCN.PrintBackground(experiments, 'li6', 930, 1206)
+UCN.PrintBackground(experiments, 'li6')
 UCN.PrintBackground(experiments, 'he3')
 
 def TauVsTime(experiments, parameter, variable, timeformat, color):

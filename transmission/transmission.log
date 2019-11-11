@@ -38,7 +38,7 @@ Temperatures from 0.879000008106 to 0.925000011921 K
 Li6-to-He3 ratio during counting: 7.12616208091 +/- 0.0325204716124
 Li6-to-He3 ratio during irradiation: 4.56779505483 +/- 0.0260097325371
 
-Li6 background rate: 1.57983155801 +/- 0.10623591251 1/s
+Li6 background rate: 1.66579942223 +/- 0.121567186138 1/s
 
 Analyzing TCN19-020 (UGD19+17, no IV3)
 Monitor counts: 4322.53823214 +/- 14.7012554432
@@ -47,7 +47,7 @@ Temperatures from 0.89200001955 to 0.926999986172 K
 Li6-to-He3 ratio during counting: 7.82090995578 +/- 0.0282634792043
 Li6-to-He3 ratio during irradiation: 4.9942167343 +/- 0.0220783372275
 
-Li6 background rate: 2.50480042071 +/- 0.111918413186 1/s
+Li6 background rate: 2.60739702846 +/- 0.125012488386 1/s
 
 Analyzing TCN19-240 (UGD02+22)
 Monitor counts: 4358.89130176 +/- 14.7629456779
@@ -56,7 +56,7 @@ Temperatures from 0.907000005245 to 0.931999981403 K
 Li6-to-He3 ratio during counting: 7.32535332455 +/- 0.031619608263
 Li6-to-He3 ratio during irradiation: 4.68587735459 +/- 0.0206632820113
 
-Li6 background rate: 2.02420404759 +/- 0.100610226024 1/s
+Li6 background rate: 2.1405147641 +/- 0.114371282286 1/s
 
 Analyzing TCN19-250 (UGD02+19+22)
 Monitor counts: 4328.20839116 +/- 10.5346904244
@@ -65,7 +65,7 @@ Temperatures from 0.908999979496 to 0.93900001049 K
 Li6-to-He3 ratio during counting: 6.92824550388 +/- 0.0204638917219
 Li6-to-He3 ratio during irradiation: 4.29257447009 +/- 0.0148190251718
 
-Li6 background rate: 1.75506179448 +/- 0.0670878510212 1/s
+Li6 background rate: 1.82300855485 +/- 0.0774176708451 1/s
 
 Analyzing TCN19-260 (UGD22)
 Monitor counts: 4222.93750194 +/- 14.5308938162
@@ -74,7 +74,7 @@ Temperatures from 0.90499997139 to 0.936999976635 K
 Li6-to-He3 ratio during counting: 7.56101982273 +/- 0.0276998144799
 Li6-to-He3 ratio during irradiation: 4.99684297649 +/- 0.0215591650322
 
-Li6 background rate: 1.75470325575 +/- 0.0936735158962 1/s
+Li6 background rate: 1.85976727631 +/- 0.111165042954 1/s
 
 Analyzing TCN19-280 (spider v1)
 Monitor counts: 4333.85303351 +/- 14.7204840843
@@ -83,7 +83,7 @@ Temperatures from 0.90499997139 to 0.940999984741 K
 Li6-to-He3 ratio during counting: 7.08099486545 +/- 0.0257100473574
 Li6-to-He3 ratio during irradiation: 4.72946970326 +/- 0.0206490121832
 
-Li6 background rate: 1.76568055512 +/- 0.0939660665083 1/s
+Li6 background rate: 1.85072587605 +/- 0.106719531089 1/s
 
 Analyzing TCN19-280 (spider v2)
 Monitor counts: 4348.67168913 +/- 14.745629334
@@ -92,7 +92,7 @@ Temperatures from 0.907000005245 to 0.940999984741 K
 Li6-to-He3 ratio during counting: 7.25764537785 +/- 0.0267277820815
 Li6-to-He3 ratio during irradiation: 4.86371242251 +/- 0.0210445350789
 
-Li6 background rate: 1.60907048584 +/- 0.0897020802325 1/s
+Li6 background rate: 1.72040085317 +/- 0.103472901429 1/s
 
 Analyzing TCN19-010D
 Monitor counts: 4191.0802406 +/- 13.802305869
@@ -101,7 +101,7 @@ Temperatures from 0.902000010014 to 0.943000018597 K
 Li6-to-He3 ratio during counting: 7.13703717771 +/- 0.0253393313454
 Li6-to-He3 ratio during irradiation: 4.61442763287 +/- 0.0252825076167
 
-Li6 background rate: 1.67447844608 +/- 0.0872485902542 1/s
+Li6 background rate: 1.76328408736 +/- 0.0974118584905 1/s
 
 Analyzing TCN19-270
 Monitor counts: 4986.06587707 +/- 16.1995222104
@@ -110,7 +110,7 @@ Temperatures from 0.907999992371 to 0.977999985218 K
 Li6-to-He3 ratio during counting: 4.40261880418 +/- 0.0239701173255
 Li6-to-He3 ratio during irradiation: 2.91065851717 +/- 0.0138333567662
 
-Li6 background rate: 1.8692248259 +/- 0.0991936674937 1/s
+Li6 background rate: 1.94715310723 +/- 0.111337524157 1/s
 
 Analyzing TCN19-120
 Monitor counts: 4346.76136191 +/- 14.7423901758
@@ -119,7 +119,7 @@ Temperatures from 0.907999992371 to 1.03299999237 K
 Li6-to-He3 ratio during counting: 6.77981995067 +/- 0.0246488831447
 Li6-to-He3 ratio during irradiation: 4.36237613691 +/- 0.0192645196079
 
-Li6 background rate: 1.73701246608 +/- 0.0932001149129 1/s
+Li6 background rate: 1.82998106684 +/- 0.106252355655 1/s
 
 Analyzing TCN19-123
 Monitor counts: 4277.27012011 +/- 15.4151262656
@@ -128,7 +128,7 @@ Temperatures from 0.901000022888 to 1.08500003815 K
 Li6-to-He3 ratio during counting: 6.24464728159 +/- 0.0242589079356
 Li6-to-He3 ratio during irradiation: 4.02767058672 +/- 0.0221424843828
 
-Li6 background rate: 1.61260521454 +/- 0.0946580939876 1/s
+Li6 background rate: 1.7057988559 +/- 0.106993284343 1/s
 
 Analyzing TCN19-120A
 Monitor counts: 4161.46489993 +/- 14.7994752751
@@ -137,7 +137,7 @@ Temperatures from 0.898000001907 to 0.958999991417 K
 Li6-to-He3 ratio during counting: 6.20966860032 +/- 0.0284212049058
 Li6-to-He3 ratio during irradiation: 3.99762265919 +/- 0.0185504794306
 
-Li6 background rate: 1.44026612227 +/- 0.0870712040844 1/s
+Li6 background rate: 1.51919773129 +/- 0.100626764133 1/s
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during counting): 0.911167897495 +/- 0.00530403288589
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during irradiation): 0.914616905482 +/- 0.00656842113131
 Transmission ratio 19-240 (UGD02+22)/19-260 (UGD22) (normalized during counting): 0.968831387339 +/- 0.00548508260586
