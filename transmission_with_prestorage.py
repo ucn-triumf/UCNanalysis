@@ -188,11 +188,12 @@ def Transmission(ex):
   he3rate.SetDirectory(0)
   for he3 in ex['He3rate']:
     he3rate.Add(he3)
-  satfit = ROOT.TF1('satfit', '[0]*(erfc(sqrt([1]/x)-sqrt(x/[2]))-exp(4*sqrt([1]/[2]))*erfc(sqrt([1]/x)+sqrt(x/[2])))', 0, 60)
-  for i, p in enumerate(zip([500., 12., 30.], [10000., 100., 100.], ['p_{0}', '#tau_{d}', '#tau'])):
-    satfit.SetParameter(i, p[0])
-    satfit.SetParName(i, p[2])
-  fit = he3rate.Fit(satfit, 'MRSQ')
+#  satfit = ROOT.TF1('satfit', '[0]*(erfc(sqrt([1]/x)-sqrt(x/[2]))-exp(4*sqrt([1]/[2]))*erfc(sqrt([1]/x)+sqrt(x/[2])))', 0, 60)
+#  for i, p in enumerate(zip([500., 12., 30.], [10000., 100., 100.], ['p_{0}', '#tau_{d}', '#tau'])):
+#    satfit.SetParameter(i, p[0])
+#    satfit.SetParName(i, p[2])
+#  fit = he3rate.Fit(satfit, 'MRSQ')
+  fit = he3rate.Fit(UCN.SingleExpo(), 'SQ', '', ex['irradiationduration'][0] + 2, ex['irradiationduration'][0] + ex['monitorduration'][0])
   he3rate.Draw()
   canvas.Print(pdf)
 
@@ -357,7 +358,9 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-123v2', 'runs': [1994]},
         {'TCN': '19-100', 'runs': [2000]},
         {'TCN': '19-101', 'runs': [2002]},
-        {'TCN': '19-120A', 'runs': [2004, 2005]}
+        {'TCN': '19-120A', 'runs': [2004, 2005]},
+        {'TCN': '19-124', 'runs': [2015]},
+        {'TCN': '19-010E', 'runs': [2019]}
        ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)

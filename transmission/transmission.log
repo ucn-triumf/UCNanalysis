@@ -28,7 +28,9 @@ SKIPPING cycle 15 in run 1998 because beam current dropped below 0.1uA (0.0uA)
 SKIPPING cycle 0 in run 2012 because beam data not availablr
 SKIPPING cycle 6 in run 2012 because beam current fluctuated by 0.0337632351464
 SKIPPING cycle 21 in run 2012 because not all periods contain Li6 data
-Read 251 cycles
+SKIPPING cycle 0 in run 2021 because beam data not availablr
+SKIPPING cycle 21 in run 2021 because not all periods contain Li6 data
+Read 271 cycles
 
 
 Analyzing TCN19-010 (UGD19+22)
@@ -138,6 +140,15 @@ Li6-to-He3 ratio during counting: 6.20966860032 +/- 0.0284212049058
 Li6-to-He3 ratio during irradiation: 3.99762265919 +/- 0.0185504794306
 
 Li6 background rate: 1.51919773129 +/- 0.100626764133 1/s
+
+Analyzing TCN19-010E
+Monitor counts: 3913.55404313 +/- 13.9884846269
+Beam current from 0.998534023762 to 1.01128196716 uA
+Temperatures from 0.898000001907 to 0.959999978542 K
+Li6-to-He3 ratio during counting: 6.72704272744 +/- 0.0257857028857
+Li6-to-He3 ratio during irradiation: 4.29504442362 +/- 0.0193803196773
+
+Li6 background rate: 1.64166214135 +/- 0.103842452135 1/s
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during counting): 0.911167897495 +/- 0.00530403288589
 Transmission ratio 19-010 (UGD19+22)/19-020 (UGD19+17, no IV3) (normalized during irradiation): 0.914616905482 +/- 0.00656842113131
 Transmission ratio 19-240 (UGD02+22)/19-260 (UGD22) (normalized during counting): 0.968831387339 +/- 0.00548508260586

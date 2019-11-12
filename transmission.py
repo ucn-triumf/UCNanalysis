@@ -378,7 +378,8 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1866, 1869]},
                {'TCN': '19-270', 'runs': [1984]},
                {'TCN': '19-120', 'runs': [1987]},
                {'TCN': '19-123', 'runs': [1998]},
-               {'TCN': '19-120A', 'runs': [2012]}
+               {'TCN': '19-120A', 'runs': [2012]},
+               {'TCN': '19-010E', 'runs': [2021]}
               ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
