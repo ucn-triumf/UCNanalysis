@@ -77,6 +77,9 @@ def ReadCycles(infile, experiments):
        ):
         print ('WARNING for cycle {0} in run {1} because IG5 was on!'.format(cycle.cyclenumber, cycle.runnumber))
 #      continue
+    if He3[monitorperiod] == 0:
+      print('SKIPPING cycle {0} in run {1} because there were no monitor counts'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
 #    if Li6[countperiod] < 10*d[countperiod]:
 #      print('SKIPPING cycle {0} in run {1} because Li6 seems to see only background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[countperiod]/d[countperiod]))
 #      continue
@@ -360,7 +363,19 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-101', 'runs': [2002]},
         {'TCN': '19-120A', 'runs': [2004, 2005]},
         {'TCN': '19-124', 'runs': [2015]},
-        {'TCN': '19-010E', 'runs': [2019]}
+        {'TCN': '19-010E', 'runs': [2019]},
+        {'TCN': '19-201 (DRex black, 97cm)', 'position': 97, 'runs': [2023]},
+        {'TCN': '19-201 (DRex black, 20cm)', 'position': 20, 'runs': [2024, 2025]},
+        {'TCN': '19-201 (DRex black, 60cm)', 'position': 60, 'runs': [2026]},
+        {'TCN': '19-201 (DRex black, 0cm)', 'position': 0, 'runs': [2027]},
+        {'TCN': '19-201 (DRex black, 40cm)', 'position': 40, 'runs': [2028]},
+        {'TCN': '19-201 (DRex black, 80cm)', 'position': 80, 'runs': [2029]},
+        {'TCN': '19-201 (DRex black, 60cm v2)', 'position': 60, 'runs': [2030]},
+        {'TCN': '19-201 (DRex black, 97cm v2)', 'position': 97, 'runs': [2033]},
+        {'TCN': '19-201 (DRex black, 10cm)', 'position': 10, 'runs': [2034]},
+        {'TCN': '19-201 (DRex black, -10cm)', 'position': -10, 'runs': [2036]},
+        {'TCN': '19-120B', 'runs': [2040]},
+        {'TCN': '19-010B', 'runs': [2050]}
        ]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
@@ -370,7 +385,7 @@ for ex in experiments:
   Transmission(ex)
 
 canvas = ROOT.TCanvas('c','c')
-for tcn in ['19-190', '19-191', '19-192', '19-193']:
+for tcn in ['19-190', '19-191', '19-192', '19-193', '19-201']:
   x = numpy.array([float(ex['position']) for ex in experiments if ex['TCN'].startswith(tcn)])
   y = numpy.array([float(ex['transmission']) for ex in experiments if ex['TCN'].startswith(tcn)])
   yerr = numpy.array([float(ex['transmissionerr']) for ex in experiments if ex['TCN'].startswith(tcn)])

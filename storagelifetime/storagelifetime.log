@@ -19,7 +19,11 @@ SKIPPING cycle 0 in run 2008 because there is no beam data!
 SKIPPING cycle 9 in run 2008 because IV1 never opened!
 SKIPPING cycle 0 in run 2009 because there is no beam data!
 SKIPPING cycle 16 in run 2017 because not all periods contain Li6detector counts
-Read 259 cycles
+SKIPPING cycle 17 in run 2022 because IV1 never opened!
+SKIPPING cycle 16 in run 2038 because IV1 never opened!
+SKIPPING cycle 13 in run 2039 because beam current dropped to 0.0uA!
+SKIPPING cycle 23 in run 2039 because not all periods contain Li6detector counts
+Read 314 cycles
 
 
 Analyzing TCN19-010 in runs [1846]
@@ -173,3 +177,34 @@ Vapor pressure from 0.118 to 0.192 torr
 30.14 +/- 0.53 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
 li6 detector background rate: 1.382 +/- 0.05 1/s
 he3 detector background rate: 0.04304 +/- 0.011 1/s
+
+Analyzing TCN19-201 in runs [2022]
+2019-11-11 21:20:15.193352
+Beam current from 0.994 to 1.01 uA
+Temperatures from 0.898 to 0.954 K
+Vapor pressure from 0.128 to 0.189 torr
+28.99 +/- 0.32 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+30.21 +/- 0.38 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.36 +/- 0.05 1/s
+he3 detector background rate: 0.05186 +/- 0.012 1/s
+
+Analyzing TCN19-201v2 in runs [2038]
+2019-11-13 09:43:14.965194
+Beam current from 0.994 to 1.01 uA
+Temperatures from 0.871 to 0.929 K
+Vapor pressure from 0.064 to 0.0959 torr
+29.72 +/- 0.44 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+31.06 +/- 0.44 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+li6 detector background rate: 1.21 +/- 0.048 1/s
+he3 detector background rate: 0.03601 +/- 0.01 1/s
+
+Analyzing TCN19-120B in runs [2039]
+2019-11-13 16:28:38.041316
+Beam current from 0.994 to 1.01 uA
+Temperatures from 0.871 to 0.955 K
+Vapor pressure from 0.0644 to 0.0988 torr
+30.89 +/- 0.27 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+31.41 +/- 0.38 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
+High background variation!
+li6 detector background rate: 0.3895 +/- 0.022 1/s
+he3 detector background rate: 0.02402 +/- 0.0074 1/s
