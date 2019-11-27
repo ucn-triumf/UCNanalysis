@@ -1,6 +1,6 @@
 # UCNanalysis2018
 
-This a collection of Python scripts to analyze data from the 2018 run.
+This a collection of Python scripts to analyze data from the 2019 run.
 
 ## extractcycles.py:
 
@@ -37,15 +37,15 @@ The output file contains a folder "DetectorRates" containing histograms of detec
 * LND (branch containing data from LND detector, similar to Source branch)
 
 Run with
-`python extractcycles.py /data/ucn/root_files_20190214/ucn_tree_0000*.root`
+`python extractcycles.py /data/ucn/root_files_20191122/ucn_tree_0000*.root`
 
-The latest output, generated from files in /data/ucn/root_files_20190214 on daq01, is found at https://ucn.triumf.ca/ucn-source/ucnanalysis2018/ucn_output_20190226.root
+The latest output, generated from files in /data/ucn/root_files on daq01, is found at https://ucn.triumf.ca/ucn-source/ucnanalysis2018/ucn_output_20191122.root
 
 ## transmission.py
 
 This script takes transmission experiments with two periods per cycle (irradiation + counting) that were performed with a monitor detector available during irradiation.
 It takes the counts in the He3 detector during irradiation and the counts in the Li6 detector during counting.
-It subtracts a fixed background rate in the Li6 detector of 2.16 +/- 0.02 per second.
+It subtracts a fixed background rate in the Li6 detector of 1.578 +/- 0.009 per second.
 Then it determines the ratio of background-corrected Li6 counts to 3He counts and prints the weighted average over all cycles and saves a pdf file showing the ratio and average for all cycles.
 The He3 detector is assumed to be background-free.
 
@@ -56,9 +56,24 @@ It can normalize a transmission measurement to a reference measurement, printing
 It also plots the background in the Li6 detector during the last ten seconds of all cycles in each run.
 
 Run with
-`python transmission.py ucn_output_20190226.root`
+`python transmission.py ucn_output_20191122.root`
 
-The latest output, generated from ucn_output_20190226.root, is found in the folder transmission.
+The latest output, generated from ucn_output_20191122.root, is found in the folder transmission.
+
+## transmission_with_prestorage.py
+
+This script takes transmission experiments with three periods per cycle (irradiation, pre-storage, counting). It takes the counts in the He3 detector during pre-storage and the counts in the Li6 detector during counting.
+The background rate in the Li6 detector determined during the pre-storage period is subtracted from its counts.
+Then it determines the ratio of background-corrected Li6 counts to 3He counts and prints the weighted average over all cycles and saves a pdf file showing the ratio and average for all cycles.
+The He3 detector is assumed to be background-free.
+It also measures the storage lifetime between IV1 and IV2 by fitting an exponential to the dropping He3 rate during pre-storage and correct the influence on the measurement due to a change in this lifetime.
+
+It can normalize a transmission measurement to a reference measurement, printing the ratio of detector rates and transmissions to a pdf.
+
+Run with
+`python transmission_with_prestorage.py ucn_output_20191122.root`
+
+The latest output, generated from ucn_output_20191122.root, is found in the folder transmission.
 
 ## storagelifetime.py
 
@@ -71,27 +86,23 @@ Results are plotted into pdf files.
 It also plots the standard storagelifetimes over time (TCN18-015), storage lifetime vs temperature/pressure (TCN18-300), storage lifetime while spoiling the source (TCN18-170), and a histogram of backgrounds from all analyzed runs.
 
 Run with
-`python storagelifetime.py ucn_output_20190226.root`
+`python storagelifetime.py ucn_output_20191122.root`
 
-The latest output, generated from ucn_out_20190226.root, is found in the folder storagelifetime.
+The latest output, generated from ucn_output_20191122.root, is found in the folder storagelifetime.
 
 ## storagelifetime_with_monitor.py
 
-This script takes storage-lifetime experiments with three periods per cycle (irradiation, storage, counting) with the He3 detector used as a monitor detector during irradiation.
+This script takes storage-lifetime experiments with three periods per cycle (irradiation, storage, counting) with the He3 detector used as a monitor detector.
+It takes the counts in the Li6 detector during counting and subtracts the Li6 background rate determined during the storage period. Then it divides by the counts in the He3 detector during the time following irradiation, while IV1 and IV2 are closed. 
 The He3 detector is assumed to be background-free.
 
-The storage lifetime is determined in three ways:
-1. Take the counts in the Li6 detector during counting and subtract a fixed background rate. Divide by the counts in the He3 detector during irradiation and plot the ratio against the duration of the storage period. Single-exponential fits (including or excluding the measurement with 0s storage time) or double exponential fits fit determine the storage lifetimes.
-2. Plot the uncorrected and unnormalized Li6 counts against the duration of the storage period. Fit a single exponential with background.
-3. Fit the raw rate in the He3 detector during storage with a single exponential (pinhole method). This only makes sense if the monitor detector is actually connected to the storage volume (e.g. it is useless for storage between IV2 and IV3).
-
 The results are printed to pdf files.
-It also plots the background rate in the Li6 detector during the storage time from all analyzed runs.
+It also plots the background rate in the Li6 detector during the storage time from all analyzed runs. And it fits the raw rate in the He3 during the monitoring period with a single exponential (pinhole method). This can be used to determine the storage lifetime between IV1 and IV2, to check what influence this might have on the transmission-with-prestorage measurements.
 
 Run with
-`python storagelifetime_with_monitor.py ucn_output_20190226.root`
+`python storagelifetime_with_monitor.py ucn_output_20191122.root`
 
-The latest output, generated from ucn_output_20190226.root, is found in the folder storagelifetime_with_monitor.
+The latest output, generated from ucn_output_20191122.root, is found in the folder storagelifetime_with_monitor.
 
 ## pyROOT crash course
 

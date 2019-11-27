@@ -36,7 +36,7 @@ def ReadCycles(infile, experiments):
     ex['SCMcurrent'] = []           # list of arrays of SCM current samples
     ex['li6rate'] = []              # list of Li6 count-rate histograms
     ex['he3rate'] = []              # list of He3 count-rate histograms
-    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10) # histogram of Li6 channels
+    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 9, -0.5, 8.5) # histogram of Li6 channels
     ex['channels'].SetDirectory(0)
     ex['IV1IV2'] = []               # list of boolean values that indicate if storage was between IV2 and IV3 (i.e. not connected to He3 detector)
 
@@ -70,8 +70,8 @@ def ReadCycles(infile, experiments):
     if He3[monitorperiod] < 1000:
       print('SKIPPING cycle {0} in run {1} because He3 saw less than 1000 monitor counts ({2})'.format(cycle.cyclenumber, cycle.runnumber, He3[monitorperiod]))
       continue
-    if d[backgroundperiod] > 0 and Li6[backgroundperiod]/d[backgroundperiod] > 10:
-      print('SKIPPING cycle {0} in run {1} because of high Li6 background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[backgroundperiod]/d[backgroundperiod]))
+    if (d[backgroundperiod] > 0 and Li6[backgroundperiod]/d[backgroundperiod] > 10) or Li6[0]/d[0] > 10:
+      print('SKIPPING cycle {0} in run {1} because of high Li6 background ({2}/s)'.format(cycle.cyclenumber, cycle.runnumber, Li6[0]/d[0]))
       continue
       
 #    if (#any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC]) or 
@@ -253,7 +253,7 @@ ROOT.gROOT.SetBatch(1)
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
 # list runs for each experiment
-experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]},
+experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1850]},
                {'TCN': '19-240 (UGD02+22)', 'runs': [1928]},
                {'TCN': '19-250 (UGD02+19+22)', 'runs': [1934, 1938]},
                {'TCN': '19-260 (UGD22)', 'runs': [1942]},
@@ -269,6 +269,7 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1848, 1850]},
                {'TCN': '19-100', 'runs': [2001]},
                {'TCN': '19-101', 'runs': [2003]},
                {'TCN': '19-120A', 'runs': [2007]},
+               {'TCN': '19-102', 'runs': [2014]},
                {'TCN': '19-124', 'runs': [2016]},
                {'TCN': '19-010E', 'runs': [2020]},
                {'TCN': '19-120B', 'runs': [2041, 2043]},
@@ -283,7 +284,7 @@ for ex in experiments:
   StorageLifetime(ex)
 
 # draw plot of average background during each experiment
-UCN.PrintBackground(experiments)
+UCN.PrintBackground(experiments, 'li6', 1900, 2043)
 
 # plot storage lifetime vs SCM current for all SCM measurements
 canvas = ROOT.TCanvas('c','c')

@@ -51,7 +51,7 @@ def MatchTransitions(runnumber, he3cyclestart, li6cyclestart):
 
 # filter spikes in UCN rate within one second after period transitions
 def FilterPileup(hits, runnumber, transition):
-  if runnumber not in range(2023, 2036): # filter only runs known to be affected
+  if runnumber not in range(0, 1): # filter only runs known to be affected
     return hits
   pileupbins = []
   for periodstart in transition: # go through period transitions

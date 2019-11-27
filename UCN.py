@@ -3,7 +3,7 @@ import math
 import numpy
 import scipy.optimize
 
-DetectorBackground = {'li6': (1.5, 0.1), 'he3': (0.03, 0.003)}
+DetectorBackground = {'li6': (1.578, 0.009), 'he3': (0.0349, 0.0023)}
 
 
 # calculate 4He vapor pressure from temperature
@@ -93,7 +93,7 @@ def PrintBackground(experiments, detector = 'li6', fitmin = 0, fitmax = 0):
     bg.GetYaxis().SetTitle('Background rate (s^{-1})')
 #    bg.SetMarkerColor(ROOT.kRed)
     bg.SetMarkerStyle(20)
-    bg.Fit('pol0', 'Q')
+    bg.Fit('pol0', 'Q', '', fitmin, fitmax)
     bg.Draw('AP')
 
 #  lowbackground = [ex for ex in bgexps if ex[detector + 'backgroundrate'] < 2.5]

@@ -41,7 +41,7 @@ def ReadCycles(infile, experiments):
     ex['productionrateerr'] = []
 
     tcn = 'TCN{0}'.format(ex['TCN'])
-    ex['channels'] = ROOT.TH1D(tcn + '_ch', tcn + ';Channel;Count', 10, 0, 10)
+    ex['channels'] = ROOT.TH1D(tcn + '_ch', tcn + ';Channel;Count', 9, -0.5, 8.5)
     ex['channels'].SetDirectory(0)
 
   for cycle in infile.cycledata:
@@ -173,11 +173,11 @@ def Transmission(ex):
   graph.GetYaxis().SetTitle('UCN-count-to-monitor ratio')
   graph.SetMarkerStyle(20)
   transfit = ROOT.TF1('transfit', 'pol0', 0, 100)
-  transfit.SetParName(0, '#bar{R}')
+  transfit.SetParName(0, '#bar{R}_{p}')
   f = graph.Fit(transfit, 'QS')
   graph.Draw('AP')
   canvas.Print(pdf + '(')
-
+  # constant fit gives weighted mean of transmission in all cycles
   ex['transmission'] = f.GetParams()[0]
   ex['transmissionerr'] = f.GetErrors()[0]*max(math.sqrt(f.Chi2()/f.Ndf()), 1.)
   print('Li6-to-He3 ratio: {0} +/- {1}'.format(ex['transmission'], ex['transmissionerr']))
@@ -186,17 +186,48 @@ def Transmission(ex):
   
   UCN.PrintBackgroundVsCycle(ex, pdf, 'li6')
 
+  # fit an exponential to He3 rate during pre-storage, giving lifetime in pre-storage volume
+  ex['prestoragelifetime'] = []
+  ex['prestoragelifetimeerr'] = []
+  for he3 in ex['He3rate']:
+    fit = he3.Fit(UCN.SingleExpo(), 'SQ', '', ex['irradiationduration'][0] + 2, ex['irradiationduration'][0] + ex['monitorduration'][0])
+    ex['prestoragelifetime'].append(fit.Parameter(1))
+    ex['prestoragelifetimeerr'].append(fit.Error(1))
+  prestoragelifetime = ROOT.TGraphErrors(len(ex['prestoragelifetime']), numpy.array(ex['cyclenumber']), numpy.array(ex['prestoragelifetime']), numpy.array([0. for _ in ex['cyclenumber']]), numpy.array(ex['prestoragelifetimeerr']))
+  prestoragelifetime.SetTitle(';Cycle number;Pre-storage lifetime (s)')
+  prestoragelifetime.SetMarkerStyle(20)
+  # constant fit gives weighted mean of pre-storage lifetime in all cycles
+  fit = prestoragelifetime.Fit('pol0', 'SQ')
+  ex['meanprestoragelifetime'] = fit.Parameter(0)
+  ex['meanprestoragelifetimeerr'] = fit.Error(0)*max(math.sqrt(fit.Chi2()/fit.Ndf()), 1.)
+  prestoragelifetime.Draw('AP')
+  canvas.Print(pdf)
+
+  # correct measurement of transmission T with measured pre-storage lifetime. NLi6 = N0 exp(-tp/tau) T, NHe3 = integral N0 exp(-tp/tau) from 0 to tp
+  ycorr = [yi*tau*(1. - math.exp(-15./tau))/math.exp(-15./tau) for yi, tau in zip(y, ex['prestoragelifetime'])]
+  ycorrerr = [math.sqrt((dT/T)**2 + (dtau/tau)**2)*yc for T, dT, tau, dtau, yc in zip(y, yerr, ex['prestoragelifetime'], ex['prestoragelifetimeerr'], ycorr)]
+  corrected = ROOT.TGraphErrors(len(ycorr), numpy.array(ex['cyclenumber']), numpy.array(ycorr), numpy.array([0. for _ in ex['cyclenumber']]), numpy.array(ycorrerr))
+  corrected.SetTitle(';Cycle number;Corrected Li6-He3 ratio')
+  corrected.SetMarkerStyle(20)
+  corrected.Fit('pol0', 'SQ')
+  corrected.Draw('AP')
+  canvas.Print(pdf)
+
+  ex['correctedtransmission'] = ex['transmission']*ex['meanprestoragelifetime']*(1. - math.exp(-ex['monitorduration'][0]/ex['meanprestoragelifetime']))/math.exp(-ex['monitorduration'][0]/ex['meanprestoragelifetime'])
+  ex['correctedtransmissionerr'] = math.sqrt((ex['transmissionerr']/ex['transmission'])**2 + (ex['meanprestoragelifetimeerr']/ex['meanprestoragelifetime'])**2)*ex['correctedtransmission']
+  print('Corrected Li6-to-He3 ratio: {0} +/- {1}'.format(ex['correctedtransmission'], ex['correctedtransmissionerr']))
+
   he3axis = ex['He3rate'][0].GetXaxis()
   he3rate = ROOT.TH1D('TCN{0}_He3'.format(ex['TCN']), ';Time (s); He3 rate (1/s)', he3axis.GetNbins(), he3axis.GetXmin(), he3axis.GetXmax())
   he3rate.SetDirectory(0)
   for he3 in ex['He3rate']:
     he3rate.Add(he3)
+  fit = he3rate.Fit(UCN.SingleExpo(), 'SQ', '', ex['irradiationduration'][0] + 2, ex['irradiationduration'][0] + ex['monitorduration'][0])
 #  satfit = ROOT.TF1('satfit', '[0]*(erfc(sqrt([1]/x)-sqrt(x/[2]))-exp(4*sqrt([1]/[2]))*erfc(sqrt([1]/x)+sqrt(x/[2])))', 0, 60)
 #  for i, p in enumerate(zip([500., 12., 30.], [10000., 100., 100.], ['p_{0}', '#tau_{d}', '#tau'])):
 #    satfit.SetParameter(i, p[0])
 #    satfit.SetParName(i, p[2])
 #  fit = he3rate.Fit(satfit, 'MRSQ')
-  fit = he3rate.Fit(UCN.SingleExpo(), 'SQ', '', ex['irradiationduration'][0] + 2, ex['irradiationduration'][0] + ex['monitorduration'][0])
   he3rate.Draw()
   canvas.Print(pdf)
 
@@ -292,6 +323,9 @@ def Normalize(experiments, transtcn, reftcn):
   transmission = trans['transmission']/ref['transmission']
   transmissionerr = math.sqrt((trans['transmissionerr']/trans['transmission'])**2 + (ref['transmissionerr']/ref['transmission'])**2)*transmission
   print('Transmission ratio {1}/{2} (normalized during prestorage): {0} +/- {3}'.format(transmission, trans['TCN'], ref['TCN'], transmissionerr))
+  correctedtransmission = trans['correctedtransmission']/ref['correctedtransmission']
+  correctedtransmissionerr = math.sqrt((trans['correctedtransmissionerr']/trans['correctedtransmission'])**2 + (ref['correctedtransmissionerr']/ref['correctedtransmission'])**2)*transmission
+  print('Corrected transmission ratio {1}/{2} (normalized during prestorage): {0} +/- {3}'.format(correctedtransmission, trans['TCN'], ref['TCN'], correctedtransmissionerr))
 
   tofspec = trans['Li6rate_normalized'].Clone() # make copy of tof spectrum
   tofspec.Divide(ref['Li6rate_normalized']) # normalize to reference spectrum
@@ -354,14 +388,15 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-193 (DRex Cu, 10cm)', 'position': 10, 'runs': [1969]},
         {'TCN': '19-193 (DRex Cu, -4.5cm)', 'position': -4.5, 'runs': [1970]},
         {'TCN': '19-010D', 'runs': [1973]},
-        {'TCN': '19-270', 'runs': [1981]},
-        {'TCN': '19-120', 'runs': [1985]},
-        {'TCN': '19-121', 'runs': [1991]},
-        {'TCN': '19-123', 'runs': [1993]},
-        {'TCN': '19-123v2', 'runs': [1994]},
-        {'TCN': '19-100', 'runs': [2000]},
-        {'TCN': '19-101', 'runs': [2002]},
+        {'TCN': '19-270 (UGD13+14+15+22)', 'runs': [1981]},
+        {'TCN': '19-120 (UGD37+22)', 'runs': [1985]},
+        {'TCN': '19-121 (UGD36+22)', 'runs': [1991]},
+#        {'TCN': '19-123 (UGD39+22)', 'runs': [1993]},
+        {'TCN': '19-123v2 (UGD39+22)', 'runs': [1994]},
+        {'TCN': '19-100 (UGD31+33+22)', 'runs': [2000]},
+        {'TCN': '19-101 (UGD30+32+22)', 'runs': [2002]},
         {'TCN': '19-120A', 'runs': [2004, 2005]},
+        {'TCN': '19-102', 'runs': [2013]},
         {'TCN': '19-124', 'runs': [2015]},
         {'TCN': '19-010E', 'runs': [2019]},
         {'TCN': '19-201 (DRex black, 97cm)', 'position': 97, 'runs': [2023]},
@@ -384,20 +419,40 @@ ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 for ex in experiments:
   Transmission(ex)
 
-canvas = ROOT.TCanvas('c','c')
-for tcn in ['19-190', '19-191', '19-192', '19-193', '19-201']:
-  x = numpy.array([float(ex['position']) for ex in experiments if ex['TCN'].startswith(tcn)])
-  y = numpy.array([float(ex['transmission']) for ex in experiments if ex['TCN'].startswith(tcn)])
-  yerr = numpy.array([float(ex['transmissionerr']) for ex in experiments if ex['TCN'].startswith(tcn)])
+DRExTCN = ['19-190', '19-191', '19-192', '19-193', '19-201']
+for tcn in DRExTCN:
+  DREx = [ex for ex in experiments if ex['TCN'].startswith(tcn)]
+  ref = next((ex for ex in DREx if ex['position'] == 0), None)
+  x = numpy.array([float(ex['position']) for ex in DREx])
+  y = numpy.array([ex['transmission']/ref['transmission'] for ex in DREx])
+  yerr = numpy.array([ex['transmissionerr']/ref['transmission'] for ex in DREx])
   gr = ROOT.TGraphErrors(len(x), x, y, numpy.array([0. for _ in x]), yerr)
-  gr.SetTitle(tcn + ';Absorber position (cm);Background-corrected Li6-He3 ratio')
-  gr.GetYaxis().SetRangeUser(0.4, 1.)
+  gr.SetTitle(tcn + ';Absorber position (cm);Normalized, background-corrected Li6-He3 ratio')
+  gr.GetYaxis().SetRangeUser(0.8, 1.6)
   gr.Fit('pol1', 'Q', '', 5., 100.)
+  canvas = ROOT.TCanvas('c','c')
   gr.Draw('AP')
   canvas.Print('TCN{0}.pdf'.format(tcn))
 
+canvas = ROOT.TCanvas('c','c')
+mg = ROOT.TMultiGraph()
+PSTR = [ex for ex in experiments if 14.5 < ex['monitorduration'][0] < 15.5]
+graph15 = ROOT.TGraphErrors(len(PSTR), numpy.array([float(min(ex['runs'])) for ex in PSTR]), numpy.array([ex['meanprestoragelifetime'] for ex in PSTR]), \
+				numpy.array([0. for _ in PSTR]), numpy.array([ex['meanprestoragelifetimeerr'] for ex in PSTR]))
+graph15.SetTitle(';Run;Pre-storage lifetime (s)')
+graph15.Fit('pol0')
+mg.Add(graph15)
+DREx = [ex for ex in experiments if any([ex['TCN'].startswith(tcn) for tcn in DRExTCN])]
+graph10 = ROOT.TGraphErrors(len(DREx), numpy.array([float(min(ex['runs'])) for ex in DREx]), numpy.array([ex['meanprestoragelifetime'] for ex in DREx]), \
+				numpy.array([0. for _ in DREx]), numpy.array([ex['meanprestoragelifetimeerr'] for ex in DREx]))
+graph10.SetTitle(';Run;Pre-storage lifetime (s)')
+graph10.SetLineColor(ROOT.kRed)
+mg.Add(graph10)
+mg.Draw('AP')
+canvas.Print('prestoragelifetime.pdf')
 
 UCN.PrintBackground(experiments, 'li6')
+
 #UCN.PrintMonitorCounts(experiments)
 
 Normalize(experiments, '19-010 ', '19-020') # IV3
@@ -412,13 +467,23 @@ Normalize(experiments, '19-280 (spider v3)', '19-280 (spider v1)') # Cam spider 
 Normalize(experiments, '19-280 (spider v4)', '19-260') # Cam spider compared to UGD22
 Normalize(experiments, '19-280 (spider v4)', '19-280 (spider v1)') # Cam spider compared to UGD22
 Normalize(experiments, '19-010D', '19-010 ')
-Normalize(experiments, '19-270', '19-010') # Cu guide
+Normalize(experiments, '19-270', '19-010') # Cu guide UGD13+14+15
+Normalize(experiments, '19-270', '19-260') # UGD13+14+15+22
+Normalize(experiments, '19-120', '19-260') # 95mm Al-NiP
+#Comparing before/after exposure:
+Normalize(experiments, '19-010E', '19-010')
+Normalize(experiments, '19-120A', '19-120')
+#After light exposure:
 Normalize(experiments, '19-121', '19-120A')
-Normalize(experiments, '19-123', '19-120A')
 Normalize(experiments, '19-123v2', '19-120A')
+Normalize(experiments, '19-124', '19-120A')
 Normalize(experiments, '19-100', '19-120A')
 Normalize(experiments, '19-101', '19-120A')
-Normalize(experiments, '19-120A', '19-120')
+Normalize(experiments, '19-102', '19-120A')
+#Comparing before/after isopure refill:
+Normalize(experiments, '19-120B', '19-120A')
+Normalize(experiments, '19-010B', '19-010E')
+
 
 #for tcn in ['18-065', '18-265']: # normalize all the SCM measurements to zero current and plot transmission vs. SCMcurrent
 #  gr = ROOT.TGraphErrors()

@@ -45,7 +45,7 @@ def ReadCycles(infile, experiments):
     ex['maxvaporpressure'] = []
     ex['meanvaporpressure'] = []
     ex['vaporpressurestd'] = []
-    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10)
+    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 9, -0.5, 8.5)
     ex['channels'].SetDirectory(0)
 
   for cycle in infile.cycledata:
@@ -83,6 +83,9 @@ def ReadCycles(infile, experiments):
 #      continue
     if Li6[countperiod] == 0 and He3[countperiod] == 0:
       print('SKIPPING cycle {0} in run {1} because it contains no detector counts'.format(cycle.cyclenumber, cycle.runnumber))
+      continue
+    if Li6[0] == 0:
+      print('SKIPPING cycle {0} in run {1} because it contains no Li6 counts during irradiation'.format(cycle.cyclenumber, cycle.runnumber))
       continue
 
     # IV1 should be closed during irradiation and storage, all valves should be open during counting
@@ -339,10 +342,8 @@ experiments = [{'TCN': '19-010', 'runs': [1846]},
               ]
 
 
-#IsopureFillTimes = [time.mktime(dt.timetuple()) for dt in [datetime.datetime(2018, 11, 20, 16, 54), 
-#                                                           datetime.datetime(2018, 11, 20, 22, 14),
-#                                                           datetime.datetime(2018, 11, 24, 11, 27),
-#                                                           datetime.datetime(2018, 11, 24, 18, 3)]]
+IsopureFillTimes = [time.mktime(dt.timetuple()) for dt in [datetime.datetime(2019, 11, 12,  9, 00), 
+                                                           datetime.datetime(2019, 11, 12, 20, 16)]]
 
 ReadCycles(ROOT.TFile(sys.argv[1]), experiments)
 
@@ -391,8 +392,8 @@ mg.GetXaxis().SetTimeDisplay(1)
 mg.GetXaxis().SetTimeFormat('%m-%d%F2019-01-01 00:00:00')
 mg.GetXaxis().SetNdivisions(10, 10, 0)
 mg.Draw('AP')
-#box = ROOT.TBox(IsopureFillTimes[0], mg.GetHistogram().GetMinimum(), IsopureFillTimes[1], mg.GetHistogram().GetMaximum())
-#box.Draw('SAME')
+box = ROOT.TBox(IsopureFillTimes[0], mg.GetHistogram().GetMinimum(), IsopureFillTimes[1], mg.GetHistogram().GetMaximum())
+box.Draw('SAME')
 #box2 = ROOT.TBox(IsopureFillTimes[2], mg.GetHistogram().GetMinimum(), IsopureFillTimes[3], mg.GetHistogram().GetMaximum())
 #box2.Draw('SAME')
 canvas.Print('dailytau.pdf')

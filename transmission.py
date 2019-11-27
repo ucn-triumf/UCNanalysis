@@ -44,7 +44,7 @@ def ReadCycles(infile, experiments):
     ex['productionrateerr'] = []
 
     tcn = 'TCN{0}'.format(ex['TCN'])
-    ex['channels'] = ROOT.TH1D(tcn + '_ch', tcn + ';Channel;Count', 10, 0, 10)
+    ex['channels'] = ROOT.TH1D(tcn + '_ch', tcn + ';Channel;Count', 9, -0.5, 8.5)
     ex['channels'].SetDirectory(0)
 
   for cycle in infile.cycledata:
@@ -60,10 +60,10 @@ def ReadCycles(infile, experiments):
     # filter useless runs
     beam = [b for b in cycle.B1V_KSM_PREDCUR]
     if len(beam) == 0:
-      print('SKIPPING cycle {0} in run {1} because beam data not availablr'.format(cycle.cyclenumber, cycle.runnumber))
+      print('SKIPPING cycle {0} in run {1} because beam data not available'.format(cycle.cyclenumber, cycle.runnumber))
       continue
-    if min(beam) < 0.1:
-      print('SKIPPING cycle {0} in run {1} because beam current dropped below 0.1uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
+    if min(beam) < 0.8:
+      print('SKIPPING cycle {0} in run {1} because beam current dropped below 0.8uA ({2}uA)'.format(cycle.cyclenumber, cycle.runnumber, min(beam)))
       continue
     if numpy.std(beam) > 0.02:
       print('SKIPPING cycle {0} in run {1} because beam current fluctuated by {2}'.format(cycle.cyclenumber, cycle.runnumber, numpy.std(beam)))
@@ -375,9 +375,9 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1866, 1869]},
                {'TCN': '19-280 (spider v1)', 'runs': [1947]},
                {'TCN': '19-280 (spider v2)', 'runs': [1950]},
                {'TCN': '19-010D', 'runs': [1977]},
-               {'TCN': '19-270', 'runs': [1984]},
-               {'TCN': '19-120', 'runs': [1987]},
-               {'TCN': '19-123', 'runs': [1998]},
+               {'TCN': '19-270 (UGD13+14+15+22)', 'runs': [1984]},
+               {'TCN': '19-120 (UGD37+22)', 'runs': [1987]},
+               {'TCN': '19-123 (UGD39+22)', 'runs': [1998]},
                {'TCN': '19-120A', 'runs': [2012]},
                {'TCN': '19-010E', 'runs': [2021]}
               ]
@@ -392,14 +392,23 @@ UCN.PrintBackground(experiments, 'li6')
 UCN.PrintMonitorCounts(experiments)
 
 Normalize(experiments, '19-010', '19-020') # IV3
-Normalize(experiments, '19-240', '19-260') # UGD02 compared to UGD19
-Normalize(experiments, '19-250', '19-260') # UGD02+19 compared to UGD19
+Normalize(experiments, '19-010', '19-260') # adding UGD19
+Normalize(experiments, '19-240', '19-260') # adding UGD02
+Normalize(experiments, '19-250', '19-260') # adding UGD02+19
 Normalize(experiments, '19-280 (spider v1)', '19-260')
 Normalize(experiments, '19-280 (spider v2)', '19-260')
 Normalize(experiments, '19-010', '19-010D')
-Normalize(experiments, '19-270', '19-260') # Cu guide
+Normalize(experiments, '19-270', '19-260') # adding Cu guide
+Normalize(experiments, '19-120', '19-260') # adding 95mm Al-NiP guide
+#Comparing before/after exposure:
+Normalize(experiments, '19-120A', '19-120')
+Normalize(experiments, '19-010E', '19-010')
+#After detector exposure:
 Normalize(experiments, '19-123', '19-120A')
 Normalize(experiments, '19-120A', '19-120')
+#Comparing before/after isopure refill:
+Normalize(experiments, '19-120B', '19-120A')
+
 
 canvas = ROOT.TCanvas('c','c')
 
