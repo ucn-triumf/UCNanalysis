@@ -235,6 +235,60 @@ TCN19-124 & TCN19-120A & $1.018 \pm 0.008$ & $1.007 \pm 0.028$ & -- & Smooth SS-
 Table \ref{tab:transmission} lists the results of the individual transmission experiments and table \ref{tab:transmission_comparison} compares several.
 
 
+\begin{table}
+\centering
+\caption{Roughness $R_a$ of each guide measured with a profilometer. The definition for $R_a$ is very sensitive to outliers, causing large variations. Struck-out outliers are excluded from the average.}
+\begin{tabular}{l r r r r r r r r r}
+\toprule
+Guide & \multicolumn{8}{c}{Roughness (\si{\nano\meter})} & Average \\
+\midrule
+UGD19 & 104 & 80 & 74 & 86 & \sout{400} & \sout{337} & 88 & 96 & $88 \pm 11$ \\
+UGD02 & 81 & 70 & 71 & 77 & 99 & 83 & & & $80 \pm 11$ \\
+UGD37 & 184 & 197 & 189 & 87 & 96 & 107 & & & $143 \pm 52$ \\
+UGD36 & 976 & \sout{1573} & 968 & 850 & 955 & 926 & & & $935 \pm 51$ \\
+UGD39 & & & & & & & & & \\
+UGD31 & 64 & 89 & 82 & 77 & 116 & \sout{492} & 94 & & $87 \pm 18$ \\
+UGD33 & \sout{608} & 130 & 125 & \sout{990} & 69 & 63 & \sout{633} & \sout{608} & $97 \pm 36$ \\
+UGD30 & \sout{970} & 198 & 633 & 1326 & 111 & 105 & 416 & & $465 \pm 469$ \\
+UGD32 & 107 & 422 & 627 & \sout{1740} & 607 & 140 & 1255 & 672 & $700 \pm 598$ \\
+UGD34 & 83 & \sout{154} & 121 & 113 & 89 & 87 & & & $99 \pm 17$ \\
+UGD35 & 162 & 152 & 233 & 128 & 164 & 237 & & & $179 \pm 45$ \\
+UGD40 & 48 & 64 & 61 & 40 & 47 & 105 & & & $61 \pm 23$ \\
+UGD13 & 156 & 134 & 207 & 197 & 140 & 185 & & & $170 \pm 31$ \\
+UGD14 & 183 & 398 & 163 & 344 & 156 & 158 & & & $234 \pm 108$ \\
+\bottomrule 
+\end{tabular}
+\label{tab:roughness}
+\end{table}
+
+We used a Mitutoyo SJ-210 profilometer to determine roughnesses $R_a$ of the guides, see table~\ref{tab:roughness}. The transmission was clearly correlated to the roughness, see figures~\ref{fig:transmission85}, \ref{fig:transmission95}---the less polished guides UGD13--15 and UGD36 showed significantly lower transmission. The guides with stainless steel substrate provided slightly lower roughnesses and potentially slightly higher transmission, but the differences become insignificant when including the pre-storage-lifetime correction.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../transmission_with_prestorage/transmission85mm.pdf}
+\includegraphics[width=\textwidth,page=2]{../transmission_with_prestorage/transmission85mm.pdf}
+\caption{Transmission $T_p$ (top) and corrected transmission $T_\mathrm{corr}$ (bottom) through \SI{85}{\milli\meter}-diameter guides with different roughnesses.}
+\label{fig:transmission85}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../transmission_with_prestorage/transmission95mm.pdf}
+\includegraphics[width=\textwidth,page=2]{../transmission_with_prestorage/transmission95mm.pdf}
+\caption{Transmission $T_p$ (top) and corrected transmission $T_\mathrm{corr}$ (bottom) through \SI{95}{\milli\meter}-diameter guides with different roughnesses.}
+\label{fig:transmission95}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../transmission_with_prestorage/transmission.pdf}
+\includegraphics[width=\textwidth,page=2]{../transmission_with_prestorage/transmission.pdf}
+\caption{Transmission $T_p$ (top) and corrected transmission $T_\mathrm{corr}$ (bottom) through combinations of \SI{85}{\milli\meter}-diameter guides with different total lengths.}
+\label{fig:transmissionlength}
+\end{figure}
+
+Transmission through combinations of guides with varying total lengths paint a less clear picture. Adding the stainless-steel guide UGD02 actually seems to increase transmission, while adding the NiP-plated guide UGD19 reduces transmission by \SI{3}{\percent}. Combining both guides doubles the loss in transmission to \SI{6}{\percent}, see Fig.~\ref{fig:transmissionlength}. Again, these effects are barely significant when including the pre-storage-lifetime correction.
+
 
 \section{Storage lifetime in the source}
 \label{sec:storagelifetime}
@@ -376,6 +430,23 @@ TCN19-010B & 2044, 2045 & \sout{$34.6 \pm 0.6$} & 4.2 & UGD19+22 \\
 \end{sidewaystable}
 
 The results, see table \ref{tab:storagelifetime_with_monitor}, seem much more stable than in 2018, with almost all fitting nicely to an exponential with a reduced $\chi^2 < 2$. The cases with larger $\chi^2$ can be traced back to large variations in detector background or, in the case of TCN19-010B, to instabilities in the source.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../storagelifetime_with_monitor/VA.pdf}
+\caption{Correlation of storage lifetime in guide components with their volume-to-surface ratio. \textit{Blue}: bare stainless steel components. \textit{Red}: NiP-plated components. \textit{Black}: Copper, black NiP, and combination of steel and NiP.}
+\label{fig:storageVA}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,page=1]{../storagelifetime_with_monitor/roughness.pdf}
+\caption{Correlation of storage lifetime in guide components with their roughness $R_a$.}
+\label{fig:storageroughness}
+\end{figure}
+
+Except for the copper and black-NiP-coated guides, the storage lifetimes are linearly correlated with their volume-to-surface ratio, see Fig.~\ref{fig:storageVA}. Storage lifetime is not correlated with roughness, see Fig.~\ref{fig:storageroughness}---the rougher guide UGD36 had only a slightly shorter storage lifetime as the other guides coated by ChemProcessing (UGD37/39).
+
 
 \section{Background rates}
 \label{sec:background}

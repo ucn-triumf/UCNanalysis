@@ -252,28 +252,33 @@ ROOT.gROOT.SetBatch(1)
 # suppress stupid ROOT warnings
 ROOT.gErrorIgnoreLevel = ROOT.kInfo + 1
 
+A85 = 4.25**2*math.pi
+C85 = 8.5*math.pi
+A95 = 4.775**2*math.pi
+C95 = 9.55*math.pi
+
 # list runs for each experiment
-experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1847, 1850]},
-               {'TCN': '19-240 (UGD02+22)', 'runs': [1928]},
-               {'TCN': '19-250 (UGD02+19+22)', 'runs': [1934, 1938]},
-               {'TCN': '19-260 (UGD22)', 'runs': [1942]},
-               {'TCN': '19-280 (spider v1)', 'runs': [1946]},
-               {'TCN': '19-280 (spider v2)', 'runs': [1951]},
-               {'TCN': '19-280 (spider v3)', 'runs': [1956]},
-               {'TCN': '19-280 (spider v4)', 'runs': [1959]},
-               {'TCN': '19-010D', 'runs': [1979, 1980]},
-               {'TCN': '19-270', 'runs': [1983]},
-               {'TCN': '19-120', 'runs': [1986]},
-               {'TCN': '19-121', 'runs': [1992]},
-               {'TCN': '19-123', 'runs': [1996]},
-               {'TCN': '19-100', 'runs': [2001]},
-               {'TCN': '19-101', 'runs': [2003]},
-               {'TCN': '19-120A', 'runs': [2007]},
-               {'TCN': '19-102', 'runs': [2014]},
-               {'TCN': '19-124', 'runs': [2016]},
-               {'TCN': '19-010E', 'runs': [2020]},
-               {'TCN': '19-120B', 'runs': [2041, 2043]},
-               {'TCN': '19-010B', 'runs': [2044, 2045]}
+experiments = [{'TCN': '19-010 (UGD19+22)', 'V': A85*(2*9.7 + 100 + 12), 'A': C85*(2*9.7 + 12 + 100) + 2*A85, 'mat': 'NiP', 'runs': [1847, 1850]},
+               {'TCN': '19-240 (UGD02+22)', 'V': A85*(2*9.7 + 100 + 12), 'A': C85*(2*9.7 + 12 + 100) + 2*A85, 'mat': 'SS', 'Ra': (80., 11.), 'runs': [1928]},
+               {'TCN': '19-250 (UGD02+19+22)', 'V': A85*(2*9.7 + 2*100 + 12), 'A': C85*(2*9.7 + 12 + 2*100) + 2*A85, 'mat': 'SS+NiP', 'runs': [1934, 1938]},
+               {'TCN': '19-260 (UGD22)', 'V': A85*(2*9.7 + 12), 'A': C85*(2*9.7 + 12) + 2*A85, 'mat': 'SS', 'runs': [1942]},
+               {'TCN': '19-280 (spider v1)', 'V': A85*(2*9.7 + 12) + 1.7**2*math.pi*0.5, 'A': C85*(2*9.7) + 2*A85 + 486., 'mat': 'SS', 'runs': [1946]},
+               {'TCN': '19-280 (spider v2)', 'V': A85*(2*9.7 + 12) + 1.7**2*math.pi*0.5, 'A': C85*(2*9.7) + 2*A85 + 486., 'mat': 'SS', 'runs': [1951]},
+               {'TCN': '19-280 (spider v3)', 'V': A85*(2*9.7 + 12) + 1.7**2*math.pi*0.5, 'A': C85*(2*9.7) + 2*A85 + 486., 'mat': 'SS', 'runs': [1956]},
+               {'TCN': '19-280 (spider v4)', 'V': A85*(2*9.7 + 12) + 1.7**2*math.pi*0.5, 'A': C85*(2*9.7) + 2*A85 + 486., 'mat': 'SS', 'runs': [1959]},
+               {'TCN': '19-010D', 'V': A85*(2*9.7 + 100 + 12), 'A': C85*(2*9.7 + 12 + 100) + 2*A85, 'Ra': (88., 11.), 'mat': 'NiP', 'runs': [1979, 1980]},
+               {'TCN': '19-270', 'V': A85*(2*9.7 + 3*35 + 12), 'A': C85*(2*9.7 + 12 + 3*35) + 2*A85, 'Ra': (175., 30.), 'mat': 'Cu', 'runs': [1983]},
+               {'TCN': '19-120', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85, 'mat': 'NiP', 'runs': [1986]},
+               {'TCN': '19-121', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85, 'mat': 'NiP', 'Ra': (935., 51.), 'runs': [1992]},
+               {'TCN': '19-123', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85, 'mat': 'NiP', 'runs': [1996]},
+               {'TCN': '19-100', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85 + 12., 'mat': 'NiP', 'Ra': (89., 16.), 'runs': [2001]},
+               {'TCN': '19-101', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85 + 12., 'mat': 'blackNiP', 'Ra': (554., 369.), 'runs': [2003]},
+               {'TCN': '19-120A', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85, 'mat': 'NiP', 'Ra': (143., 52.), 'runs': [2007]},
+               {'TCN': '19-102', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85 + 12., 'mat': 'NiP', 'Ra': (109., 16.), 'runs': [2014]},
+               {'TCN': '19-124', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85, 'mat': 'NiP', 'Ra': (61., 23.), 'runs': [2016]},
+               {'TCN': '19-010E', 'V': A85*(2*9.7 + 100 + 12), 'A': C85*(2*9.7 + 12 + 100) + 2*A85, 'mat': 'NiP', 'runs': [2020]},
+               {'TCN': '19-120B', 'V': A85*(2*9.7 + 12 + 2*1.6) + A95*(100 + 2*0.94), 'A': C85*(2*9.7 + 12 + 2*1.6) + C95*(2*0.94 + 100) + 2*A85, 'mat': 'NiP', 'runs': [2041, 2043]},
+               {'TCN': '19-010B', 'V': A85*(2*9.7 + 100 + 12), 'A': C85*(2*9.7 + 12 + 100) + 2*A85, 'mat': 'NiP', 'runs': [2044, 2045]}
 	      ]
 
 # read all data from file
@@ -321,4 +326,35 @@ pinhole.Fit('pol0','Q','')
 #pinhole.GetYaxis().SetRangeUser(15,40)
 pinhole.Draw('AP')
 canvas.Print('pinhole.pdf')
+
+
+NiP = [ex for ex in experiments if 'V' in ex and 'A' in ex and ex['mat'] == 'NiP']
+SS = [ex for ex in experiments if 'V' in ex and 'A' in ex and ex['mat'] == 'SS']
+rest = [ex for ex in experiments if 'V' in ex and 'A' in ex and ex['mat'] not in ['SS','NiP']]
+mg = ROOT.TMultiGraph()
+for exs, color in zip([NiP, SS, rest], [ROOT.kRed, ROOT.kBlue, ROOT.kBlack]):
+  x = [ex['V']/ex['A'] for ex in exs]
+  xerr = [0. for _ in exs]
+  y = [ex['tau'] for ex in exs]
+  yerr = [ex['tauerr'] for ex in exs]
+  gr = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
+  gr.SetLineColor(color)
+  gr.SetMarkerColor(color)
+  mg.Add(gr)
+mg.SetTitle(';Volume-area ratio (cm);Storage lifetime (s)')
+mg.Draw('AP')
+canvas.Print('VA.pdf')
+
+
+
+roughness = [ex for ex in experiments if 'Ra' in ex and ex['runs'][0] > 1985]
+x = [ex['Ra'][0] for ex in roughness]
+xerr = [ex['Ra'][1] for ex in roughness]
+y = [ex['tau'] for ex in roughness]
+yerr = [ex['tauerr'] for ex in roughness]
+gr = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
+gr.SetTitle(';R_{a} (nm);Storage lifetime (s)')
+gr.Draw('AP')
+canvas.Print('roughness.pdf')
+
 

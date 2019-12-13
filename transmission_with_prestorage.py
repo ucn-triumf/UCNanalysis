@@ -326,7 +326,7 @@ def Normalize(experiments, transtcn, reftcn):
   correctedtransmission = trans['correctedtransmission']/ref['correctedtransmission']
   correctedtransmissionerr = math.sqrt((trans['correctedtransmissionerr']/trans['correctedtransmission'])**2 + (ref['correctedtransmissionerr']/ref['correctedtransmission'])**2)*transmission
   print('Corrected transmission ratio {1}/{2} (normalized during prestorage): {0} +/- {3}'.format(correctedtransmission, trans['TCN'], ref['TCN'], correctedtransmissionerr))
-
+  
   tofspec = trans['Li6rate_normalized'].Clone() # make copy of tof spectrum
   tofspec.Divide(ref['Li6rate_normalized']) # normalize to reference spectrum
   tofspec.GetXaxis().SetRangeUser(60, 120)
@@ -350,7 +350,7 @@ ROOT.gErrorIgnoreLevel = ROOT.kWarning + 1
 ROOT.Math.IntegratorOneDimOptions.SetDefaultIntegrator('GaussLegendre')
 
 # list of runs belonging to each experiment
-experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
+experiments = [{'TCN': '19-010 (UGD19+22)', 'length': 120., 'Ra': (88., 11.), 'runs': [1870, 1871]},
                {'TCN': '19-020 (UGD19+17, no IV3)', 'runs': [1876]},
         {'TCN': '19-190 (DRex UGD02, 97cm)', 'position': 97, 'runs': [1882, 1894]},
         {'TCN': '19-190 (DRex UGD02, 20cm)', 'position': 20, 'runs': [1883, 1906]},
@@ -372,9 +372,9 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-192 (DRex UGG3, 0cm)',  'position':  0, 'runs': [1922]},
         {'TCN': '19-192 (DRex UGG3, 40cm)', 'position': 40, 'runs': [1923]},
         {'TCN': '19-192 (DRex UGG3, 80cm)', 'position': 80, 'runs': [1924]},
-        {'TCN': '19-240 (UGD02+22)', 'runs': [1927]},
-        {'TCN': '19-250 (UGD02+19+22)', 'runs': [1931, 1937]},
-        {'TCN': '19-260 (UGD22)', 'runs': [1941]},
+        {'TCN': '19-240 (UGD02+22)', 'length': 120., 'Ra': (80., 11.), 'runs': [1927]},
+        {'TCN': '19-250 (UGD02+19+22)', 'length': 220., 'runs': [1931, 1937]},
+        {'TCN': '19-260 (UGD22)', 'length': 20., 'runs': [1941]},
         {'TCN': '19-280 (spider v1)', 'runs': [1945]},
         {'TCN': '19-280 (spider v2)', 'runs': [1954]},
         {'TCN': '19-280 (spider v3)', 'runs': [1957]},
@@ -387,17 +387,17 @@ experiments = [{'TCN': '19-010 (UGD19+22)', 'runs': [1870, 1871]},
         {'TCN': '19-193 (DRex Cu, 80cm)', 'position': 80, 'runs': [1967]},
         {'TCN': '19-193 (DRex Cu, 10cm)', 'position': 10, 'runs': [1969]},
         {'TCN': '19-193 (DRex Cu, -4.5cm)', 'position': -4.5, 'runs': [1970]},
-        {'TCN': '19-010D', 'runs': [1973]},
-        {'TCN': '19-270 (UGD13+14+15+22)', 'runs': [1981]},
+        {'TCN': '19-010D', 'length': 120., 'runs': [1973]},
+        {'TCN': '19-270 (UGD13+14+15+22)', 'Ra': (175., 30.), 'runs': [1981]},
         {'TCN': '19-120 (UGD37+22)', 'runs': [1985]},
-        {'TCN': '19-121 (UGD36+22)', 'runs': [1991]},
+        {'TCN': '19-121 (UGD36+22)', 'Ra': (935., 51.), 'runs': [1991]},
 #        {'TCN': '19-123 (UGD39+22)', 'runs': [1993]},
         {'TCN': '19-123v2 (UGD39+22)', 'runs': [1994]},
-        {'TCN': '19-100 (UGD31+33+22)', 'runs': [2000]},
-        {'TCN': '19-101 (UGD30+32+22)', 'runs': [2002]},
-        {'TCN': '19-120A', 'runs': [2004, 2005]},
-        {'TCN': '19-102', 'runs': [2013]},
-        {'TCN': '19-124', 'runs': [2015]},
+        {'TCN': '19-100 (UGD31+33+22)', 'Ra': (89., 16.), 'runs': [2000]},
+        {'TCN': '19-101 (UGD30+32+22)', 'Ra': (554., 369.), 'runs': [2002]},
+        {'TCN': '19-120A', 'Ra': (143., 52.), 'runs': [2004, 2005]},
+        {'TCN': '19-102 (UGD34+35+22)', 'Ra': (109., 16.), 'runs': [2013]},
+        {'TCN': '19-124 (UGD40+22)', 'Ra': (61., 23.), 'runs': [2015]},
         {'TCN': '19-010E', 'runs': [2019]},
         {'TCN': '19-201 (DRex black, 97cm)', 'position': 97, 'runs': [2023]},
         {'TCN': '19-201 (DRex black, 20cm)', 'position': 20, 'runs': [2024, 2025]},
@@ -484,27 +484,36 @@ Normalize(experiments, '19-102', '19-120A')
 Normalize(experiments, '19-120B', '19-120A')
 Normalize(experiments, '19-010B', '19-010E')
 
+for reftcn, minrun, maxrun, label in zip(['19-260', '19-120A'], [0, 1983], [1983, 3000], ['85mm', '95mm']):
+  canvas = ROOT.TCanvas('c','c')
+  ref = next((ex for ex in experiments if ex['TCN'].startswith(reftcn) and 'transmission' in ex), None) # find reference experiment with given TCN number
+  trans = [ex for ex in experiments if 'Ra' in ex and minrun < ex['runs'][0] < maxrun]
+  x = [ex['Ra'][0] for ex in trans]
+  xerr = [ex['Ra'][1] for ex in trans]
+  y = [ex['transmission']/ref['transmission'] for ex in trans]
+  yerr = [ex['transmissionerr']/ref['transmission'] for ex in trans]
+  gr = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
+  gr.SetTitle(label + ' guides;R_{a} (nm);Relative transmission')
+  gr.Draw('AP')
+  canvas.Print('transmission{0}.pdf('.format(label))
+  y = [ex['correctedtransmission']/ref['correctedtransmission'] for ex in trans]
+  yerr = [ex['correctedtransmissionerr']/ref['correctedtransmission'] for ex in trans]
+  grcorr = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
+  grcorr.SetTitle(label + ' guides;R_{a} (nm);Corrected relative transmission')
+  grcorr.Draw('AP')
+  canvas.Print('transmission{0}.pdf)'.format(label))
 
-#for tcn in ['18-065', '18-265']: # normalize all the SCM measurements to zero current and plot transmission vs. SCMcurrent
-#  gr = ROOT.TGraphErrors()
-#  gr2 = ROOT.TGraphErrors()
-#  for cur in ['0', '25', '50', '75', '100', '125', '150', '175', '200']:
-#    fulltcn = '{0}_{1}A'.format(tcn, cur)
-#    ex = next((ex for ex in experiments if ex['TCN'].startswith(fulltcn)), None)
-#    if not ex:
-#      continue
-#    t, te, t2, t2e = Normalize(experiments, fulltcn, tcn+'_0A')
-#    SCMcurrent = numpy.concatenate(ex['SCMcurrent'])
-#    i = gr.GetN()
-#    gr.SetPoint(i, numpy.mean(SCMcurrent), t)
-#    gr.SetPointError(i, numpy.std(SCMcurrent)/math.sqrt(len(SCMcurrent)), te)
-#    gr2.SetPoint(i, numpy.mean(SCMcurrent), t2)
-#    gr2.SetPointError(i, numpy.std(SCMcurrent)/math.sqrt(len(SCMcurrent)), t2e)
-#  gr.SetTitle('TCN' + tcn)
-#  gr.GetXaxis().SetTitle('SCM current (A)')
-#  gr.GetYaxis().SetTitle('Transmission')
-#  canvas = ROOT.TCanvas('c','c')
-#  gr.Draw('AP')
-#  gr2.SetLineColor(ROOT.kRed)
-#  gr2.SetMarkerColor(ROOT.kRed)
-#  gr2.Draw('SAMEP')
+trans = [ex for ex in experiments if 'length' in ex]
+for prefix, suffix in zip(['', 'corrected'], ['(', ')']):
+  canvas = ROOT.TCanvas('c', 'c')
+  ref = next((ex for ex in trans if ex['TCN'].startswith('19-260') and 'transmission' in ex), None) # find reference experiment with given TCN number
+  x = [ex['length'] for ex in trans]
+  xerr = [0. for _ in trans]
+  y = [ex[prefix + 'transmission']/ref[prefix + 'transmission'] for ex in trans]
+  yerr = [ex[prefix + 'transmissionerr']/ref[prefix + 'transmission'] for ex in trans]
+  gr = ROOT.TGraphErrors(len(x), numpy.array(x), numpy.array(y), numpy.array(xerr), numpy.array(yerr))
+  gr.SetTitle(';Guide length (cm);Relative {0} transmission'.format(prefix))
+  gr.Draw('AP')
+  canvas.Print('transmission.pdf' + suffix)
+  
+
