@@ -230,22 +230,28 @@ def Transmission(ex):
 #  fit = he3rate.Fit(satfit, 'MRSQ')
   he3rate.Draw()
   canvas.Print(pdf)
-
-  li6fit = ROOT.TF1('li6fit', '(x<60 + [0]?0:[1])*(1 - exp(-(x - 60 - [0])/[2]))*(exp(-(x - 60 - [0])/[3]) + [4]*exp(-(x - 60 - [0])/[5])) + [8]', 60, 180)
+  
   li6axis = ex['Li6rate'][0].GetXaxis()
   binwidth = li6axis.GetBinWidth(1)
   li6rate = ROOT.TH1D('TCN{0}_Li6'.format(ex['TCN']), ';Time (s); Li6 rate (1/{0}s)'.format(binwidth), li6axis.GetNbins(), li6axis.GetXmin(), li6axis.GetXmax())
   li6rate.SetDirectory(0)
   for h in ex['Li6rate']:
     li6rate.Add(h)
-  li6fit.SetNpx(li6rate.GetNbinsX())
-  li6fit.SetParameters(16, 1000., 0.2, 1., 1., 5.)
-  for i, p in enumerate(zip([20, 1e5, 5., 15., 10, 10.], ['t_{d}', 'p_{0}', '#tau_{rise}', '#tau_{1}', 'N_{2}', '#tau_{2}', 'N_{3}', '#tau_{3}'])):
-    li6fit.SetParLimits(i, 0., p[0])
-    li6fit.SetParName(i, p[1])
-  li6fit.FixParameter(8, ex['li6backgroundrate']*binwidth)
-  li6fit.SetParError(8, ex['li6backgroundrateerr']*binwidth)
-  li6rate.Fit(li6fit, 'MRSQL', '')
+
+  li6fit = ROOT.TF1('li6fit', '[0]*exp(-x/[1]) + [2]', ex['irradiationduration'][0] + ex['monitorduration'][0] + 2., 180)
+#  li6fit = ROOT.TF1('li6fit', '(x<60 + [0]?0:[1])*(1 - exp(-(x - 60 - [0])/[2]))*(exp(-(x - 60 - [0])/[3]) + [4]*exp(-(x - 60 - [0])/[5])) + [8]', 60, 180)
+#  li6fit.SetNpx(li6rate.GetNbinsX())
+#  li6fit.SetParameters(16, 1000., 0.2, 1., 1., 5.)
+  li6fit.SetParameters(1000., 15., 1.)
+#  for i, p in enumerate(zip([20, 1e5, 5., 15., 10, 10.], ['t_{d}', 'p_{0}', '#tau_{rise}', '#tau_{1}', 'N_{2}', '#tau_{2}', 'N_{3}', '#tau_{3}'])):
+#    li6fit.SetParLimits(i, 0., p[0])
+#    li6fit.SetParName(i, p[1])
+#  li6fit.FixParameter(8, ex['li6backgroundrate']*binwidth)
+#  li6fit.SetParError(8, ex['li6backgroundrateerr']*binwidth)
+  li6fit.FixParameter(2, ex['li6backgroundrate']*binwidth*len(ex['Li6rate']))
+  li6fit.SetParError(2, ex['li6backgroundrateerr']*binwidth*len(ex['Li6rate']))
+  li6rate.Fit(li6fit, 'RSQ', '')
+  
 #  canvas.SetLogy()
   li6rate.Draw()
   canvas.Print(pdf)

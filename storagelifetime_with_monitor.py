@@ -200,6 +200,34 @@ def StorageLifetime(ex):
 
   # draw plot of temperature during each cycle
   UCN.PrintTemperatureVsCycle(ex, pdf)
+  
+  emptyingtimes = []
+  emptyingtimeerrors = []
+  binwidth = ex['li6rate'][0].GetXaxis().GetBinWidth(1)
+  for li6rate, irr, stor in zip(ex['li6rate'], ex['irradiationduration'], ex['storageduration']):
+    fitstart = irr + stor + 2.
+    fitend = fitstart + 20.
+    li6fit = ROOT.TF1('li6fit', '[0]*exp(-(x - [3])/[1]) + [2]', fitstart, fitend)
+    li6fit.SetParameters(1000., 5., 1., irr)
+    li6fit.FixParameter(2, ex['li6backgroundrate']*binwidth)
+    li6fit.SetParError(2, ex['li6backgroundrateerr']*binwidth)
+    li6fit.FixParameter(3, irr)
+    f = li6rate.Fit(li6fit, 'RSQ', '')
+    li6rate.SetTitle('TCN{0} (Li6 rate)'.format(ex['TCN']))
+    li6rate.Draw()
+    canvas.Print(pdf)
+    emptyingtimes.append(f.Parameter(1))
+    emptyingtimeerrors.append(f.Error(1)*max(math.sqrt(f.Chi2()/f.Ndf()), 1.0))
+  
+  canvas.SetLogy(0)
+  emptyinggraph = ROOT.TGraphErrors(len(emptyingtimes), numpy.array(ex['storageduration']), numpy.array(emptyingtimes), numpy.array([0. for _ in emptyingtimes]), numpy.array(emptyingtimeerrors))
+  emptyinggraph.SetMarkerStyle(20)
+  emptyinggraph.GetXaxis().SetTitle('Storage time (s)')
+  emptyinggraph.GetYaxis().SetTitle('Emptying time (s)')
+  emptyinggraph.SetTitle('')
+  emptyinggraph.Draw('AP')
+  canvas.Print(pdf)
+  canvas.SetLogy()
 
   mtau = []
   mtauerr = []
