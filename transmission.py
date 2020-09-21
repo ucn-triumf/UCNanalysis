@@ -150,9 +150,13 @@ def Transmission(ex):
     print('Found no cycles with run numbers {0}!'.format(ex['runs']))
     return
 
+  li6avg = numpy.average(ex['li6counts'], None, [1./c for c in ex['li6counts']], True)
+  print('Li6 counts: {0} +/- {1}'.format(li6avg[0], 1./math.sqrt(li6avg[1])))
   # report average monitor counts
   monitoravg = numpy.average(ex['monitorcounts'], None, [1./m for m in ex['monitorcounts']], True)
-  print('Monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
+  print('Irradiation monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
+  monitoravg = numpy.average(ex['monitorcounts2'], None, [1./m for m in ex['monitorcounts2']], True)
+  print('Counting monitor counts: {0} +/- {1}'.format(monitoravg[0], 1./math.sqrt(monitoravg[1])))
 
   # report range of beam current
   print('Beam current from {0} to {1} uA'.format(min(min(c) for c in ex['beamcurrent']), max(max(c) for c in ex['beamcurrent'])))

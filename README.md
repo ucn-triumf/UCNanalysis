@@ -1,6 +1,10 @@
-# UCNanalysis2018
+# UCNanalysis
 
-This a collection of Python scripts to analyze data from the 2019 run.
+This is a collection of Python scripts to analyze data from the 2019 run. Scripts and results from the 2018 run are found in the [master branch](https://github.com/ucn-triumf/UCNanalysis/tree/master).
+
+See [the report](https://github.com/ucn-triumf/UCNanalysis/blob/2019/report/report.pdf) for a summary of results.
+
+
 
 ## extractcycles.py:
 
@@ -103,6 +107,14 @@ Run with
 `python storagelifetime_with_monitor.py ucn_output_20191122.root`
 
 The latest output, generated from ucn_output_20191122.root, is found in the folder storagelifetime_with_monitor.
+
+## roughness.py
+
+Reads scans from a Mitutoyo SJ-210 profilometer exported to xlsx files and calculates various measures of surface roughness (Ra, fourier transform, correlation length, Allan deviation, etc).
+
+## valvetiming.py
+
+Histograms time delays between drive signals and the actuation of end switches of each UCN valve.
 
 ## pyROOT crash course
 
