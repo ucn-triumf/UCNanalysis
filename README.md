@@ -1,6 +1,8 @@
 # UCNanalysis2018
 
-This a collection of Python scripts to analyze data from the 2018 run.
+This is a collection of Python scripts to analyze data from the 2018 run. Scripts and results from the 2019 run are found in the [2019 branch](https://github.com/ucn-triumf/UCNanalysis/tree/2019).
+
+See [the report](https://github.com/ucn-triumf/UCNanalysis/blob/master/report/report.pdf) for a summary of results.
 
 ## extractcycles.py:
 
