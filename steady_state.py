@@ -284,6 +284,8 @@ def removeBadData( cycle, plotBeam, *detector ):
 runDict = {}
 
 for cycle in f.cycledata:
+	if cycle.runnumber not in listOfRuns:
+		continue
 
 	runHe3 = str(cycle.runnumber) + 'He3'
 	runLi6 = str(cycle.runnumber) + 'Li6'
