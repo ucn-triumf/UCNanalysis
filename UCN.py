@@ -25,9 +25,12 @@ def HeVaporPressure(T):
 
 # use scipy solver to invert vapor pressure formula to calculate temperature from vapor pressure
 def HeTemperature(P):
-  if P == 0.:
-    return 0.
-  return scipy.optimize.brentq(lambda T: HeVaporPressure(T) - P, 0.66, 5.2)
+  if P < HeVaporPressure(0.66):
+    return 0.66
+  elif P > HeVaporPressure(5.2):
+    return 5.2
+  else:
+    return scipy.optimize.brentq(lambda T: HeVaporPressure(T) - P, 0.66, 5.2)
 
 
 def SingleExpo():
@@ -137,7 +140,8 @@ def PrintTemperatureVsCycle(ex, pdf):
   graph.GetYaxis().SetTitle('Vapor pressure (torr)')
   graph.SetMarkerStyle(20)
   graph.Draw('AP')
-  fHeTemperature = ROOT.TF1('HeTemperature', lambda x: HeTemperature(x[0]), HeTemperature(graph.GetHistogram().GetMinimum()), HeTemperature(graph.GetHistogram().GetMaximum()))
+  lam = lambda x, p: HeTemperature(x[0])
+  fHeTemperature = ROOT.TF1('HeTemperature', lam, HeTemperature(graph.GetHistogram().GetMinimum()), HeTemperature(graph.GetHistogram().GetMaximum()))
   Taxis = ROOT.TGaxis(max(ex['cyclenumber']), graph.GetHistogram().GetMinimum(), max(ex['cyclenumber']), graph.GetHistogram().GetMaximum(), 'HeTemperature', 510, '+')
   Taxis.SetTitle('Temperature (K)')
   Taxis.SetLabelFont(42)

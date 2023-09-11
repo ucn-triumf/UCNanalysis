@@ -45,8 +45,7 @@ def ReadCycles(infile, experiments):
     ex['maxvaporpressure'] = []
     ex['meanvaporpressure'] = []
     ex['vaporpressurestd'] = []
-    ex['channels'] = ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10)
-    ex['channels'].SetDirectory(0)
+    ex['channels'] = []
 
   for cycle in infile.cycledata:
     run = cycle.runnumber
@@ -101,13 +100,15 @@ def ReadCycles(infile, experiments):
       ex['maxvaporpressure'].append(max(vp))
       ex['meanvaporpressure'].append(numpy.mean(vp))
       ex['vaporpressurestd'].append(numpy.std(vp))
+      ex['channels'].append(ROOT.TH1D('TCN{0}_ch'.format(ex['TCN']), 'TCN{0};Channel;Count'.format(ex['TCN']), 10, 0, 10))
+      ex['channels'][-1].SetDirectory(0)
       for c in getattr(cycle, 'Li6/channel'):
-        ex['channels'].Fill(c)
+        ex['channels'][-1].Fill(c)
 #      if False:(any([1e-7 < ig5 < 1e-2 for ig5 in cycle.UCN_EXP_IG5_RDVAC])
           #or
           #any([1e-7 < ig6 < 1e-2 for ig6 in cycle.UCN_EXP_IG6_RDVAC])
           #):
-      if ex['channels'].GetBinContent(ex['channels'].FindBin(3)) > ex['channels'].GetEntries()/10.:
+      if ex['channels'][-1].GetBinContent(ex['channels'][-1].FindBin(3)) > ex['channels'][-1].GetEntries()/10.:
         print ('EXCLUDING Li6 data from cycle {0} in run {1} because channel distribution looks weird!'.format(cycle.cyclenumber, cycle.runnumber))
         ex['li6counts'].append(0)
         ex['li6background'].append(0)
@@ -249,6 +250,8 @@ def StorageLifetime(ex, FitResult = None):
   beam = [numpy.mean(cur) for cur in ex['beamcurrent']], [numpy.std(cur) for cur in ex['beamcurrent']]
   canvas = ROOT.TCanvas('c1', 'c1')
   canvas.SetLogy()
+  pdf = 'TCN{0}_{1}.pdf'.format(ex['TCN'], ex['runs'][0])
+  canvas.Print(pdf + '[')
   for det in ['li6', 'he3']:
     x = numpy.array(ex['storageduration'])
     xerr = numpy.array([0. for _ in x])
@@ -274,11 +277,7 @@ def StorageLifetime(ex, FitResult = None):
       ex[det + 'tauerr'] = 0.
     print('{0:.4} +/- {1:.2} ({2} detector, single exponential fit, background subtracted, normalized to beam current)'.format(ex[det + 'tau'], ex[det + 'tauerr'], det))
     graph.Draw('AP')
-    pdf = 'TCN{0}_{1}.pdf'.format(ex['TCN'], ex['runs'][0])
-    if det == 'li6':
-      canvas.Print(pdf + '(')
-    else:
-      canvas.Print(pdf)
+    canvas.Print(pdf)
 
   if FitResult:
     r = DoCombinedFit([ex], pdf, FitResult)
@@ -293,8 +292,10 @@ def StorageLifetime(ex, FitResult = None):
     UCN.PrintIrradiationBackgroundVsCycle(ex, pdf, det)
     print(det + ' detector background rate: {0:.4} +/- {1:.2} 1/s'.format(ex[det + 'backgroundrate'], ex[det + 'backgroundrateerr']))
 
-  ex['channels'].Draw()
-  canvas.Print(pdf + ')')
+  for ch in ex['channels']:
+    ch.Draw()
+    canvas.Print(pdf)
+  canvas.Print(pdf + ']')
 
   # return result from primary detector
   if max(ex['li6counts']) > max(ex['he3counts']):
@@ -508,7 +509,8 @@ mg.Add(TauVsTemp(afterfilling, 'vaporpressure', 'tau', ROOT.kBlue))
 mg.Add(TauVsTemp(beforefilling, 'vaporpressure', 'tau', ROOT.kRed))
 mg.Add(TauVsTemp(spoiling, 'vaporpressure', 'tau', ROOT.kGreen))
 mg.Draw('AP')
-fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
+lam = lambda x, p: UCN.HeTemperature(x[0])
+fHeTemperature = ROOT.TF1('HeTemperature', lam, UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
 Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
 FormatTaxis(Taxis)
 Taxis.Draw()
@@ -538,7 +540,7 @@ b5 = ROOT.TBox(0.3, 28., 0.7, 36.)
 b5.Draw()
 #l.SetTextColor(ROOT.kGreen)
 l.DrawLatex(0.75, 31., 'Source spoiled')
-fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
+fHeTemperature = ROOT.TF1('HeTemperature', lam, UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
 Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
 FormatTaxis(Taxis)
 Taxis.Draw()
@@ -548,12 +550,13 @@ ROOT.gStyle.SetOptFit(0)
 mg = ROOT.TMultiGraph('mg', 'TCN18-300;Vapor pressure (Torr);Storage lifetime (s)')
 mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']], 'vaporpressure', 'li6tau', ROOT.kBlack, False))
 mg.Add(TauVsTemp([ex for ex in experiments if ex['TCN'] == '18-300' or 1167 in ex['runs']], 'vaporpressure', 'he3tau', ROOT.kRed, False))
-f = ROOT.TF1('f', lambda x, p: 1./(1./p[0] + p[1]*(1. - p[2]*UCN.HeTemperature(x[0]))*UCN.HeTemperature(x[0])**7), 0.5, 2, 3)
+temperaturedependence = lambda x, p: 1./(1./p[0] + p[1]*(1. - p[2]*UCN.HeTemperature(x[0]))*UCN.HeTemperature(x[0])**7)
+f = ROOT.TF1('f', temperaturedependence, 0.5, 2, 3)
 f.SetParameters(40, 0.008, 0.2)
 mg.Fit(f, 'MQ')
 mg.Draw('AP')
 l.DrawLatex(0.2, 5., '#tau(T) = #frac{1}{#frac{1}{p1} + p2(1 - p3 T) T^{7}}')
-fHeTemperature = ROOT.TF1('HeTemperature', lambda x: UCN.HeTemperature(x[0]), UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
+fHeTemperature = ROOT.TF1('HeTemperature', lam, UCN.HeTemperature(mg.GetXaxis().GetXmin()), UCN.HeTemperature(mg.GetXaxis().GetXmax()))
 Taxis = ROOT.TGaxis(mg.GetXaxis().GetXmin(), mg.GetHistogram().GetMaximum(), mg.GetXaxis().GetXmax(), mg.GetHistogram().GetMaximum(), 'HeTemperature', 510, '-')
 FormatTaxis(Taxis)
 Taxis.Draw()

@@ -18,38 +18,12 @@ EXCLUDING Li6 data from cycle 3 in run 911 because channel distribution looks we
 EXCLUDING Li6 data from cycle 4 in run 911 because channel distribution looks weird!
 EXCLUDING Li6 data from cycle 5 in run 911 because channel distribution looks weird!
 EXCLUDING Li6 data from cycle 6 in run 911 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 7 in run 911 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 8 in run 911 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 9 in run 911 because channel distribution looks weird!
 SKIPPING cycle 24 in run 968 because not all periods contain Li6detector counts
 EXCLUDING Li6 data from cycle 0 in run 975 because channel distribution looks weird!
 EXCLUDING Li6 data from cycle 1 in run 975 because channel distribution looks weird!
 EXCLUDING Li6 data from cycle 2 in run 975 because channel distribution looks weird!
 EXCLUDING Li6 data from cycle 3 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 4 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 5 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 6 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 7 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 8 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 9 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 10 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 11 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 12 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 13 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 14 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 15 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 16 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 17 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 18 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 19 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 20 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 21 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 22 in run 975 because channel distribution looks weird!
 SKIPPING cycle 23 in run 975 because beam current fluctuated by 0.15596196862940395uA!
-EXCLUDING Li6 data from cycle 24 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 25 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 26 in run 975 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 27 in run 975 because channel distribution looks weird!
 SKIPPING cycle 28 in run 975 because IV1 never opened!
 SKIPPING cycle 9 in run 988 because not all periods contain Li6detector counts
 SKIPPING cycle 9 in run 998 because IV1 never opened!
@@ -57,10 +31,17 @@ SKIPPING cycle 3 in run 1011 because beam current fluctuated by 0.05279063895788
 SKIPPING cycle 6 in run 1011 because beam current fluctuated by 0.06939877517235195uA!
 SKIPPING cycle 7 in run 1011 because beam current fluctuated by 0.06962601386599823uA!
 SKIPPING cycle 8 in run 1011 because beam current fluctuated by 0.08897691063295365uA!
+EXCLUDING Li6 data from cycle 1 in run 1019 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 1 in run 1030 because channel distribution looks weird!
 SKIPPING cycle 4 in run 1030 because beam current fluctuated by 0.055306957597771426uA!
+EXCLUDING Li6 data from cycle 9 in run 1030 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 13 in run 1030 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 17 in run 1030 because channel distribution looks weird!
 SKIPPING cycle 19 in run 1030 because beam current fluctuated by 0.03168107592681175uA!
 SKIPPING cycle 20 in run 1030 because beam current fluctuated by 0.08606950408804792uA!
 SKIPPING cycle 24 in run 1030 because beam current fluctuated by 0.022788257132225855uA!
+EXCLUDING Li6 data from cycle 25 in run 1030 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 27 in run 1030 because channel distribution looks weird!
 SKIPPING cycle 1 in run 1049 because beam current fluctuated by 0.03279746765333369uA!
 SKIPPING cycle 2 in run 1049 because beam current fluctuated by 0.02698198313511693uA!
 SKIPPING cycle 4 in run 1049 because beam current fluctuated by 0.030334249320014613uA!
@@ -69,6 +50,7 @@ SKIPPING cycle 6 in run 1049 because beam current fluctuated by 0.02581609417971
 SKIPPING cycle 7 in run 1049 because beam current fluctuated by 0.028412772679623572uA!
 SKIPPING cycle 8 in run 1049 because beam current fluctuated by 0.02035330262054744uA!
 SKIPPING cycle 10 in run 1049 because beam current fluctuated by 0.02394258178289145uA!
+EXCLUDING Li6 data from cycle 11 in run 1049 because channel distribution looks weird!
 SKIPPING cycle 12 in run 1049 because beam current fluctuated by 0.03606224136006621uA!
 SKIPPING cycle 13 in run 1049 because beam current fluctuated by 0.02870097889591389uA!
 SKIPPING cycle 14 in run 1049 because beam current fluctuated by 0.027729936880495968uA!
@@ -79,13 +61,22 @@ SKIPPING cycle 8 in run 1123 because not all periods contain Li6detector counts
 SKIPPING cycle 8 in run 1137 because not all periods contain Li6detector counts
 SKIPPING cycle 0 in run 1151 because beam current dropped to 0.06595784425735474uA!
 SKIPPING cycle 16 in run 1151 because IV1 never opened!
+EXCLUDING Li6 data from cycle 3 in run 1153 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 5 in run 1153 because channel distribution looks weird!
 SKIPPING cycle 9 in run 1153 because not all periods contain Li6detector counts
+EXCLUDING Li6 data from cycle 1 in run 1154 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 5 in run 1154 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 6 in run 1154 because channel distribution looks weird!
 SKIPPING cycle 7 in run 1154 because IV1 never opened!
+EXCLUDING Li6 data from cycle 1 in run 1155 because channel distribution looks weird!
+EXCLUDING Li6 data from cycle 3 in run 1155 because channel distribution looks weird!
 SKIPPING cycle 8 in run 1155 because IV1 never opened!
+EXCLUDING Li6 data from cycle 1 in run 1156 because channel distribution looks weird!
 SKIPPING cycle 2 in run 1156 because beam current dropped to 0.0uA!
 SKIPPING cycle 5 in run 1156 because beam current dropped to 0.0uA!
 SKIPPING cycle 6 in run 1156 because beam current dropped to 0.0uA!
 SKIPPING cycle 8 in run 1156 because beam current dropped to 0.0uA!
+EXCLUDING Li6 data from cycle 10 in run 1156 because channel distribution looks weird!
 SKIPPING cycle 14 in run 1156 because not all periods contain Li6detector counts
 SKIPPING cycle 7 in run 1158 because IV1 never opened!
 SKIPPING cycle 5 in run 1159 because beam current dropped to 0.0uA!
@@ -93,20 +84,7 @@ SKIPPING cycle 8 in run 1159 because IV1 never opened!
 SKIPPING cycle 5 in run 1160 because beam current fluctuated by 0.02017269747122973uA!
 SKIPPING cycle 9 in run 1160 because IV1 never opened!
 EXCLUDING Li6 data from cycle 0 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 1 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 2 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 3 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 4 in run 1161 because channel distribution looks weird!
 SKIPPING cycle 5 in run 1161 because beam current dropped to 0.0uA!
-EXCLUDING Li6 data from cycle 6 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 7 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 8 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 9 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 10 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 11 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 12 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 13 in run 1161 because channel distribution looks weird!
-EXCLUDING Li6 data from cycle 14 in run 1161 because channel distribution looks weird!
 SKIPPING cycle 15 in run 1161 because beam current dropped to 0.08870196342468262uA!
 SKIPPING cycle 16 in run 1161 because IV1 never opened!
 SKIPPING cycle 1 in run 1167 because beam current dropped to 0.0uA!
@@ -126,6 +104,7 @@ SKIPPING cycle 8 in run 1201 because IV1 never opened!
 SKIPPING cycle 8 in run 1202 because not all periods contain Li6detector counts
 SKIPPING cycle 8 in run 1203 because IV1 never opened!
 SKIPPING cycle 8 in run 1204 because not all periods contain Li6detector counts
+EXCLUDING Li6 data from cycle 9 in run 1205 because channel distribution looks weird!
 Read 479 cycles
 
 
@@ -145,9 +124,9 @@ Analyzing TCN18-300 in runs [1153]
 Beam current from 0.969 to 0.987 uA
 Temperatures from 1.77 to 1.82 K
 Vapor pressure from 11.5 to 12.5 torr
-5.399 +/- 0.32 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+5.43 +/- 0.36 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 3.364 +/- 0.96 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-li6 detector background rate: 1.905 +/- 0.11 1/s
+li6 detector background rate: 2.125 +/- 0.15 1/s
 he3 detector background rate: 0.03917 +/- 0.02 1/s
 
 Analyzing TCN18-300 in runs [1154]
@@ -155,9 +134,9 @@ Analyzing TCN18-300 in runs [1154]
 Beam current from 0.973 to 0.987 uA
 Temperatures from 1.8 to 1.83 K
 Vapor pressure from 12.6 to 13.2 torr
-4.879 +/- 0.22 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+4.624 +/- 0.31 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 6.457 +/- 2.3 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-li6 detector background rate: 1.993 +/- 0.15 1/s
+li6 detector background rate: 2.146 +/- 0.26 1/s
 he3 detector background rate: 0.0801 +/- 0.043 1/s
 
 Analyzing TCN18-300 in runs [1155]
@@ -165,9 +144,9 @@ Analyzing TCN18-300 in runs [1155]
 Beam current from 0.971 to 0.985 uA
 Temperatures from 1.64 to 1.69 K
 Vapor pressure from 6.73 to 7.48 torr
-7.342 +/- 0.41 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+7.25 +/- 0.5 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 6.37 +/- 0.99 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-li6 detector background rate: 1.886 +/- 0.14 1/s
+li6 detector background rate: 1.584 +/- 0.23 1/s
 he3 detector background rate: 0.03721 +/- 0.02 1/s
 
 Analyzing TCN18-300 in runs [1156]
@@ -175,9 +154,9 @@ Analyzing TCN18-300 in runs [1156]
 Beam current from 0.971 to 0.987 uA
 Temperatures from 1.66 to 1.69 K
 Vapor pressure from 7.24 to 7.48 torr
-7.425 +/- 0.16 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+7.465 +/- 0.17 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 7.293 +/- 1.1 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-li6 detector background rate: 2.08 +/- 0.13 1/s
+li6 detector background rate: 2.026 +/- 0.19 1/s
 he3 detector background rate: 0.06 +/- 0.035 1/s
 
 Analyzing TCN18-300 in runs [1158]
@@ -215,10 +194,9 @@ Analyzing TCN18-300 in runs [1161]
 Beam current from 0.953 to 0.989 uA
 Temperatures from 0.991 to 1.07 K
 Vapor pressure from 0.163 to 0.227 torr
-SKIPPING lifetime measurement from li6 detector in run(s) [1161] because there were no counts detected or the error is larger than 5 s.
-0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+30.01 +/- 0.13 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.68 +/- 1.0 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-li6 detector background rate: 0.0 +/- 0.0 1/s
+li6 detector background rate: 2.224 +/- 0.091 1/s
 he3 detector background rate: 0.0233 +/- 0.01 1/s
 
 Analyzing TCN18-015 in runs [868]
@@ -232,7 +210,7 @@ Vapor pressure from 0.142 to 0.174 torr
 SKIPPING lifetime measurement from li6 detector in run(s) [869] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 36.28 +/- 0.54 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-46.88 +/- 0.83 (wall-storage lifetime from combined fit)
+46.55 +/- 0.82 (wall-storage lifetime from combined fit)
 li6 detector background rate: 0.0 +/- 0.0 1/s
 he3 detector background rate: 0.02658 +/- 0.011 1/s
 
@@ -244,7 +222,7 @@ Vapor pressure from 0.123 to 0.165 torr
 SKIPPING lifetime measurement from li6 detector in run(s) [870] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 37.11 +/- 0.51 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-47.55 +/- 0.7 (wall-storage lifetime from combined fit)
+47.21 +/- 0.7 (wall-storage lifetime from combined fit)
 li6 detector background rate: 0.0 +/- 0.0 1/s
 he3 detector background rate: 0.02633 +/- 0.0074 1/s
 
@@ -256,7 +234,7 @@ Vapor pressure from 0.145 to 0.188 torr
 SKIPPING lifetime measurement from li6 detector in run(s) [872] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 36.2 +/- 0.35 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-47.69 +/- 0.52 (wall-storage lifetime from combined fit)
+47.34 +/- 0.52 (wall-storage lifetime from combined fit)
 li6 detector background rate: 0.0 +/- 0.0 1/s
 he3 detector background rate: 0.02968 +/- 0.0068 1/s
 
@@ -268,7 +246,7 @@ Vapor pressure from 0.148 to 0.174 torr
 SKIPPING lifetime measurement from li6 detector in run(s) [895] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 35.52 +/- 0.46 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-45.81 +/- 0.78 (wall-storage lifetime from combined fit)
+45.48 +/- 0.77 (wall-storage lifetime from combined fit)
 li6 detector background rate: 0.0 +/- 0.0 1/s
 he3 detector background rate: 0.03854 +/- 0.012 1/s
 
@@ -280,7 +258,7 @@ Vapor pressure from 0.102 to 0.142 torr
 35.5 +/- 0.31 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 SKIPPING lifetime measurement from he3 detector in run(s) [900] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-44.03 +/- 0.53 (wall-storage lifetime from combined fit)
+43.74 +/- 0.51 (wall-storage lifetime from combined fit)
 li6 detector background rate: 1.825 +/- 0.066 1/s
 he3 detector background rate: 0.0452 +/- 0.01 1/s
 
@@ -292,7 +270,7 @@ Vapor pressure from 0.109 to 0.159 torr
 35.19 +/- 0.38 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 SKIPPING lifetime measurement from he3 detector in run(s) [907] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-43.72 +/- 0.6 (wall-storage lifetime from combined fit)
+43.45 +/- 0.58 (wall-storage lifetime from combined fit)
 li6 detector background rate: 1.703 +/- 0.075 1/s
 he3 detector background rate: 0.02699 +/- 0.011 1/s
 
@@ -304,9 +282,8 @@ Vapor pressure from 0.143 to 0.166 torr
 SKIPPING lifetime measurement from li6 detector in run(s) [911] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 36.04 +/- 0.42 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-46.39 +/- 0.73 (wall-storage lifetime from combined fit)
-High irradiation-background variation!
-li6 detector background rate: 1.8 +/- 0.42 1/s
+46.05 +/- 0.72 (wall-storage lifetime from combined fit)
+li6 detector background rate: 1.657 +/- 0.11 1/s
 he3 detector background rate: 0.02652 +/- 0.0081 1/s
 
 Analyzing TCN18-015 in runs [923]
@@ -317,7 +294,7 @@ Vapor pressure from 0.135 to 0.173 torr
 SKIPPING lifetime measurement from li6 detector in run(s) [923] because there were no counts detected or the error is larger than 5 s.
 0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 35.02 +/- 0.42 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-45.18 +/- 0.61 (wall-storage lifetime from combined fit)
+44.85 +/- 0.6 (wall-storage lifetime from combined fit)
 li6 detector background rate: 0.0 +/- 0.0 1/s
 High irradiation-background variation!
 he3 detector background rate: 0.03951 +/- 0.012 1/s
@@ -329,7 +306,7 @@ Temperatures from 0.901 to 0.952 K
 Vapor pressure from 0.0947 to 0.158 torr
 32.54 +/- 0.25 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 34.9 +/- 1.1 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-39.59 +/- 0.54 (wall-storage lifetime from combined fit)
+39.36 +/- 0.52 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.18 +/- 0.06 1/s
 he3 detector background rate: 0.03628 +/- 0.0084 1/s
 
@@ -340,7 +317,7 @@ Temperatures from 0.896 to 0.959 K
 Vapor pressure from 0.107 to 0.179 torr
 34.61 +/- 0.46 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 36.29 +/- 1.0 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-42.78 +/- 0.56 (wall-storage lifetime from combined fit)
+42.54 +/- 0.53 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.146 +/- 0.084 1/s
 he3 detector background rate: 0.0403 +/- 0.013 1/s
 
@@ -351,7 +328,7 @@ Temperatures from 0.896 to 0.956 K
 Vapor pressure from 0.121 to 0.194 torr
 33.98 +/- 0.33 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 35.2 +/- 0.98 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-42.12 +/- 0.75 (wall-storage lifetime from combined fit)
+41.88 +/- 0.71 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.159 +/- 0.084 1/s
 he3 detector background rate: 0.03894 +/- 0.011 1/s
 
@@ -362,7 +339,7 @@ Temperatures from 0.895 to 0.954 K
 Vapor pressure from 0.145 to 0.264 torr
 33.27 +/- 0.3 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 33.77 +/- 0.6 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-42.19 +/- 0.38 (wall-storage lifetime from combined fit)
+41.95 +/- 0.35 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.27 +/- 0.05 1/s
 he3 detector background rate: 0.02551 +/- 0.0056 1/s
 
@@ -371,11 +348,10 @@ Analyzing TCN18-015 in runs [975]
 Beam current from 0.969 to 0.99 uA
 Temperatures from 0.894 to 0.953 K
 Vapor pressure from 0.185 to 0.372 torr
-SKIPPING lifetime measurement from li6 detector in run(s) [975] because there were no counts detected or the error is larger than 5 s.
-0.0 +/- 0.0 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+31.73 +/- 0.15 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.89 +/- 0.55 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-39.27 +/- 0.86 (wall-storage lifetime from combined fit)
-li6 detector background rate: 0.0 +/- 0.0 1/s
+41.25 +/- 0.31 (wall-storage lifetime from combined fit)
+li6 detector background rate: 2.376 +/- 0.051 1/s
 he3 detector background rate: 0.04653 +/- 0.0068 1/s
 
 Analyzing TCN18-015 in runs [984]
@@ -385,7 +361,7 @@ Temperatures from 0.894 to 0.952 K
 Vapor pressure from 0.206 to 0.382 torr
 31.92 +/- 0.9 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 31.55 +/- 1.3 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-40.3 +/- 0.74 (wall-storage lifetime from combined fit)
+40.2 +/- 0.66 (wall-storage lifetime from combined fit)
 High irradiation-background variation!
 li6 detector background rate: 2.22 +/- 0.085 1/s
 he3 detector background rate: 0.04358 +/- 0.012 1/s
@@ -397,7 +373,7 @@ Temperatures from 0.895 to 0.944 K
 Vapor pressure from 0.22 to 0.307 torr
 30.74 +/- 0.33 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.09 +/- 0.88 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-40.64 +/- 0.53 (wall-storage lifetime from combined fit)
+40.4 +/- 0.51 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.296 +/- 0.087 1/s
 he3 detector background rate: 0.03843 +/- 0.012 1/s
 
@@ -408,7 +384,7 @@ Temperatures from 0.894 to 0.943 K
 Vapor pressure from 0.237 to 0.359 torr
 30.72 +/- 0.67 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.71 +/- 1.3 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-41.27 +/- 0.95 (wall-storage lifetime from combined fit)
+41.04 +/- 0.91 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.255 +/- 0.086 1/s
 he3 detector background rate: 0.04775 +/- 0.015 1/s
 
@@ -419,7 +395,7 @@ Temperatures from 0.894 to 0.95 K
 Vapor pressure from 0.256 to 0.414 torr
 32.45 +/- 0.79 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.3 +/- 1.6 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-45.28 +/- 2.3 (wall-storage lifetime from combined fit)
+45.0 +/- 2.2 (wall-storage lifetime from combined fit)
 li6 detector background rate: 1.958 +/- 0.097 1/s
 he3 detector background rate: 0.02878 +/- 0.012 1/s
 
@@ -428,11 +404,10 @@ Analyzing TCN18-015 in runs [1019]
 Beam current from 0.741 to 0.974 uA
 Temperatures from 0.895 to 0.959 K
 Vapor pressure from 0.295 to 0.585 torr
-29.1 +/- 1.4 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+29.77 +/- 1.5 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 28.71 +/- 1.2 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-38.7 +/- 0.52 (wall-storage lifetime from combined fit)
-High background variation!
-li6 detector background rate: 1.949 +/- 0.08 1/s
+38.87 +/- 0.54 (wall-storage lifetime from combined fit)
+li6 detector background rate: 2.26 +/- 0.11 1/s
 he3 detector background rate: 0.0501 +/- 0.013 1/s
 
 Analyzing TCN18-015 in runs [1030]
@@ -440,10 +415,10 @@ Analyzing TCN18-015 in runs [1030]
 Beam current from 0.91 to 1.04 uA
 Temperatures from 0.899 to 0.948 K
 Vapor pressure from 0.164 to 0.216 torr
-27.33 +/- 0.32 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+27.14 +/- 0.37 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.21 +/- 0.46 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.23 +/- 0.61 (wall-storage lifetime from combined fit)
-li6 detector background rate: 1.929 +/- 0.042 1/s
+36.37 +/- 0.68 (wall-storage lifetime from combined fit)
+li6 detector background rate: 1.936 +/- 0.063 1/s
 he3 detector background rate: 0.02783 +/- 0.0053 1/s
 
 Analyzing TCN18-015 in runs [1049]
@@ -451,10 +426,11 @@ Analyzing TCN18-015 in runs [1049]
 Beam current from 0.953 to 1.03 uA
 Temperatures from 0.893 to 0.943 K
 Vapor pressure from 0.277 to 0.315 torr
-26.64 +/- 0.43 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+26.89 +/- 0.58 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.34 +/- 0.92 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.55 +/- 1.3 (wall-storage lifetime from combined fit)
-li6 detector background rate: 1.978 +/- 0.087 1/s
+37.25 +/- 1.5 (wall-storage lifetime from combined fit)
+High irradiation-background variation!
+li6 detector background rate: 2.046 +/- 0.1 1/s
 he3 detector background rate: 0.04733 +/- 0.013 1/s
 
 Analyzing TCN18-015 in runs [1053]
@@ -464,7 +440,7 @@ Temperatures from 0.903 to 0.936 K
 Vapor pressure from 0.0841 to 0.137 torr
 33.79 +/- 0.36 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 33.76 +/- 1.8 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-40.39 +/- 0.73 (wall-storage lifetime from combined fit)
+40.18 +/- 0.7 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.02 +/- 0.081 1/s
 he3 detector background rate: 0.0195 +/- 0.0081 1/s
 
@@ -475,7 +451,7 @@ Temperatures from 0.91 to 0.959 K
 Vapor pressure from 0.149 to 0.176 torr
 31.03 +/- 0.45 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 31.38 +/- 0.86 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-39.01 +/- 0.5 (wall-storage lifetime from combined fit)
+38.76 +/- 0.49 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.155 +/- 0.084 1/s
 he3 detector background rate: 0.04473 +/- 0.012 1/s
 
@@ -486,7 +462,7 @@ Temperatures from 0.904 to 0.953 K
 Vapor pressure from 0.12 to 0.155 torr
 32.87 +/- 0.25 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.64 +/- 1.0 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-39.8 +/- 0.56 (wall-storage lifetime from combined fit)
+39.6 +/- 0.55 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.028 +/- 0.082 1/s
 he3 detector background rate: 0.02747 +/- 0.0097 1/s
 
@@ -497,7 +473,7 @@ Temperatures from 0.899 to 0.962 K
 Vapor pressure from 0.115 to 0.173 torr
 32.36 +/- 0.34 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 31.5 +/- 0.95 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-39.56 +/- 0.57 (wall-storage lifetime from combined fit)
+39.34 +/- 0.55 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.097 +/- 0.083 1/s
 he3 detector background rate: 0.04366 +/- 0.012 1/s
 
@@ -508,7 +484,7 @@ Temperatures from 0.898 to 0.954 K
 Vapor pressure from 0.133 to 0.165 torr
 27.91 +/- 0.38 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.45 +/- 0.58 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-35.92 +/- 0.77 (wall-storage lifetime from combined fit)
+35.71 +/- 0.76 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.113 +/- 0.059 1/s
 he3 detector background rate: 0.04542 +/- 0.0089 1/s
 
@@ -519,7 +495,7 @@ Temperatures from 0.899 to 0.95 K
 Vapor pressure from 0.146 to 0.183 torr
 29.81 +/- 0.21 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.04 +/- 0.8 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.73 +/- 0.36 (wall-storage lifetime from combined fit)
+36.53 +/- 0.35 (wall-storage lifetime from combined fit)
 High background variation!
 li6 detector background rate: 1.687 +/- 0.074 1/s
 he3 detector background rate: 0.03771 +/- 0.012 1/s
@@ -531,7 +507,7 @@ Temperatures from 0.908 to 0.96 K
 Vapor pressure from 0.229 to 0.27 torr
 26.7 +/- 0.36 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 27.63 +/- 1.3 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-35.31 +/- 0.48 (wall-storage lifetime from combined fit)
+35.07 +/- 0.48 (wall-storage lifetime from combined fit)
 li6 detector background rate: 1.978 +/- 0.081 1/s
 he3 detector background rate: 0.04511 +/- 0.012 1/s
 
@@ -542,7 +518,7 @@ Temperatures from 0.9 to 0.956 K
 Vapor pressure from 0.176 to 0.268 torr
 29.47 +/- 0.33 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.5 +/- 0.89 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.42 +/- 0.44 (wall-storage lifetime from combined fit)
+36.25 +/- 0.41 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.395 +/- 0.089 1/s
 he3 detector background rate: 0.07239 +/- 0.017 1/s
 
@@ -553,7 +529,7 @@ Temperatures from 0.897 to 0.953 K
 Vapor pressure from 0.179 to 0.281 torr
 29.87 +/- 0.41 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.56 +/- 0.92 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-37.43 +/- 0.39 (wall-storage lifetime from combined fit)
+37.24 +/- 0.38 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.291 +/- 0.073 1/s
 he3 detector background rate: 0.0419 +/- 0.01 1/s
 
@@ -564,7 +540,7 @@ Temperatures from 0.898 to 0.953 K
 Vapor pressure from 0.174 to 0.293 torr
 29.52 +/- 0.44 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.12 +/- 0.85 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-37.04 +/- 0.57 (wall-storage lifetime from combined fit)
+36.89 +/- 0.54 (wall-storage lifetime from combined fit)
 High background variation!
 High irradiation-background variation!
 li6 detector background rate: 2.131 +/- 0.082 1/s
@@ -577,7 +553,7 @@ Temperatures from 0.901 to 0.955 K
 Vapor pressure from 0.19 to 0.306 torr
 29.81 +/- 0.49 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 32.08 +/- 1.2 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-37.48 +/- 0.56 (wall-storage lifetime from combined fit)
+37.32 +/- 0.52 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.339 +/- 0.088 1/s
 he3 detector background rate: 0.02333 +/- 0.0089 1/s
 
@@ -588,7 +564,7 @@ Temperatures from 0.901 to 0.955 K
 Vapor pressure from 0.19 to 0.29 torr
 29.4 +/- 0.4 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 28.82 +/- 0.82 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.93 +/- 0.37 (wall-storage lifetime from combined fit)
+36.77 +/- 0.35 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.341 +/- 0.088 1/s
 he3 detector background rate: 0.04737 +/- 0.014 1/s
 
@@ -599,7 +575,7 @@ Temperatures from 0.899 to 0.955 K
 Vapor pressure from 0.206 to 0.345 torr
 28.87 +/- 0.63 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.0 +/- 1.8 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.41 +/- 0.42 (wall-storage lifetime from combined fit)
+36.27 +/- 0.4 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.409 +/- 0.089 1/s
 he3 detector background rate: 0.0336 +/- 0.013 1/s
 
@@ -610,7 +586,7 @@ Temperatures from 0.899 to 0.953 K
 Vapor pressure from 0.219 to 0.328 torr
 28.94 +/- 0.41 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 29.57 +/- 0.97 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.88 +/- 0.53 (wall-storage lifetime from combined fit)
+36.71 +/- 0.5 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.292 +/- 0.087 1/s
 he3 detector background rate: 0.0465 +/- 0.014 1/s
 
@@ -621,7 +597,7 @@ Temperatures from 0.9 to 0.954 K
 Vapor pressure from 0.22 to 0.352 torr
 28.88 +/- 0.53 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 30.18 +/- 1.3 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-36.62 +/- 0.56 (wall-storage lifetime from combined fit)
+36.48 +/- 0.52 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.205 +/- 0.085 1/s
 he3 detector background rate: 0.02156 +/- 0.0085 1/s
 
@@ -632,7 +608,7 @@ Temperatures from 0.899 to 0.954 K
 Vapor pressure from 0.282 to 0.369 torr
 26.56 +/- 0.3 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 26.08 +/- 0.9 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-34.99 +/- 0.63 (wall-storage lifetime from combined fit)
+34.82 +/- 0.61 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.267 +/- 0.086 1/s
 he3 detector background rate: 0.0251 +/- 0.0096 1/s
 
@@ -643,7 +619,7 @@ Temperatures from 0.9 to 0.951 K
 Vapor pressure from 0.353 to 0.499 torr
 25.44 +/- 0.82 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 27.39 +/- 2.1 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-34.18 +/- 0.66 (wall-storage lifetime from combined fit)
+34.06 +/- 0.67 (wall-storage lifetime from combined fit)
 li6 detector background rate: 2.332 +/- 0.087 1/s
 he3 detector background rate: 0.05803 +/- 0.015 1/s
 
@@ -652,8 +628,8 @@ Analyzing TCN18-170 in runs [1205]
 Beam current from 0.96 to 0.996 uA
 Temperatures from 0.905 to 0.96 K
 Vapor pressure from 0.525 to 0.645 torr
-20.42 +/- 0.43 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
+20.39 +/- 0.44 (li6 detector, single exponential fit, background subtracted, normalized to beam current)
 20.26 +/- 0.75 (he3 detector, single exponential fit, background subtracted, normalized to beam current)
-30.53 +/- 0.71 (wall-storage lifetime from combined fit)
-li6 detector background rate: 2.389 +/- 0.067 1/s
+30.3 +/- 0.69 (wall-storage lifetime from combined fit)
+li6 detector background rate: 2.406 +/- 0.076 1/s
 he3 detector background rate: 0.04316 +/- 0.0098 1/s
