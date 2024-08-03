@@ -8,7 +8,8 @@ import ROOT
 import os
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+
+ROOT.gROOT.SetBatch(1)
 
 class ucndata(object):
     """UCN run data. Cleans data and performs analysis
@@ -21,7 +22,17 @@ class ucndata(object):
         header_only (bool): if true, read only the header
 
     Attributes:
+        comment (str): comment input by users
+        cycle (int|none): cycle number, none if no cycle selected
+        experiment_number (str): experiment number input by users
+        month (int): month of run start
+        run_number (int): run number
+        run_title (str): run title input by users
+        shifter (str): experimenters on shift at time of run
+        start_time (str): start time of the run
+        stop_time (str): stop time of the run
         tfile (tfile): stores tfile raw readback
+        year (int): year of run start
     """
 
     def __init__(self, filename, header_only=False):
@@ -34,19 +45,35 @@ class ucndata(object):
             fid = ROOT.TFile(filename, 'READ')
             head = ttree(fid.Get('header'))
             fid.Close()
+            head = {k:str(val[0]) for k, val in head.items()}
             self._head = head # needed to keep value in memory
+
         else:
             self.tfile = tfile(filename, empty_ok=False, quiet=True)
             head = self.tfile['header']
 
-        # fix header values in tfile
-        for key, value in self.tfile.header.items():
-            self.tfile.header[key] = str(value[0])
+            # fix header values in tfile
+            for key, value in self.tfile.header.items():
+                self.tfile.header[key] = str(value[0])
 
         # reformat header and move to top level
         for k, val in head.items():
             setattr(self, k.replace(' ', '_').lower(), val)
-        self.run_number = int(self.run_number)
+
+        if type(self.run_number) is pd.Series:
+            self.run_number = int(self.run_number[0])
+        else:
+            self.run_number = int(self.run_number)
+
+        # set other header items
+        self.cycle = None
+        date = pd.to_datetime(self.start_time)
+        self.year = date.year
+        self.month = date.month
+
+        # stop
+        if header_only:
+            return
 
         # reformat tfile branch names to remove spaces
         for key in tuple(self.tfile.keys()):
@@ -54,15 +81,11 @@ class ucndata(object):
                 self.tfile[key.replace(' ', '_')] = self.tfile[key]
                 del self.tfile[key]
 
-        # stop
-        if header_only: return
-
         # set detector default
         self._names = attrdict()
         self.set_li6()
 
-        # cycle number
-        self.cycle = None
+
 
     def __repr__(self):
         klist = [d for d in self.__dict__.keys() if d[0] != '_']
