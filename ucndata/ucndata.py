@@ -85,8 +85,6 @@ class ucndata(object):
         self._names = attrdict()
         self.set_li6()
 
-
-
     def __repr__(self):
         klist = [d for d in self.__dict__.keys() if d[0] != '_']
         if klist:
@@ -281,20 +279,8 @@ class ucndata(object):
 
     def to_dataframe(self):
         """Convert self.tfile contents to pd.DataFrame"""
+        self.tfile.to_dataframe()
 
-        for key, value in self.tfile.items():
-
-            # non-header items
-            if key not in ('header',):
-
-                # tdirectory is converted inplace
-                if type(value) is tdirectory:
-                    value.to_dataframe()
-
-                # everything else produces a copy
-                else:
-                    self.tfile[key] = value.to_dataframe()
-
-            # convert header
-            else:
-                self.tfile[key] = pd.Series(value)
+    def from_dataframe(self):
+        """Convert self.tfile contents to rootfile struture types"""
+        self.tfile.from_dataframe()
