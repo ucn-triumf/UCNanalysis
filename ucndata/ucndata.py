@@ -2,12 +2,12 @@
 # Derek Fujimoto
 # June 2024
 
-from rootloader import tfile, attrdict, ttree, tdirectory
-from .exceptions import MissingDataException
+from rootloader import tfile, ttree
+from .exceptions import *
 import ROOT
-import os
 import numpy as np
 import pandas as pd
+import itertools, warnings, os
 
 ROOT.gROOT.SetBatch(1)
 
@@ -33,7 +33,30 @@ class ucndata(object):
         stop_time (str): stop time of the run
         tfile (tfile): stores tfile raw readback
         year (int): year of run start
+
+    Notes:
+        Can access attributes of tfile directly from top-level object
     """
+
+    # detector names
+    DET_NAMES = {'He3':{'hits':         'UCNHits_He3',
+                        'charge':       'He3_Charge',
+                        'rate':         'He3_Rate',
+                        'transitions':  'RunTransitions_He3',
+                        'hitsseq':      'hitsinsequence_he3',
+                        'hitsseqcumul': 'hitsinsequencecumul_he3',
+                        },
+                 'Li6':{'hits':         'UCNHits_Li-6',
+                        'charge':       'Li6_Charge',
+                        'rate':         'Li6_Rate',
+                        'transitions':  'RunTransitions_Li-6',
+                        'hitsseq':      'hitsinsequence_li6',
+                        'hitsseqcumul': 'hitsinsequencecumul_li6',
+                        },
+                }
+
+    # needed slow control trees
+    SLOW_TREES = ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
 
     def __init__(self, filename, header_only=False):
 
@@ -81,10 +104,6 @@ class ucndata(object):
                 self.tfile[key.replace(' ', '_')] = self.tfile[key]
                 del self.tfile[key]
 
-        # set detector default
-        self._names = attrdict()
-        self.set_li6()
-
     def __repr__(self):
         klist = [d for d in self.__dict__.keys() if d[0] != '_']
         if klist:
@@ -126,21 +145,28 @@ class ucndata(object):
             Are there nonzero counts in UCNHits?
         """
 
-        # check data trees
+        # check some necessary data trees
         keys = tuple(self.tfile.keys())
-        for tree in ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree'):#, 'UCN2Epics'):
+        for tree in self.SLOW_TREES:
 
             # does tree exist?
             if tree not in keys:
-                raise MissingDataException(f'Missing ttree "{tree}"')
+                raise MissingDataError(f'Missing ttree "{tree}" in run {self.run_number}')
 
             # does tree have entries?
             if self.tfile[tree].entries == 0:
-                raise MissingDataException(f'Zero entries found in "{tree}" ttree')
+                raise MissingDataError(f'Zero entries found in "{tree}" ttree in run {self.run_number}')
 
-        # check for nonzero counts
-        if not self.tfile[self._names.hits].tIsUCN.any():
-            raise MissingDataException(f'No UCN hits in "{self._names.hits}" ttree')
+        for det in (self.DET_NAMES.keys()):
+
+            # check for nonzero counts
+            if not self.tfile[self.DET_NAMES[det]['hits']].tIsUCN.any():
+                raise MissingDataError(f'No UCN hits in "{det}" ttree in run {self.run_number}')
+
+            # check if sequencer was enabled but no run transitions
+            if any(self.tfile.SequencerTree.sequencerEnabled):
+                if self.tfile[self.DET_NAMES[det]['transitions']].entries == 0:
+                    raise MissingDataError('No cycles found in run {self.run_number}, although sequencer was active')
 
     def copy(self):
         """Return a copy of this objet"""
@@ -159,17 +185,24 @@ class ucndata(object):
         Note that this process converts all objects to dataframes
 
         Args:
-            cycle (int): cycle number
+            cycle (int): cycle number, if < 0, get all cycles
 
         Returns:
-            ucndata: a copy of this object but with data from only one cycle.
+            ucndata:
+                if cycle > 0: a copy of this object but with data from only one cycle.
+                if cycle < 0: a list of copies of this object for all cycles
         """
+
+        # get all cycles
+        if cycle < 0:
+            ncycles = len(self.get_cycle_times().index)
+            return [self.get_cycle(c) for c in range(ncycles)]
 
         # make copy
         copy = self.copy()
 
         # get cycles to keep
-        cycles = copy.get_cycles_times()
+        cycles = copy.get_cycle_times()
         start = int(cycles.loc[cycle, 'start'])
         stop = int(cycles.loc[cycle, 'stop'])
 
@@ -196,8 +229,22 @@ class ucndata(object):
         copy.cycle_stop = stop
         return copy
 
-    def get_cycles_times(self):
+    def get_cycle_times(self, mode='matched'):
         """Get start and end times of each cycle from the sequencer
+
+        Args:
+            mode (str): matched|sequencer
+                if matched: look for identical timestamps in RunTransitions from detectors
+                if sequencer: look for inCycle timestamps in SequencerTree
+
+        Notes:
+            - If run ends before sequencer stop is called, a stop is set to final timestamp.
+            - If the sequencer is disabled mid-run, a stop is set when disable ocurrs.
+            - If sequencer is not enabled, then make the entire run one cycle
+            - For matched mode,
+                - set run stops as start of next transition
+                - set offset as start_He3 - start_Li6
+                - set start/stop/duration based on start_He3
 
         Returns:
             pd.DataFrame: with columns "start", "stop", and "duration (s)". Values are in epoch time. Indexed by cycle id
@@ -207,11 +254,91 @@ class ucndata(object):
         df = self.tfile.SequencerTree
         if type(df) == ttree:
             df = df.to_dataframe()
-        df = df.diff()
 
-        # get start and end times
-        times = {'start': df.index[df.inCycle == 1],
-                 'stop': df.index[df.inCycle == -1]}
+        ## if no sequencer, make the whole run a single cycle
+        if not any(df.sequencerEnabled):
+
+            times = {'start': np.inf,
+                     'stop': -np.inf}
+
+            # use timestamps from slow control trees to determine timestamps
+            for treename in self.SLOW_TREES:
+                idx = self.tfile[treename].to_dataframe().index
+                times['start'] = min((idx.min(), times['start']))
+                times['stop']  = max((idx.max(), times['stop']))
+
+        ## get matched timesteps from He3 and Li6 RunTransitions
+        elif mode in 'matched':
+            hestart = self.tfile[self.DET_NAMES['He3']['transitions']].cycleStartTime
+            listart = self.tfile[self.DET_NAMES['Li6']['transitions']].cycleStartTime
+
+            # drop duplicate timestamps
+            hestart = hestart.drop_duplicates()
+            listart = listart.drop_duplicates()
+
+            # get all possible pairs and sort by time difference
+            pairs = sorted(itertools.product(hestart, listart),
+                            key = lambda t: abs(t[0] - t[1]))
+
+            # save output
+            matchedhe3 = []
+            matchedli6 = []
+
+            # go through all possible pairs
+            for pair in pairs:
+
+                # if none of the two start times are already in the matched list, add the pair to the matched list
+                if pair[0] not in matchedhe3 and pair[1] not in matchedli6:
+                    offset = pair[0] - pair[1]
+
+                    # discard if time difference is too large
+                    if abs(offset) > 20:
+                        warnings.warn(f'He3 cycle start time ({pair[0]}) too distant from Li6 start ({pair[1]}) in run {self.run_number}', CycleWarning)
+                    else:
+                        matchedhe3.append(pair[0])
+                        matchedli6.append(pair[1])
+
+            matchedhe3 = np.sort(matchedhe3)
+            matchedli6 = np.sort(matchedli6)
+
+            # warnings for unmatched cycles
+            unmatched = [t not in matchedhe3 for t in hestart]
+            if any(unmatched):
+                warnings.warn(f'Found no match to He3 cycles at {unmatched} in run {self.run_number}', CycleWarning)
+
+            unmatched = [t not in matchedhe3 for t in listart]
+            if any(unmatched):
+                warnings.warn(f'Found no match to Li6 cycles at {unmatched} in run {self.run_number}', CycleWarning)
+
+            # get run end time from control trees
+            run_stop = -np.inf
+            for treename in self.SLOW_TREES:
+                idx = self.tfile[treename].to_dataframe().index
+                run_stop = max((idx.max(), run_stop))
+
+            # setup output
+            times = {'start': matchedhe3,
+                     'duration (s)': np.concatenate((np.diff(matchedhe3), [run_stop])),
+                     'offset (s)': matchedhe3-matchedli6}
+            times['stop'] = times['start'] + times['duration (s)']
+
+        ## get timestamps from sequencer
+        elif mode in 'sequencer':
+
+            # if sequencer is not enabled cause a stop transition
+            df.inCycle *= df.sequencerEnabled
+
+            # start counting only after first start flag
+            df = df.loc[df.loc[df.cycleStarted > 0].index[0]:]
+
+            # get start and end times
+            df = df.diff()
+            times = {'start': df.index[df.inCycle == 1],
+                    'stop': df.index[df.inCycle == -1]}
+
+            # check lengths
+            if len(times['start']) > len(times['stop']):
+                times['stop'].append(df.index[-1])
 
         # convert to dataframe
         times = pd.DataFrame(times)
@@ -220,7 +347,7 @@ class ucndata(object):
 
         return times
 
-    def get_hits_histogram(self, bin_ms=100):
+    def get_hits_histogram(self, detector, bin_ms=100):
         """Get histogram of UCNHits ttree times
 
         Args:
@@ -235,7 +362,7 @@ class ucndata(object):
         # get cycle start and stop times from ucn counts histogram
 
         # get data
-        df = self.tfile[self._names.hits].to_dataframe()
+        df = self.tfile[self.DET_NAMES[detector]['hits']].to_dataframe()
         index_col = df.index.name
         df.reset_index(inplace=True)
 
@@ -258,24 +385,6 @@ class ucndata(object):
         bin_centers = (bins[1:] + bins[:-1])/2
 
         return (bin_centers, hist)
-
-    def set_he3(self):
-        """Set name patterns to match He3 detector"""
-        self._names['hits'] =        'UCNHits_He3'
-        self._names['charge'] =      'He3_Charge'
-        self._names['rate'] =        'He3_Rate'
-        self._names['transitions'] = 'RunTransitions_He3'
-        self._names['hitsseq'] =     'hitsinsequence_he3'
-        self._names['hitsseqcumul'] ='hitsinsequencecumul_he3'
-
-    def set_li6(self):
-        """Set name patterns to match li6 detector"""
-        self._names['hits'] =        'UCNHits_Li-6'
-        self._names['charge'] =      'Li6_Charge'
-        self._names['rate'] =        'Li6_Rate'
-        self._names['transitions'] = 'RunTransitions_Li-6'
-        self._names['hitsseq'] =     'hitsinsequence_li6'
-        self._names['hitsseqcumul'] ='hitsinsequencecumul_li6'
 
     def to_dataframe(self):
         """Convert self.tfile contents to pd.DataFrame"""
