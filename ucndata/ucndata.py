@@ -2,6 +2,13 @@
 # Derek Fujimoto
 # June 2024
 
+"""
+TODO List, things which haven't been ported from WS code
+
+
+
+"""
+
 from rootloader import tfile, ttree
 from .exceptions import *
 import ROOT
@@ -146,26 +153,25 @@ class ucndata(object):
         """
 
         # check some necessary data trees
-        keys = tuple(self.tfile.keys())
         for tree in self.SLOW_TREES:
 
             # does tree exist?
-            if tree not in keys:
+            if tree not in self.tfile.keys():
                 raise MissingDataError(f'Missing ttree "{tree}" in run {self.run_number}')
 
             # does tree have entries?
             if self.tfile[tree].entries == 0:
                 raise MissingDataError(f'Zero entries found in "{tree}" ttree in run {self.run_number}')
 
-        for det in (self.DET_NAMES.keys()):
+        for name, det in self.DET_NAMES.items():
 
             # check for nonzero counts
-            if not self.tfile[self.DET_NAMES[det]['hits']].tIsUCN.any():
-                raise MissingDataError(f'No UCN hits in "{det}" ttree in run {self.run_number}')
+            if not self.tfile[det['hits']].tIsUCN.any():
+                raise MissingDataError(f'No UCN hits in "{name}" ttree in run {self.run_number}')
 
             # check if sequencer was enabled but no run transitions
             if any(self.tfile.SequencerTree.sequencerEnabled):
-                if self.tfile[self.DET_NAMES[det]['transitions']].entries == 0:
+                if self.tfile[det['transitions']].entries == 0:
                     raise MissingDataError('No cycles found in run {self.run_number}, although sequencer was active')
 
     def copy(self):
@@ -179,13 +185,42 @@ class ucndata(object):
                 setattr(copy, key, value)
         return copy
 
-    def get_cycle(self, cycle):
+    def get_beam_duration(self):
+        """Get beam on/off durations
+
+        Returns:
+            pd.DataFrame: beam on/off durations for all cycles
+        """
+
+        # get needed info
+        cycle_times = self.get_cycle_times()
+        beam = self.tfile.BeamlineEpics
+
+        # setup storage
+        beamon = []
+        beamoff = []
+
+        # get durations closest to cycle start time
+        for start in cycle_times.start:
+
+            # unsure why 0.00088801 is needed...
+            beamstart = pd.DataFrame({'start': abs(beam.timestamp - start),
+                                    'onduration': beam.B1V_KSM_RDBEAMON_VAL1*0.00088801,
+                                    'offduration': beam.B1V_KSM_RDBEAMOFF_VAL1*0.00088801})
+            idx = beamstart.idxmin().start
+            beamon.append(beamstart.loc[idx, 'onduration'])
+            beamoff.append(beamstart.loc[idx, 'offduration'])
+
+        return pd.DataFrame({'on (s)': beamon, 'off (s)': beamoff}, index=cycle_times.index)
+
+    def get_cycle(self, cycle=None, **cycle_times_args):
         """Return a copy of this object, but trees are trimmed to only one cycle.
 
         Note that this process converts all objects to dataframes
 
         Args:
-            cycle (int): cycle number, if < 0, get all cycles
+            cycle (int): cycle number, if None, get all cycles
+            cycle_times_args: passed to get_cycle_times
 
         Returns:
             ucndata:
@@ -194,15 +229,15 @@ class ucndata(object):
         """
 
         # get all cycles
-        if cycle < 0:
-            ncycles = len(self.get_cycle_times().index)
+        if cycle is None:
+            ncycles = len(self.get_cycle_times(**cycle_times_args).index)
             return [self.get_cycle(c) for c in range(ncycles)]
 
         # make copy
         copy = self.copy()
 
         # get cycles to keep
-        cycles = copy.get_cycle_times()
+        cycles = copy.get_cycle_times(**cycle_times_args)
         start = int(cycles.loc[cycle, 'start'])
         stop = int(cycles.loc[cycle, 'stop'])
 
@@ -245,10 +280,19 @@ class ucndata(object):
                 - set run stops as start of next transition
                 - set offset as start_He3 - start_Li6
                 - set start/stop/duration based on start_He3
+            - If the object reflects a single cycle, return from cycle_start, cycle_stop
 
         Returns:
             pd.DataFrame: with columns "start", "stop", and "duration (s)". Values are in epoch time. Indexed by cycle id
         """
+
+        # check if single cycle
+        if self.cycle is not None:
+            return pd.DataFrame({'start':[self.cycle_start],
+                                 'stop':[self.cycle_stop],
+                                 'duration (s)': [self.cycle_stop-self.cycle_start],
+                                 'offset (s)': [0.0]},
+                                 index=[self.cycle])
 
         # get data
         df = self.tfile.SequencerTree
@@ -386,10 +430,10 @@ class ucndata(object):
 
         return (bin_centers, hist)
 
-    def to_dataframe(self):
-        """Convert self.tfile contents to pd.DataFrame"""
-        self.tfile.to_dataframe()
-
     def from_dataframe(self):
         """Convert self.tfile contents to rootfile struture types"""
         self.tfile.from_dataframe()
+
+    def to_dataframe(self):
+        """Convert self.tfile contents to pd.DataFrame"""
+        self.tfile.to_dataframe()
