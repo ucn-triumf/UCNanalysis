@@ -4,6 +4,7 @@
 
 # General
 class MissingDataError(Exception): pass
+class NotImplementedError(Exception): pass
 
 # Data problems
 class DataError(Exception): pass

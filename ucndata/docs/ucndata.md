@@ -6,19 +6,29 @@
 
 - [ucndata](#ucndata)
   - [ucndata](#ucndata-1)
+    - [ucndata().beam_current_uA](#ucndata()beam_current_ua)
+    - [ucndata().beam_off_s](#ucndata()beam_off_s)
+    - [ucndata().beam_on_s](#ucndata()beam_on_s)
     - [ucndata().check_data](#ucndata()check_data)
     - [ucndata().copy](#ucndata()copy)
     - [ucndata().from_dataframe](#ucndata()from_dataframe)
     - [ucndata().get_cycle](#ucndata()get_cycle)
-    - [ucndata().get_cycles_times](#ucndata()get_cycles_times)
+    - [ucndata().get_cycle_times](#ucndata()get_cycle_times)
     - [ucndata().get_hits_histogram](#ucndata()get_hits_histogram)
-    - [ucndata().set_he3](#ucndata()set_he3)
-    - [ucndata().set_li6](#ucndata()set_li6)
+    - [ucndata().souce_temperature_k](#ucndata()souce_temperature_k)
+    - [ucndata().source_pressure_kpa](#ucndata()source_pressure_kpa)
     - [ucndata().to_dataframe](#ucndata()to_dataframe)
 
 ## ucndata
 
-[Show source in ucndata.py:14](../ucndata.py#L14)
+[Show source in ucndata.py:31](../ucndata.py#L31)
+
+#### Attributes
+
+- `DET_NAMES` - detector names: {'He3': {'hits': 'UCNHits_He3', 'charge': 'He3_Charge', 'rate': 'He3_Rate', 'transitions': 'RunTransitions_He3', 'hitsseq': 'hitsinsequence_he3', 'hitsseqcumul': 'hitsinsequencecumul_he3'}, 'Li6': {'hits': 'UCNHits_Li-6', 'charge': 'Li6_Charge', 'rate': 'Li6_Rate', 'transitions': 'RunTransitions_Li-6', 'hitsseq': 'hitsinsequence_li6', 'hitsseqcumul': 'hitsinsequencecumul_li6'}}
+
+- `SLOW_TREES` - needed slow control trees: ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
+
 
 UCN run data. Cleans data and performs analysis
 
@@ -44,6 +54,10 @@ cycle_stop (float) : epoch time cycle stop time (only if single cycle)
 - `tfile` *tfile* - stores tfile raw readback
 - `year` *int* - year of run start
 
+#### Notes
+
+Can access attributes of tfile directly from top-level object
+
 #### Signature
 
 ```python
@@ -51,9 +65,42 @@ class ucndata(object):
     def __init__(self, filename, header_only=False): ...
 ```
 
+### ucndata().beam_current_uA
+
+[Show source in ucndata.py:453](../ucndata.py#L453)
+
+#### Signature
+
+```python
+@property
+def beam_current_uA(self): ...
+```
+
+### ucndata().beam_off_s
+
+[Show source in ucndata.py:478](../ucndata.py#L478)
+
+#### Signature
+
+```python
+@property
+def beam_off_s(self): ...
+```
+
+### ucndata().beam_on_s
+
+[Show source in ucndata.py:475](../ucndata.py#L475)
+
+#### Signature
+
+```python
+@property
+def beam_on_s(self): ...
+```
+
 ### ucndata().check_data
 
-[Show source in ucndata.py:117](../ucndata.py#L117)
+[Show source in ucndata.py:181](../ucndata.py#L181)
 
 Run some checks to determine if the data is ok.
 
@@ -73,7 +120,7 @@ def check_data(self): ...
 
 ### ucndata().copy
 
-[Show source in ucndata.py:145](../ucndata.py#L145)
+[Show source in ucndata.py:215](../ucndata.py#L215)
 
 Return a copy of this objet
 
@@ -85,7 +132,7 @@ def copy(self): ...
 
 ### ucndata().from_dataframe
 
-[Show source in ucndata.py:284](../ucndata.py#L284)
+[Show source in ucndata.py:444](../ucndata.py#L444)
 
 Convert self.tfile contents to rootfile struture types
 
@@ -97,7 +144,7 @@ def from_dataframe(self): ...
 
 ### ucndata().get_cycle
 
-[Show source in ucndata.py:156](../ucndata.py#L156)
+[Show source in ucndata.py:226](../ucndata.py#L226)
 
 Return a copy of this object, but trees are trimmed to only one cycle.
 
@@ -105,23 +152,43 @@ Note that this process converts all objects to dataframes
 
 #### Arguments
 
-- `cycle` *int* - cycle number
+- `cycle` *int* - cycle number, if None, get all cycles
+- `cycle_times_args` - passed to get_cycle_times
 
 #### Returns
 
-- [ucndata](#ucndata) - a copy of this object but with data from only one cycle.
+ucndata:
+    if cycle > 0: a copy of this object but with data from only one cycle.
+    if cycle < 0: a list of copies of this object for all cycles
 
 #### Signature
 
 ```python
-def get_cycle(self, cycle): ...
+def get_cycle(self, cycle=None, **cycle_times_args): ...
 ```
 
-### ucndata().get_cycles_times
+### ucndata().get_cycle_times
 
-[Show source in ucndata.py:199](../ucndata.py#L199)
+[Show source in ucndata.py:277](../ucndata.py#L277)
 
 Get start and end times of each cycle from the sequencer
+
+#### Arguments
+
+- `mode` *str* - matched|sequencer
+    - `if` *matched* - look for identical timestamps in RunTransitions from detectors
+    - `if` *sequencer* - look for inCycle timestamps in SequencerTree
+
+#### Notes
+
+- If run ends before sequencer stop is called, a stop is set to final timestamp.
+- If the sequencer is disabled mid-run, a stop is set when disable ocurrs.
+- If sequencer is not enabled, then make the entire run one cycle
+- For matched mode,
+    - set run stops as start of next transition
+    - set offset as start_He3 - start_Li6
+    - set start/stop/duration based on start_He3
+- If the object reflects a single cycle, return from cycle_start, cycle_stop
 
 #### Returns
 
@@ -130,17 +197,18 @@ Get start and end times of each cycle from the sequencer
 #### Signature
 
 ```python
-def get_cycles_times(self): ...
+def get_cycle_times(self, mode="matched"): ...
 ```
 
 ### ucndata().get_hits_histogram
 
-[Show source in ucndata.py:223](../ucndata.py#L223)
+[Show source in ucndata.py:404](../ucndata.py#L404)
 
 Get histogram of UCNHits ttree times
 
 #### Arguments
 
+- `detector` *str* - Li6|He3
 - `bin_ms` *int* - histogram bin size in milliseconds
 
 #### Returns
@@ -150,36 +218,34 @@ Get histogram of UCNHits ttree times
 #### Signature
 
 ```python
-def get_hits_histogram(self, bin_ms=100): ...
+def get_hits_histogram(self, detector, bin_ms=100): ...
 ```
 
-### ucndata().set_he3
+### ucndata().souce_temperature_k
 
-[Show source in ucndata.py:262](../ucndata.py#L262)
-
-Set name patterns to match He3 detector
+[Show source in ucndata.py:481](../ucndata.py#L481)
 
 #### Signature
 
 ```python
-def set_he3(self): ...
+@property
+def souce_temperature_k(self): ...
 ```
 
-### ucndata().set_li6
+### ucndata().source_pressure_kpa
 
-[Show source in ucndata.py:271](../ucndata.py#L271)
-
-Set name patterns to match li6 detector
+[Show source in ucndata.py:485](../ucndata.py#L485)
 
 #### Signature
 
 ```python
-def set_li6(self): ...
+@property
+def source_pressure_kpa(self): ...
 ```
 
 ### ucndata().to_dataframe
 
-[Show source in ucndata.py:280](../ucndata.py#L280)
+[Show source in ucndata.py:448](../ucndata.py#L448)
 
 Convert self.tfile contents to pd.DataFrame
 

@@ -3,14 +3,24 @@
 # June 2024
 
 """
-TODO List, things which haven't been ported from WS code
+    TODO List, things which haven't been ported from WS code
 
-
-
+    * Filter pileup
+    * skip cycles that have total duration of 0s
+    * skip cycle because cycle sequence is longer than irradiation interval
+    * get supercycle index
+    * skip cycles with no beam data
+    * skip cycles with fluctuating beam current
+    * skip cycles with low beam current
+    * skip cycles with no detector counts
+    * skip cycles no IV1 open during measurement
+    * get temperature
+    * get vapour pressure
 """
 
 from rootloader import tfile, ttree
 from .exceptions import *
+import ucndata.constants as const
 import ROOT
 import numpy as np
 import pandas as pd
@@ -140,6 +150,34 @@ class ucndata(object):
         else:
             return self.__class__.__name__ + "()"
 
+    def _get_beam_duration(self, on=True):
+        # Get beam on/off durations
+
+        # get needed info
+        cycle_times = self.get_cycle_times()
+
+        try:
+            beam = self.tfile.BeamlineEpics
+        except AttributeError:
+            raise MissingDataError("No saved ttree named BeamlineEpics")
+
+        # setup storage
+        beam_dur = []
+        epics_val = 'B1V_KSM_RDBEAMON_VAL1' if on else 'B1V_KSM_RDBEAMOFF_VAL1'
+
+        # get durations closest to cycle start time
+        for start in cycle_times.start:
+
+            # unsure why 0.00088801 is needed...
+            start_times = abs(beam.timestamp - start)
+            durations = getattr(beam, epics_val)*const.beam_bucket_duration_s
+            idx = np.argmin(start_times)
+            beam_dur.append(durations[idx])
+
+        out = pd.Series(beam_dur, index=cycle_times.index)
+        out.index.name = cycle_times.index.name
+        return out
+
     def check_data(self):
         """Run some checks to determine if the data is ok.
 
@@ -184,34 +222,6 @@ class ucndata(object):
             else:
                 setattr(copy, key, value)
         return copy
-
-    def get_beam_duration(self):
-        """Get beam on/off durations
-
-        Returns:
-            pd.DataFrame: beam on/off durations for all cycles
-        """
-
-        # get needed info
-        cycle_times = self.get_cycle_times()
-        beam = self.tfile.BeamlineEpics
-
-        # setup storage
-        beamon = []
-        beamoff = []
-
-        # get durations closest to cycle start time
-        for start in cycle_times.start:
-
-            # unsure why 0.00088801 is needed...
-            beamstart = pd.DataFrame({'start': abs(beam.timestamp - start),
-                                    'onduration': beam.B1V_KSM_RDBEAMON_VAL1*0.00088801,
-                                    'offduration': beam.B1V_KSM_RDBEAMOFF_VAL1*0.00088801})
-            idx = beamstart.idxmin().start
-            beamon.append(beamstart.loc[idx, 'onduration'])
-            beamoff.append(beamstart.loc[idx, 'offduration'])
-
-        return pd.DataFrame({'on (s)': beamon, 'off (s)': beamoff}, index=cycle_times.index)
 
     def get_cycle(self, cycle=None, **cycle_times_args):
         """Return a copy of this object, but trees are trimmed to only one cycle.
@@ -395,6 +405,7 @@ class ucndata(object):
         """Get histogram of UCNHits ttree times
 
         Args:
+            detector (str): Li6|He3
             bin_ms (int): histogram bin size in milliseconds
 
         Returns:
@@ -437,3 +448,40 @@ class ucndata(object):
     def to_dataframe(self):
         """Convert self.tfile contents to pd.DataFrame"""
         self.tfile.to_dataframe()
+
+    # quick access properties
+    @property
+    def beam_current_uA(self):
+
+        if type(self.tfile.BeamlineEpics) is pd.DataFrame:
+            df = self.tfile.BeamlineEpics
+        else:
+            df = self.tfile.BeamlineEpics.to_dataframe()
+
+        # PREDCUR is the predicted current in beamline 1U.
+        # PREDCUR is calculated by using the beamline 1V extraction foil current
+        # (the current as it leaves the cyclotron) and multiplid by the fraction
+        # of beam that is going to the 1U beamline (as opposed to 1A beamline).
+        # So if the extraction foil current is 100uA and we are kicking 1 bucket
+        # out of 10 buckets to 1U, then PREDCUR will be 10uA
+        predcur = df.B1V_KSM_PREDCUR
+
+        # BONPRD is a bool, which indicates if there is beam down 1U
+        bonprd = df.B1V_KSM_BONPRD
+
+        # current in the 1U beamline
+        return predcur*bonprd
+
+    @property
+    def beam_on_s(self): return self._get_beam_duration(on=True)
+
+    @property
+    def beam_off_s(self): return self._get_beam_duration(on=False)
+
+    @property
+    def souce_temperature_k(self):
+        raise NotImplementedError()
+
+    @property
+    def source_pressure_kpa(self):
+        raise NotImplementedError()
