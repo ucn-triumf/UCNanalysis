@@ -9,13 +9,10 @@
     * skip cycles that have total duration of 0s
     * skip cycle because cycle sequence is longer than irradiation interval
     * get supercycle index
-    * skip cycles with no beam data
-    * skip cycles with fluctuating beam current
-    * skip cycles with low beam current
     * skip cycles with no detector counts
-    * skip cycles no IV1 open during measurement
     * get temperature
     * get vapour pressure
+    * period extraction and data checks
 """
 
 from rootloader import tfile, ttree
@@ -25,6 +22,7 @@ import ROOT
 import numpy as np
 import pandas as pd
 import itertools, warnings, os
+from tqdm import tqdm
 
 ROOT.gROOT.SetBatch(1)
 
@@ -74,6 +72,17 @@ class ucndata(object):
 
     # needed slow control trees
     SLOW_TREES = ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
+
+    # data thresholds for checking data
+    DATA_CHECK_THRESH = {'beam_min_current':        0.1,    # uA
+                         'beam_max_current_std':    0.02,   # uA
+                         }
+
+    # default detector backgrounds - from 2019
+    DET_BKGD = {'Li6':     1.578,
+                'Li6_err': 0.009,
+                'He3':     0.0349,
+                'He3_err': 0.0023}
 
     def __init__(self, filename, header_only=False):
 
@@ -168,7 +177,6 @@ class ucndata(object):
         # get durations closest to cycle start time
         for start in cycle_times.start:
 
-            # unsure why 0.00088801 is needed...
             start_times = abs(beam.timestamp - start)
             durations = getattr(beam, epics_val)*const.beam_bucket_duration_s
             idx = np.argmin(start_times)
@@ -176,10 +184,19 @@ class ucndata(object):
 
         out = pd.Series(beam_dur, index=cycle_times.index)
         out.index.name = cycle_times.index.name
+
+        if len(out) == 1:
+            return float(out.values[0])
         return out
 
-    def check_data(self):
+    def check_data(self, raise_error=False):
         """Run some checks to determine if the data is ok.
+
+        Args:
+            raise_error (bool): if true, raise an error if check fails, else return false
+
+        Returns:
+            bool: true if check passes, else false.
 
         Checks:
             Do the following trees exist and have entries?
@@ -193,24 +210,79 @@ class ucndata(object):
         # check some necessary data trees
         for tree in self.SLOW_TREES:
 
+            msg = None
+
             # does tree exist?
             if tree not in self.tfile.keys():
-                raise MissingDataError(f'Missing ttree "{tree}" in run {self.run_number}')
+                msg = f'Missing ttree "{tree}" in run {self.run_number}'
 
             # does tree have entries?
-            if self.tfile[tree].entries == 0:
-                raise MissingDataError(f'Zero entries found in "{tree}" ttree in run {self.run_number}')
+            elif self.tfile[tree].entries == 0:
+                msg = f'Zero entries found in "{tree}" ttree in run {self.run_number}'
+
+            # raise error or return
+            if msg is not None:
+                if raise_error:
+                    raise MissingDataError(msg)
+                else:
+                    print(msg)
+                    return False
 
         for name, det in self.DET_NAMES.items():
 
             # check for nonzero counts
             if not self.tfile[det['hits']].tIsUCN.any():
-                raise MissingDataError(f'No UCN hits in "{name}" ttree in run {self.run_number}')
+                msg = f'No UCN hits in "{name}" ttree in run {self.run_number}'
 
             # check if sequencer was enabled but no run transitions
-            if any(self.tfile.SequencerTree.sequencerEnabled):
+            elif any(self.tfile.SequencerTree.sequencerEnabled):
                 if self.tfile[det['transitions']].entries == 0:
-                    raise MissingDataError('No cycles found in run {self.run_number}, although sequencer was active')
+                    msg = 'No cycles found in run {self.run_number}, although sequencer was active'
+
+            # raise error or return
+            if msg is not None:
+                if raise_error:
+                    raise MissingDataError(msg)
+                else:
+                    print(msg)
+                    return False
+
+        # individual cycle checks
+        if self.cycle is not None:
+
+            msg = None
+            run_msg = f'Run {self.run}, cycle {self.cycle} failure:'
+
+            # beam data exists
+            beam_current = self.beam_current_uA
+            if len(beam_current) == 0:
+                msg = f'{run_msg} No beam data saved'
+                err = BeamError
+
+            # beam current too low
+            elif beam_current.min() < self.DATA_CHECK_THRESH['beam_min_current']:
+                msg = f'{run_msg} Beam current dropped to {beam_current.min()} uA'
+                err = BeamError
+
+            # beam current unstable
+            elif beam_current.std() > self.DATA_CHECK_THRESH['beam_max_current_std']:
+                msg = f'{run_msg} Beam current fluctuated by {beam_current.std()} uA'
+                err = BeamError
+
+            # valve states
+            # elif self.tfile.???.UCN_UGD_IV1_STATON.max() < 1:
+            #     msg = f'{run_msg} IV1 never opened'
+            #     err = ValveError
+
+            # raise error or return value
+            if msg is not None:
+                if raise_error:
+                    raise err(msg)
+                else:
+                    print(msg)
+                    return False
+
+        return True
 
     def copy(self):
         """Return a copy of this objet"""
@@ -223,13 +295,29 @@ class ucndata(object):
                 setattr(copy, key, value)
         return copy
 
-    def get_cycle(self, cycle=None, **cycle_times_args):
+    def correct_bkgd(self, detector, rate=None, rate_err=None):
+        """Subtract background and normalize to the average beam current
+
+        Args:
+            detector (str): He3|Li6
+            rate (float): background rate. If None, use self.DET_BKGD
+            rate_err (float): error in background rate. If None, use self.DET_BKGD
+        """
+
+        # get rates
+        if rate is None: rate = self.DET_BKGD[detector]
+        if rate_err is None: rate_err = self.DET_BKGD[detector+'_err']
+
+        # TODO: needs finishing. See UCN.py: SubtractBackgroundAndNormalize
+
+    def get_cycle(self, cycle=None, nproc=-1, **cycle_times_args):
         """Return a copy of this object, but trees are trimmed to only one cycle.
 
         Note that this process converts all objects to dataframes
 
         Args:
             cycle (int): cycle number, if None, get all cycles
+            nproc (int): number of processors to use
             cycle_times_args: passed to get_cycle_times
 
         Returns:
@@ -241,7 +329,12 @@ class ucndata(object):
         # get all cycles
         if cycle is None:
             ncycles = len(self.get_cycle_times(**cycle_times_args).index)
-            return [self.get_cycle(c) for c in range(ncycles)]
+            return list(map(self.get_cycle, tqdm(range(ncycles),
+                                                 total=ncycles,
+                                                 leave=False,
+                                                 desc='Fetch all cycles')
+                            )
+                        )
 
         # make copy
         copy = self.copy()
@@ -258,14 +351,14 @@ class ucndata(object):
             # trim ttree
             if type(value) is ttree:
                 value = value.to_dataframe()
-                if value.index.name != '':
+                if value.index.name is not None:
                     idx = (value.index < stop) & (value.index > start)
                     value = value.loc[idx]
                 copy.tfile[key] = ttree(value)
 
             # trim dataframe
             elif type(value) is pd.DataFrame:
-                if value.index.name != '':
+                if value.index.name is not None:
                     idx = (value.index < stop) & (value.index > start)
                     copy.tfile[key] = value.loc[idx].copy()
 
@@ -278,9 +371,11 @@ class ucndata(object):
         """Get start and end times of each cycle from the sequencer
 
         Args:
-            mode (str): matched|sequencer
+            mode (str): matched|sequencer|he3|li6
                 if matched: look for identical timestamps in RunTransitions from detectors
                 if sequencer: look for inCycle timestamps in SequencerTree
+                if he3: use He3 detector cycle start times
+                if li6: use Li6 detector cycle start times
 
         Notes:
             - If run ends before sequencer stop is called, a stop is set to final timestamp.
@@ -293,7 +388,7 @@ class ucndata(object):
             - If the object reflects a single cycle, return from cycle_start, cycle_stop
 
         Returns:
-            pd.DataFrame: with columns "start", "stop", and "duration (s)". Values are in epoch time. Indexed by cycle id
+            pd.DataFrame: with columns "start", "stop", "offset" and "duration (s)". Values are in epoch time. Indexed by cycle id. Offset is the difference in detector start times: he3_start-li6_start
         """
 
         # check if single cycle
@@ -308,6 +403,12 @@ class ucndata(object):
         df = self.tfile.SequencerTree
         if type(df) == ttree:
             df = df.to_dataframe()
+
+        # get run end time from control trees - used in matched and detector cycles times
+        run_stop = -np.inf
+        for treename in self.SLOW_TREES:
+            idx = self.tfile[treename].to_dataframe().index
+            run_stop = max((idx.max(), run_stop))
 
         ## if no sequencer, make the whole run a single cycle
         if not any(df.sequencerEnabled):
@@ -364,12 +465,6 @@ class ucndata(object):
             if any(unmatched):
                 warnings.warn(f'Found no match to Li6 cycles at {unmatched} in run {self.run_number}', CycleWarning)
 
-            # get run end time from control trees
-            run_stop = -np.inf
-            for treename in self.SLOW_TREES:
-                idx = self.tfile[treename].to_dataframe().index
-                run_stop = max((idx.max(), run_stop))
-
             # setup output
             times = {'start': matchedhe3,
                      'duration (s)': np.concatenate((np.diff(matchedhe3), [run_stop])),
@@ -393,6 +488,30 @@ class ucndata(object):
             # check lengths
             if len(times['start']) > len(times['stop']):
                 times['stop'].append(df.index[-1])
+
+        ## detector start times
+        elif mode in 'he3':
+
+            start = self.tfile[self.DET_NAMES['He3']['transitions']].cycleStartTime
+            start = start.drop_duplicates()
+
+            # setup output
+            times = {'start': start,
+                     'duration (s)': np.concatenate((np.diff(start), [run_stop]))
+                    }
+            times['stop'] = times['start'] + times['duration (s)']
+
+        ## detector start times
+        elif mode in 'li6':
+
+            start = self.tfile[self.DET_NAMES['Li6']['transitions']].cycleStartTime
+            start = start.drop_duplicates()
+
+            # setup output
+            times = {'start': start,
+                     'duration (s)': np.concatenate((np.diff(start), [run_stop])),
+                    }
+            times['stop'] = times['start'] + times['duration (s)']
 
         # convert to dataframe
         times = pd.DataFrame(times)
@@ -485,3 +604,23 @@ class ucndata(object):
     @property
     def source_pressure_kpa(self):
         raise NotImplementedError()
+
+    @property
+    def supercycle(self):
+        """Get supercycle number"""
+
+        # get transition tree names
+        transition_trees = [self.DET_NAMES[det]['transitions'] for det in self.DET_NAMES.keys()]
+
+        # look for something with superCycleIndex
+        supercy = None
+        for treename in transition_trees:
+            if treename in self.tfile.keys():
+                supercy = self.tfile[treename].superCycleIndex
+
+        # if supercy not in None
+        # TODO: FINISH THIS
+
+        # didn't find the trees
+        raise MissingDataError(f'None of "{transition_trees}" found in data file for run {self.run}')
+
