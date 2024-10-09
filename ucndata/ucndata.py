@@ -15,8 +15,9 @@
     * period extraction and data checks
 """
 
-from rootloader import tfile, ttree
+from rootloader import tfile, ttree, attrdict
 from .exceptions import *
+import ucndata.settings as default_settings
 import ucndata.constants as const
 import ROOT
 import numpy as np
@@ -24,16 +25,15 @@ import pandas as pd
 import itertools, warnings, os
 from tqdm import tqdm
 
+
 ROOT.gROOT.SetBatch(1)
 
 class ucndata(object):
     """UCN run data. Cleans data and performs analysis
 
     Args:
-        cycle (int|None): indicates cycle number, none if full file
-        cycle_start (float): epoch time cycle start time (only if single cycle)
-        cycle_stop (float) : epoch time cycle stop time (only if single cycle)
-        filename (str): path to file to open
+        run (int|str): if int, generate filename with settings.datadir
+            elif str then run is the path to the file
         header_only (bool): if true, read only the header
 
     Attributes:
@@ -84,10 +84,24 @@ class ucndata(object):
                 'He3':     0.0349,
                 'He3_err': 0.0023}
 
-    def __init__(self, filename, header_only=False):
+    def __init__(self, run, header_only=False):
 
-        if filename is None:
+        # check if copying
+        if run is None:
             return
+
+        # make filename from defaults
+        elif type(run) is int:
+            try:
+                _dirname = datadir
+            except NameError:
+                _dirname = default_settings.datadir
+
+            filename = os.path.join(_dirname, f'ucn_run_{run:0>8d}.root')
+
+        # fetch from specified path
+        elif type(run) is str:
+            filename = run
 
         # read
         if header_only:
@@ -98,7 +112,14 @@ class ucndata(object):
             self._head = head # needed to keep value in memory
 
         else:
-            self.tfile = tfile(filename, empty_ok=False, quiet=True)
+
+            try:
+                _keyfilter = keyfilter
+            except NameError:
+                _keyfilter = default_settings.keyfilter
+
+            self.tfile = tfile(filename, empty_ok=False, quiet=True,
+                               key_filter=_keyfilter)
             head = self.tfile['header']
 
             # fix header values in tfile
@@ -113,6 +134,39 @@ class ucndata(object):
             self.run_number = int(self.run_number[0])
         else:
             self.run_number = int(self.run_number)
+
+        # reformat cycle param tree
+        paramtree = self.tfile.CycleParamTree
+        self.cycle_param = {'ncycles':  paramtree.nCycles[0],
+                            'nperiods': paramtree.nPeriods[0],
+                            'nsupercyc': paramtree.nSuperCyc[0],
+                            'enable': bool(paramtree.enable[0]),
+                            'inf_cyc_enable': bool(paramtree.infCyclesEnable[0]),
+                            }
+        self.cycle_param = attrdict(self.cycle_param)
+
+        # setup cycle paramtree array outputs
+        df_param = paramtree.to_dataframe()
+        df_param.set_index('periodNumber', inplace=True)
+        df_param.index.name = 'period'
+
+        # get valve states
+        df = df_param[[col for col in df_param.columns if 'Valve' in col]]
+
+        col_map = {col:int(col.replace("Valve", "").replace("State", "")) for col in df.columns}
+        df = df.rename(columns=col_map)
+        df.columns.name = 'valve'
+        df = df.astype(bool)
+        self.cycle_param['valve_states'] = df
+
+        # get period durations
+        df = df_param[[col for col in df_param.columns if 'periodDurationInCycle' in col]]
+        col_map = {col:int(col.replace("periodDurationInCycle", "")) for col in df.columns}
+        df = df.rename(columns=col_map)
+        df.columns.name = 'cycle'
+        df = df[sorted(df.columns)]
+        self.cycle_param['period_durations'] = df
+
 
         # set other header items
         self.cycle = None
