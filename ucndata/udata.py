@@ -8,7 +8,6 @@
     * Filter pileup
     * skip cycles that have total duration of 0s
     * skip cycle because cycle sequence is longer than irradiation interval
-    * get supercycle index
     * skip cycles with no detector counts
     * get temperature
     * get vapour pressure
@@ -139,37 +138,8 @@ class udata(object):
         else:
             self.run_number = int(self.run_number)
 
-        # reformat cycle param tree
-        paramtree = self.tfile.CycleParamTree
-        self.cycle_param = {'ncycles':  paramtree.nCycles[0],
-                            'nperiods': paramtree.nPeriods[0],
-                            'nsupercyc': paramtree.nSuperCyc[0],
-                            'enable': bool(paramtree.enable[0]),
-                            'inf_cyc_enable': bool(paramtree.infCyclesEnable[0]),
-                            }
-        self.cycle_param = attrdict(self.cycle_param)
-
-        # setup cycle paramtree array outputs
-        df_param = paramtree.to_dataframe()
-        df_param.set_index('periodNumber', inplace=True)
-        df_param.index.name = 'period'
-
-        # get valve states
-        df = df_param[[col for col in df_param.columns if 'Valve' in col]]
-
-        col_map = {col:int(col.replace("Valve", "").replace("State", "")) for col in df.columns}
-        df = df.rename(columns=col_map)
-        df.columns.name = 'valve'
-        df = df.astype(bool)
-        self.cycle_param['valve_states'] = df
-
-        # get period durations
-        df = df_param[[col for col in df_param.columns if 'periodDurationInCycle' in col]]
-        col_map = {col:int(col.replace("periodDurationInCycle", "")) for col in df.columns}
-        df = df.rename(columns=col_map)
-        df.columns.name = 'cycle'
-        df = df[sorted(df.columns)]
-        self.cycle_param['period_durations'] = df
+        # set cycle parameters
+        self._get_cycle_param()
 
         # set other header items
         self.cycle = None
@@ -246,6 +216,69 @@ class udata(object):
         if len(out) == 1:
             return float(out.values[0])
         return out
+
+    def _get_cycle_param(self):
+        # set self.cycle_param dict
+
+        # reformat cycle param tree
+        paramtree = self.tfile.CycleParamTree
+        self.cycle_param = {'ncycles':  paramtree.nCycles[0],
+                            'nperiods': paramtree.nPeriods[0],
+                            'nsupercyc': paramtree.nSuperCyc[0],
+                            'enable': bool(paramtree.enable[0]),
+                            'inf_cyc_enable': bool(paramtree.infCyclesEnable[0]),
+                            }
+        self.cycle_param = attrdict(self.cycle_param)
+
+        # setup cycle paramtree array outputs from transition trees
+        for detector in self.DET_NAMES.values():
+            if detector['transitions'] in self.tfile.keys():
+                tree = self.tfile[detector['transitions']]
+                break
+        tree = tree.to_dataframe()
+
+        # cycle and supercycle indices
+        self.cycle_param['cycle'] = tree['cycleIndex'].astype(int)
+        self.cycle_param['supercycle'] = tree['superCycleIndex'].astype(int)
+
+        # convert the array in each cell into a dataframe
+        def item_to_df(x):
+            s = pd.DataFrame(np.array(x).copy(), index=np.arange(len(x))+1)
+            return s
+
+        # valve states -------------------------------------------------------
+        df = tree[[col for col in tree.columns if 'valveState' in col]]
+        col_map = {col:int(col.replace("valveStatePeriod", "")) for col in df.columns}
+        df = df.rename(columns=col_map)
+        df.columns.name = 'period'
+        df.index.name = 'cycle_idx'
+
+        # valve states should not change across cycles
+        df2 = df.loc[0]
+        df2 = pd.concat([item_to_df(df2[period]) for period in df2.index], axis='columns')
+
+        # rename columns and index
+        df2.columns = np.arange(len(df2.columns))
+        df2.columns.name = 'period'
+        df2.index.name = 'valve'
+        self.cycle_param['valve_states'] = df2.transpose()
+
+        # period end times ---------------------------------------------------
+        df = tree[[col for col in tree.columns if 'cyclePeriod' in col]]
+        col_map = {col:int(col.replace("cyclePeriod", "").replace("EndTime", "")) for col in df.columns}
+
+        # rename columns and index
+        df = df.rename(columns=col_map)
+        df.columns.name = 'period'
+        df.index.name = 'cycle'
+        self.cycle_param['period_end_times'] = df.transpose()
+
+        # period durations ---------------------------------------------------
+        cycle_start = tree.cycleStartTime
+        df_diff = df.diff(axis='columns')
+        df_diff[0] = df[0] - cycle_start
+
+        self.cycle_param['period_durations_s'] = df_diff.transpose()
 
     def check_data(self, raise_error=False):
         """Run some checks to determine if the data is ok.
@@ -491,6 +524,7 @@ class udata(object):
         elif mode in 'matched':
             hestart = self.tfile[self.DET_NAMES['He3']['transitions']].cycleStartTime
             listart = self.tfile[self.DET_NAMES['Li6']['transitions']].cycleStartTime
+            scycle = self.tfile[self.DET_NAMES['He3']['transitions']].superCycleIndex
 
             # drop duplicate timestamps
             hestart = hestart.drop_duplicates()
@@ -535,7 +569,7 @@ class udata(object):
                      'duration (s)': np.concatenate((np.diff(matchedhe3), [run_stop])),
                      'offset (s)': matchedhe3-matchedli6}
             times['stop'] = times['start'] + times['duration (s)']
-            times['supercycle'] = self.tfile[self.DET_NAMES['He3']['transitions']].superCycleIndex
+            times['supercycle'] = scycle
 
         ## get timestamps from sequencer
         elif mode in 'sequencer':
