@@ -1,4 +1,4 @@
-# Merge a list of ucndata objects into a single object
+# Merge a list of udata objects into a single object
 # Derek Fujimoto
 # Aug 2024
 
@@ -8,13 +8,13 @@ import numpy as np
 import pandas as pd
 
 def merge(ucnlist):
-    """Merge a list of ucndata objects into a single object
+    """Merge a list of udata objects into a single object
 
     Args:
-        ucnlist (list): iterable of ucndata objects
+        ucnlist (list): iterable of udata objects
 
     Returns:
-        ucndata: single object with all data inside of it
+        udata: single object with all data inside of it
     """
 
     # sort by run number, assume run numbers are in chronological order
@@ -24,7 +24,7 @@ def merge(ucnlist):
     ucnlist = ucnlist[idx]
 
     # initialize output object
-    ucnmerged = ucndata(None)
+    ucnmerged = udata(None)
 
     # set header items as arrays
     for key in ucnlist[0].__dict__.keys():

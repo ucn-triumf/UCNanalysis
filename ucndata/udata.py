@@ -39,6 +39,7 @@ class udata(object):
     Attributes:
         comment (str): comment input by users
         cycle (int|none): cycle number, none if no cycle selected
+        cycle_param (attrdict): cycle parameters from sequencer settings
         experiment_number (str): experiment number input by users
         month (int): month of run start
         run_number (int): run number
@@ -46,6 +47,7 @@ class udata(object):
         shifter (str): experimenters on shift at time of run
         start_time (str): start time of the run
         stop_time (str): stop time of the run
+        supercycle (int|none): supercycle number, none if no cycle selected
         tfile (tfile): stores tfile raw readback
         year (int): year of run start
 
@@ -169,9 +171,9 @@ class udata(object):
         df = df[sorted(df.columns)]
         self.cycle_param['period_durations'] = df
 
-
         # set other header items
         self.cycle = None
+        self.supercycle = None
         date = pd.to_datetime(self.start_time)
         self.year = date.year
         self.month = date.month
@@ -342,7 +344,7 @@ class udata(object):
 
     def copy(self):
         """Return a copy of this objet"""
-        copy = ucndata(None)
+        copy = udata(None)
 
         for key, value in self.__dict__.items():
             if hasattr(value, 'copy'):
@@ -377,13 +379,13 @@ class udata(object):
             cycle_times_args: passed to get_cycle_times
 
         Returns:
-            ucndata:
+            udata:
                 if cycle > 0: a copy of this object but with data from only one cycle.
-                if cycle < 0: a list of copies of this object for all cycles
+                if cycle < 0 | None: a list of copies of this object for all cycles
         """
 
         # get all cycles
-        if cycle is None:
+        if cycle is None or cycle < 0:
             ncycles = len(self.get_cycle_times(**cycle_times_args).index)
             return list(map(self.get_cycle, tqdm(range(ncycles),
                                                  total=ncycles,
@@ -399,6 +401,7 @@ class udata(object):
         cycles = copy.get_cycle_times(**cycle_times_args)
         start = int(cycles.loc[cycle, 'start'])
         stop = int(cycles.loc[cycle, 'stop'])
+        supercycle = int(cycles.loc[cycle, 'supercycle'])
 
         # trim the trees
         for key, value in copy.tfile.items():
@@ -418,7 +421,11 @@ class udata(object):
                     idx = (value.index < stop) & (value.index > start)
                     copy.tfile[key] = value.loc[idx].copy()
 
+        # trim cycle parameters
+        copy.cycle_param.period_durations = copy.cycle_param.period_durations[cycle]
+
         copy.cycle = cycle
+        copy.supercycle = supercycle
         copy.cycle_start = start
         copy.cycle_stop = stop
         return copy
@@ -452,7 +459,8 @@ class udata(object):
             return pd.DataFrame({'start':[self.cycle_start],
                                  'stop':[self.cycle_stop],
                                  'duration (s)': [self.cycle_stop-self.cycle_start],
-                                 'offset (s)': [0.0]},
+                                 'offset (s)': [0.0],
+                                 'supercycle': [self.supercycle]},
                                  index=[self.cycle])
 
         # get data
@@ -470,7 +478,8 @@ class udata(object):
         if not any(df.sequencerEnabled):
 
             times = {'start': np.inf,
-                     'stop': -np.inf}
+                     'stop': -np.inf,
+                     'supercycle': 0}
 
             # use timestamps from slow control trees to determine timestamps
             for treename in self.SLOW_TREES:
@@ -526,6 +535,7 @@ class udata(object):
                      'duration (s)': np.concatenate((np.diff(matchedhe3), [run_stop])),
                      'offset (s)': matchedhe3-matchedli6}
             times['stop'] = times['start'] + times['duration (s)']
+            times['supercycle'] = self.tfile[self.DET_NAMES['He3']['transitions']].superCycleIndex
 
         ## get timestamps from sequencer
         elif mode in 'sequencer':
@@ -539,7 +549,8 @@ class udata(object):
             # get start and end times
             df = df.diff()
             times = {'start': df.index[df.inCycle == 1],
-                    'stop': df.index[df.inCycle == -1]}
+                    'stop': df.index[df.inCycle == -1],
+                    'supercycle': 0}
 
             # check lengths
             if len(times['start']) > len(times['stop']):
@@ -556,6 +567,7 @@ class udata(object):
                      'duration (s)': np.concatenate((np.diff(start), [run_stop]))
                     }
             times['stop'] = times['start'] + times['duration (s)']
+            times['supercycle'] = self.tfile[self.DET_NAMES['He3']['transitions']].superCycleIndex
 
         ## detector start times
         elif mode in 'li6':
@@ -568,6 +580,7 @@ class udata(object):
                      'duration (s)': np.concatenate((np.diff(start), [run_stop])),
                     }
             times['stop'] = times['start'] + times['duration (s)']
+            times['supercycle'] = self.tfile[self.DET_NAMES['Li6']['transitions']].superCycleIndex
 
         # convert to dataframe
         times = pd.DataFrame(times)
@@ -661,22 +674,4 @@ class udata(object):
     def source_pressure_kpa(self):
         raise NotImplementedError()
 
-    @property
-    def supercycle(self):
-        """Get supercycle number"""
-
-        # get transition tree names
-        transition_trees = [self.DET_NAMES[det]['transitions'] for det in self.DET_NAMES.keys()]
-
-        # look for something with superCycleIndex
-        supercy = None
-        for treename in transition_trees:
-            if treename in self.tfile.keys():
-                supercy = self.tfile[treename].superCycleIndex
-
-        # if supercy not in None
-        # TODO: FINISH THIS
-
-        # didn't find the trees
-        raise MissingDataError(f'None of "{transition_trees}" found in data file for run {self.run}')
 

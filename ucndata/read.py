@@ -18,7 +18,7 @@ def read(path, nproc=-1, header_only=False):
         header_only (bool): if true, read only the header
 
     Returns:
-        np.ndarray: sorted by run number, contains ucndata objects
+        np.ndarray: sorted by run number, contains udata objects
     """
 
     # normalize input
@@ -35,7 +35,7 @@ def read(path, nproc=-1, header_only=False):
         nproc = max(cpu_count()-nproc, 1)
 
     with Pool(nproc) as pool:
-        fn = partial(ucndata, header_only=header_only)
+        fn = partial(udata, header_only=header_only)
         iterable = tqdm(pool.imap_unordered(fn, pathlist),
                         leave=False,
                         total=len(pathlist),
