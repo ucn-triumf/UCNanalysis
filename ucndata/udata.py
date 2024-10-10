@@ -28,7 +28,7 @@ from tqdm import tqdm
 
 ROOT.gROOT.SetBatch(1)
 
-class ucndata(object):
+class udata(object):
     """UCN run data. Cleans data and performs analysis
 
     Args:
@@ -51,6 +51,8 @@ class ucndata(object):
 
     Notes:
         Can access attributes of tfile directly from top-level object
+        Need to define the values in ucndata.settings if you want non-default
+        behaviour
     """
 
     # detector names

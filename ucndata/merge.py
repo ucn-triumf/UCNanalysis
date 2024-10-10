@@ -2,7 +2,7 @@
 # Derek Fujimoto
 # Aug 2024
 
-from .ucndata import ucndata
+from .udata import udata
 from rootloader import tfile, ttree, th1, th2
 import numpy as np
 import pandas as pd

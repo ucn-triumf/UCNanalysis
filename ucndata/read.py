@@ -4,7 +4,7 @@
 
 import glob
 from multiprocessing import cpu_count, Pool
-from .ucndata import ucndata
+from .udata import udata
 from tqdm import tqdm
 import numpy as np
 from functools import partial
