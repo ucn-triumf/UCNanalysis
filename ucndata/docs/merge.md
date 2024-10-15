@@ -11,15 +11,15 @@
 
 [Show source in merge.py:10](../merge.py#L10)
 
-Merge a list of ucndata objects into a single object
+Merge a list of ucnrun objects into a single object
 
 #### Arguments
 
-- `ucnlist` *list* - iterable of ucndata objects
+- `ucnlist` *list* - iterable of ucnrun objects
 
 #### Returns
 
-- [ucndata](./ucndata.md#ucndata) - single object with all data inside of it
+- `ucnrun` - single object with all data inside of it
 
 #### Signature
 

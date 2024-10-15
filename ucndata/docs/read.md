@@ -21,7 +21,7 @@ Read out single or multiple UCN run files from ROOT
 
 #### Returns
 
-- `np.ndarray` - sorted by run number, contains ucndata objects
+- `np.ndarray` - sorted by run number, contains ucnrun objects
 
 #### Signature
 
