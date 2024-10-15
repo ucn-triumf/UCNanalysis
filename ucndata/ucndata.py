@@ -5,7 +5,6 @@
 """
     TODO List, things which haven't been ported from WS code
 
-    * Filter pileup
     * skip cycles that have total duration of 0s
     * skip cycle because cycle sequence is longer than irradiation interval
     * skip cycles with no detector counts
@@ -76,8 +75,10 @@ class ucnrun(object):
     SLOW_TREES = ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
 
     # data thresholds for checking data
-    DATA_CHECK_THRESH = {'beam_min_current':        0.1,    # uA
-                         'beam_max_current_std':    0.02,   # uA
+    DATA_CHECK_THRESH = {'beam_min_current': 0.1, # uA
+                         'beam_max_current_std': 0.02, # uA
+                         'pileup_cnt_per_ms': 3, # if larger than this, then pileup and delete
+                         'pileup_within_first_s': 1, # time frame for pileup in each period
                          }
 
     # default detector backgrounds - from 2019
@@ -572,7 +573,33 @@ class ucnrun(object):
             hit_tree = hit_tree.to_dataframe()
 
         # get times only when a hit is registered
-        return hit_tree.loc[hit_tree.tIsUCN.astype(bool)]
+        hit_tree = hit_tree.loc[hit_tree.tIsUCN.astype(bool)]
+
+        # filter pileup for period data
+        if type(self) is ucnperiod:
+
+            # get thresholds
+            dt = self.DATA_CHECK_THRESH['pileup_within_first_s']
+            count_thresh = self.DATA_CHECK_THRESH['pileup_cnt_per_ms']
+
+            # make histogram
+            t = hit_tree.index.values
+            counts, edges = np.histogram(t,
+                                         bins=int(1/0.001),
+                                         range=(min(t),
+                                                min(t)+dt))
+
+            # delete bad count ranges
+            ncounts_total = len(t)
+            for i, count in enumerate(counts):
+                if count > count_thresh:
+                    hit_tree= hit_tree.loc[(hit_tree.index < edges[i]) & (hit_tree.index > edges[i+1])]
+            ncounts_removed = ncounts_total - len(hit_tree.index)
+
+            if ncounts_removed > 0:
+                print(f'Removed {ncounts_removed} ({ncounts_removed/ncounts_total*100}%) from run{self.run_number} (cycle {self.cycle}, period {self.period})')
+
+        return hit_tree
 
     def get_hits_histogram(self, detector, bin_ms=100):
         """Get histogram of UCNHits ttree times
@@ -770,6 +797,11 @@ class ucncycle(ucnrun):
             msg = f'{run_msg} No valves operated'
             err = ValveError
 
+        # has counts
+        elif not any([self.tfile[self.DET_NAMES['hits']].tIsUCN.sum() > 1 for det in self.DET_NAMES.keys()]):
+            msg = f'{run_msg} No counts detected'
+            err = DataError
+
         # raise error or return value
         if msg is not None:
             if raise_error:
@@ -783,6 +815,19 @@ class ucncycle(ucnrun):
     def cycles(self, *args, **kwargs):
         """Cannot get cycle from current cycle"""
         raise RuntimeError('Object already reflets a single cycle')
+
+    def get_counts(self, detector, subtr_bkgd=True, norm_beam=False):
+        """Get counts for each period
+        Args:
+            detector (str): one of the keys to self.DET_NAMES
+            subtr_bkgd (bool): if true subtract background
+            norm_dur (bool): if true normalize to beam current
+
+        Returns:
+            np.ndarray: number of hits for each period and error
+        """
+        counts = [p.get_counts(detector, subtr_bkgd, norm_beam) for p in self.periods()]
+        return np.array(counts)
 
     def get_cycle(self, *args, **kwargs):
         """Cannot get cycle from current cycle"""
@@ -816,6 +861,19 @@ class ucncycle(ucnrun):
                         )
         else:
             return ucnperiod(self, period)
+
+    def get_rate(self, detector, subtr_bkgd=True, norm_beam=False):
+        """Get count rate for each period
+        Args:
+            detector (str): one of the keys to self.DET_NAMES
+            subtr_bkgd (bool): if true subtract background
+            norm_dur (bool): if true normalize to beam current
+
+        Returns:
+            np.ndarray: count rate each period and error
+        """
+        rate = [p.get_rate(detector, subtr_bkgd, norm_beam) for p in self.periods()]
+        return np.array(rate)
 
     def periods(self):
         """Periods generator, calls get_period"""
