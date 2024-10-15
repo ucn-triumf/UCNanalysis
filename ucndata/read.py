@@ -4,7 +4,7 @@
 
 import glob
 from multiprocessing import cpu_count, Pool
-from .udata import udata
+from .ucndata import ucnrun
 from tqdm import tqdm
 import numpy as np
 from functools import partial
@@ -18,7 +18,7 @@ def read(path, nproc=-1, header_only=False):
         header_only (bool): if true, read only the header
 
     Returns:
-        np.ndarray: sorted by run number, contains udata objects
+        np.ndarray: sorted by run number, contains ucnrun objects
     """
 
     # normalize input
@@ -35,7 +35,7 @@ def read(path, nproc=-1, header_only=False):
         nproc = max(cpu_count()-nproc, 1)
 
     with Pool(nproc) as pool:
-        fn = partial(udata, header_only=header_only)
+        fn = partial(ucnrun, header_only=header_only)
         iterable = tqdm(pool.imap_unordered(fn, pathlist),
                         leave=False,
                         total=len(pathlist),

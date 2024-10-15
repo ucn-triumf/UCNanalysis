@@ -1,4 +1,4 @@
-# Open and analyze UCN data
+# Open and analyze UCN data for a whole run
 # Derek Fujimoto
 # June 2024
 
@@ -11,7 +11,7 @@
     * skip cycles with no detector counts
     * get temperature
     * get vapour pressure
-    * period extraction and data checks
+    * data checks for periods
 """
 
 from rootloader import tfile, ttree, attrdict
@@ -24,10 +24,9 @@ import pandas as pd
 import itertools, warnings, os
 from tqdm import tqdm
 
-
 ROOT.gROOT.SetBatch(1)
 
-class udata(object):
+class ucnrun(object):
     """UCN run data. Cleans data and performs analysis
 
     Args:
@@ -142,8 +141,6 @@ class udata(object):
         self._get_cycle_param()
 
         # set other header items
-        self.cycle = None
-        self.supercycle = None
         date = pd.to_datetime(self.start_time)
         self.year = date.year
         self.month = date.month
@@ -177,8 +174,7 @@ class udata(object):
             klist = np.array_split(klist, ncolumns)
 
             # print
-            cyc_str = '' if self.cycle is None else f' (cycle {self.cycle})'
-            s = f'run {self.run_number}{cyc_str}:\n'
+            s = f'run {self.run_number}:\n'
             for key in zip(*klist):
                 s += '  '
                 s += ''.join(['{0: <{1}}'.format(k, maxsize) for k in key])
@@ -222,8 +218,7 @@ class udata(object):
 
         # reformat cycle param tree
         paramtree = self.tfile.CycleParamTree
-        self.cycle_param = {'ncycles':  paramtree.nCycles[0],
-                            'nperiods': paramtree.nPeriods[0],
+        self.cycle_param = {'nperiods': paramtree.nPeriods[0],
                             'nsupercyc': paramtree.nSuperCyc[0],
                             'enable': bool(paramtree.enable[0]),
                             'inf_cyc_enable': bool(paramtree.infCyclesEnable[0]),
@@ -279,6 +274,29 @@ class udata(object):
         df_diff[0] = df[0] - cycle_start
 
         self.cycle_param['period_durations_s'] = df_diff.transpose()
+
+        # number of cycles
+        self.cycle_param['ncycles'] = len(df.index)
+
+    def _trim(self, start, stop):
+        # trim trees such that timestamps are between start and stop
+
+        for key, value in self.tfile.items():
+            if key == 'header': continue
+
+            # trim ttree
+            if type(value) is ttree:
+                value = value.to_dataframe()
+                if value.index.name is not None:
+                    idx = (value.index < stop) & (value.index > start)
+                    value = value.loc[idx]
+                self.tfile[key] = ttree(value)
+
+            # trim dataframe
+            elif type(value) is pd.DataFrame:
+                if value.index.name is not None:
+                    idx = (value.index < stop) & (value.index > start)
+                    self.tfile[key] = value.loc[idx].copy()
 
     def check_data(self, raise_error=False):
         """Run some checks to determine if the data is ok.
@@ -377,7 +395,7 @@ class udata(object):
 
     def copy(self):
         """Return a copy of this objet"""
-        copy = udata(None)
+        copy = ucnrun(None)
 
         for key, value in self.__dict__.items():
             if hasattr(value, 'copy'):
@@ -401,23 +419,26 @@ class udata(object):
 
         # TODO: needs finishing. See UCN.py: SubtractBackgroundAndNormalize
 
-    def get_cycle(self, cycle=None, nproc=-1, **cycle_times_args):
+    def cycles(self):
+        """Cycles generator, calls get_cycle"""
+        for i in range(self.cycle_param.ncycles):
+            yield self.get_cycle(i)
+
+    def get_cycle(self, cycle=None, **cycle_times_args):
         """Return a copy of this object, but trees are trimmed to only one cycle.
 
         Note that this process converts all objects to dataframes
 
         Args:
             cycle (int): cycle number, if None, get all cycles
-            nproc (int): number of processors to use
             cycle_times_args: passed to get_cycle_times
 
         Returns:
-            udata:
-                if cycle > 0: a copy of this object but with data from only one cycle.
-                if cycle < 0 | None: a list of copies of this object for all cycles
+            ucncycle:
+                if cycle > 0:  ucncycle object
+                if cycle < 0 | None: a list ucncycle objects for all cycles
         """
 
-        # get all cycles
         if cycle is None or cycle < 0:
             ncycles = len(self.get_cycle_times(**cycle_times_args).index)
             return list(map(self.get_cycle, tqdm(range(ncycles),
@@ -426,42 +447,8 @@ class udata(object):
                                                  desc='Fetch all cycles')
                             )
                         )
-
-        # make copy
-        copy = self.copy()
-
-        # get cycles to keep
-        cycles = copy.get_cycle_times(**cycle_times_args)
-        start = int(cycles.loc[cycle, 'start'])
-        stop = int(cycles.loc[cycle, 'stop'])
-        supercycle = int(cycles.loc[cycle, 'supercycle'])
-
-        # trim the trees
-        for key, value in copy.tfile.items():
-            if key == 'header': continue
-
-            # trim ttree
-            if type(value) is ttree:
-                value = value.to_dataframe()
-                if value.index.name is not None:
-                    idx = (value.index < stop) & (value.index > start)
-                    value = value.loc[idx]
-                copy.tfile[key] = ttree(value)
-
-            # trim dataframe
-            elif type(value) is pd.DataFrame:
-                if value.index.name is not None:
-                    idx = (value.index < stop) & (value.index > start)
-                    copy.tfile[key] = value.loc[idx].copy()
-
-        # trim cycle parameters
-        copy.cycle_param.period_durations = copy.cycle_param.period_durations[cycle]
-
-        copy.cycle = cycle
-        copy.supercycle = supercycle
-        copy.cycle_start = start
-        copy.cycle_stop = stop
-        return copy
+        else:
+            return ucncycle(self, cycle, **cycle_times_args)
 
     def get_cycle_times(self, mode='matched'):
         """Get start and end times of each cycle from the sequencer
@@ -488,7 +475,7 @@ class udata(object):
         """
 
         # check if single cycle
-        if self.cycle is not None:
+        if hasattr(self, 'cycle'):
             return pd.DataFrame({'start':[self.cycle_start],
                                  'stop':[self.cycle_stop],
                                  'duration (s)': [self.cycle_stop-self.cycle_start],
@@ -708,4 +695,160 @@ class udata(object):
     def source_pressure_kpa(self):
         raise NotImplementedError()
 
+class ucncycle(ucnrun):
+    """Stores the data from a single UCN cycle
 
+    Args:
+        urun (ucnrun): object to pull cycle from
+        cycle (int): cycle number
+        cycle_times_args: passed to urun.get_cycle_times
+    """
+
+
+    def __init__(self, urun, cycle, **cycle_times_args):
+
+        # copy data
+        for key, value in urun.__dict__.items():
+            if hasattr(value, 'copy'):
+                setattr(self, key, value.copy())
+            else:
+                setattr(self, key, value)
+
+        # get cycles to keep
+        cycles = urun.get_cycle_times(**cycle_times_args)
+        start = int(cycles.loc[cycle, 'start'])
+        stop = int(cycles.loc[cycle, 'stop'])
+        supercycle = int(cycles.loc[cycle, 'supercycle'])
+
+        # trim the trees
+        self._trim(start, stop)
+
+        # trim cycle parameters
+        self.cycle_param.period_durations_s = self.cycle_param.period_durations_s[cycle]
+        self.cycle_param.period_end_times = self.cycle_param.period_end_times[cycle]
+
+        self.cycle = cycle
+        self.supercycle = supercycle
+        self.cycle_start = start
+        self.cycle_stop = stop
+
+    def __repr__(self):
+        klist = [d for d in self.__dict__.keys() if d[0] != '_']
+        if klist:
+
+            # sort without caps
+            klist.sort(key=lambda x: x.lower())
+
+            # get number of columns based on terminal size
+            maxsize = max((len(k) for k in klist)) + 2
+            terminal_width = os.get_terminal_size().columns
+            ncolumns = int(np.floor(terminal_width / maxsize))
+            ncolumns = min(ncolumns, len(klist))
+
+            # split into chunks
+            needed_len = int(np.ceil(len(klist) / ncolumns)*ncolumns) - len(klist)
+            klist = np.concatenate((klist, np.full(needed_len, '')))
+            klist = np.array_split(klist, ncolumns)
+
+            # print
+            cyc_str = '' if self.cycle is None else f' (cycle {self.cycle})'
+            s = f'run {self.run_number}{cyc_str}:\n'
+            for key in zip(*klist):
+                s += '  '
+                s += ''.join(['{0: <{1}}'.format(k, maxsize) for k in key])
+                s += '\n'
+            return s
+        else:
+            return self.__class__.__name__ + "()"
+
+    def get_period(self, period=None):
+        """Return a copy of this object, but trees are trimmed to only one period.
+
+        Notes:
+            This process converts all objects to dataframes
+            Must be called for a single cycle only
+
+        Args:
+            period (int): period number, if None, get all periods
+            cycle (int|None) if cycle not specified then specify a cycle
+
+        Returns:
+            run:
+                if period > 0: a copy of this object but with data from only one period.
+                if period < 0 | None: a list of copies of this object for all periods for a single cycle
+        """
+
+        # get all periods
+        if period is None or period < 0:
+            nperiods = self.cycle_param.nperiods
+            return list(map(self.get_period, tqdm(range(nperiods),
+                                                 total=nperiods,
+                                                 leave=False,
+                                                 desc='Fetch all periods')
+                            )
+                        )
+        else:
+            return ucnperiod(self, period)
+
+class ucnperiod(ucnrun):
+    """Stores the data from a single UCN period from a single cycle
+
+    Args:
+        ucycle (ucncycle): object to pull period from
+        period (int): period number
+    """
+
+    def __init__(self, ucycle, period):
+
+        # copy data
+        for key, value in ucycle.__dict__.items():
+            if hasattr(value, 'copy'):
+                setattr(self, key, value.copy())
+            else:
+                setattr(self, key, value)
+
+        # get start and stop time
+        if period > 0:      start = int(self.cycle_param.period_end_times[period-1])
+        else:               start = int(self.cycle_start)
+
+        stop = int(self.cycle_param.period_end_times[period])
+
+        # trim the trees
+        self._trim(start, stop)
+
+        # trim cycle parameters
+        self.cycle_param.period_durations_s = self.cycle_param.period_durations_s[period]
+        self.cycle_param.period_end_times = self.cycle_param.period_end_times[period]
+
+        self.period = period
+        self.period_start = start
+        self.period_stop = stop
+
+    def __repr__(self):
+        klist = [d for d in self.__dict__.keys() if d[0] != '_']
+        if klist:
+
+            # sort without caps
+            klist.sort(key=lambda x: x.lower())
+
+            # get number of columns based on terminal size
+            maxsize = max((len(k) for k in klist)) + 2
+            terminal_width = os.get_terminal_size().columns
+            ncolumns = int(np.floor(terminal_width / maxsize))
+            ncolumns = min(ncolumns, len(klist))
+
+            # split into chunks
+            needed_len = int(np.ceil(len(klist) / ncolumns)*ncolumns) - len(klist)
+            klist = np.concatenate((klist, np.full(needed_len, '')))
+            klist = np.array_split(klist, ncolumns)
+
+            # print
+            cyc_str = f' (cycle {self.cycle}, period {self.period})'
+            s = f'run {self.run_number}{cyc_str}:\n'
+            for key in zip(*klist):
+                s += '  '
+                s += ''.join(['{0: <{1}}'.format(k, maxsize) for k in key])
+                s += '\n'
+            return s
+        else:
+            return self.__class__.__name__ + "()"
