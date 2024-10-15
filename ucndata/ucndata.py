@@ -308,11 +308,7 @@ class ucnrun(object):
             bool: true if check passes, else false.
 
         Checks:
-            Do the following trees exist and have entries?
-                BeamlineEpics
-                UCN2Epics
-                SequencerTree
-                LNDDetectorTree
+            Do the self.SLOW_TREES exist and have entries?
             Are there nonzero counts in UCNHits?
         """
 
@@ -356,41 +352,6 @@ class ucnrun(object):
                     print(msg)
                     return False
 
-        # individual cycle checks
-        if self.cycle is not None:
-
-            msg = None
-            run_msg = f'Run {self.run}, cycle {self.cycle} failure:'
-
-            # beam data exists
-            beam_current = self.beam_current_uA
-            if len(beam_current) == 0:
-                msg = f'{run_msg} No beam data saved'
-                err = BeamError
-
-            # beam current too low
-            elif beam_current.min() < self.DATA_CHECK_THRESH['beam_min_current']:
-                msg = f'{run_msg} Beam current dropped to {beam_current.min()} uA'
-                err = BeamError
-
-            # beam current unstable
-            elif beam_current.std() > self.DATA_CHECK_THRESH['beam_max_current_std']:
-                msg = f'{run_msg} Beam current fluctuated by {beam_current.std()} uA'
-                err = BeamError
-
-            # valve states
-            # elif self.tfile.???.UCN_UGD_IV1_STATON.max() < 1:
-            #     msg = f'{run_msg} IV1 never opened'
-            #     err = ValveError
-
-            # raise error or return value
-            if msg is not None:
-                if raise_error:
-                    raise err(msg)
-                else:
-                    print(msg)
-                    return False
-
         return True
 
     def copy(self):
@@ -403,21 +364,6 @@ class ucnrun(object):
             else:
                 setattr(copy, key, value)
         return copy
-
-    def correct_bkgd(self, detector, rate=None, rate_err=None):
-        """Subtract background and normalize to the average beam current
-
-        Args:
-            detector (str): He3|Li6
-            rate (float): background rate. If None, use self.DET_BKGD
-            rate_err (float): error in background rate. If None, use self.DET_BKGD
-        """
-
-        # get rates
-        if rate is None: rate = self.DET_BKGD[detector]
-        if rate_err is None: rate_err = self.DET_BKGD[detector+'_err']
-
-        # TODO: needs finishing. See UCN.py: SubtractBackgroundAndNormalize
 
     def cycles(self):
         """Cycles generator, calls get_cycle"""
@@ -610,6 +556,24 @@ class ucnrun(object):
 
         return times
 
+    def get_hits(self, detector):
+        """Get times of ucn hits
+
+        Args:
+            detector (str): one of the keys to self.DET_NAMES
+
+        Returns:
+            pd.DataFrame: hits tree as a dataframe, only the values when a hit is registered
+        """
+
+        # get the tree
+        hit_tree = self.tfile[self.DET_NAMES[detector]['hits']]
+        if type(hit_tree) is not pd.DataFrame:
+            hit_tree = hit_tree.to_dataframe()
+
+        # get times only when a hit is registered
+        return hit_tree.loc[hit_tree.tIsUCN.astype(bool)]
+
     def get_hits_histogram(self, detector, bin_ms=100):
         """Get histogram of UCNHits ttree times
 
@@ -704,7 +668,6 @@ class ucncycle(ucnrun):
         cycle_times_args: passed to urun.get_cycle_times
     """
 
-
     def __init__(self, urun, cycle, **cycle_times_args):
 
         # copy data
@@ -761,6 +724,70 @@ class ucncycle(ucnrun):
         else:
             return self.__class__.__name__ + "()"
 
+    def check_data(self, raise_error=False):
+        """Run some checks to determine if the data is ok.
+
+        Args:
+            raise_error (bool): if true, raise an error if check fails, else return false
+
+        Returns:
+            bool: true if check passes, else false.
+
+        Checks:
+            Do the following trees exist and have entries?
+                BeamlineEpics
+                UCN2Epics
+                SequencerTree
+                LNDDetectorTree
+            Are there nonzero counts in UCNHits?
+        """
+
+        # run full data checks
+        super().check_data(raise_error=raise_error)
+
+        # setup error message
+        msg = None
+        run_msg = f'Run {self.run}, cycle {self.cycle} failure:'
+
+        # beam data exists
+        beam_current = self.beam_current_uA
+        if len(beam_current) == 0:
+            msg = f'{run_msg} No beam data saved'
+            err = BeamError
+
+        # beam current too low
+        elif beam_current.min() < self.DATA_CHECK_THRESH['beam_min_current']:
+            msg = f'{run_msg} Beam current dropped to {beam_current.min()} uA'
+            err = BeamError
+
+        # beam current unstable
+        elif beam_current.std() > self.DATA_CHECK_THRESH['beam_max_current_std']:
+            msg = f'{run_msg} Beam current fluctuated by {beam_current.std()} uA'
+            err = BeamError
+
+        # valve states
+        elif not self.cycle_param.valve_states.any().any():
+            msg = f'{run_msg} No valves operated'
+            err = ValveError
+
+        # raise error or return value
+        if msg is not None:
+            if raise_error:
+                raise err(msg)
+            else:
+                print(msg)
+                return False
+
+        return True
+
+    def cycles(self, *args, **kwargs):
+        """Cannot get cycle from current cycle"""
+        raise RuntimeError('Object already reflets a single cycle')
+
+    def get_cycle(self, *args, **kwargs):
+        """Cannot get cycle from current cycle"""
+        raise RuntimeError('Object already reflets a single cycle')
+
     def get_period(self, period=None):
         """Return a copy of this object, but trees are trimmed to only one period.
 
@@ -790,7 +817,12 @@ class ucncycle(ucnrun):
         else:
             return ucnperiod(self, period)
 
-class ucnperiod(ucnrun):
+    def periods(self):
+        """Periods generator, calls get_period"""
+        for i in range(self.cycle_param.nperiods):
+            yield self.get_period(i)
+
+class ucnperiod(ucncycle):
     """Stores the data from a single UCN period from a single cycle
 
     Args:
@@ -852,3 +884,75 @@ class ucnperiod(ucnrun):
             return s
         else:
             return self.__class__.__name__ + "()"
+
+    def get_counts(self, detector, subtr_bkgd=True, norm_beam=False):
+        """Get sum of ucn hits
+
+        Args:
+            detector (str): one of the keys to self.DET_NAMES
+            subtr_bkgd (bool): if true subtract background
+            norm_dur (bool): if true normalize to beam current
+
+        Returns:
+            float: number of hits
+        """
+        hit_tree = self.get_hits(detector)
+        counts = len(hit_tree.index)
+        dcounts = np.sqrt(counts) # error assumed poissonian
+
+        # subtract background
+        if subtr_bkgd:
+
+            # get background counts
+            brate = self.DET_BKGD[detector]
+            brate_err = self.DET_BKGD[detector+'_err']
+
+            bcount = brate * self.cycle_param.period_durations_s
+            bcount_err = brate_err * self.cycle_param.period_durations_s
+
+            counts = max(counts-bcount, 0)
+            dcounts = (dcounts**2 + bcount_err**2)**2
+
+        # normalize
+        if norm_beam:
+
+            # beam properties
+            beam_mean = self.beam_current_uA.mean()
+            beam_std = self.beam_current_uA.std()
+
+            dcounts = counts*((dcounts/counts)**2 + (beam_std/beam_mean)**2)**0.5
+            counts /= beam_mean
+
+        return (counts, dcounts)
+
+    def get_rate(self, detector, subtr_bkgd=True, norm_beam=False):
+        """Get sum of ucn hits per unit time of period
+
+        Args:
+            detector (str): one of the keys to self.DET_NAMES
+            subtr_bkgd (bool): if true subtract background
+            norm_dur (bool): if true normalize to beam current
+
+        Returns:
+            float: count rate
+        """
+        # get counts
+        counts, dcounts = self.get_counts(detector=detector,
+                                          subtr_bkgd=subtr_bkgd,
+                                          norm_beam=norm_beam)
+
+        # get rate
+        duration = self.cycle_param.period_durations_s
+
+        counts /= duration
+        dcounts /= duration
+
+        return (counts, dcounts)
+
+    def get_period(self, *args, **kwargs):
+        """Cannot get period from current period"""
+        raise RuntimeError('Object already reflets a single period')
+
+    def periods(self):
+        """Cannot get period from current period"""
+        raise RuntimeError('Object already reflets a single period')
