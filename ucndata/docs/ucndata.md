@@ -14,11 +14,11 @@
     - [ucncycle().get_rate](#ucncycle()get_rate)
     - [ucncycle().periods](#ucncycle()periods)
   - [ucnperiod](#ucnperiod)
+    - [ucnperiod().get_bkgd](#ucnperiod()get_bkgd)
     - [ucnperiod().get_counts](#ucnperiod()get_counts)
-    - [ucnperiod().get_period](#ucnperiod()get_period)
     - [ucnperiod().get_rate](#ucnperiod()get_rate)
-    - [ucnperiod().periods](#ucnperiod()periods)
   - [ucnrun](#ucnrun)
+    - [ucnrun().apply](#ucnrun()apply)
     - [ucnrun().beam_current_uA](#ucnrun()beam_current_ua)
     - [ucnrun().beam_off_s](#ucnrun()beam_off_s)
     - [ucnrun().beam_on_s](#ucnrun()beam_on_s)
@@ -36,7 +36,7 @@
 
 ## ucncycle
 
-[Show source in ucndata.py:689](../ucndata.py#L689)
+[Show source in ucndata.py:700](../ucndata.py#L700)
 
 Stores the data from a single UCN cycle
 
@@ -59,7 +59,7 @@ class ucncycle(ucnrun):
 
 ### ucncycle().check_data
 
-[Show source in ucndata.py:754](../ucndata.py#L754)
+[Show source in ucndata.py:765](../ucndata.py#L765)
 
 Run some checks to determine if the data is ok.
 
@@ -87,7 +87,7 @@ def check_data(self, raise_error=False): ...
 
 ### ucncycle().cycles
 
-[Show source in ucndata.py:815](../ucndata.py#L815)
+[Show source in ucndata.py:826](../ucndata.py#L826)
 
 Cannot get cycle from current cycle
 
@@ -99,15 +99,20 @@ def cycles(self, *args, **kwargs): ...
 
 ### ucncycle().get_counts
 
-[Show source in ucndata.py:819](../ucndata.py#L819)
+[Show source in ucndata.py:830](../ucndata.py#L830)
 
 Get counts for each period
 
 #### Arguments
 
 - `detector` *str* - one of the keys to self.DET_NAMES
-- `subtr_bkgd` *bool* - if true subtract background
-- `norm_dur` *bool* - if true normalize to beam current
+- `period` *None|int* - if None get for entire cycle
+                    elif < 0 get for each period
+                    elif >=0 get for that period
+- `bkgd` *tuple|None* - if not None subtract this as the background (value, error)
+                   bkgd.shape = (2, nperiods) if period < 0 else (2, 1)
+- `norm` *tuple|None* - if not None normalize to this value (value, error)
+                    norm.shape = (2, nperiods) if period < 0 else (2, 1)
 
 #### Returns
 
@@ -116,12 +121,12 @@ Get counts for each period
 #### Signature
 
 ```python
-def get_counts(self, detector, subtr_bkgd=True, norm_beam=False): ...
+def get_counts(self, detector, period=None, bkgd=None, norm=None): ...
 ```
 
 ### ucncycle().get_cycle
 
-[Show source in ucndata.py:832](../ucndata.py#L832)
+[Show source in ucndata.py:889](../ucndata.py#L889)
 
 Cannot get cycle from current cycle
 
@@ -133,7 +138,7 @@ def get_cycle(self, *args, **kwargs): ...
 
 ### ucncycle().get_period
 
-[Show source in ucndata.py:836](../ucndata.py#L836)
+[Show source in ucndata.py:893](../ucndata.py#L893)
 
 Return a copy of this object, but trees are trimmed to only one period.
 
@@ -161,15 +166,15 @@ def get_period(self, period=None): ...
 
 ### ucncycle().get_rate
 
-[Show source in ucndata.py:865](../ucndata.py#L865)
+[Show source in ucndata.py:922](../ucndata.py#L922)
 
 Get count rate for each period
 
 #### Arguments
 
 - `detector` *str* - one of the keys to self.DET_NAMES
-- `subtr_bkgd` *bool* - if true subtract background
-- `norm_dur` *bool* - if true normalize to beam current
+- `bkgd` *tuple|None* - if not None subtract this as the background (value, error)
+- `norm` *tuple|None* - if not None normalize to this value (value, error)
 
 #### Returns
 
@@ -178,12 +183,12 @@ Get count rate for each period
 #### Signature
 
 ```python
-def get_rate(self, detector, subtr_bkgd=True, norm_beam=False): ...
+def get_rate(self, detector, bkgd=True, norm=False): ...
 ```
 
 ### ucncycle().periods
 
-[Show source in ucndata.py:878](../ucndata.py#L878)
+[Show source in ucndata.py:936](../ucndata.py#L936)
 
 Periods generator, calls get_period
 
@@ -197,7 +202,7 @@ def periods(self): ...
 
 ## ucnperiod
 
-[Show source in ucndata.py:883](../ucndata.py#L883)
+[Show source in ucndata.py:941](../ucndata.py#L941)
 
 Stores the data from a single UCN period from a single cycle
 
@@ -217,51 +222,59 @@ class ucnperiod(ucncycle):
 
 - [ucncycle](#ucncycle)
 
+### ucnperiod().get_bkgd
+
+[Show source in ucndata.py:1004](../ucndata.py#L1004)
+
+Get default background counts
+
+#### Arguments
+
+- `detector` *str* - one of the keys to self.DET_NAMES
+
+#### Returns
+
+- `np.ndarray` - (background, error)
+
+#### Signature
+
+```python
+def get_bkgd(self, detector): ...
+```
+
 ### ucnperiod().get_counts
 
-[Show source in ucndata.py:946](../ucndata.py#L946)
+[Show source in ucndata.py:1023](../ucndata.py#L1023)
 
 Get sum of ucn hits
 
 #### Arguments
 
 - `detector` *str* - one of the keys to self.DET_NAMES
-- `subtr_bkgd` *bool* - if true subtract background
-- `norm_dur` *bool* - if true normalize to beam current
+- `bkgd` *tuple|None* - if not None subtract this as the background (value, error)
+- `norm` *tuple|None* - if not None normalize to this value (value, error)
 
 #### Returns
 
-- `float` - number of hits
+- `tuple` - (count, error) number of hits
 
 #### Signature
 
 ```python
-def get_counts(self, detector, subtr_bkgd=True, norm_beam=False): ...
-```
-
-### ucnperiod().get_period
-
-[Show source in ucndata.py:1010](../ucndata.py#L1010)
-
-Cannot get period from current period
-
-#### Signature
-
-```python
-def get_period(self, *args, **kwargs): ...
+def get_counts(self, detector, bkgd=None, norm=None): ...
 ```
 
 ### ucnperiod().get_rate
 
-[Show source in ucndata.py:986](../ucndata.py#L986)
+[Show source in ucndata.py:1050](../ucndata.py#L1050)
 
 Get sum of ucn hits per unit time of period
 
 #### Arguments
 
 - `detector` *str* - one of the keys to self.DET_NAMES
-- `subtr_bkgd` *bool* - if true subtract background
-- `norm_dur` *bool* - if true normalize to beam current
+- `bkgd` *tuple|None* - if not None subtract this as the background (value, error)
+- `norm` *tuple|None* - if not None normalize to this value (value, error)
 
 #### Returns
 
@@ -270,19 +283,7 @@ Get sum of ucn hits per unit time of period
 #### Signature
 
 ```python
-def get_rate(self, detector, subtr_bkgd=True, norm_beam=False): ...
-```
-
-### ucnperiod().periods
-
-[Show source in ucndata.py:1014](../ucndata.py#L1014)
-
-Cannot get period from current period
-
-#### Signature
-
-```python
-def periods(self): ...
+def get_rate(self, detector, bkgd=True, norm=False): ...
 ```
 
 
@@ -339,9 +340,29 @@ class ucnrun(object):
     def __init__(self, run, header_only=False): ...
 ```
 
+### ucnrun().apply
+
+[Show source in ucndata.py:302](../ucndata.py#L302)
+
+Apply function to each cycle
+
+#### Arguments
+
+fn_handle (function handle): function to be applied to each cycle
+
+#### Returns
+
+- `np.ndarray` - output of the function
+
+#### Signature
+
+```python
+def apply(self, fn_handle): ...
+```
+
 ### ucnrun().beam_current_uA
 
-[Show source in ucndata.py:653](../ucndata.py#L653)
+[Show source in ucndata.py:664](../ucndata.py#L664)
 
 #### Signature
 
@@ -352,7 +373,7 @@ def beam_current_uA(self): ...
 
 ### ucnrun().beam_off_s
 
-[Show source in ucndata.py:678](../ucndata.py#L678)
+[Show source in ucndata.py:689](../ucndata.py#L689)
 
 #### Signature
 
@@ -363,7 +384,7 @@ def beam_off_s(self): ...
 
 ### ucnrun().beam_on_s
 
-[Show source in ucndata.py:675](../ucndata.py#L675)
+[Show source in ucndata.py:686](../ucndata.py#L686)
 
 #### Signature
 
@@ -374,7 +395,7 @@ def beam_on_s(self): ...
 
 ### ucnrun().check_data
 
-[Show source in ucndata.py:302](../ucndata.py#L302)
+[Show source in ucndata.py:313](../ucndata.py#L313)
 
 Run some checks to determine if the data is ok.
 
@@ -398,7 +419,7 @@ def check_data(self, raise_error=False): ...
 
 ### ucnrun().copy
 
-[Show source in ucndata.py:358](../ucndata.py#L358)
+[Show source in ucndata.py:369](../ucndata.py#L369)
 
 Return a copy of this objet
 
@@ -410,7 +431,7 @@ def copy(self): ...
 
 ### ucnrun().cycles
 
-[Show source in ucndata.py:369](../ucndata.py#L369)
+[Show source in ucndata.py:380](../ucndata.py#L380)
 
 Cycles generator, calls get_cycle
 
@@ -422,7 +443,7 @@ def cycles(self): ...
 
 ### ucnrun().from_dataframe
 
-[Show source in ucndata.py:644](../ucndata.py#L644)
+[Show source in ucndata.py:655](../ucndata.py#L655)
 
 Convert self.tfile contents to rootfile struture types
 
@@ -434,7 +455,7 @@ def from_dataframe(self): ...
 
 ### ucnrun().get_cycle
 
-[Show source in ucndata.py:374](../ucndata.py#L374)
+[Show source in ucndata.py:385](../ucndata.py#L385)
 
 Return a copy of this object, but trees are trimmed to only one cycle.
 
@@ -459,7 +480,7 @@ def get_cycle(self, cycle=None, **cycle_times_args): ...
 
 ### ucnrun().get_cycle_times
 
-[Show source in ucndata.py:400](../ucndata.py#L400)
+[Show source in ucndata.py:411](../ucndata.py#L411)
 
 Get start and end times of each cycle from the sequencer
 
@@ -494,7 +515,7 @@ def get_cycle_times(self, mode="matched"): ...
 
 ### ucnrun().get_hits
 
-[Show source in ucndata.py:560](../ucndata.py#L560)
+[Show source in ucndata.py:571](../ucndata.py#L571)
 
 Get times of ucn hits
 
@@ -514,7 +535,7 @@ def get_hits(self, detector): ...
 
 ### ucnrun().get_hits_histogram
 
-[Show source in ucndata.py:604](../ucndata.py#L604)
+[Show source in ucndata.py:615](../ucndata.py#L615)
 
 Get histogram of UCNHits ttree times
 
@@ -535,7 +556,7 @@ def get_hits_histogram(self, detector, bin_ms=100): ...
 
 ### ucnrun().souce_temperature_k
 
-[Show source in ucndata.py:681](../ucndata.py#L681)
+[Show source in ucndata.py:692](../ucndata.py#L692)
 
 #### Signature
 
@@ -546,7 +567,7 @@ def souce_temperature_k(self): ...
 
 ### ucnrun().source_pressure_kpa
 
-[Show source in ucndata.py:685](../ucndata.py#L685)
+[Show source in ucndata.py:696](../ucndata.py#L696)
 
 #### Signature
 
@@ -557,7 +578,7 @@ def source_pressure_kpa(self): ...
 
 ### ucnrun().to_dataframe
 
-[Show source in ucndata.py:648](../ucndata.py#L648)
+[Show source in ucndata.py:659](../ucndata.py#L659)
 
 Convert self.tfile contents to pd.DataFrame
 

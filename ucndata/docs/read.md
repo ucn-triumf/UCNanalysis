@@ -15,7 +15,7 @@ Read out single or multiple UCN run files from ROOT
 
 #### Arguments
 
-- `path` *str|list* - path to file, may include wildcards, may be a list of paths which may include wildcards
+- `path` *str|list* - path to file, may include wildcards, may be a list of paths which may include wildcards or list of ints
 - `nproc` *int* - number of processors used in read. If <= 0, use total - nproc. If > 0 use nproc.
 - `header_only` *bool* - if true, read only the header
 

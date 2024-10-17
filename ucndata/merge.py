@@ -37,9 +37,6 @@ def merge(ucnlist):
         values = np.array([getattr(data, key) for data in ucnlist])
         setattr(ucnmerged, key, values)
 
-    # set cycle
-    ucnmerged.cycle = None
-
     obj_names = [] # list of all contained objects
     for dat in ucnlist:
 

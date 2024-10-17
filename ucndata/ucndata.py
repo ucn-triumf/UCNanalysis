@@ -299,6 +299,17 @@ class ucnrun(object):
                     idx = (value.index < stop) & (value.index > start)
                     self.tfile[key] = value.loc[idx].copy()
 
+    def apply(self, fn_handle):
+        """Apply function to each cycle
+
+        Args:
+            fn_handle (function handle): function to be applied to each cycle
+
+        Returns:
+            np.ndarray: output of the function
+        """
+        return [fn_handle(c) for c in self.cycles()]
+
     def check_data(self, raise_error=False):
         """Run some checks to determine if the data is ok.
 
@@ -597,7 +608,7 @@ class ucnrun(object):
             ncounts_removed = ncounts_total - len(hit_tree.index)
 
             if ncounts_removed > 0:
-                print(f'Removed {ncounts_removed} ({ncounts_removed/ncounts_total*100}%) from run{self.run_number} (cycle {self.cycle}, period {self.period})')
+                print(f'Removed {ncounts_removed} pileup counts ({int(ncounts_removed/ncounts_total*100):d}%) from run{self.run_number} (cycle {self.cycle}, period {self.period})')
 
         return hit_tree
 
@@ -816,18 +827,64 @@ class ucncycle(ucnrun):
         """Cannot get cycle from current cycle"""
         raise RuntimeError('Object already reflets a single cycle')
 
-    def get_counts(self, detector, subtr_bkgd=True, norm_beam=False):
+    def get_counts(self, detector, period=None, bkgd=None, norm=None):
         """Get counts for each period
         Args:
             detector (str): one of the keys to self.DET_NAMES
-            subtr_bkgd (bool): if true subtract background
-            norm_dur (bool): if true normalize to beam current
+            period (None|int):  if None get for entire cycle
+                                elif < 0 get for each period
+                                elif >=0 get for that period
+            bkgd (tuple|None): if not None subtract this as the background (value, error)
+                               bkgd.shape = (2, nperiods) if period < 0 else (2, 1)
+            norm (tuple|None): if not None normalize to this value (value, error)
+                                norm.shape = (2, nperiods) if period < 0 else (2, 1)
 
         Returns:
             np.ndarray: number of hits for each period and error
         """
-        counts = [p.get_counts(detector, subtr_bkgd, norm_beam) for p in self.periods()]
-        return np.array(counts)
+
+        # check input
+        nperiods = self.cycle_param.nperiods
+        if period > nperiods:
+            raise RuntimeError(f"Run {self.run_number}, cycle {self.cycle}: Period index must be less than {self.cycle_param.nperiods}")
+
+        # get ucn hits
+        hit_tree = self.get_hits(detector)
+
+        if period is None:
+            counts = len(hit_tree.index)
+        else:
+
+            # make histogram of counts
+            edges = np.concatenate(([self.cycle_start], self.cycle_param.period_end_times))
+            counts, _ = np.histogram(hit_tree.index, bins=edges)
+
+            # trim to nperiods
+            if period < 0:
+                counts = counts[:nperiods]
+                edges = edges[:nperiods+1]
+
+            # select single period
+            else:
+                counts = counts[period]
+                edges = edges[period:period+2]
+
+        # error assumed poissonian
+        dcounts = np.sqrt(counts)
+
+        # subtract background
+        if bkgd is not None:
+            if type(counts) in (int, np.int64): zero = 0
+            else:                   zero = np.zeros(len(counts))
+            counts = np.max(counts-bkgd[0], zero)
+            dcounts = (dcounts**2 + bkgd[1]**2)**0.5
+
+        # normalize
+        if norm is not None:
+            dcounts = counts*((dcounts/counts)**2 + (norm[1]/norm[0])**2)**0.5
+            counts /= norm[0]
+
+        return (counts, dcounts)
 
     def get_cycle(self, *args, **kwargs):
         """Cannot get cycle from current cycle"""
@@ -862,17 +919,18 @@ class ucncycle(ucnrun):
         else:
             return ucnperiod(self, period)
 
-    def get_rate(self, detector, subtr_bkgd=True, norm_beam=False):
+    def get_rate(self, detector, bkgd=True, norm=False):
         """Get count rate for each period
         Args:
             detector (str): one of the keys to self.DET_NAMES
-            subtr_bkgd (bool): if true subtract background
-            norm_dur (bool): if true normalize to beam current
+            bkgd (tuple|None): if not None subtract this as the background (value, error)
+            norm (tuple|None): if not None normalize to this value (value, error)
+
 
         Returns:
             np.ndarray: count rate each period and error
         """
-        rate = [p.get_rate(detector, subtr_bkgd, norm_beam) for p in self.periods()]
+        rate = [p.get_rate(detector, bkgd, norm) for p in self.periods()]
         return np.array(rate)
 
     def periods(self):
@@ -943,61 +1001,67 @@ class ucnperiod(ucncycle):
         else:
             return self.__class__.__name__ + "()"
 
-    def get_counts(self, detector, subtr_bkgd=True, norm_beam=False):
+    def get_bkgd(self, detector):
+        """Get default background counts
+
+        Args:
+            detector (str): one of the keys to self.DET_NAMES
+
+        Returns:
+            np.ndarray: (background, error)
+        """
+
+         # get background counts
+        brate = self.DET_BKGD[detector]
+        brate_err = self.DET_BKGD[detector+'_err']
+
+        bcount = brate * self.cycle_param.period_durations_s
+        bcount_err = brate_err * self.cycle_param.period_durations_s
+
+        return np.array((bcount, bcount_err))
+
+    def get_counts(self, detector, bkgd=None, norm=None):
         """Get sum of ucn hits
 
         Args:
             detector (str): one of the keys to self.DET_NAMES
-            subtr_bkgd (bool): if true subtract background
-            norm_dur (bool): if true normalize to beam current
+            bkgd (tuple|None): if not None subtract this as the background (value, error)
+            norm (tuple|None): if not None normalize to this value (value, error)
 
         Returns:
-            float: number of hits
+            tuple: (count, error) number of hits
         """
         hit_tree = self.get_hits(detector)
         counts = len(hit_tree.index)
         dcounts = np.sqrt(counts) # error assumed poissonian
 
         # subtract background
-        if subtr_bkgd:
-
-            # get background counts
-            brate = self.DET_BKGD[detector]
-            brate_err = self.DET_BKGD[detector+'_err']
-
-            bcount = brate * self.cycle_param.period_durations_s
-            bcount_err = brate_err * self.cycle_param.period_durations_s
-
-            counts = max(counts-bcount, 0)
-            dcounts = (dcounts**2 + bcount_err**2)**2
+        if bkgd is not None:
+            counts = max(counts-bkgd[0], 0)
+            dcounts = (dcounts**2 + bkgd[1]**2)**2
 
         # normalize
-        if norm_beam:
-
-            # beam properties
-            beam_mean = self.beam_current_uA.mean()
-            beam_std = self.beam_current_uA.std()
-
-            dcounts = counts*((dcounts/counts)**2 + (beam_std/beam_mean)**2)**0.5
-            counts /= beam_mean
+        if norm is not None:
+            dcounts = counts*((dcounts/counts)**2 + (norm[1]/norm[0])**2)**0.5
+            counts /= norm[0]
 
         return (counts, dcounts)
 
-    def get_rate(self, detector, subtr_bkgd=True, norm_beam=False):
+    def get_rate(self, detector, bkgd=True, norm=False):
         """Get sum of ucn hits per unit time of period
 
         Args:
             detector (str): one of the keys to self.DET_NAMES
-            subtr_bkgd (bool): if true subtract background
-            norm_dur (bool): if true normalize to beam current
+            bkgd (tuple|None): if not None subtract this as the background (value, error)
+            norm (tuple|None): if not None normalize to this value (value, error)
 
         Returns:
             float: count rate
         """
         # get counts
         counts, dcounts = self.get_counts(detector=detector,
-                                          subtr_bkgd=subtr_bkgd,
-                                          norm_beam=norm_beam)
+                                          bkgd=bkgd,
+                                          norm=norm)
 
         # get rate
         duration = self.cycle_param.period_durations_s
@@ -1006,11 +1070,3 @@ class ucnperiod(ucncycle):
         dcounts /= duration
 
         return (counts, dcounts)
-
-    def get_period(self, *args, **kwargs):
-        """Cannot get period from current period"""
-        raise RuntimeError('Object already reflets a single period')
-
-    def periods(self):
-        """Cannot get period from current period"""
-        raise RuntimeError('Object already reflets a single period')
