@@ -5,12 +5,10 @@
 """
     TODO List, things which haven't been ported from WS code
 
-    * skip cycles that have total duration of 0s
-    * skip cycle because cycle sequence is longer than irradiation interval
-    * skip cycles with no detector counts
     * get temperature
     * get vapour pressure
     * data checks for periods
+    * check that period durations match between detector frontends
 """
 
 from rootloader import tfile, ttree, attrdict
@@ -52,6 +50,7 @@ class ucnrun(object):
         Can access attributes of tfile directly from top-level object
         Need to define the values in ucndata.settings if you want non-default
         behaviour
+        Object is indexed as [cycle, period] for easy access to sub time frames
     """
 
     # detector names
@@ -156,6 +155,9 @@ class ucnrun(object):
                 self.tfile[key.replace(' ', '_')] = self.tfile[key]
                 del self.tfile[key]
 
+        # get cycle times
+        self.set_cycle_times()
+
     def __repr__(self):
         klist = [d for d in self.__dict__.keys() if d[0] != '_']
         if klist:
@@ -184,11 +186,36 @@ class ucnrun(object):
         else:
             return self.__class__.__name__ + "()"
 
+    def __getitem__(self, key):
+        # get cycle or period based on slicing indexes
+
+        # get a single key
+        if isinstance(key, (np.integer, int)):
+            if key > self.cycle_param.ncycles:
+                raise IndexError(f'Run {self.run_number}: Index larger than number of cycles ({self.cycle_param.ncycles})')
+
+            return self._get_cycle(key)
+
+        # slice on cycles
+        if isinstance(key, slice):
+            cycles = self._get_cycle()[:self.cycle_param.ncycles]
+            return cycles[key]
+
+        # slice on periods
+        if isinstance(key, tuple):
+            cycles = self._get_cycle()[key[0]]
+            if isinstance(cycles, np.ndarray):
+                return np.array([c[key[1]] for c in cycles])
+            else:
+                return cycles[key[1]]
+
+        raise IndexError('Runs given an unknown index type')
+
     def _get_beam_duration(self, on=True):
         # Get beam on/off durations
 
         # get needed info
-        cycle_times = self.get_cycle_times()
+        cycle_times = self.cycle_param.cycle_times
 
         try:
             beam = self.tfile.BeamlineEpics
@@ -213,6 +240,26 @@ class ucnrun(object):
         if len(out) == 1:
             return float(out.values[0])
         return out
+
+    def _get_cycle(self, cycle=None):
+        """Return a copy of this object, but trees are trimmed to only one cycle.
+
+        Note that this process converts all objects to dataframes
+
+        Args:
+            cycle (int): cycle number, if None, get all cycles
+
+        Returns:
+            ucncycle:
+                if cycle > 0:  ucncycle object
+                if cycle < 0 | None: a list ucncycle objects for all cycles
+        """
+
+        if cycle is None or cycle < 0:
+            ncycles = len(self.cycle_param.cycle_times.index)
+            return np.fromiter(map(self._get_cycle, range(ncycles)), dtype=object)
+        else:
+            return ucncycle(self, cycle)
 
     def _get_cycle_param(self):
         # set self.cycle_param dict
@@ -378,34 +425,99 @@ class ucnrun(object):
                 setattr(copy, key, value)
         return copy
 
-    def cycles(self):
-        """Cycles generator, calls get_cycle"""
-        for i in range(self.cycle_param.ncycles):
-            yield self.get_cycle(i)
-
-    def get_cycle(self, cycle=None, **cycle_times_args):
-        """Return a copy of this object, but trees are trimmed to only one cycle.
-
-        Note that this process converts all objects to dataframes
+    def get_hits(self, detector):
+        """Get times of ucn hits
 
         Args:
-            cycle (int): cycle number, if None, get all cycles
-            cycle_times_args: passed to get_cycle_times
+            detector (str): one of the keys to self.DET_NAMES
 
         Returns:
-            ucncycle:
-                if cycle > 0:  ucncycle object
-                if cycle < 0 | None: a list ucncycle objects for all cycles
+            pd.DataFrame: hits tree as a dataframe, only the values when a hit is registered
         """
 
-        if cycle is None or cycle < 0:
-            ncycles = len(self.get_cycle_times(**cycle_times_args).index)
-            return list(map(self.get_cycle, range(ncycles)))
-        else:
-            return ucncycle(self, cycle, **cycle_times_args)
+        # get the tree
+        hit_tree = self.tfile[self.DET_NAMES[detector]['hits']] # maybe should be a copy?
+        if type(hit_tree) is not pd.DataFrame:
+            hit_tree = hit_tree.to_dataframe()
 
-    def get_cycle_times(self, mode='matched'):
-        """Get start and end times of each cycle from the sequencer
+        # get times only when a hit is registered
+        hit_tree = hit_tree.loc[hit_tree.tIsUCN.astype(bool)]
+
+        # filter pileup for period data
+        if type(self) is ucnperiod:
+
+            # get thresholds
+            dt = self.DATA_CHECK_THRESH['pileup_within_first_s']
+            count_thresh = self.DATA_CHECK_THRESH['pileup_cnt_per_ms']
+
+            # make histogram
+            t = hit_tree.index.values
+            counts, edges = np.histogram(t,
+                                         bins=int(1/0.001),
+                                         range=(min(t),
+                                                min(t)+dt))
+
+            # delete bad count ranges
+            ncounts_total = len(t)
+            for i, count in enumerate(counts):
+                if count > count_thresh:
+                    hit_tree= hit_tree.loc[(hit_tree.index < edges[i]) & (hit_tree.index > edges[i+1])]
+            ncounts_removed = ncounts_total - len(hit_tree.index)
+
+            if ncounts_removed > 0:
+                print(f'Removed {ncounts_removed} pileup counts ({int(ncounts_removed/ncounts_total*100):d}%) from run{self.run_number} (cycle {self.cycle}, period {self.period})')
+
+        return hit_tree
+
+    def get_hits_histogram(self, detector, bin_ms=100):
+        """Get histogram of UCNHits ttree times
+
+        Args:
+            detector (str): Li6|He3
+            bin_ms (int): histogram bin size in milliseconds
+
+        Returns:
+            tuple: (bin_centers, histogram counts)
+        """
+
+        # index_col = 'tUnixTimePrecise'
+
+        # get cycle start and stop times from ucn counts histogram
+
+        # get data
+        df = self.tfile[self.DET_NAMES[detector]['hits']].to_dataframe()
+        index_col = df.index.name
+        df.reset_index(inplace=True)
+
+        # purge bad timestamps
+        df = df.loc[df[index_col] > 15e8]
+
+        # combine timestamps which are identical
+        df = df.groupby(index_col).sum()
+
+        # get timesteps for which there is an ucn
+        times = df.index[df.tIsUCN.values.astype(bool)].values
+        times = np.sort(times)
+
+        # get histogram bin edges
+        bins = np.arange(times.min(), times.max()+bin_ms/1000, bin_ms/1000)
+        bins -= bin_ms/1000/2
+
+        # histogram
+        hist, bins = np.histogram(times, bins=bins)
+        bin_centers = (bins[1:] + bins[:-1])/2
+
+        return (bin_centers, hist)
+
+    def from_dataframe(self):
+        """Convert self.tfile contents to rootfile struture types"""
+        self.tfile.from_dataframe()
+
+    def set_cycle_times(self, mode='matched'):
+        """Get start and end times of each cycle from the sequencer and save
+        into self.cycle_param.cycle_times
+
+        Run this if you want to change how cycle start times are calculated
 
         Args:
             mode (str): matched|sequencer|he3|li6
@@ -568,95 +680,9 @@ class ucnrun(object):
         times['duration (s)'] = times.stop - times.start
         times.index.name = 'cycle'
 
+        # save
+        self.cycle_param['cycle_times'] = times
         return times
-
-    def get_hits(self, detector):
-        """Get times of ucn hits
-
-        Args:
-            detector (str): one of the keys to self.DET_NAMES
-
-        Returns:
-            pd.DataFrame: hits tree as a dataframe, only the values when a hit is registered
-        """
-
-        # get the tree
-        hit_tree = self.tfile[self.DET_NAMES[detector]['hits']]
-        if type(hit_tree) is not pd.DataFrame:
-            hit_tree = hit_tree.to_dataframe()
-
-        # get times only when a hit is registered
-        hit_tree = hit_tree.loc[hit_tree.tIsUCN.astype(bool)]
-
-        # filter pileup for period data
-        if type(self) is ucnperiod:
-
-            # get thresholds
-            dt = self.DATA_CHECK_THRESH['pileup_within_first_s']
-            count_thresh = self.DATA_CHECK_THRESH['pileup_cnt_per_ms']
-
-            # make histogram
-            t = hit_tree.index.values
-            counts, edges = np.histogram(t,
-                                         bins=int(1/0.001),
-                                         range=(min(t),
-                                                min(t)+dt))
-
-            # delete bad count ranges
-            ncounts_total = len(t)
-            for i, count in enumerate(counts):
-                if count > count_thresh:
-                    hit_tree= hit_tree.loc[(hit_tree.index < edges[i]) & (hit_tree.index > edges[i+1])]
-            ncounts_removed = ncounts_total - len(hit_tree.index)
-
-            if ncounts_removed > 0:
-                print(f'Removed {ncounts_removed} pileup counts ({int(ncounts_removed/ncounts_total*100):d}%) from run{self.run_number} (cycle {self.cycle}, period {self.period})')
-
-        return hit_tree
-
-    def get_hits_histogram(self, detector, bin_ms=100):
-        """Get histogram of UCNHits ttree times
-
-        Args:
-            detector (str): Li6|He3
-            bin_ms (int): histogram bin size in milliseconds
-
-        Returns:
-            tuple: (bin_centers, histogram counts)
-        """
-
-        # index_col = 'tUnixTimePrecise'
-
-        # get cycle start and stop times from ucn counts histogram
-
-        # get data
-        df = self.tfile[self.DET_NAMES[detector]['hits']].to_dataframe()
-        index_col = df.index.name
-        df.reset_index(inplace=True)
-
-        # purge bad timestamps
-        df = df.loc[df[index_col] > 15e8]
-
-        # combine timestamps which are identical
-        df = df.groupby(index_col).sum()
-
-        # get timesteps for which there is an ucn
-        times = df.index[df.tIsUCN.values.astype(bool)].values
-        times = np.sort(times)
-
-        # get histogram bin edges
-        bins = np.arange(times.min(), times.max()+bin_ms/1000, bin_ms/1000)
-        bins -= bin_ms/1000/2
-
-        # histogram
-        hist, bins = np.histogram(times, bins=bins)
-        bin_centers = (bins[1:] + bins[:-1])/2
-
-        return (bin_centers, hist)
-
-    def from_dataframe(self):
-        """Convert self.tfile contents to rootfile struture types"""
-        self.tfile.from_dataframe()
 
     def to_dataframe(self):
         """Convert self.tfile contents to pd.DataFrame"""
@@ -709,13 +735,12 @@ class ucncycle(ucnrun):
     Args:
         urun (ucnrun): object to pull cycle from
         cycle (int): cycle number
-        cycle_times_args: passed to urun.get_cycle_times
     """
 
-    def __init__(self, urun, cycle, **cycle_times_args):
+    def __init__(self, urun, cycle):
 
         # get cycles to keep
-        cycles = urun.get_cycle_times(**cycle_times_args)
+        cycles = urun.cycle_param.cycle_times
         start = int(cycles.loc[cycle, 'start'])
         stop = int(cycles.loc[cycle, 'stop'])
         supercycle = int(cycles.loc[cycle, 'supercycle'])
@@ -767,6 +792,52 @@ class ucncycle(ucnrun):
         else:
             return self.__class__.__name__ + "()"
 
+    def __getitem__(self, key):
+        # get cycle or period based on slicing indexes
+
+        # get a single key
+        if isinstance(key, (np.integer, int)):
+            if key > self.cycle_param.nperiods:
+                raise IndexError(f'Run {self.run_number}, cycle {self.cycle}: Index larger than number of periods ({self.cycle_param.nperiods})')
+
+            return self._get_period(key)
+
+        # slice on cycles
+        if isinstance(key, slice):
+            period = self._get_period()[:self.cycle_param.nperiods]
+            return period[key]
+
+        raise IndexError('Cycles indexable only as a 1-dimensional object')
+
+    def _get_period(self, period=None):
+        """Return a copy of this object, but trees are trimmed to only one period.
+
+        Notes:
+            This process converts all objects to dataframes
+            Must be called for a single cycle only
+
+        Args:
+            period (int): period number, if None, get all periods
+            cycle (int|None) if cycle not specified then specify a cycle
+
+        Returns:
+            run:
+                if period > 0: a copy of this object but with data from only one period.
+                if period < 0 | None: a list of copies of this object for all periods for a single cycle
+        """
+
+        # get all periods
+        if period is None or period < 0:
+            nperiods = self.cycle_param.nperiods
+            return list(map(self._get_period, tqdm(range(nperiods),
+                                                 total=nperiods,
+                                                 leave=False,
+                                                 desc='Fetch all periods')
+                            )
+                        )
+        else:
+            return ucnperiod(self, period)
+
     def check_data(self, raise_error=False):
         """Run some checks to determine if the data is ok.
 
@@ -798,6 +869,14 @@ class ucncycle(ucnrun):
             msg = f'{run_msg} No beam data saved'
             err = BeamError
 
+        # total duration
+        elif self.cycle_stop - self.cycle_start <= 0:
+            msg = f'{run_msg} Cycle has a duration of {self.cycle_stop - self.cycle_start} s'
+            err = DataError
+
+        # skip cycle because cycle sequence is longer than irradiation interval
+        # TODO
+
         # beam current too low
         elif beam_current.min() < self.DATA_CHECK_THRESH['beam_min_current']:
             msg = f'{run_msg} Beam current dropped to {beam_current.min()} uA'
@@ -814,7 +893,7 @@ class ucncycle(ucnrun):
             err = ValveError
 
         # has counts
-        elif not any([self.tfile[self.DET_NAMES['hits']].tIsUCN.sum() > 1 for det in self.DET_NAMES.keys()]):
+        elif not any([self.tfile[self.DET_NAMES[det]['hits']].tIsUCN.sum() > 1 for det in self.DET_NAMES.keys()]):
             msg = f'{run_msg} No counts detected'
             err = DataError
 
@@ -887,35 +966,6 @@ class ucncycle(ucnrun):
 
         return (counts, dcounts)
 
-    def get_period(self, period=None):
-        """Return a copy of this object, but trees are trimmed to only one period.
-
-        Notes:
-            This process converts all objects to dataframes
-            Must be called for a single cycle only
-
-        Args:
-            period (int): period number, if None, get all periods
-            cycle (int|None) if cycle not specified then specify a cycle
-
-        Returns:
-            run:
-                if period > 0: a copy of this object but with data from only one period.
-                if period < 0 | None: a list of copies of this object for all periods for a single cycle
-        """
-
-        # get all periods
-        if period is None or period < 0:
-            nperiods = self.cycle_param.nperiods
-            return list(map(self.get_period, tqdm(range(nperiods),
-                                                 total=nperiods,
-                                                 leave=False,
-                                                 desc='Fetch all periods')
-                            )
-                        )
-        else:
-            return ucnperiod(self, period)
-
     def get_rate(self, detector, bkgd=True, norm=False):
         """Get count rate for each period
         Args:
@@ -929,11 +979,6 @@ class ucncycle(ucnrun):
         """
         rate = [p.get_rate(detector, bkgd, norm) for p in self.periods()]
         return np.array(rate)
-
-    def periods(self):
-        """Periods generator, calls get_period"""
-        for i in range(self.cycle_param.nperiods):
-            yield self.get_period(i)
 
 class ucnperiod(ucncycle):
     """Stores the data from a single UCN period from a single cycle
