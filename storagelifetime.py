@@ -24,9 +24,14 @@ run_numbers = [1846] #, 1873, 1875, 1892, 1902, 1905, 1908, 1918, 1933, 1940, 19
 
 # get all runs
 runs = read(run_numbers)
+for r in runs:
+    r.to_dataframe()
 
 # get all cycles
 cycles = np.concatenate([r.get_cycle() for r in runs])
+
+# filter cycles
+cycles = np.array([c for c in cycles if c.check_data()])
 
 # get beam current and means
 beam_currents = [c.get_period(production_period).beam_current_uA for c in cycles]

@@ -334,7 +334,7 @@ class ucnrun(object):
                 msg = f'Missing ttree "{tree}" in run {self.run_number}'
 
             # does tree have entries?
-            elif self.tfile[tree].entries == 0:
+            elif len(self.tfile[tree]) == 0:
                 msg = f'Zero entries found in "{tree}" ttree in run {self.run_number}'
 
             # raise error or return
@@ -353,7 +353,8 @@ class ucnrun(object):
 
             # check if sequencer was enabled but no run transitions
             elif any(self.tfile.SequencerTree.sequencerEnabled):
-                if self.tfile[det['transitions']].entries == 0:
+
+                if len(self.tfile[det['transitions']]) == 0:
                     msg = 'No cycles found in run {self.run_number}, although sequencer was active'
 
             # raise error or return
@@ -399,12 +400,7 @@ class ucnrun(object):
 
         if cycle is None or cycle < 0:
             ncycles = len(self.get_cycle_times(**cycle_times_args).index)
-            return list(map(self.get_cycle, tqdm(range(ncycles),
-                                                 total=ncycles,
-                                                 leave=False,
-                                                 desc='Fetch all cycles')
-                            )
-                        )
+            return list(map(self.get_cycle, range(ncycles)))
         else:
             return ucncycle(self, cycle, **cycle_times_args)
 
@@ -449,7 +445,13 @@ class ucnrun(object):
         # get run end time from control trees - used in matched and detector cycles times
         run_stop = -np.inf
         for treename in self.SLOW_TREES:
-            idx = self.tfile[treename].to_dataframe().index
+            try:
+                idx = self.tfile[treename].to_dataframe().index
+            except AttributeError as err:
+                if type(self.tfile[treename]) is pd.DataFrame:
+                    idx = self.tfile[treename].index
+                else:
+                    raise err from None
             run_stop = max((idx.max(), run_stop))
 
         ## if no sequencer, make the whole run a single cycle
@@ -698,7 +700,11 @@ class ucnrun(object):
         raise NotImplementedError()
 
 class ucncycle(ucnrun):
-    """Stores the data from a single UCN cycle
+    """View for the data from a single UCN cycle
+
+    Notes:
+        Any changes to the data frame affects all periods (for the time steps
+        contained in that period) and the containing run
 
     Args:
         urun (ucnrun): object to pull cycle from
@@ -708,21 +714,20 @@ class ucncycle(ucnrun):
 
     def __init__(self, urun, cycle, **cycle_times_args):
 
-        # copy data
-        for key, value in urun.__dict__.items():
-            if hasattr(value, 'copy'):
-                setattr(self, key, value.copy())
-            else:
-                setattr(self, key, value)
-
         # get cycles to keep
         cycles = urun.get_cycle_times(**cycle_times_args)
         start = int(cycles.loc[cycle, 'start'])
         stop = int(cycles.loc[cycle, 'stop'])
         supercycle = int(cycles.loc[cycle, 'supercycle'])
 
-        # trim the trees
-        self._trim(start, stop)
+        # copy data
+        for key, value in urun.__dict__.items():
+            if key == 'tfile':
+                setattr(self, key, tsubfile(value, start, stop))
+            elif hasattr(value, 'copy'):
+                setattr(self, key, value.copy())
+            else:
+                setattr(self, key, value)
 
         # trim cycle parameters
         self.cycle_param.period_durations_s = self.cycle_param.period_durations_s[cycle]
@@ -785,7 +790,7 @@ class ucncycle(ucnrun):
 
         # setup error message
         msg = None
-        run_msg = f'Run {self.run}, cycle {self.cycle} failure:'
+        run_msg = f'Run {self.run_number}, cycle {self.cycle}:'
 
         # beam data exists
         beam_current = self.beam_current_uA
@@ -822,10 +827,6 @@ class ucncycle(ucnrun):
                 return False
 
         return True
-
-    def cycles(self, *args, **kwargs):
-        """Cannot get cycle from current cycle"""
-        raise RuntimeError('Object already reflets a single cycle')
 
     def get_counts(self, detector, period=None, bkgd=None, norm=None):
         """Get counts for each period
@@ -886,10 +887,6 @@ class ucncycle(ucnrun):
 
         return (counts, dcounts)
 
-    def get_cycle(self, *args, **kwargs):
-        """Cannot get cycle from current cycle"""
-        raise RuntimeError('Object already reflets a single cycle')
-
     def get_period(self, period=None):
         """Return a copy of this object, but trees are trimmed to only one period.
 
@@ -948,21 +945,20 @@ class ucnperiod(ucncycle):
 
     def __init__(self, ucycle, period):
 
+        # get start and stop time
+        if period > 0:      start = int(ucycle.cycle_param.period_end_times[period-1])
+        else:               start = int(ucycle.cycle_start)
+
+        stop = int(ucycle.cycle_param.period_end_times[period])
+
         # copy data
         for key, value in ucycle.__dict__.items():
-            if hasattr(value, 'copy'):
+            if key == 'tfile':
+                setattr(self, key, tsubfile(value, start, stop))
+            elif hasattr(value, 'copy'):
                 setattr(self, key, value.copy())
             else:
                 setattr(self, key, value)
-
-        # get start and stop time
-        if period > 0:      start = int(self.cycle_param.period_end_times[period-1])
-        else:               start = int(self.cycle_start)
-
-        stop = int(self.cycle_param.period_end_times[period])
-
-        # trim the trees
-        self._trim(start, stop)
 
         # trim cycle parameters
         self.cycle_param.period_durations_s = self.cycle_param.period_durations_s[period]
@@ -1070,3 +1066,58 @@ class ucnperiod(ucncycle):
         dcounts /= duration
 
         return (counts, dcounts)
+
+class tsubfile(tfile):
+    """Wrapper for tfile which restricts access to values only within given times
+
+    Args:
+        tfileobj (tfile): object to wrap
+        start (int): starting epoch time
+        stop (int): stopping epoch time
+    """
+
+    def __init__(self, tfileobj, start, stop):
+
+        for key, value in tfileobj.items():
+            self[key] = value
+
+        self._start = start
+        self._stop = stop
+
+    def __getitem__(self, key):
+
+        # get the data
+        val = super().__getitem__(key)
+
+        # convert to dataframe
+        is_dataframe = type(val) is pd.DataFrame
+        if not is_dataframe:
+            try:
+                val = val.to_dataframe()
+            except AttributeError:
+                return val
+
+        # get sub range
+        try:
+            index_name = val.index.name.lower()
+        except AttributeError:
+            pass
+        else:
+            if 'time' in index_name:
+                start = np.min(val.index[val.index >= self._start]) # not sure why needed
+                stop = np.max(val.index[val.index <= self._stop]) # it should work without it
+                val = val.loc[start:stop]
+
+        # convert back
+        if not is_dataframe:
+            return val.attrs['type'](val)
+        else:
+            return val
+
+    def __getattr__(self, name):
+
+        if name in self.keys():
+            return self[name]
+        else:
+            return self.__getattribute__(name)
+
