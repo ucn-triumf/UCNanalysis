@@ -5,6 +5,7 @@
 import glob
 from multiprocessing import cpu_count, Pool
 from .ucndata import ucnrun
+from .applylist import applylist
 from tqdm import tqdm
 import numpy as np
 from functools import partial
@@ -51,4 +52,4 @@ def read(path, nproc=-1, header_only=False):
     run_numbers = [d.run_number for d in data]
     idx = np.argsort(run_numbers)
 
-    return data[idx]
+    return applylist(data[idx])

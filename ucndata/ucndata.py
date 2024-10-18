@@ -13,6 +13,7 @@
 
 from rootloader import tfile, ttree, attrdict
 from .exceptions import *
+from .applylist import applylist
 import ucndata.settings as default_settings
 import ucndata.constants as const
 import ROOT
@@ -193,23 +194,22 @@ class ucnrun(object):
         if isinstance(key, (np.integer, int)):
             if key > self.cycle_param.ncycles:
                 raise IndexError(f'Run {self.run_number}: Index larger than number of cycles ({self.cycle_param.ncycles})')
-
-            return self._get_cycle(key)
+            return self.get_cycle(key)
 
         # slice on cycles
         if isinstance(key, slice):
-            cycles = self._get_cycle()[:self.cycle_param.ncycles]
-            return cycles[key]
+            cycles = self.get_cycle()[:self.cycle_param.ncycles]
+            return applylist(cycles[key])
 
         # slice on periods
         if isinstance(key, tuple):
-            cycles = self._get_cycle()[key[0]]
-            if isinstance(cycles, np.ndarray):
-                return np.array([c[key[1]] for c in cycles])
+            cycles = self.get_cycle()[key[0]]
+            if isinstance(cycles, (np.ndarray, applylist, list)):
+                return applylist([c[key[1]] for c in cycles])
             else:
                 return cycles[key[1]]
 
-        raise IndexError('Runs given an unknown index type')
+        raise IndexError(f'Run {self.run_number} given an unknown index type ({type(key)})')
 
     def _get_beam_duration(self, on=True):
         # Get beam on/off durations
@@ -240,26 +240,6 @@ class ucnrun(object):
         if len(out) == 1:
             return float(out.values[0])
         return out
-
-    def _get_cycle(self, cycle=None):
-        """Return a copy of this object, but trees are trimmed to only one cycle.
-
-        Note that this process converts all objects to dataframes
-
-        Args:
-            cycle (int): cycle number, if None, get all cycles
-
-        Returns:
-            ucncycle:
-                if cycle > 0:  ucncycle object
-                if cycle < 0 | None: a list ucncycle objects for all cycles
-        """
-
-        if cycle is None or cycle < 0:
-            ncycles = len(self.cycle_param.cycle_times.index)
-            return np.fromiter(map(self._get_cycle, range(ncycles)), dtype=object)
-        else:
-            return ucncycle(self, cycle)
 
     def _get_cycle_param(self):
         # set self.cycle_param dict
@@ -424,6 +404,26 @@ class ucnrun(object):
             else:
                 setattr(copy, key, value)
         return copy
+
+    def get_cycle(self, cycle=None):
+        """Return a copy of this object, but trees are trimmed to only one cycle.
+
+        Note that this process converts all objects to dataframes
+
+        Args:
+            cycle (int): cycle number, if None, get all cycles
+
+        Returns:
+            ucncycle:
+                if cycle > 0:  ucncycle object
+                if cycle < 0 | None: a list ucncycle objects for all cycles
+        """
+
+        if cycle is None or cycle < 0:
+            ncycles = len(self.cycle_param.cycle_times.index)
+            return applylist(map(self.get_cycle, range(ncycles)))
+        else:
+            return ucncycle(self, cycle)
 
     def get_hits(self, detector):
         """Get times of ucn hits
@@ -800,43 +800,14 @@ class ucncycle(ucnrun):
             if key > self.cycle_param.nperiods:
                 raise IndexError(f'Run {self.run_number}, cycle {self.cycle}: Index larger than number of periods ({self.cycle_param.nperiods})')
 
-            return self._get_period(key)
+            return self.get_period(key)
 
         # slice on cycles
         if isinstance(key, slice):
-            period = self._get_period()[:self.cycle_param.nperiods]
-            return period[key]
+            period = self.get_period()[:self.cycle_param.nperiods]
+            return applylist(period[key])
 
         raise IndexError('Cycles indexable only as a 1-dimensional object')
-
-    def _get_period(self, period=None):
-        """Return a copy of this object, but trees are trimmed to only one period.
-
-        Notes:
-            This process converts all objects to dataframes
-            Must be called for a single cycle only
-
-        Args:
-            period (int): period number, if None, get all periods
-            cycle (int|None) if cycle not specified then specify a cycle
-
-        Returns:
-            run:
-                if period > 0: a copy of this object but with data from only one period.
-                if period < 0 | None: a list of copies of this object for all periods for a single cycle
-        """
-
-        # get all periods
-        if period is None or period < 0:
-            nperiods = self.cycle_param.nperiods
-            return list(map(self._get_period, tqdm(range(nperiods),
-                                                 total=nperiods,
-                                                 leave=False,
-                                                 desc='Fetch all periods')
-                            )
-                        )
-        else:
-            return ucnperiod(self, period)
 
     def check_data(self, raise_error=False):
         """Run some checks to determine if the data is ok.
@@ -954,8 +925,8 @@ class ucncycle(ucnrun):
 
         # subtract background
         if bkgd is not None:
-            if type(counts) in (int, np.int64): zero = 0
-            else:                   zero = np.zeros(len(counts))
+            if isinstance(counts (int, np.int64)):  zero = 0
+            else:                                   zero = np.zeros(len(counts))
             counts = np.max(counts-bkgd[0], zero)
             dcounts = (dcounts**2 + bkgd[1]**2)**0.5
 
@@ -966,6 +937,31 @@ class ucncycle(ucnrun):
 
         return (counts, dcounts)
 
+    def get_period(self, period=None):
+        """Return a copy of this object, but trees are trimmed to only one period.
+
+        Notes:
+            This process converts all objects to dataframes
+            Must be called for a single cycle only
+
+        Args:
+            period (int): period number, if None, get all periods
+            cycle (int|None) if cycle not specified then specify a cycle
+
+        Returns:
+            run:
+                if period > 0: a copy of this object but with data from only one period.
+                if period < 0 | None: a list of copies of this object for all periods for a single cycle
+        """
+
+        # get all periods
+        if period is None or period < 0:
+            nperiods = self.cycle_param.nperiods
+            return applylist(map(self.get_period, range(nperiods)))
+        else:
+            return ucnperiod(self, period)
+
+    #TODO: FIX THIS
     def get_rate(self, detector, bkgd=True, norm=False):
         """Get count rate for each period
         Args:
@@ -1061,13 +1057,15 @@ class ucnperiod(ucncycle):
 
         return np.array((bcount, bcount_err))
 
-    def get_counts(self, detector, bkgd=None, norm=None):
+    def get_counts(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None):
         """Get sum of ucn hits
 
         Args:
             detector (str): one of the keys to self.DET_NAMES
-            bkgd (tuple|None): if not None subtract this as the background (value, error)
-            norm (tuple|None): if not None normalize to this value (value, error)
+            bkgd (float|None): background counts
+            dbkgd(float|None): error in background counts
+            norm (float|None): normalize to this value
+            dnorm (float|None): error in normalization
 
         Returns:
             tuple: (count, error) number of hits
@@ -1076,15 +1074,48 @@ class ucnperiod(ucncycle):
         counts = len(hit_tree.index)
         dcounts = np.sqrt(counts) # error assumed poissonian
 
-        # subtract background
+        # subtract background, but no less than 0 counts
         if bkgd is not None:
-            counts = max(counts-bkgd[0], 0)
-            dcounts = (dcounts**2 + bkgd[1]**2)**2
 
-        # normalize
-        if norm is not None:
-            dcounts = counts*((dcounts/counts)**2 + (norm[1]/norm[0])**2)**0.5
-            counts /= norm[0]
+            # check if iterable, else fetch only for this period
+            try:                iter(bkgd)
+            except TypeError:   b = bkgd
+            else:               b = bkgd[self.period]
+            counts = max(counts-b, 0)
+
+            # error correction
+            if dbkgd is not None:
+
+                # check if iterable, else fetch only for this period
+                try:                iter(dbkgd)
+                except TypeError:   db = dbkgd
+                else:               db = dbkgd[self.period]
+                dcounts = (dcounts**2 + db**2)**0.5
+
+        # normalize with error corretion
+        if dnorm is not None:
+
+            # check if iterable, else fetch only for this period
+            try:
+                iter(dnorm)
+            except TypeError:
+                dn = dnorm
+                n  = norm
+            else:
+                dn = dnorm[self.period]
+                n  = norm[self.period]
+
+            # normalize
+            dcounts = counts*((dcounts/counts)**2 + (dn/n)**2)**0.5
+            counts /= n
+
+        # normalize without error correction
+        elif norm is not None:
+
+            try:                iter(norm)
+            except TypeError:   n = norm
+            else:               n = norm[self.period]
+            counts /= n
 
         return (counts, dcounts)
 
