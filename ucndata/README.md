@@ -10,7 +10,7 @@ The goals of this package are as follows:
 ### Useful Links
 
 * API Documentation [here](docs/README.md).
-* Tutorials and Getting Started [here]((tutorials/index.md))
+* Tutorials and Getting Started [here](tutorials/index.md)
 
 [rootloader]: https://github.com/ucn-triumf/rootloader
 [midas2root]: https://github.com/ucn-triumf/ucn_detector_analyzer/tree/2024
