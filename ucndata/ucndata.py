@@ -438,6 +438,31 @@ class ucnrun(object):
                 setattr(copy, key, value)
         return copy
 
+    def gen_cycle_filter(self, period_production=None, period_count=None,
+                         period_background=None, quiet=False):
+        """Generate filter array for cycles. Use with self.set_cycle_filter to filter cycles.
+
+        Args:
+            period_production (int): index of period where the beam should be stable. Enables checks of beam stability
+            period_count (int): index of period where we count ucn. Enables checks of data quantity
+            period_background (int): index of period where we do not count ucn. Enables checks of background
+            quiet (bool): if true don't print or raise exception
+
+        Returns:
+            np.array: of bool, true if keep cycle, false if discard
+
+        Notes:
+            calls ucncycle.check_data on each cycle
+        """
+
+        cycles = self.get_cycle()
+        cfilter = [c.check_data(period_background=period_background,
+                                period_count=period_count,
+                                period_production=period_production,
+                                quiet=quiet,
+                                raise_error=False) for c in cycles]
+        return np.array(cfilter)
+
     def get_cycle(self, cycle=None):
         """Return a copy of this object, but trees are trimmed to only one cycle.
 
@@ -549,6 +574,20 @@ class ucnrun(object):
     def set_cycle_filter(self, cfilter=None):
         """Set filter for which cycles to fetch when slicing or iterating
 
+        Notes:
+            Filter is ONLY applied when fetching cycles as a slice or as an iterator. ucnrun.get_cycle() always returns unfiltered cycles.
+
+        Examples where the filter is applied:
+            * run[:]
+            * run[3:10]
+            * run[:3]
+            * for c in run: print(c)
+
+        Examples where the filter is not applied:
+            * run[2]
+            * run.get_cycle()
+            * run.get_cycle(2)
+
         Args:
             cfilter (None|iterable): list of bool, True if keep cycle, False if reject.
                 if None then same as if all True
@@ -558,7 +597,7 @@ class ucnrun(object):
         """
 
         # check input
-        cfilter = np.array(cfilter, astype=bool)
+        cfilter = np.array(cfilter).astype(bool)
 
         if len(cfilter) != self.cycle_param.ncycles:
             raise RuntimeError(f'Run {self.run_number}: Length of cycle filter ({len(cfilter)}) does not match expected number of cycles ({self.cycle_param.ncycles})')
