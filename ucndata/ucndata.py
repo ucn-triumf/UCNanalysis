@@ -1221,21 +1221,26 @@ class ucnperiod(ucncycle):
         return (counts, dcounts)
 
     # TODO: FIX THIS
-    def get_rate(self, detector, bkgd=True, norm=False):
+    def get_rate(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None):
         """Get sum of ucn hits per unit time of period
 
         Args:
             detector (str): one of the keys to self.DET_NAMES
-            bkgd (tuple|None): if not None subtract this as the background (value, error)
-            norm (tuple|None): if not None normalize to this value (value, error)
+            bkgd (float|None): background counts
+            dbkgd(float|None): error in background counts
+            norm (float|None): normalize to this value
+            dnorm (float|None): error in normalization
 
         Returns:
-            float: count rate
+            tuple: (count rate, error)
         """
         # get counts
         counts, dcounts = self.get_counts(detector=detector,
                                           bkgd=bkgd,
-                                          norm=norm)
+                                          dbkgd=dbkgd,
+                                          norm=norm,
+                                          dnorm=dnorm,
+                                          )
 
         # get rate
         duration = self.cycle_param.period_durations_s
