@@ -3,7 +3,7 @@
 # Oct 2024
 
 # path to the directory which contains the root files
-datadir = "root_data"
+datadir = "/data3/ucn/root_files"
 
 def keyfilter(name):
     """Don't load all the data in each file, only that which is needed"""

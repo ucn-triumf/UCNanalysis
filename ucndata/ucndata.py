@@ -14,7 +14,7 @@
 from rootloader import tfile, ttree, attrdict
 from .exceptions import *
 from .applylist import applylist
-import ucndata.settings as default_settings
+from ucndata import settings
 import ucndata.constants as const
 import ROOT
 import numpy as np
@@ -96,12 +96,7 @@ class ucnrun(object):
 
         # make filename from defaults
         elif type(run) is int:
-            try:
-                _dirname = datadir
-            except NameError:
-                _dirname = default_settings.datadir
-
-            filename = os.path.join(_dirname, f'ucn_run_{run:0>8d}.root')
+            filename = os.path.join(settings.datadir, f'ucn_run_{run:0>8d}.root')
 
         # fetch from specified path
         elif type(run) is str:
@@ -116,14 +111,8 @@ class ucnrun(object):
             self._head = head # needed to keep value in memory
 
         else:
-
-            try:
-                _keyfilter = keyfilter
-            except NameError:
-                _keyfilter = default_settings.keyfilter
-
             self.tfile = tfile(filename, empty_ok=False, quiet=True,
-                               key_filter=_keyfilter)
+                               key_filter=settings.keyfilter)
             head = self.tfile['header']
 
             # fix header values in tfile
