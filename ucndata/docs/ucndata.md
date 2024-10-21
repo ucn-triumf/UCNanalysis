@@ -7,28 +7,28 @@
 - [Ucndata](#ucndata)
   - [tsubfile](#tsubfile)
   - [ucncycle](#ucncycle)
-    - [ucncycle.check_data](#ucncycle()check_data)
-    - [ucncycle.get_counts](#ucncycle()get_counts)
-    - [ucncycle.get_period](#ucncycle()get_period)
-    - [ucncycle.get_rate](#ucncycle()get_rate)
+    - [ucncycle.check_data](#ucncyclecheck_data)
+    - [ucncycle.get_counts](#ucncycleget_counts)
+    - [ucncycle.get_period](#ucncycleget_period)
+    - [ucncycle.get_rate](#ucncycleget_rate)
   - [ucnperiod](#ucnperiod)
-    - [ucnperiod.get_counts](#ucnperiod()get_counts)
-    - [ucnperiod.get_rate](#ucnperiod()get_rate)
+    - [ucnperiod.get_counts](#ucnperiodget_counts)
+    - [ucnperiod.get_rate](#ucnperiodget_rate)
   - [ucnrun](#ucnrun)
-    - [ucnrun.apply](#ucnrun()apply)
-    - [ucnrun.beam_current_uA](#ucnrun()beam_current_ua)
-    - [ucnrun.beam_off_s](#ucnrun()beam_off_s)
-    - [ucnrun.beam_on_s](#ucnrun()beam_on_s)
-    - [ucnrun.check_data](#ucnrun()check_data)
-    - [ucnrun.copy](#ucnrun()copy)
-    - [ucnrun.from_dataframe](#ucnrun()from_dataframe)
-    - [ucnrun.gen_cycle_filter](#ucnrun()gen_cycle_filter)
-    - [ucnrun.get_cycle](#ucnrun()get_cycle)
-    - [ucnrun.get_hits](#ucnrun()get_hits)
-    - [ucnrun.get_hits_histogram](#ucnrun()get_hits_histogram)
-    - [ucnrun.set_cycle_filter](#ucnrun()set_cycle_filter)
-    - [ucnrun.set_cycle_times](#ucnrun()set_cycle_times)
-    - [ucnrun.to_dataframe](#ucnrun()to_dataframe)
+    - [ucnrun.apply](#ucnrunapply)
+    - [ucnrun.beam_current_uA](#ucnrunbeam_current_ua)
+    - [ucnrun.beam_off_s](#ucnrunbeam_off_s)
+    - [ucnrun.beam_on_s](#ucnrunbeam_on_s)
+    - [ucnrun.check_data](#ucnruncheck_data)
+    - [ucnrun.copy](#ucnruncopy)
+    - [ucnrun.from_dataframe](#ucnrunfrom_dataframe)
+    - [ucnrun.gen_cycle_filter](#ucnrungen_cycle_filter)
+    - [ucnrun.get_cycle](#ucnrunget_cycle)
+    - [ucnrun.get_hits](#ucnrunget_hits)
+    - [ucnrun.get_hits_histogram](#ucnrunget_hits_histogram)
+    - [ucnrun.set_cycle_filter](#ucnrunset_cycle_filter)
+    - [ucnrun.set_cycle_times](#ucnrunset_cycle_times)
+    - [ucnrun.to_dataframe](#ucnrunto_dataframe)
 
 ## tsubfile
 
@@ -524,7 +524,7 @@ Set filter for which cycles to fetch when slicing or iterating
 
 #### Notes
 
-Filter is ONLY applied when fetching cycles as a slice or as an iterator. ucnrun.get_cycle() always returns unfiltered cycles.
+Filter is ONLY applied when fetching cycles as a slice or as an iterator. ucnrun.get_cycle always returns unfiltered cycles.
 
 Examples where the filter is applied:
     * run[:]
@@ -534,7 +534,7 @@ Examples where the filter is applied:
 
 Examples where the filter is not applied:
     * run[2]
-    * run.get_cycle()
+    * run.get_cycle
     * run.get_cycle(2)
 
 #### Arguments

@@ -6,9 +6,9 @@
 
 - [applylist](#applylist)
   - [applylist](#applylist-1)
-    - [applylist.apply](#applylist()apply)
-    - [applylist.astype](#applylist()astype)
-    - [applylist.transpose](#applylist()transpose)
+    - [applylist.apply](#applylistapply)
+    - [applylist.astype](#applylistastype)
+    - [applylist.transpose](#applylisttranspose)
 
 ## applylist
 
