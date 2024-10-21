@@ -12,7 +12,6 @@
     - [ucncycle().get_period](#ucncycle()get_period)
     - [ucncycle().get_rate](#ucncycle()get_rate)
   - [ucnperiod](#ucnperiod)
-    - [ucnperiod().get_bkgd](#ucnperiod()get_bkgd)
     - [ucnperiod().get_counts](#ucnperiod()get_counts)
     - [ucnperiod().get_rate](#ucnperiod()get_rate)
   - [ucnrun](#ucnrun)
@@ -26,14 +25,13 @@
     - [ucnrun().get_cycle](#ucnrun()get_cycle)
     - [ucnrun().get_hits](#ucnrun()get_hits)
     - [ucnrun().get_hits_histogram](#ucnrun()get_hits_histogram)
+    - [ucnrun().set_cycle_filter](#ucnrun()set_cycle_filter)
     - [ucnrun().set_cycle_times](#ucnrun()set_cycle_times)
-    - [ucnrun().souce_temperature_k](#ucnrun()souce_temperature_k)
-    - [ucnrun().source_pressure_kpa](#ucnrun()source_pressure_kpa)
     - [ucnrun().to_dataframe](#ucnrun()to_dataframe)
 
 ## tsubfile
 
-[Show source in ucndata.py:1146](../ucndata.py#L1146)
+[Show source in ucndata.py:1209](../ucndata.py#L1209)
 
 Wrapper for tfile which restricts access to values only within given times
 
@@ -54,7 +52,7 @@ class tsubfile(tfile):
 
 ## ucncycle
 
-[Show source in ucndata.py:728](../ucndata.py#L728)
+[Show source in ucndata.py:773](../ucndata.py#L773)
 
 View for the data from a single UCN cycle
 
@@ -81,13 +79,17 @@ class ucncycle(ucnrun):
 
 ### ucncycle().check_data
 
-[Show source in ucndata.py:812](../ucndata.py#L812)
+[Show source in ucndata.py:857](../ucndata.py#L857)
 
 Run some checks to determine if the data is ok.
 
 #### Arguments
 
+- `period_production` *int* - index of period where the beam should be stable. Enables checks of beam stability
+- `period_count` *int* - index of period where we count ucn. Enables checks of data quantity
+- `period_background` *int* - index of period where we do not count ucn. Enables checks of background
 - `raise_error` *bool* - if true, raise an error if check fails, else return false
+- `quiet` *bool* - if true don't print or raise exception
 
 #### Returns
 
@@ -104,12 +106,19 @@ Checks:
 #### Signature
 
 ```python
-def check_data(self, raise_error=False): ...
+def check_data(
+    self,
+    period_production=None,
+    period_count=None,
+    period_background=None,
+    raise_error=False,
+    quiet=False,
+): ...
 ```
 
 ### ucncycle().get_counts
 
-[Show source in ucndata.py:881](../ucndata.py#L881)
+[Show source in ucndata.py:962](../ucndata.py#L962)
 
 Get counts for each period
 
@@ -136,7 +145,7 @@ def get_counts(self, detector, period=None, bkgd=None, norm=None): ...
 
 ### ucncycle().get_period
 
-[Show source in ucndata.py:940](../ucndata.py#L940)
+[Show source in ucndata.py:1021](../ucndata.py#L1021)
 
 Return a copy of this object, but trees are trimmed to only one period.
 
@@ -164,7 +173,7 @@ def get_period(self, period=None): ...
 
 ### ucncycle().get_rate
 
-[Show source in ucndata.py:965](../ucndata.py#L965)
+[Show source in ucndata.py:1046](../ucndata.py#L1046)
 
 Get count rate for each period
 
@@ -188,7 +197,7 @@ def get_rate(self, detector, bkgd=True, norm=False): ...
 
 ## ucnperiod
 
-[Show source in ucndata.py:979](../ucndata.py#L979)
+[Show source in ucndata.py:1060](../ucndata.py#L1060)
 
 Stores the data from a single UCN period from a single cycle
 
@@ -208,29 +217,9 @@ class ucnperiod(ucncycle):
 
 - [ucncycle](#ucncycle)
 
-### ucnperiod().get_bkgd
-
-[Show source in ucndata.py:1041](../ucndata.py#L1041)
-
-Get default background counts
-
-#### Arguments
-
-- `detector` *str* - one of the keys to self.DET_NAMES
-
-#### Returns
-
-- `np.ndarray` - (background, error)
-
-#### Signature
-
-```python
-def get_bkgd(self, detector): ...
-```
-
 ### ucnperiod().get_counts
 
-[Show source in ucndata.py:1060](../ucndata.py#L1060)
+[Show source in ucndata.py:1122](../ucndata.py#L1122)
 
 Get sum of ucn hits
 
@@ -254,7 +243,7 @@ def get_counts(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None): ..
 
 ### ucnperiod().get_rate
 
-[Show source in ucndata.py:1122](../ucndata.py#L1122)
+[Show source in ucndata.py:1185](../ucndata.py#L1185)
 
 Get sum of ucn hits per unit time of period
 
@@ -278,7 +267,7 @@ def get_rate(self, detector, bkgd=True, norm=False): ...
 
 ## ucnrun
 
-[Show source in ucndata.py:27](../ucndata.py#L27)
+[Show source in ucndata.py:26](../ucndata.py#L26)
 
 #### Attributes
 
@@ -286,7 +275,7 @@ def get_rate(self, detector, bkgd=True, norm=False): ...
 
 - `SLOW_TREES` - needed slow control trees: ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
 
-- `DATA_CHECK_THRESH` - data thresholds for checking data: {'beam_min_current': 0.1, 'beam_max_current_std': 0.02, 'pileup_cnt_per_ms': 3, 'pileup_within_first_s': 1}
+- `DATA_CHECK_THRESH` - data thresholds for checking data: {'beam_min_current': 0.1, 'beam_max_current_std': 0.02, 'max_bkgd_count_rate': 4, 'min_total_counts': 100, 'pileup_cnt_per_ms': 3, 'pileup_within_first_s': 1}
 
 - `DET_BKGD` - default detector backgrounds - from 2019: {'Li6': 1.578, 'Li6_err': 0.009, 'He3': 0.0349, 'He3_err': 0.0023}
 
@@ -331,7 +320,7 @@ class ucnrun(object):
 
 ### ucnrun().apply
 
-[Show source in ucndata.py:329](../ucndata.py#L329)
+[Show source in ucndata.py:362](../ucndata.py#L362)
 
 Apply function to each cycle
 
@@ -351,7 +340,7 @@ def apply(self, fn_handle): ...
 
 ### ucnrun().beam_current_uA
 
-[Show source in ucndata.py:692](../ucndata.py#L692)
+[Show source in ucndata.py:745](../ucndata.py#L745)
 
 #### Signature
 
@@ -362,7 +351,7 @@ def beam_current_uA(self): ...
 
 ### ucnrun().beam_off_s
 
-[Show source in ucndata.py:717](../ucndata.py#L717)
+[Show source in ucndata.py:770](../ucndata.py#L770)
 
 #### Signature
 
@@ -373,7 +362,7 @@ def beam_off_s(self): ...
 
 ### ucnrun().beam_on_s
 
-[Show source in ucndata.py:714](../ucndata.py#L714)
+[Show source in ucndata.py:767](../ucndata.py#L767)
 
 #### Signature
 
@@ -384,7 +373,7 @@ def beam_on_s(self): ...
 
 ### ucnrun().check_data
 
-[Show source in ucndata.py:340](../ucndata.py#L340)
+[Show source in ucndata.py:373](../ucndata.py#L373)
 
 Run some checks to determine if the data is ok.
 
@@ -408,7 +397,7 @@ def check_data(self, raise_error=False): ...
 
 ### ucnrun().copy
 
-[Show source in ucndata.py:397](../ucndata.py#L397)
+[Show source in ucndata.py:430](../ucndata.py#L430)
 
 Return a copy of this objet
 
@@ -420,7 +409,7 @@ def copy(self): ...
 
 ### ucnrun().from_dataframe
 
-[Show source in ucndata.py:512](../ucndata.py#L512)
+[Show source in ucndata.py:545](../ucndata.py#L545)
 
 Convert self.tfile contents to rootfile struture types
 
@@ -432,7 +421,7 @@ def from_dataframe(self): ...
 
 ### ucnrun().get_cycle
 
-[Show source in ucndata.py:408](../ucndata.py#L408)
+[Show source in ucndata.py:441](../ucndata.py#L441)
 
 Return a copy of this object, but trees are trimmed to only one cycle.
 
@@ -456,7 +445,7 @@ def get_cycle(self, cycle=None): ...
 
 ### ucnrun().get_hits
 
-[Show source in ucndata.py:428](../ucndata.py#L428)
+[Show source in ucndata.py:461](../ucndata.py#L461)
 
 Get times of ucn hits
 
@@ -476,7 +465,7 @@ def get_hits(self, detector): ...
 
 ### ucnrun().get_hits_histogram
 
-[Show source in ucndata.py:472](../ucndata.py#L472)
+[Show source in ucndata.py:505](../ucndata.py#L505)
 
 Get histogram of UCNHits ttree times
 
@@ -495,9 +484,30 @@ Get histogram of UCNHits ttree times
 def get_hits_histogram(self, detector, bin_ms=100): ...
 ```
 
+### ucnrun().set_cycle_filter
+
+[Show source in ucndata.py:549](../ucndata.py#L549)
+
+Set filter for which cycles to fetch when slicing or iterating
+
+#### Arguments
+
+- `cfilter` *None|iterable* - list of bool, True if keep cycle, False if reject.
+    if None then same as if all True
+
+#### Returns
+
+- `None` - sets self.cycle_param.filter
+
+#### Signature
+
+```python
+def set_cycle_filter(self, cfilter=None): ...
+```
+
 ### ucnrun().set_cycle_times
 
-[Show source in ucndata.py:516](../ucndata.py#L516)
+[Show source in ucndata.py:569](../ucndata.py#L569)
 
 Get start and end times of each cycle from the sequencer and save
 into self.cycle_param.cycle_times
@@ -533,31 +543,9 @@ Run this if you want to change how cycle start times are calculated
 def set_cycle_times(self, mode="matched"): ...
 ```
 
-### ucnrun().souce_temperature_k
-
-[Show source in ucndata.py:720](../ucndata.py#L720)
-
-#### Signature
-
-```python
-@property
-def souce_temperature_k(self): ...
-```
-
-### ucnrun().source_pressure_kpa
-
-[Show source in ucndata.py:724](../ucndata.py#L724)
-
-#### Signature
-
-```python
-@property
-def source_pressure_kpa(self): ...
-```
-
 ### ucnrun().to_dataframe
 
-[Show source in ucndata.py:687](../ucndata.py#L687)
+[Show source in ucndata.py:740](../ucndata.py#L740)
 
 Convert self.tfile contents to pd.DataFrame
 

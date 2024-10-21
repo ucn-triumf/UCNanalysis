@@ -2,8 +2,6 @@
 # Derek Fujimoto
 # Oct 2024
 
-# TODO: improve fetching of value from run level
-
 from ucndata import ucnrun, settings, read, merge, applylist
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,7 +23,7 @@ for r in runs:
     r.to_dataframe()
 
 # get beam current and means
-beam_currents = r[:, production_period].beam_current_uA.values
+beam_currents = r[:, production_period].beam_current_uA
 
 dbeam_currents = beam_currents.std()
 beam_currents = beam_currents.mean()

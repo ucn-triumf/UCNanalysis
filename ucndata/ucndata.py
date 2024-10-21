@@ -20,7 +20,6 @@ import ROOT
 import numpy as np
 import pandas as pd
 import itertools, warnings, os
-from tqdm import tqdm
 
 ROOT.gROOT.SetBatch(1)
 
@@ -77,6 +76,8 @@ class ucnrun(object):
     # data thresholds for checking data
     DATA_CHECK_THRESH = {'beam_min_current': 0.1, # uA
                          'beam_max_current_std': 0.02, # uA
+                         'max_bkgd_count_rate': 4, # fractional increase over DET_BKGD values
+                         'min_total_counts': 100, # number of counts total
                          'pileup_cnt_per_ms': 3, # if larger than this, then pileup and delete
                          'pileup_within_first_s': 1, # time frame for pileup in each period
                          }
@@ -199,17 +200,62 @@ class ucnrun(object):
         # slice on cycles
         if isinstance(key, slice):
             cycles = self.get_cycle()[:self.cycle_param.ncycles]
-            return applylist(cycles[key])
+
+            # no filter
+            if self.cycle_param.filter is None or all(self.cycle_param.filter):
+                cyc = cycles[key]
+
+            # yes filter
+            else:
+
+                # fetch the filter and slice in the same way as the return value
+                cfilter = self.cycle_param.filter[key]
+
+                # fetch cycles and slice, then apply filter
+                cyc = np.array(cycles[key])
+                cyc = cyc[cfilter]
+
+            return applylist(cyc)
 
         # slice on periods
         if isinstance(key, tuple):
-            cycles = self.get_cycle()[key[0]]
+            cycles = self[key[0]]
             if isinstance(cycles, (np.ndarray, applylist, list)):
                 return applylist([c[key[1]] for c in cycles])
             else:
                 return cycles[key[1]]
 
         raise IndexError(f'Run {self.run_number} given an unknown index type ({type(key)})')
+
+    def __iter__(self):
+        # setup iteration
+        self._iter_current = 0
+        return self
+
+    def __next__(self):
+        # permit iteration over object like it was a list
+
+        if self._iter_current < self.cycle_param.ncycles:
+
+            # skip elements that should be filtered
+            if self.cycle_param.filter is not None:
+
+                # skip
+                while not self.cycle_param.filter[self._iter_current]:
+                    self._iter_current += 1
+
+                    # end condition
+                    if self._iter_current >= self.cycle_param.ncycles:
+                        raise StopIteration()
+
+            # iterate
+            cyc = self[self._iter_current]
+            self._iter_current += 1
+            return cyc
+
+        # end of iteration
+        else:
+            raise StopIteration()
 
     def _get_beam_duration(self, on=True):
         # Get beam on/off durations
@@ -226,11 +272,15 @@ class ucnrun(object):
         beam_dur = []
         epics_val = 'B1V_KSM_RDBEAMON_VAL1' if on else 'B1V_KSM_RDBEAMOFF_VAL1'
 
+        # get as dataframe
+        if isinstance(beam, ttree):
+            beam = beam.to_dataframe()
+
         # get durations closest to cycle start time
         for start in cycle_times.start:
 
-            start_times = abs(beam.timestamp - start)
-            durations = getattr(beam, epics_val)*const.beam_bucket_duration_s
+            start_times = abs(beam.index.values - start)
+            durations = beam[epics_val].values*const.beam_bucket_duration_s
             idx = np.argmin(start_times)
             beam_dur.append(durations[idx])
 
@@ -306,25 +356,8 @@ class ucnrun(object):
         # number of cycles
         self.cycle_param['ncycles'] = len(df.index)
 
-    def _trim(self, start, stop):
-        # trim trees such that timestamps are between start and stop
-
-        for key, value in self.tfile.items():
-            if key == 'header': continue
-
-            # trim ttree
-            if type(value) is ttree:
-                value = value.to_dataframe()
-                if value.index.name is not None:
-                    idx = (value.index < stop) & (value.index > start)
-                    value = value.loc[idx]
-                self.tfile[key] = ttree(value)
-
-            # trim dataframe
-            elif type(value) is pd.DataFrame:
-                if value.index.name is not None:
-                    idx = (value.index < stop) & (value.index > start)
-                    self.tfile[key] = value.loc[idx].copy()
+        # cycle filter
+        self.cycle_param['filter'] = None
 
     def apply(self, fn_handle):
         """Apply function to each cycle
@@ -480,12 +513,12 @@ class ucnrun(object):
             tuple: (bin_centers, histogram counts)
         """
 
-        # index_col = 'tUnixTimePrecise'
-
-        # get cycle start and stop times from ucn counts histogram
-
         # get data
-        df = self.tfile[self.DET_NAMES[detector]['hits']].to_dataframe()
+        df = self.tfile[self.DET_NAMES[detector]['hits']]
+
+        if not isinstance(df, pd.DataFrame):
+            df = df.to_dataframe()
+
         index_col = df.index.name
         df.reset_index(inplace=True)
 
@@ -512,6 +545,26 @@ class ucnrun(object):
     def from_dataframe(self):
         """Convert self.tfile contents to rootfile struture types"""
         self.tfile.from_dataframe()
+
+    def set_cycle_filter(self, cfilter=None):
+        """Set filter for which cycles to fetch when slicing or iterating
+
+        Args:
+            cfilter (None|iterable): list of bool, True if keep cycle, False if reject.
+                if None then same as if all True
+
+        Returns:
+            None: sets self.cycle_param.filter
+        """
+
+        # check input
+        cfilter = np.array(cfilter, astype=bool)
+
+        if len(cfilter) != self.cycle_param.ncycles:
+            raise RuntimeError(f'Run {self.run_number}: Length of cycle filter ({len(cfilter)}) does not match expected number of cycles ({self.cycle_param.ncycles})')
+
+        # set
+        self.cycle_param.filter = cfilter
 
     def set_cycle_times(self, mode='matched'):
         """Get start and end times of each cycle from the sequencer and save
@@ -717,14 +770,6 @@ class ucnrun(object):
     @property
     def beam_off_s(self): return self._get_beam_duration(on=False)
 
-    @property
-    def souce_temperature_k(self):
-        raise NotImplementedError()
-
-    @property
-    def source_pressure_kpa(self):
-        raise NotImplementedError()
-
 class ucncycle(ucnrun):
     """View for the data from a single UCN cycle
 
@@ -809,11 +854,16 @@ class ucncycle(ucnrun):
 
         raise IndexError('Cycles indexable only as a 1-dimensional object')
 
-    def check_data(self, raise_error=False):
+    def check_data(self, period_production=None, period_count=None, period_background=None,
+                   raise_error=False, quiet=False):
         """Run some checks to determine if the data is ok.
 
         Args:
+            period_production (int): index of period where the beam should be stable. Enables checks of beam stability
+            period_count (int): index of period where we count ucn. Enables checks of data quantity
+            period_background (int): index of period where we do not count ucn. Enables checks of background
             raise_error (bool): if true, raise an error if check fails, else return false
+            quiet (bool): if true don't print or raise exception
 
         Returns:
             bool: true if check passes, else false.
@@ -826,58 +876,89 @@ class ucncycle(ucnrun):
                 LNDDetectorTree
             Are there nonzero counts in UCNHits?
         """
-
-        # run full data checks
-        super().check_data(raise_error=raise_error)
-
         # setup error message
-        msg = None
-        run_msg = f'Run {self.run_number}, cycle {self.cycle}:'
+        msg = f'Run {self.run_number}, cycle {self.cycle}:'
+
+        # setup raise or warn
+        if quiet:
+            def warn(error, message):
+                return False
+        elif raise_error:
+            def warn(error, message):
+                raise error(message)
+        else:
+            def warn(error, message):
+                print(message)
+                return False
+
+        ## overall data quality checks ---------------------------------------
 
         # beam data exists
-        beam_current = self.beam_current_uA
-        if len(beam_current) == 0:
-            msg = f'{run_msg} No beam data saved'
-            err = BeamError
+        if len(self.beam_current_uA) == 0:
+            return warn(BeamError, f'{msg} No beam data saved')
 
         # total duration
-        elif self.cycle_stop - self.cycle_start <= 0:
-            msg = f'{run_msg} Cycle has a duration of {self.cycle_stop - self.cycle_start} s'
-            err = DataError
+        if self.cycle_stop - self.cycle_start <= 0:
+            return warn(DataError, f'{msg} Cycle duration nonsensical: {self.cycle_stop - self.cycle_start} s')
 
         # skip cycle because cycle sequence is longer than irradiation interval
         # TODO
 
-        # beam current too low
-        elif beam_current.min() < self.DATA_CHECK_THRESH['beam_min_current']:
-            msg = f'{run_msg} Beam current dropped to {beam_current.min()} uA'
-            err = BeamError
-
-        # beam current unstable
-        elif beam_current.std() > self.DATA_CHECK_THRESH['beam_max_current_std']:
-            msg = f'{run_msg} Beam current fluctuated by {beam_current.std()} uA'
-            err = BeamError
-
         # valve states
-        elif not self.cycle_param.valve_states.any().any():
-            msg = f'{run_msg} No valves operated'
-            err = ValveError
+        if not self.cycle_param.valve_states.any().any():
+            return warn(ValveError, f'{msg} No valves operated')
 
         # has counts
-        elif not any([self.tfile[self.DET_NAMES[det]['hits']].tIsUCN.sum() > 1 for det in self.DET_NAMES.keys()]):
-            msg = f'{run_msg} No counts detected'
-            err = DataError
+        if not any([self.tfile[self.DET_NAMES[det]['hits']].tIsUCN.sum() > 1 for det in self.DET_NAMES.keys()]):
+            return warn(DataError, f'{msg} No counts detected')
 
-        # raise error or return value
-        if msg is not None:
-            if raise_error:
-                raise err(msg)
-            else:
-                print(msg)
-                return False
+        ## production period checks ------------------------------------------
+        if period_production is not None:
+            period = self.get_period(period_production)
+            beam_current = period.beam_current_uA
+
+            # beam data exists during production
+            if len(beam_current) == 0:
+                return warn(BeamError, f'{msg} No beam data during production period')
+
+            # beam dropped too low
+            if beam_current.min() < self.DATA_CHECK_THRESH['beam_min_current']:
+                return warn(BeamError, f'{msg} Beam current dropped to {beam_current.min()} uA')
+
+            # beam current unstable
+            if beam_current.std() > self.DATA_CHECK_THRESH['beam_max_current_std']:
+                return warn(BeamError, f'{msg} Beam current fluctuated by {beam_current.std()} uA')
+
+        ## background period checks ------------------------------------------
+        if period_background is not None:
+
+            period = self.get_period(period_background)
+
+            for det in self.DET_NAMES.keys():
+                counts, _ = period.get_counts(det)
+
+                # background count rate too high
+                rate = counts / period.cycle_param.period_durations_s
+                if rate / self.DET_BKGD[det] > self.DATA_CHECK_THRESH['max_bkgd_count_rate']:
+                    raise warn(DataError, f'{msg} Background count rate in {det} detector is {rate / self.DET_BKGD[det]} times larger than expected ({self.DET_BKGD[det]} counts/s)')
+
+                # background counts missing
+                if counts == 0:
+                    raise warn(DataError, f'{msg} No detected background counts in {det} detector')
+
+        ## count period checks -----------------------------------------------
+        if period_count is not None:
+
+            period = self.get_period(period_count)
+            for det in self.DET_NAMES.keys():
+                counts = period.get_counts(det)[0]
+                if counts > self.DATA_CHECK_THRESH['min_total_counts']:
+                    raise warn(DataError, f'{msg} Too few counts in {det} detector during counting period ({counts} counts)')
+
 
         return True
 
+    # TODO: FIX THIS
     def get_counts(self, detector, period=None, bkgd=None, norm=None):
         """Get counts for each period
         Args:
@@ -896,7 +977,7 @@ class ucncycle(ucnrun):
 
         # check input
         nperiods = self.cycle_param.nperiods
-        if period > nperiods:
+        if period is not None and period > nperiods:
             raise RuntimeError(f"Run {self.run_number}, cycle {self.cycle}: Period index must be less than {self.cycle_param.nperiods}")
 
         # get ucn hits
@@ -1038,25 +1119,6 @@ class ucnperiod(ucncycle):
         else:
             return self.__class__.__name__ + "()"
 
-    def get_bkgd(self, detector):
-        """Get default background counts
-
-        Args:
-            detector (str): one of the keys to self.DET_NAMES
-
-        Returns:
-            np.ndarray: (background, error)
-        """
-
-         # get background counts
-        brate = self.DET_BKGD[detector]
-        brate_err = self.DET_BKGD[detector+'_err']
-
-        bcount = brate * self.cycle_param.period_durations_s
-        bcount_err = brate_err * self.cycle_param.period_durations_s
-
-        return np.array((bcount, bcount_err))
-
     def get_counts(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None):
         """Get sum of ucn hits
 
@@ -1119,6 +1181,7 @@ class ucnperiod(ucncycle):
 
         return (counts, dcounts)
 
+    # TODO: FIX THIS
     def get_rate(self, detector, bkgd=True, norm=False):
         """Get sum of ucn hits per unit time of period
 
