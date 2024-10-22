@@ -4,9 +4,9 @@ The `ucndata` package is based around the [ucnrun] object. This object reads a r
 
 ### Table of Contents
 
+* [Basics](#basics)
 * [`ucnrun.cycle_param`](#cycle_param)
 * [`ucnrun.tfile`](#tfile)
-* [Accessing cycles and periods](#cycles-and-periods)
 
 ## Basics
 
