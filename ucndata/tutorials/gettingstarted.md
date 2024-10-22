@@ -1,5 +1,10 @@
 # Getting Started
 
+[**Back to Index**](index.md)\
+[**Next Page: Loading Runs Efficiently in an Environment**](read.md)
+
+---
+
 The `ucndata` package is based around the [ucnrun] object. This object reads a root file into memory and organizes its contents for easy scripting of future analyses. These root files can be generated with the `midas2root` program, which is a part of the [ucn_detector_analyzer](https://github.com/ucn-triumf/ucn_detector_analyzer/tree/2024) code set.
 
 ### Table of Contents
@@ -129,6 +134,11 @@ timestamp                                       ...
 ```
 
 In general if each [ttree] structure is simple enough to convert to a [DataFrame] it is recommended that one does so.
+
+---
+
+[**Back to Index**](index.md)\
+[**Next Page: Loading Runs Efficiently in an Environment**](read.md)
 
 
 [tfile]: #tfile

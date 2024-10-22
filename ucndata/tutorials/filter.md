@@ -1,5 +1,10 @@
 # Filtering
 
+[**Back to Index**](index.md)\
+[**Next Page: Using Applylists**](applylists.md)
+
+---
+
 In the case of imperfect data we often want to not load every cycle present in the file. Of course one can use the [slicing](../docs/cycandperiods.md#slicing-and-indexing) feature of the [ucnrun] or [applylist] objects to achieve this, however we offer an alternative.
 
 The `ucnrun.cycle_param` dictionary has a `filter` item which sets the cycles filter. Effectively, this is a list of length `ucnrun.cycle_param.ncycles` containing boolean values which indicate whether a cycle should be kept or not (True to keep the cycle).
@@ -45,6 +50,10 @@ run[:4] # this returns a list that is of length 3, not 4
 
 This lets a user rerun an analysis with a new cycle filter with minimal changes to their code.
 
+---
+
+[**Back to Index**](index.md)\
+[**Next Page: Using Applylists**](applylists.md)
 
 
 

@@ -1,5 +1,8 @@
 # Using ApplyLists
 
+[**Back to Index**](index.md)\
+[**Next page: Tips and FAQ**](tips.md)
+
 An [applylist] is an object defined in the ucndata package. It inherits from the python [list](https://docs.python.org/3/tutorial/datastructures.html) object. However we often want to get an attribute or call a function from the contents of lists of objects. For example, if you want to get the beam current for period 0 of each cycle, and the counts in period 2, you would need to do something like:
 
 ```python
@@ -33,6 +36,10 @@ Note that this works on nested [applylist]s. Therefore the following how to fetc
 run[:, :].beam_current_uA.mean()
 ```
 
+---
+
+[**Back to Index**](index.md)\
+[**Next page: Tips and FAQ**](tips.md)
 
 [tfile]: #tfile
 [DataFrame]: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html

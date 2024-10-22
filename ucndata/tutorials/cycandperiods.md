@@ -1,5 +1,9 @@
-
 # Cycles and Periods
+
+[**Back to Index**](index.md)\
+[**Next Page: Filtering Cycles**](filter.md)
+
+---
 
 Each run which uses the sequencer makes use of many cycles, each of which is composed of up to 10 periods. Each period has a set of valves open or closed for a fixed amount of time. Each cycle can have different period settings, but each supercycle reflects a repetition of the full cycle set. It is therefore prudent to access the data for each cycles and period in the run in an easy manner.
 
@@ -126,7 +130,10 @@ Cycle start and end times can be calculated in a few different ways. When the [u
 
 For runs without a sequencer, this function returns the run start and stop times as the cycle timing.
 
+---
 
+[**Back to Index**](index.md)\
+[**Next Page: Filtering Cycles**](filter.md)
 
 [tfile]: #tfile
 [DataFrame]: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html

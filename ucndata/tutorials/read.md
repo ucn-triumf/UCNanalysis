@@ -1,5 +1,10 @@
 # Loading Runs
 
+[**Back to Index**](index.md)\
+[**Next Page: Accessing Cycles and Periods**](cycandperiods.md)
+
+---
+
 ## Specification
 
 There are two main ways to specify which run to load:
@@ -60,4 +65,29 @@ from ucndata import settings
 settings.keyfilter = lambda x: True
 ```
 
-Note that by default empty trees and histograms are not loaded into memory. 
+Note that by default empty trees and histograms are not loaded into memory.
+
+If one needs to read many runs it is recommended that one uses the [read] function:
+
+```python
+from ucndata import read
+
+runlist = read([2050, 2051, 2052])
+```
+
+---
+
+[**Back to Index**](index.md)\
+[**Next Page: Accessing Cycles and Periods**](cycandperiods.md)
+
+[tfile]: #tfile
+[DataFrame]: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
+[ttree]:https://github.com/ucn-triumf/rootloader/blob/main/docs/rootloader/ttree.md
+[attrdict]:https://github.com/ucn-triumf/rootloader/blob/main/docs/rootloader/attrdict.md
+[rootloader]: https://github.com/ucn-triumf/rootloader
+[ucnrun]: ../docs/ucndata.md#ucnrun
+[ucncycle]: ../docs/ucndata.md#ucncycle
+[ucnperiod]: ../docs/ucndata.md#ucnperiod
+[applylist]: ../docs/applylist.md
+[read]: ../docs/read.md
+[merge]: ../docs/merge.md
