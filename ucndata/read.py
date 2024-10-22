@@ -4,7 +4,7 @@
 
 import glob
 from multiprocessing import cpu_count, Pool
-from .ucndata import ucnrun
+from .ucnrun import ucnrun
 from .applylist import applylist
 from tqdm import tqdm
 import numpy as np

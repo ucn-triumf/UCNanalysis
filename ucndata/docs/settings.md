@@ -6,7 +6,7 @@
 
 #### Attributes
 
-- `datadir` - path to the directory which contains the root files: 'root_data'
+- `datadir` - path to the directory which contains the root files: '/data3/ucn/root_files'
 
 
 - [Settings](#settings)
