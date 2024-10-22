@@ -85,9 +85,9 @@ runlist = read([2050, 2051, 2052])
 [ttree]:https://github.com/ucn-triumf/rootloader/blob/main/docs/rootloader/ttree.md
 [attrdict]:https://github.com/ucn-triumf/rootloader/blob/main/docs/rootloader/attrdict.md
 [rootloader]: https://github.com/ucn-triumf/rootloader
-[ucnrun]: ../docs/ucndata.md#ucnrun
-[ucncycle]: ../docs/ucndata.md#ucncycle
-[ucnperiod]: ../docs/ucndata.md#ucnperiod
+[ucnrun]: ../docs/ucnrun.md
+[ucncycle]: ../docs/ucncycle.md
+[ucnperiod]: ../docs/ucnperiod.md
 [applylist]: ../docs/applylist.md
 [read]: ../docs/read.md
 [merge]: ../docs/merge.md
