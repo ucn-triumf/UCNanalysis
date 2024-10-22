@@ -24,7 +24,7 @@ run = ucnrun('/data3/ucn/root_files/ucn_run_00002050.root')
 run = ucnrun(2050)
 ```
 
-The way to do this is to set the default path in the `ucnrun.settings` file:
+The way to do this is to set the default path in the [`ucnrun.settings`](../settings.py) file:
 
 ```python
 from ucndata import ucnrun, settings
@@ -35,6 +35,8 @@ settings.datadir = '/data3/ucn/root_files'
 # now this works
 run = ucnrun(2050)
 ```
+
+By default, the data directory is `/data3/ucn/root_files`, which should be the case on the `daq01.ucn.triumf.ca` machine.
 
 ## Efficient Loading
 
@@ -56,7 +58,9 @@ def keyfilter(name):
     return True
 ```
 
-But one can define this in the same way as with the data directory:
+It takes as input the key name for a given tree or histogram and returns a boolean which determines if the object should be read out or not.
+
+One can define this in the same way as with the data directory:
 
 ```python
 from ucndata import settings
@@ -74,6 +78,8 @@ from ucndata import read
 
 runlist = read([2050, 2051, 2052])
 ```
+
+This automatically parallelizes the reading and should decrease runtimes significantly.
 
 ---
 

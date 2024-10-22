@@ -15,7 +15,7 @@ Each run which uses the sequencer makes use of many cycles, each of which is com
 
 ## Basics and Introduction
 
-The overarching concept is to access the entire contents of the data set in a new object each time a cycle or period is accessed. These new objects, [ucncycle] and [ucnperiod] respectively, each keep track of their own timings and identity but do not copy the contents of [tfile]. Rather, when the user attempts to access the contents of [tfile] the [ucncycle] or [ucnperiod] object instead fetches only part of the contents as needed. Thus, no large copying of data is needed, improving run times significantly. This means, however, that modifying data in [ucncycle] or [ucnperiod] objects may modify the data elsewhere, since this is a shared property. Otherwise, each of the [ucncycle] or [ucnperiod] objects behave for the most part the same as the containing ucnrun object.
+The overarching concept is to access the entire contents of the data set in a new object each time a cycle or period is accessed. These new objects, [ucncycle] and [ucnperiod] respectively, each keep track of their own timings and identity but do not copy the contents of [tfile]. Rather, when the user attempts to access the contents of [tfile] the [ucncycle] or [ucnperiod] object instead fetches only part of the contents as needed. Thus, no large copying of data is needed, improving run times significantly. This means, however, that modifying data in [ucncycle] or [ucnperiod] objects may modify the data elsewhere, since this is a shared property. Otherwise, each of the [ucncycle] or [ucnperiod] objects behave for the most part the same as the containing [ucnrun] object.
 
 A simple example of usage:
 

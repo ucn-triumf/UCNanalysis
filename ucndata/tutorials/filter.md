@@ -1,7 +1,7 @@
 # Filtering
 
 [**Back to Index**](index.md)\
-[**Next Page: Using Applylists**](applylists.md)
+[**Next Page: Using Applylists**](applylist.md)
 
 ---
 
@@ -9,7 +9,7 @@ In the case of imperfect data we often want to not load every cycle present in t
 
 The `ucnrun.cycle_param` dictionary has a `filter` item which sets the cycles filter. Effectively, this is a list of length `ucnrun.cycle_param.ncycles` containing boolean values which indicate whether a cycle should be kept or not (True to keep the cycle).
 
-This filter should be set using the [ucnrun.set_cycle_filter()](../docs/ucndata.md#set_cycle_filter) method. A default filter can be generated with the [ucnrun.gen_cycle_filter()](../docs/ucndata.md#gen_cycle_filter) method.
+This filter should be set using the [ucnrun.set_cycle_filter()](../docs/ucnrun.md#ucnrunset_cycle_filter) method. A default filter can be generated with the [ucnrun.gen_cycle_filter()](../docs/ucnrun.md#ucnrungen_cycle_filter) method.
 
 ## When is filtering applied
 
@@ -20,7 +20,7 @@ for cycle in run:
     # do something...
 ```
 
-It does **NOT** apply when attempting to access a single cycle or using the [`get_cycle()`](ucndata.md#ucnrunget_cycle) function.
+It does **NOT** apply when attempting to access a single cycle or using the [`get_cycle()`](../docs/ucnrun.md#ucnrunget_cycle) function.
 
 ## How it works
 
@@ -46,6 +46,17 @@ run[1:3] # this fetches only cycle 2, since cycle 1 is filtered
 run[:4] # this returns a list that is of length 3, not 4
 ```
 
+## Default example
+
+Here's a full example of how the default filter would work:
+
+```python
+from ucndata import ucnrun
+
+run = ucnrun(1846)
+run.set_cycle_filter(run.gen_cycle_filter(period_beam=0)) # beam is on in period 0
+```
+
 ## Why??
 
 This lets a user rerun an analysis with a new cycle filter with minimal changes to their code.
@@ -53,7 +64,7 @@ This lets a user rerun an analysis with a new cycle filter with minimal changes 
 ---
 
 [**Back to Index**](index.md)\
-[**Next Page: Using Applylists**](applylists.md)
+[**Next Page: Using Applylists**](applylist.md)
 
 
 
