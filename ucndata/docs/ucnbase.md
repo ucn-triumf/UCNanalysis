@@ -18,18 +18,7 @@
 
 ## ucnbase
 
-[Show source in ucnbase.py:11](../ucnbase.py#L11)
-
-#### Attributes
-
-- `DET_NAMES` - detector names: {'He3': {'hits': 'UCNHits_He3', 'charge': 'He3_Charge', 'rate': 'He3_Rate', 'transitions': 'RunTransitions_He3', 'hitsseq': 'hitsinsequence_he3', 'hitsseqcumul': 'hitsinsequencecumul_he3'}, 'Li6': {'hits': 'UCNHits_Li-6', 'charge': 'Li6_Charge', 'rate': 'Li6_Rate', 'transitions': 'RunTransitions_Li-6', 'hitsseq': 'hitsinsequence_li6', 'hitsseqcumul': 'hitsinsequencecumul_li6'}}
-
-- `SLOW_TREES` - needed slow control trees: ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
-
-- `DATA_CHECK_THRESH` - data thresholds for checking data: {'beam_min_current': 0.1, 'beam_max_current_std': 0.02, 'max_bkgd_count_rate': 4, 'min_total_counts': 100, 'pileup_cnt_per_ms': 3, 'pileup_within_first_s': 1}
-
-- `DET_BKGD` - default detector backgrounds - from 2019: {'Li6': 1.578, 'Li6_err': 0.009, 'He3': 0.0349, 'He3_err': 0.0023}
-
+[Show source in ucnbase.py:12](../ucnbase.py#L12)
 
 UCN run data. Cleans data and performs analysis
 
@@ -70,7 +59,7 @@ class ucnbase(object): ...
 
 ### ucnbase.apply
 
-[Show source in ucnbase.py:140](../ucnbase.py#L140)
+[Show source in ucnbase.py:106](../ucnbase.py#L106)
 
 Apply function to each cycle
 
@@ -90,7 +79,7 @@ def apply(self, fn_handle): ...
 
 ### ucnbase.beam_current_uA
 
-[Show source in ucnbase.py:231](../ucnbase.py#L231)
+[Show source in ucnbase.py:197](../ucnbase.py#L197)
 
 #### Signature
 
@@ -101,7 +90,7 @@ def beam_current_uA(self): ...
 
 ### ucnbase.beam_off_s
 
-[Show source in ucnbase.py:256](../ucnbase.py#L256)
+[Show source in ucnbase.py:222](../ucnbase.py#L222)
 
 #### Signature
 
@@ -112,7 +101,7 @@ def beam_off_s(self): ...
 
 ### ucnbase.beam_on_s
 
-[Show source in ucnbase.py:253](../ucnbase.py#L253)
+[Show source in ucnbase.py:219](../ucnbase.py#L219)
 
 #### Signature
 
@@ -123,7 +112,7 @@ def beam_on_s(self): ...
 
 ### ucnbase.copy
 
-[Show source in ucnbase.py:151](../ucnbase.py#L151)
+[Show source in ucnbase.py:117](../ucnbase.py#L117)
 
 Return a copy of this objet
 
@@ -135,7 +124,7 @@ def copy(self): ...
 
 ### ucnbase.from_dataframe
 
-[Show source in ucnbase.py:222](../ucnbase.py#L222)
+[Show source in ucnbase.py:188](../ucnbase.py#L188)
 
 Convert self.tfile contents to rootfile struture types
 
@@ -147,13 +136,13 @@ def from_dataframe(self): ...
 
 ### ucnbase.get_hits
 
-[Show source in ucnbase.py:162](../ucnbase.py#L162)
+[Show source in ucnbase.py:128](../ucnbase.py#L128)
 
 Get times of ucn hits
 
 #### Arguments
 
-- `detector` *str* - one of the keys to self.DET_NAMES
+- `detector` *str* - one of the keys to settings.DET_NAMES
 
 #### Returns
 
@@ -167,7 +156,7 @@ def get_hits(self, detector): ...
 
 ### ucnbase.get_hits_histogram
 
-[Show source in ucnbase.py:182](../ucnbase.py#L182)
+[Show source in ucnbase.py:148](../ucnbase.py#L148)
 
 Get histogram of UCNHits ttree times
 
@@ -188,7 +177,7 @@ def get_hits_histogram(self, detector, bin_ms=100): ...
 
 ### ucnbase.to_dataframe
 
-[Show source in ucnbase.py:226](../ucnbase.py#L226)
+[Show source in ucnbase.py:192](../ucnbase.py#L192)
 
 Convert self.tfile contents to pd.DataFrame
 

@@ -79,34 +79,36 @@ def check_data(
 
 ### ucncycle.get_counts
 
-[Show source in ucncycle.py:213](../ucncycle.py#L213)
+[Show source in ucncycle.py:212](../ucncycle.py#L212)
 
-Get counts for each period
+Get counts for a/each period
 
 #### Arguments
 
-- `detector` *str* - one of the keys to self.DET_NAMES
+- `detector` *str* - one of the keys to settings.DET_NAMES
 - `period` *None|int* - if None get for entire cycle
                     elif < 0 get for each period
                     elif >=0 get for that period
-- `bkgd` *tuple|None* - if not None subtract this as the background (value, error)
-                   bkgd.shape = (2, nperiods) if period < 0 else (2, 1)
-- `norm` *tuple|None* - if not None normalize to this value (value, error)
-                    norm.shape = (2, nperiods) if period < 0 else (2, 1)
+- `bkgd` *float|None* - background counts
+- `dbkgd(float|None)` - error in background counts
+- `norm` *float|None* - normalize to this value
+- `dnorm` *float|None* - error in normalization
 
 #### Returns
 
-- `np.ndarray` - number of hits for each period and error
+- `tuple` - number of hits for each period and error
 
 #### Signature
 
 ```python
-def get_counts(self, detector, period=None, bkgd=None, norm=None): ...
+def get_counts(
+    self, detector, period=None, bkgd=None, dbkgd=None, norm=None, dnorm=None
+): ...
 ```
 
 ### ucncycle.get_period
 
-[Show source in ucncycle.py:272](../ucncycle.py#L272)
+[Show source in ucncycle.py:276](../ucncycle.py#L276)
 
 Return a copy of this object, but trees are trimmed to only one period.
 
@@ -134,15 +136,17 @@ def get_period(self, period=None): ...
 
 ### ucncycle.get_rate
 
-[Show source in ucncycle.py:297](../ucncycle.py#L297)
+[Show source in ucncycle.py:300](../ucncycle.py#L300)
 
 Get count rate for each period
 
 #### Arguments
 
-- `detector` *str* - one of the keys to self.DET_NAMES
-- `bkgd` *tuple|None* - if not None subtract this as the background (value, error)
-- `norm` *tuple|None* - if not None normalize to this value (value, error)
+- `detector` *str* - one of the keys to settings.DET_NAMES
+- `bkgd` *float|None* - background counts
+- `dbkgd(float|None)` - error in background counts
+- `norm` *float|None* - normalize to this value
+- `dnorm` *float|None* - error in normalization
 
 #### Returns
 
@@ -151,5 +155,5 @@ Get count rate for each period
 #### Signature
 
 ```python
-def get_rate(self, detector, bkgd=True, norm=False): ...
+def get_rate(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None): ...
 ```

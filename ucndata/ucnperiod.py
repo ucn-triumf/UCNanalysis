@@ -12,6 +12,7 @@
 """
 
 from .exceptions import *
+from . import settings
 from .ucnbase import ucnbase
 from .tsubfile import tsubfile
 
@@ -84,7 +85,7 @@ class ucnperiod(ucnbase):
         """Get sum of ucn hits
 
         Args:
-            detector (str): one of the keys to self.DET_NAMES
+            detector (str): one of the keys to settings.DET_NAMES
             bkgd (float|None): background counts
             dbkgd(float|None): error in background counts
             norm (float|None): normalize to this value
@@ -146,7 +147,7 @@ class ucnperiod(ucnbase):
         """Get times of ucn hits
 
         Args:
-            detector (str): one of the keys to self.DET_NAMES
+            detector (str): one of the keys to settings.DET_NAMES
 
         Returns:
             pd.DataFrame: hits tree as a dataframe, only the values when a hit is registered
@@ -155,24 +156,22 @@ class ucnperiod(ucnbase):
         # get the tree
         hit_tree = super().get_hits(detector)
 
-        # filter pileup for period data
+        ## filter pileup for period data
 
         # get thresholds
-        dt = self.DATA_CHECK_THRESH['pileup_within_first_s']
-        count_thresh = self.DATA_CHECK_THRESH['pileup_cnt_per_ms']
+        dt = settings.DATA_CHECK_THRESH['pileup_within_first_s']
+        count_thresh = settings.DATA_CHECK_THRESH['pileup_cnt_per_ms']
 
         # make histogram
         t = hit_tree.index.values
-        counts, edges = np.histogram(t,
-                                        bins=int(1/0.001),
-                                        range=(min(t),
-                                            min(t)+dt))
+        counts, edges = np.histogram(t, bins=int(1/0.001),
+                                        range=(min(t), min(t)+dt))
 
         # delete bad count ranges
         ncounts_total = len(t)
         for i, count in enumerate(counts):
             if count > count_thresh:
-                hit_tree= hit_tree.loc[(hit_tree.index < edges[i]) & (hit_tree.index > edges[i+1])]
+                hit_tree = hit_tree.loc[(hit_tree.index < edges[i]) | (hit_tree.index > edges[i+1])]
         ncounts_removed = ncounts_total - len(hit_tree.index)
 
         if ncounts_removed > 0:
@@ -180,12 +179,11 @@ class ucnperiod(ucnbase):
 
         return hit_tree
 
-    # TODO: FIX THIS
     def get_rate(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None):
         """Get sum of ucn hits per unit time of period
 
         Args:
-            detector (str): one of the keys to self.DET_NAMES
+            detector (str): one of the keys to settings.DET_NAMES
             bkgd (float|None): background counts
             dbkgd(float|None): error in background counts
             norm (float|None): normalize to this value

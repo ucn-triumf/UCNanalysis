@@ -16,17 +16,6 @@
 
 [Show source in ucnrun.py:27](../ucnrun.py#L27)
 
-#### Attributes
-
-- `DET_NAMES` - detector names: {'He3': {'hits': 'UCNHits_He3', 'charge': 'He3_Charge', 'rate': 'He3_Rate', 'transitions': 'RunTransitions_He3', 'hitsseq': 'hitsinsequence_he3', 'hitsseqcumul': 'hitsinsequencecumul_he3'}, 'Li6': {'hits': 'UCNHits_Li-6', 'charge': 'Li6_Charge', 'rate': 'Li6_Rate', 'transitions': 'RunTransitions_Li-6', 'hitsseq': 'hitsinsequence_li6', 'hitsseqcumul': 'hitsinsequencecumul_li6'}}
-
-- `SLOW_TREES` - needed slow control trees: ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
-
-- `DATA_CHECK_THRESH` - data thresholds for checking data: {'beam_min_current': 0.1, 'beam_max_current_std': 0.02, 'max_bkgd_count_rate': 4, 'min_total_counts': 100, 'pileup_cnt_per_ms': 3, 'pileup_within_first_s': 1}
-
-- `DET_BKGD` - default detector backgrounds - from 2019: {'Li6': 1.578, 'Li6_err': 0.009, 'He3': 0.0349, 'He3_err': 0.0023}
-
-
 UCN run data. Cleans data and performs analysis
 
 #### Arguments
@@ -71,7 +60,7 @@ class ucnrun(ucnbase):
 
 ### ucnrun.check_data
 
-[Show source in ucnrun.py:288](../ucnrun.py#L288)
+[Show source in ucnrun.py:253](../ucnrun.py#L253)
 
 Run some checks to determine if the data is ok.
 
@@ -84,7 +73,7 @@ Run some checks to determine if the data is ok.
 - `bool` - true if check passes, else false.
 
 Checks:
-    Do the self.SLOW_TREES exist and have entries?
+    Do the settings.SLOW_TREES exist and have entries?
     Are there nonzero counts in UCNHits?
 
 #### Signature
@@ -95,7 +84,7 @@ def check_data(self, raise_error=False): ...
 
 ### ucnrun.gen_cycle_filter
 
-[Show source in ucnrun.py:345](../ucnrun.py#L345)
+[Show source in ucnrun.py:310](../ucnrun.py#L310)
 
 Generate filter array for cycles. Use with self.set_cycle_filter to filter cycles.
 
@@ -124,7 +113,7 @@ def gen_cycle_filter(
 
 ### ucnrun.get_cycle
 
-[Show source in ucnrun.py:370](../ucnrun.py#L370)
+[Show source in ucnrun.py:335](../ucnrun.py#L335)
 
 Return a copy of this object, but trees are trimmed to only one cycle.
 
@@ -148,7 +137,7 @@ def get_cycle(self, cycle=None): ...
 
 ### ucnrun.set_cycle_filter
 
-[Show source in ucnrun.py:390](../ucnrun.py#L390)
+[Show source in ucnrun.py:355](../ucnrun.py#L355)
 
 Set filter for which cycles to fetch when slicing or iterating
 
@@ -184,7 +173,7 @@ def set_cycle_filter(self, cfilter=None): ...
 
 ### ucnrun.set_cycle_times
 
-[Show source in ucnrun.py:424](../ucnrun.py#L424)
+[Show source in ucnrun.py:389](../ucnrun.py#L389)
 
 Get start and end times of each cycle from the sequencer and save
 into self.cycle_param.cycle_times

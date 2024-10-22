@@ -25,6 +25,11 @@ for r in runs:
     # convert to dataframe
     r.to_dataframe()
 
+    # filter cycles
+    r.set_cycle_filter(r.gen_cycle_filter(period_production=production_period,
+                                          period_count=countperiod))#,
+                                        #   period_background=backgroundperiod))
+
     # get beam current and means
     beam_currents = r[:, production_period].beam_current_uA
 
@@ -34,7 +39,6 @@ for r in runs:
     # get storage durations and associated counts
     storage_duration = r[:, storageperiod].cycle_param.period_durations_s
     counts_bkgd = r[:, backgroundperiod].get_counts(detector)
-
     counts_bkgd = counts_bkgd.transpose()
 
     counts = r[:, countperiod].get_counts(detector,
@@ -48,13 +52,10 @@ for r in runs:
     storage_duration = storage_duration[idx]
     counts = counts[idx]
 
-    idx = counts[:,0] > 0
-    storage_duration = storage_duration[idx]
-    counts = counts[idx]
-
     # fit
     fn = lambda x, p0, tau: p0*np.exp(-x/tau)
-    par, cov = curve_fit(fn, storage_duration, counts[:,0], sigma=counts[:,1], absolute_sigma=True)
+    par, cov = curve_fit(fn, storage_duration, counts[:,0], sigma=counts[:,1], absolute_sigma=True,
+                         p0=(counts[0][0], 40))
     std = np.diag(cov)**0.5
 
     # draw
@@ -64,3 +65,5 @@ for r in runs:
     plt.xlabel('Storage Duration (s)')
     plt.ylabel('Normalized Number of Counts (uA$^{-1}$)')
     plt.tight_layout()
+
+    print(f'intercept: {par[0]}, lifetime: {par[1]} (s)')

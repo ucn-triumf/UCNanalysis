@@ -16,7 +16,7 @@ from .exceptions import *
 from .applylist import applylist
 from .ucnbase import ucnbase
 from .ucncycle import ucncycle
-from ucndata import settings
+from . import settings
 import ROOT
 import numpy as np
 import pandas as pd
@@ -53,41 +53,6 @@ class ucnrun(ucnbase):
         behaviour
         Object is indexed as [cycle, period] for easy access to sub time frames
     """
-
-    # detector names
-    DET_NAMES = {'He3':{'hits':         'UCNHits_He3',
-                        'charge':       'He3_Charge',
-                        'rate':         'He3_Rate',
-                        'transitions':  'RunTransitions_He3',
-                        'hitsseq':      'hitsinsequence_he3',
-                        'hitsseqcumul': 'hitsinsequencecumul_he3',
-                        },
-                 'Li6':{'hits':         'UCNHits_Li-6',
-                        'charge':       'Li6_Charge',
-                        'rate':         'Li6_Rate',
-                        'transitions':  'RunTransitions_Li-6',
-                        'hitsseq':      'hitsinsequence_li6',
-                        'hitsseqcumul': 'hitsinsequencecumul_li6',
-                        },
-                }
-
-    # needed slow control trees
-    SLOW_TREES = ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
-
-    # data thresholds for checking data
-    DATA_CHECK_THRESH = {'beam_min_current': 0.1, # uA
-                         'beam_max_current_std': 0.02, # uA
-                         'max_bkgd_count_rate': 4, # fractional increase over DET_BKGD values
-                         'min_total_counts': 100, # number of counts total
-                         'pileup_cnt_per_ms': 3, # if larger than this, then pileup and delete
-                         'pileup_within_first_s': 1, # time frame for pileup in each period
-                         }
-
-    # default detector backgrounds - from 2019
-    DET_BKGD = {'Li6':     1.578,
-                'Li6_err': 0.009,
-                'He3':     0.0349,
-                'He3_err': 0.0023}
 
     def __init__(self, run, header_only=False):
 
@@ -230,7 +195,7 @@ class ucnrun(ucnbase):
         self.cycle_param = attrdict(self.cycle_param)
 
         # setup cycle paramtree array outputs from transition trees
-        for detector in self.DET_NAMES.values():
+        for detector in settings.DET_NAMES.values():
             if detector['transitions'] in self.tfile.keys():
                 tree = self.tfile[detector['transitions']]
                 break
@@ -295,12 +260,12 @@ class ucnrun(ucnbase):
             bool: true if check passes, else false.
 
         Checks:
-            Do the self.SLOW_TREES exist and have entries?
+            Do the settings.SLOW_TREES exist and have entries?
             Are there nonzero counts in UCNHits?
         """
 
         # check some necessary data trees
-        for tree in self.SLOW_TREES:
+        for tree in settings.SLOW_TREES:
 
             msg = None
 
@@ -320,7 +285,7 @@ class ucnrun(ucnbase):
                     print(msg)
                     return False
 
-        for name, det in self.DET_NAMES.items():
+        for name, det in settings.DET_NAMES.items():
 
             # check for nonzero counts
             if not self.tfile[det['hits']].tIsUCN.any():
@@ -464,7 +429,7 @@ class ucnrun(ucnbase):
 
         # get run end time from control trees - used in matched and detector cycles times
         run_stop = -np.inf
-        for treename in self.SLOW_TREES:
+        for treename in settings.SLOW_TREES:
             try:
                 idx = self.tfile[treename].to_dataframe().index
             except AttributeError as err:
@@ -482,16 +447,16 @@ class ucnrun(ucnbase):
                      'supercycle': 0}
 
             # use timestamps from slow control trees to determine timestamps
-            for treename in self.SLOW_TREES:
+            for treename in settings.SLOW_TREES:
                 idx = self.tfile[treename].to_dataframe().index
                 times['start'] = min((idx.min(), times['start']))
                 times['stop']  = max((idx.max(), times['stop']))
 
         ## get matched timesteps from He3 and Li6 RunTransitions
         elif mode in 'matched':
-            hestart = self.tfile[self.DET_NAMES['He3']['transitions']].cycleStartTime
-            listart = self.tfile[self.DET_NAMES['Li6']['transitions']].cycleStartTime
-            scycle = self.tfile[self.DET_NAMES['He3']['transitions']].superCycleIndex
+            hestart = self.tfile[settings.DET_NAMES['He3']['transitions']].cycleStartTime
+            listart = self.tfile[settings.DET_NAMES['Li6']['transitions']].cycleStartTime
+            scycle = self.tfile[settings.DET_NAMES['He3']['transitions']].superCycleIndex
 
             # drop duplicate timestamps
             hestart = hestart.drop_duplicates()
@@ -560,7 +525,7 @@ class ucnrun(ucnbase):
         ## detector start times
         elif mode in 'he3':
 
-            start = self.tfile[self.DET_NAMES['He3']['transitions']].cycleStartTime
+            start = self.tfile[settings.DET_NAMES['He3']['transitions']].cycleStartTime
             start = start.drop_duplicates()
 
             # setup output
@@ -568,12 +533,12 @@ class ucnrun(ucnbase):
                      'duration (s)': np.concatenate((np.diff(start), [run_stop]))
                     }
             times['stop'] = times['start'] + times['duration (s)']
-            times['supercycle'] = self.tfile[self.DET_NAMES['He3']['transitions']].superCycleIndex
+            times['supercycle'] = self.tfile[settings.DET_NAMES['He3']['transitions']].superCycleIndex
 
         ## detector start times
         elif mode in 'li6':
 
-            start = self.tfile[self.DET_NAMES['Li6']['transitions']].cycleStartTime
+            start = self.tfile[settings.DET_NAMES['Li6']['transitions']].cycleStartTime
             start = start.drop_duplicates()
 
             # setup output
@@ -581,7 +546,7 @@ class ucnrun(ucnbase):
                      'duration (s)': np.concatenate((np.diff(start), [run_stop])),
                     }
             times['stop'] = times['start'] + times['duration (s)']
-            times['supercycle'] = self.tfile[self.DET_NAMES['Li6']['transitions']].superCycleIndex
+            times['supercycle'] = self.tfile[settings.DET_NAMES['Li6']['transitions']].superCycleIndex
 
         # convert to dataframe
         times = pd.DataFrame(times)

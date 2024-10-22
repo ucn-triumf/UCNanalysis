@@ -4,6 +4,7 @@
 
 from rootloader import ttree
 from .exceptions import *
+from . import settings
 import ucndata.constants as const
 import numpy as np
 import pandas as pd
@@ -37,41 +38,6 @@ class ucnbase(object):
         behaviour
         Object is indexed as [cycle, period] for easy access to sub time frames
     """
-
-    # detector names
-    DET_NAMES = {'He3':{'hits':         'UCNHits_He3',
-                        'charge':       'He3_Charge',
-                        'rate':         'He3_Rate',
-                        'transitions':  'RunTransitions_He3',
-                        'hitsseq':      'hitsinsequence_he3',
-                        'hitsseqcumul': 'hitsinsequencecumul_he3',
-                        },
-                 'Li6':{'hits':         'UCNHits_Li-6',
-                        'charge':       'Li6_Charge',
-                        'rate':         'Li6_Rate',
-                        'transitions':  'RunTransitions_Li-6',
-                        'hitsseq':      'hitsinsequence_li6',
-                        'hitsseqcumul': 'hitsinsequencecumul_li6',
-                        },
-                }
-
-    # needed slow control trees
-    SLOW_TREES = ('BeamlineEpics', 'SequencerTree', 'LNDDetectorTree')
-
-    # data thresholds for checking data
-    DATA_CHECK_THRESH = {'beam_min_current': 0.1, # uA
-                         'beam_max_current_std': 0.02, # uA
-                         'max_bkgd_count_rate': 4, # fractional increase over DET_BKGD values
-                         'min_total_counts': 100, # number of counts total
-                         'pileup_cnt_per_ms': 3, # if larger than this, then pileup and delete
-                         'pileup_within_first_s': 1, # time frame for pileup in each period
-                         }
-
-    # default detector backgrounds - from 2019
-    DET_BKGD = {'Li6':     1.578,
-                'Li6_err': 0.009,
-                'He3':     0.0349,
-                'He3_err': 0.0023}
 
     def __iter__(self):
         # setup iteration
@@ -163,14 +129,14 @@ class ucnbase(object):
         """Get times of ucn hits
 
         Args:
-            detector (str): one of the keys to self.DET_NAMES
+            detector (str): one of the keys to settings.DET_NAMES
 
         Returns:
             pd.DataFrame: hits tree as a dataframe, only the values when a hit is registered
         """
 
         # get the tree
-        hit_tree = self.tfile[self.DET_NAMES[detector]['hits']] # maybe should be a copy?
+        hit_tree = self.tfile[settings.DET_NAMES[detector]['hits']] # maybe should be a copy?
         if type(hit_tree) is not pd.DataFrame:
             hit_tree = hit_tree.to_dataframe()
 
@@ -191,7 +157,7 @@ class ucnbase(object):
         """
 
         # get data
-        df = self.tfile[self.DET_NAMES[detector]['hits']]
+        df = self.tfile[settings.DET_NAMES[detector]['hits']]
 
         if not isinstance(df, pd.DataFrame):
             df = df.to_dataframe()

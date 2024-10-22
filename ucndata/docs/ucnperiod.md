@@ -12,7 +12,7 @@
 
 ## ucnperiod
 
-[Show source in ucnperiod.py:21](../ucnperiod.py#L21)
+[Show source in ucnperiod.py:22](../ucnperiod.py#L22)
 
 Stores the data from a single UCN period from a single cycle
 
@@ -34,13 +34,13 @@ class ucnperiod(ucnbase):
 
 ### ucnperiod.get_counts
 
-[Show source in ucnperiod.py:83](../ucnperiod.py#L83)
+[Show source in ucnperiod.py:84](../ucnperiod.py#L84)
 
 Get sum of ucn hits
 
 #### Arguments
 
-- `detector` *str* - one of the keys to self.DET_NAMES
+- `detector` *str* - one of the keys to settings.DET_NAMES
 - `bkgd` *float|None* - background counts
 - `dbkgd(float|None)` - error in background counts
 - `norm` *float|None* - normalize to this value
@@ -58,13 +58,13 @@ def get_counts(self, detector, bkgd=None, dbkgd=None, norm=None, dnorm=None): ..
 
 ### ucnperiod.get_hits
 
-[Show source in ucnperiod.py:145](../ucnperiod.py#L145)
+[Show source in ucnperiod.py:146](../ucnperiod.py#L146)
 
 Get times of ucn hits
 
 #### Arguments
 
-- `detector` *str* - one of the keys to self.DET_NAMES
+- `detector` *str* - one of the keys to settings.DET_NAMES
 
 #### Returns
 
@@ -78,13 +78,13 @@ def get_hits(self, detector): ...
 
 ### ucnperiod.get_rate
 
-[Show source in ucnperiod.py:184](../ucnperiod.py#L184)
+[Show source in ucnperiod.py:182](../ucnperiod.py#L182)
 
 Get sum of ucn hits per unit time of period
 
 #### Arguments
 
-- `detector` *str* - one of the keys to self.DET_NAMES
+- `detector` *str* - one of the keys to settings.DET_NAMES
 - `bkgd` *float|None* - background counts
 - `dbkgd(float|None)` - error in background counts
 - `norm` *float|None* - normalize to this value
